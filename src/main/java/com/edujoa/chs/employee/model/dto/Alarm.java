@@ -1,4 +1,4 @@
-package com.edujoa.chs.alram;
+package com.edujoa.chs.employee.model.dto;
 
 import java.sql.Date;
 
@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Alram {
+public class Alarm {
 	private String alrId;
 	private String empId;
 	private String alrRead;
 	private Date alrCreate;
-	private int alrType;
+	private String alrCnt;
+	private String alrType;
 }

@@ -1,4 +1,4 @@
-package com.edujoa.chs.employee;
+package com.edujoa.chs.employee.model.dto;
 
 import java.sql.Date;
 
