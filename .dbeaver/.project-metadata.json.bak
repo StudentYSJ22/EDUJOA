@@ -1,1 +1,1 @@
-{"resources":{"Scripts/Script.sql":{"default-datasource":"oracle_thin-1905421356b-2f3ef98f489c931d"}}}
+{"resources":{"Scripts/Script-1.sql":{"default-datasource":"oracle_thin-1905c4f8538-3648c933aeba046a"},"Scripts/Script.sql":{"default-schema":"EDUJOA","default-datasource":"oracle_thin-1905423c9b8-11cc5574211b3b07"}}}

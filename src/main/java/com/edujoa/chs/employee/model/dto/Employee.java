@@ -1,6 +1,7 @@
 package com.edujoa.chs.employee.model.dto;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,14 +16,19 @@ import lombok.NoArgsConstructor;
 public class Employee {
 	private String empId;
 	private String empName;
-	private String empPw;
+	private String empPassword;
 	private String empEmail;
 	private String empTitle;
-	private String empPic;
-	private Date empDate;
+	private String empProfile;
+	private Date empHireDate;
 	private String empYn;
-	private String empAddr;
-	private int empVacay;
-	private int empTvacay;
-	private double empPay;
+	private String empAddress;
+	private int empRvacation;
+	private int empTvacation;
+	private int empSalary;
+	private int empAnnualSal;
+	private int status;
+	private String empBank;
+	private String empAccount;
+	private List<Alarm> alarm;
 }

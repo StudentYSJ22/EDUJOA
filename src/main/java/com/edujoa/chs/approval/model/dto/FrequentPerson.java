@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DocTagStrg {
-	private int docType;
-	private String preApv;
-	private String afterApv;
-	private String vacay;
+public class FrequentPerson {
+	private String feqpId;
+	private String empId;
+	private String frequentLine;
 }

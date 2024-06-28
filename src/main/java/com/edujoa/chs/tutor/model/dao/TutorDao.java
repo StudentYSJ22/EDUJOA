@@ -15,7 +15,7 @@ public interface TutorDao {
 	//강사 전체 수 조회		강사 이름, 과목 이름으로 조건 검색
 		int selectTutorCount(SqlSession session, Map<String,String> param);
 		//강사 전체 조회        강사 이름, 과목 이름으로 조건 검색
-		List<Tutor> selectAllTutor(SqlSession session, Map<String,Integer> rowbouns, Map<String,String> param);
+		List<Tutor> selectAllTutor(SqlSession session, Map<String,Integer> rowbounds, Map<String,String> param);
 		//강사 한 명만 조회
 		Tutor selectOneTutor(SqlSession session, String ttId);
 		//강사 등록
@@ -33,7 +33,7 @@ public interface TutorDao {
 		//과목 삭제
 		int deleteSubject(SqlSession session, String subId);
 		//수강 목록 조회
-		List<MyClass> selectAllMyClass(SqlSession session, Map<String,Integer> rowbouns, Map<String,String> param);
+		List<MyClass> selectAllMyClass(SqlSession session, Map<String,Integer> rowbounds);
 		//수강 등록
 		int insertMyClass(SqlSession session, MyClass myClass);
 		//수강 삭제
