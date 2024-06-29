@@ -30,8 +30,6 @@ public interface TutorService {
 	int updateSubject(Subject subject);
 	//과목 삭제
 	int deleteSubject(String subId);
-	//수강 목록 조회
-	List<MyClass> selectAllMyClass(Map<String,Integer> rowbounds);
 	//수강 등록
 	int insertMyClass(MyClass myClass);
 	//수강 삭제

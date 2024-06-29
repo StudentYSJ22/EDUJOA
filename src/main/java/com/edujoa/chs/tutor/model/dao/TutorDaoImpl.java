@@ -69,12 +69,6 @@ public class TutorDaoImpl implements TutorDao {
 	public int deleteSubject(SqlSession session, String subId) {
 		return session.delete("tutor.deleteSubjectd",subId);
 	}
-	//수강 목록 전체 조회     
-	@Override
-	public List<MyClass> selectAllMyClass(SqlSession session, Map<String, Integer> rowbounds) {
-		RowBounds rb = new RowBounds((rowbounds.get("cPage")-1)*rowbounds.get("numPerpage"),rowbounds.get("numPerpage"));
-		return session.selectList("tutor.selectAllMyClass",null,rb);
-	}
 	//수강 등록
 	@Override
 	public int insertMyClass(SqlSession session, MyClass myClass) {

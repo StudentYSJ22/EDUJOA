@@ -32,8 +32,6 @@ public interface TutorDao {
 		int updateSubject(SqlSession session, Subject subject);
 		//과목 삭제
 		int deleteSubject(SqlSession session, String subId);
-		//수강 목록 조회
-		List<MyClass> selectAllMyClass(SqlSession session, Map<String,Integer> rowbounds);
 		//수강 등록
 		int insertMyClass(SqlSession session, MyClass myClass);
 		//수강 삭제

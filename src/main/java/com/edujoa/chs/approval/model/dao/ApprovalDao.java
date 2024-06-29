@@ -22,13 +22,13 @@ public interface ApprovalDao {
 		//전체 결재 문서 조회하기     결재상태, 문서 종류로 조건 검색 가능
 		List<Approval> selectAllApproval(SqlSession session, Map<String,Integer> rowbounds, Map<String,String> param);
 		//한 개의 결재 문서 조회하기    문서 번호로 조회 가능
-		Approval selectOneApproval(SqlSession session, String docId);
+		Approval selectOneApproval(SqlSession session, String apvId);
 		//결재 문서 등록하기    
-		int insertApproval(SqlSession session, Approval document);
+		int insertApproval(SqlSession session, Approval approval);
 		//결재 문서 수정하기
-		int updateApproval(SqlSession session, Approval document);
+		int updateApproval(SqlSession session, Approval approval);
 		//결재 문서 삭제하기
-		int deleteApproval(SqlSession session, String docId);
+		int deleteApproval(SqlSession session, String apvId);
 		//휴가신청서 등록하기
 		int insertVacay(SqlSession session, Vacay vacay);
 		//휴가신청서 수정하기
@@ -69,6 +69,8 @@ public interface ApprovalDao {
 		int updateFrequentLine(SqlSession session, FrequentLine frequentLine);
 		//자주쓰는 결재라인 삭제하기
 		int deleteFrequentLine(SqlSession session, String feqId);
+		//자주쓰는 결재라인 인원 등록하기
+		int insertFrequentPerson(SqlSession session, FrequentPerson frequentPerson);
 		//자주쓰는 결재라인 인원 수정하기
 		int updateFrequentPerson(SqlSession session, FrequentPerson frequentPerson);
 		//자주쓰는 결재라인 인원 삭제하기

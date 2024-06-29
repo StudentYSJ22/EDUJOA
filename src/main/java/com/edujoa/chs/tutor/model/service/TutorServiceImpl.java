@@ -36,101 +36,80 @@ public class TutorServiceImpl implements TutorService {
 	public Tutor selectOneTutor(String ttId) {
 		return dao.selectOneTutor(session, ttId);
 	}
-
+	//선생 등록
 	@Override
 	public int insertTutor(Tutor tutor) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.insertTutor(session, tutor);
 	}
-
+	//선생 수정
 	@Override
 	public int updateTutor(Tutor tutor) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.updateTutor(session, tutor);
 	}
-
+	//선생 삭제
 	@Override
 	public int deleteTutor(String ttId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.deleteTutor(session, ttId);
 	}
-
+	//반 생성
 	@Override
 	public int insertClass(ClassRoom class_) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.insertClass(session, class_);
 	}
-
+	//과목 생성
 	@Override
 	public int insertSubject(Subject subject) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.insertSubject(session, subject);
 	}
-
+	//과목 수정
 	@Override
 	public int updateSubject(Subject subject) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.updateSubject(session, subject);
 	}
-
+	//과목 삭제
 	@Override
 	public int deleteSubject(String subId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.deleteSubject(session, subId);
 	}
-
-	@Override
-	public List<MyClass> selectAllMyClass(Map<String, Integer> rowbounds) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	//수강 등록
 	@Override
 	public int insertMyClass(MyClass myClass) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.insertMyClass(session, myClass);
 	}
-
+	//수강 삭제
 	@Override
 	public int deleteMyClass(String classId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.deleteMyClass(session, classId);
 	}
-
+	//전체 학생 수 조회    param으론 학생 이름, 학교 이름이 들어옴
 	@Override
 	public int selectStudentCount(Map<String, String> param) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.selectStudentCount(session, param);
 	}
-
+	//전체 학생 조회       param으로 학생 이름, 학교 이름이 들어옴
 	@Override
 	public List<Student> selectAllStudent(Map<String, Integer> rowbounds, Map<String, String> param) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.selectAllStudent(session, rowbounds, param);
 	}
-
+	//학생 상세 조회
 	@Override
 	public Student selectOneStudent(String stdId) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.selectOneStudent(session, stdId);
 	}
-
+	//학생 등록
 	@Override
 	public int insertStudent(Student student) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.insertStudent(session, student);
 	}
-
+	//학생 수정
 	@Override
 	public int updateStudent(Student student) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.updateStudent(session, student);
 	}
-
+	//학생 삭제
 	@Override
 	public int deleteStudent(String stdId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.deleteStudent(session, stdId);
 	}
 
 }
