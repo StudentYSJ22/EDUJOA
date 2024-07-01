@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
-<c:set var="path"   value="${pageContext.request.contextPath }"/>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
 <head>
   <meta charset="utf-8" />
@@ -60,7 +60,7 @@
         <ul class="menu-inner py-1" style="margin-top: 20px;"> <!-- 메뉴 아래로 이동 -->
           <!-- Dashboard -->
           <li class="menu-item active">
-            <a href="index.html" class="menu-link">
+            <a href="/WEB-INF/views/index.jsp" class="menu-link">
               <i class="menu-icon tf-icons bx bx-home-circle"></i>
               <div data-i18n="Analytics">홈</div>
             </a>
@@ -68,7 +68,7 @@
 
           <!-- Other menu items -->
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="${path }/approval/approval.do" class="menu-link">
               <i class="menu-icon tf-icons bx bx-bar-chart-alt"></i>
               <div data-i18n="Layouts">전자결재</div>
             </a>

@@ -3,6 +3,8 @@ package com.edujoa.chs.approval.model.dto;
 import java.sql.Date;
 import java.util.List;
 
+import com.edujoa.chs.employee.model.dto.Employee;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,5 +28,6 @@ public class Approval {
 	private List<ApvAttachment> apvAttachment;
 	private List<CarbonCopy> carbonCopy;
 	private List<ApprovalLine> approvalLine;
-	private ApvTag apvtag;
+	private ApvTag apvTag;
+	private Employee employee;
 }
