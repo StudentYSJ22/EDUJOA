@@ -145,4 +145,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.modal-custom').addEventListener('click', function(event) {
         event.stopPropagation();
     });
+    
+    
+    
+
+ 
 });
+
+
+
+
+
