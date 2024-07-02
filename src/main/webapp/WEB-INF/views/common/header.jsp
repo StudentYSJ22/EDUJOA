@@ -44,7 +44,7 @@
       <!-- Menu -->
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo" style="margin-top: 20px;"> <!-- 로고 아래로 이동 -->
-          <a href="index.html" class="app-brand-link">
+          <a href="${path }/edujoa" class="app-brand-link">
             <span class="app-brand-logo demo">
               <img src="../assets/img/edulogo.png" alt="Logo" width="170" height="70">
             </span>
@@ -60,7 +60,8 @@
         <ul class="menu-inner py-1" style="margin-top: 20px;"> <!-- 메뉴 아래로 이동 -->
           <!-- Dashboard -->
           <li class="menu-item active">
-            <a href="/WEB-INF/views/index.jsp" class="menu-link">
+            <!-- <a href="/WEB-INF/views/index.jsp" class="menu-link">  -->
+            <a href="${path }/edujoa" class="menu-link">
               <i class="menu-icon tf-icons bx bx-home-circle"></i>
               <div data-i18n="Analytics">홈</div>
             </a>
