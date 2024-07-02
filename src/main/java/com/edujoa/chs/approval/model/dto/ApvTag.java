@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ApprovalLine {
-	private String apvLineId;
-	private String empId;
-	private String apvId;
-	private String apvSequence;
+public class ApvTag {
+	private String apvType;
+	private String prePayment;
+	private String afterPayment;
+	private String vacay;
 }

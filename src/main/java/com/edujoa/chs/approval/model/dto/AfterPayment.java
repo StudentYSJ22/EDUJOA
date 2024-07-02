@@ -1,5 +1,7 @@
 package com.edujoa.chs.approval.model.dto;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BkEmp {
-	private String empId;
-	private int bkId;
+public class AfterPayment {
+	private String apvId;
+	private String payCase;
+	private String payAmount;
+	private Date payDate;
 }

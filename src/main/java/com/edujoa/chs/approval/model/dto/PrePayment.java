@@ -1,19 +1,19 @@
 package com.edujoa.chs.approval.model.dto;
 
-import java.util.List;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
 @AllArgsConstructor
-@NoArgsConstructor	
-public class BookMark {
-	private int bkId;
-	private String empId;
-	private String bkName;
-	List<BkEmp> bkEmp;
+@NoArgsConstructor
+@Builder
+public class PrePayment {
+	private String apvId;
+	private String payCase;
+	private String payAmount;
+	private Date payDate;
 }

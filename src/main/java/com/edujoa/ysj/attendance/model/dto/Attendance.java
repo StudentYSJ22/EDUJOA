@@ -1,21 +1,25 @@
-package com.edujoa.chs.employee.model.dto;
+package com.edujoa.ysj.attendance.model.dto;
 
 import java.sql.Date;
+
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Alarm {
-	private String alarmId;
+public class Attendance {
+	private String atnId;
 	private String empId;
-	private String alarmRead;
-	private Date alarmDate;
-	private String alarmType;
-	private String alarmContent;
+	private Date atnIn;
+	private Date atnOut;
+	private Date atnDate;
+	private String atnStatus;
+	
 }

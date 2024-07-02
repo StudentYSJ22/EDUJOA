@@ -16,7 +16,7 @@ public class Tutor {
 	private String subId;
 	private String ttName;
 	private String ttPhone;
-	private String ttEmial;
+	private String ttEmail;
 	private Date ttHireDate;
 	private String ttProfile;
 	private String ttYn;

@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 
-public class DocAttachment {
-	private int docId;
-	private String daoir;
-	private String oaren;
+public class ApvAttachment {
+	private String apvId;
+	private String fileOriname;
+	private String fileRename;
 }
