@@ -1,4 +1,4 @@
-package com.edujoa.chs.employee.model.dto;
+package com.edujoa.with.employee.model.dto;
 
 import java.sql.Date;
 import java.util.List;
@@ -30,5 +30,7 @@ public class Employee {
 	private int status;
 	private String empBank;
 	private String empAccount;
+	private String oriname;
 	private List<Alarm> alarm;
+	
 }

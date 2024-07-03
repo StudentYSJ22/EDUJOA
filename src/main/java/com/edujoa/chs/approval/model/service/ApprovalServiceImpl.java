@@ -26,15 +26,15 @@ public class ApprovalServiceImpl implements ApprovalService{
 	private final ApprovalDao dao;
 	private final SqlSession session;
 
-	//결재 문서 전체 수 조회      param으로 결재 상태, 문서 종류로 조건 검색 가능
+	//기안함 결재 문서 전체 수 조회      param으로 결재 상태, 문서 종류로 조건 검색 가능
 	@Override
-	public int selectApprovalCount(Map<String, String> param) {
-		return dao.selectApprovalCount(session, param);
+	public int selectMyApprovalCount(Map<String, String> param) {
+		return dao.selectMyApprovalCount(session, param);
 	}
-	//전체 결재 문서 조회      param으로 결재 상태, 문서 종류, 날짜로 오름 내림 검색 가능
+	//기안함 결재 문서 조회      param으로 결재 상태, 문서 종류, 날짜로 오름 내림 검색 가능
 	@Override
-	public List<Approval> selectAllApproval(Map<String, Integer> rowbounds, Map<String, String> param) {
-		return dao.selectAllApproval(session, rowbounds, param);
+	public List<Approval> selectMyApproval(Map<String, Integer> rowbounds, Map<String, String> param) {
+		return dao.selectMyApproval(session, rowbounds, param);
 	}
 	//결재 문서 상세 조회
 	@Override
