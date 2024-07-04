@@ -1,6 +1,4 @@
-package com.edujoa.ysz.chatting.model.dto;
-
-import java.sql.Date;
+package com.edujoa.ssz.chatting.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChatRoom {
+public class ChatAttendee {
 	private String roomId;
-	private String roomName;
-	private Date roomDate;
-	private ChatAttendee attendee;
+	private String empId;
 }
