@@ -1,4 +1,4 @@
-package com.edujoa.ssz.chatting.model.DTO;
+package com.edujoa.ssz.webmail.model.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChatAttachment {
-	private String fileId;
-	private String roomId;
+public class MailAttachment {
+	private String mailId;
 	private String filePath;
 	private String fileOriname;
 	private String fileRename;
 	private String fileSize;
+	
 }

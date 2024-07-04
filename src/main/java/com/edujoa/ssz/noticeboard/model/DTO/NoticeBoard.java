@@ -1,4 +1,4 @@
-package com.edujoa.ssz.noticeboard.model.dto;
+package com.edujoa.ssz.noticeboard.model.DTO;
 
 import java.sql.Date;
 
@@ -18,4 +18,5 @@ public class NoticeBoard {
 	private String boardContent;
 	private Date boradDate;
 	private int boardCount;
+	private NoticeBoardAttachment attachment;
 }

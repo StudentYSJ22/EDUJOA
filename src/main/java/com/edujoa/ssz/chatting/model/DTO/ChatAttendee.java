@@ -1,4 +1,4 @@
-package com.edujoa.ssz.chatting.model.dto;
+package com.edujoa.ssz.chatting.model.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

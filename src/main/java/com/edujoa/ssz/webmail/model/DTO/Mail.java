@@ -1,4 +1,4 @@
-package com.edujoa.ssz.webmail.model.dto;
+package com.edujoa.ssz.webmail.model.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,5 +17,6 @@ public class Mail {
 	private String mailCarboncopy;
 	private String mailContent;
 	private String mailAttachment;
-	private String mailSignature;
+	private Signature signature;
+	private MailAttachment attachment;
 }

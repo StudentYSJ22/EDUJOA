@@ -1,4 +1,4 @@
-package com.edujoa.ssz.webmail.model.dto;
+package com.edujoa.ssz.webmail.model.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

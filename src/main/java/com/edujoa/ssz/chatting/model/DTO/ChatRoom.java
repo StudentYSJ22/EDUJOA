@@ -1,4 +1,4 @@
-package com.edujoa.ssz.chatting.model.dto;
+package com.edujoa.ssz.chatting.model.DTO;
 
 import java.sql.Date;
 
@@ -16,4 +16,6 @@ public class ChatRoom {
 	private String roomName;
 	private Date roomDate;
 	private ChatAttendee attendee;
+	private ChatAttachment attachment;
+	private ChatRecord record;
 }
