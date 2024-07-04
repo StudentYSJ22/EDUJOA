@@ -1,4 +1,4 @@
-package com.edujoa.ysz.noticeboard.model.dto;
+package com.edujoa.ssz.noticeboard.model.dto;
 
 import java.sql.Date;
 
