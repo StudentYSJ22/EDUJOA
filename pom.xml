@@ -101,6 +101,13 @@
 		    <groupId>org.glassfish.web</groupId>
 		    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
 		</dependency>
+		
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.23</version>
+		</dependency>
+
 
 	</dependencies>
 	
