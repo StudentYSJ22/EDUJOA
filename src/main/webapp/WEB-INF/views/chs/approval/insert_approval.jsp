@@ -1,13 +1,12 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib  prefix="c" uri="jakarta.tags.core"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <link rel="stylesheet"
 	href="${path }/resources/css/chs/approval/insert_approval.css">
 <script src="${path }/resources/js/jquery-3.7.1.min.js"></script>
 <div class="chs-custom">
 	<jsp:include page="/WEB-INF/views/chs/approval/left_approval.jsp" />
-
 	<div class="right-container">
 		<div class="hs-modal-container">
 			<div class="modal-custom">
@@ -162,7 +161,9 @@
 						font-size: 15px;
 					}
 					</style>
-				<div class="container">
+				<form class="container">
+					<input type="hidden" name="approvalLine" value="">
+					<input type="hidden" name="carbonCopy" value="">
 					<div class="header">지 출 결 의 서</div>
 					<table class="approval-table">
 						<tr>
@@ -174,7 +175,7 @@
 							<th>팀장</th>
 						</tr>
 						<tr>
-							<td>원장</td>
+							<td></td>
 							<td>사장 서명</td>
 							<td>사장 서명</td>
 							<td>사장 서명</td>
@@ -183,11 +184,15 @@
 					<table class="approval-table">
 						<tr>
 							<th>성명</th>
-							<td>박덕우</td>
-							<th>부서</th>
-							<td>인사팀</td>
+							<td>${loginMember.empName }</td>
 							<th>직책</th>
-							<td>사원</td>
+							<td>
+								<c:if test="loginMember != null">
+									<c:if test="loginMember.empTitle == J1">
+										원장
+									</c:if>
+								</c:if>
+							</td>
 						</tr>
 						<tr>
 							<th>지출금액</th>
@@ -223,9 +228,18 @@
 						<span id="current-date"></span>
 					</div>
 					<div class="signature">
-						<div>청구인 : 김동현 (인)</div>
+						<div>
+							청구인 : 김동현
+							<c:if test="loginMember.oriname != null">
+								${loginMember.oriname}
+							</c:if>
+							<c:if test="loginMember.oriname == null">
+								<button>사인 생성하기</button>
+							</c:if>
+						</div>
 					</div>
-				</div>
+					<input type="submit" value="전송">
+				</form>
 
 				<script>
                 document.addEventListener('DOMContentLoaded', (event) => {
