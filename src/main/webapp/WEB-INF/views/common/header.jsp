@@ -44,7 +44,7 @@
       <!-- Menu -->
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo" style="margin-top: 20px;"> <!-- 로고 아래로 이동 -->
-          <a href="${path }/edujoa" class="app-brand-link">
+          <a href="${path }/login" class="app-brand-link">
             <span class="app-brand-logo demo">
               <img src="../assets/img/edulogo.png" alt="Logo" width="170" height="70">
             </span>
