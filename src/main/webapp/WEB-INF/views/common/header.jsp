@@ -87,19 +87,19 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="${path }/attendance/attendance.do" class="menu-link">
               <i class="menu-icon tf-icons bx bx-time"></i>
               <div data-i18n="Layouts">근태관리</div>
             </a>
           </li>
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="${path }/salary/salary.do" class="menu-link">
               <i class="menu-icon tf-icons bx bx-money"></i>
               <div data-i18n="Layouts">급여</div>
             </a>
           </li>
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="${path }/schedule/schedule.do" class="menu-link">
               <i class="menu-icon tf-icons bx bx-calendar"></i>
               <div data-i18n="Layouts">일정</div>
             </a>
