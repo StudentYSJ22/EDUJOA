@@ -1,4 +1,4 @@
-package com.edujoa.ssz.noticeboard.model.DTO;
+package com.edujoa.ssz.noticeboard.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

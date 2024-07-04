@@ -1,12 +1,12 @@
-package com.edujoa.ssz.chatting.model.DAO;
+package com.edujoa.ssz.chatting.model.dao;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.edujoa.ssz.chatting.model.DTO.ChatAttendee;
-import com.edujoa.ssz.chatting.model.DTO.ChatRoom;
+import com.edujoa.ssz.chatting.model.dto.ChatAttendee;
+import com.edujoa.ssz.chatting.model.dto.ChatRoom;
 
 public interface ChattingDao {
 	//채팅방 전체 조회

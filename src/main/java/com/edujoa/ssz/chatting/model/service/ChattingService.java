@@ -3,8 +3,8 @@ package com.edujoa.ssz.chatting.model.service;
 import java.util.List;
 import java.util.Map;
 
-import com.edujoa.ssz.chatting.model.DTO.ChatAttendee;
-import com.edujoa.ssz.chatting.model.DTO.ChatRoom;
+import com.edujoa.ssz.chatting.model.dto.ChatAttendee;
+import com.edujoa.ssz.chatting.model.dto.ChatRoom;
 
 public interface ChattingService {
 	//전체 채팅방 조회

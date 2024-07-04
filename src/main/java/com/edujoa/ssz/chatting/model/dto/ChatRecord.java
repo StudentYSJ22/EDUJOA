@@ -1,4 +1,4 @@
-package com.edujoa.ssz.chatting.model.DTO;
+package com.edujoa.ssz.chatting.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChatAttendee {
+public class ChatRecord {
+	private String chatId;
 	private String roomId;
 	private String empId;
+	private String chatTime;
+	private String chatContent;
 }

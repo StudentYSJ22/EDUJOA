@@ -1,4 +1,4 @@
-package com.edujoa.ssz.webmail.model.DTO;
+package com.edujoa.ssz.webmail.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MailAttachment {
+public class MailAccess {
 	private String mailId;
-	private String filePath;
-	private String fileOriname;
-	private String fileRename;
-	private String fileSize;
-	
+	private String empEmail;
+	private String mailCarboncopy;
 }

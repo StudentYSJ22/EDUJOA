@@ -1,4 +1,4 @@
-package com.edujoa.ssz.chatting.model.DTO;
+package com.edujoa.ssz.chatting.model.dto;
 
 import java.sql.Date;
 

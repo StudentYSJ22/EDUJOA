@@ -1,11 +1,11 @@
-package com.edujoa.ssz.webmail.model.DAO;
+package com.edujoa.ssz.webmail.model.dao;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.edujoa.ssz.webmail.model.DTO.Mail;
+import com.edujoa.ssz.webmail.model.dto.Mail;
 
 
 

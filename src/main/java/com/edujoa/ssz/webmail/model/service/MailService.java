@@ -3,7 +3,7 @@ package com.edujoa.ssz.webmail.model.service;
 import java.util.List;
 import java.util.Map;
 
-import com.edujoa.ssz.webmail.model.DTO.Mail;
+import com.edujoa.ssz.webmail.model.dto.Mail;
 
 public interface MailService {
 	//수신 메일 전체 조회

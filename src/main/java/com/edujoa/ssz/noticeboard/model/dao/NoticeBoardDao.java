@@ -1,4 +1,4 @@
-package com.edujoa.ssz.noticeboard.model.DAO;
+package com.edujoa.ssz.noticeboard.model.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 //import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
-import com.edujoa.ssz.noticeboard.model.DTO.NoticeBoard;
+import com.edujoa.ssz.noticeboard.model.dto.NoticeBoard;
 
 public interface NoticeBoardDao {
 	//게시글 전체조회

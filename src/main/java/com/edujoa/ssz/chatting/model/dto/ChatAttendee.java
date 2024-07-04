@@ -1,4 +1,4 @@
-package com.edujoa.ssz.webmail.model.DTO;
+package com.edujoa.ssz.chatting.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MailAccess {
-	private String mailId;
-	private String empEmail;
-	private String mailCarboncopy;
+public class ChatAttendee {
+	private String roomId;
+	private String empId;
 }
