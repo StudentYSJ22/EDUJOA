@@ -20,23 +20,24 @@ import com.edujoa.chs.approval.model.dto.Vacay;
 
 @Repository
 public class ApprovalDaoImpl implements ApprovalDao {
-	//전체 문서 수 조회         결재상태, 문서 종류로 조건 검색 가능,   날짜 기준 오름 내림
+	//기안함  문서 수 조회         결재상태, 문서 종류로 조건 검색 가능,   날짜 기준 오름 내림
 	@Override
-	public int selectApprovalCount(SqlSession session, Map<String, String> param) {
-		return session.selectOne("approval.selectApprovalCount",param);
+	public int selectMyApprovalCount(SqlSession session, Map<String, String> param) {
+		return session.selectOne("approval.selectMyApprovalCount",param);
 	}
-	//전체 문서 조회			결재상태, 문서 종류로 조건 검색 가능
+	//기안함 문서 조회			결재상태, 문서 종류로 조건 검색 가능
 	@Override
-	public List<Approval> selectAllApproval(SqlSession session, Map<String, Integer> rowbounds,
+	public List<Approval> selectMyApproval(SqlSession session, Map<String, Integer> rowbounds,
 			Map<String, String> param) {
 		RowBounds rb= new RowBounds((rowbounds.get("cPage")-1)*rowbounds.get("numPerpage"),rowbounds.get("numPerpage"));
-		return session.selectList("approval.selectAllApproval",param,rb);
+		return session.selectList("approval.selectMyApproval",param,rb);
 	}
 	//문서 상세 조회
 	@Override
 	public Approval selectOneApproval(SqlSession session, String apvId) {
 		return session.selectOne("approval.selectOneApproval",apvId);
 	}
+	
 	//문서 등록
 	@Override
 	public int insertApproval(SqlSession session, Approval approval) {

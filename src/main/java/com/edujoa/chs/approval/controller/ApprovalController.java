@@ -30,16 +30,14 @@ public class ApprovalController {
 							  @RequestParam(defaultValue = "EDU20220320019") String empId,
 							  @RequestParam(defaultValue = "new") String date, Model model) {
 		Map<String,String> param = new HashMap<>();
-		if(date.equals("new")) {
-			param.put("new", "new");
-		}else {
+		if(date!=null){
 			param.put("old", "old");
 		}
 		param.put("empId", empId);
 		param.put("apvStatus", "0");
 		//페이지 불러오기
-		String pageBar=pageFactory.getPage(cPage, numPerpage, service.selectApprovalCount(param), "approval/flagginging.do");
-		model.addAttribute("approvals", service.selectAllApproval(Map.of("cPage",cPage,"numPerpage",numPerpage),param));
+		String pageBar=pageFactory.getPage(cPage, numPerpage, service.selectMyApprovalCount(param), "approval/flagginging.do");
+		model.addAttribute("approvals", service.selectMyApproval(Map.of("cPage",cPage,"numPerpage",numPerpage),param));
 		model.addAttribute("pageBar",pageBar);
 		return "chs/approval/flagging_ing";
 	}

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.edujoa.chs.employee.model.dto.Employee;
+import com.edujoa.with.employee.model.dto.Employee;
 
 public interface EmployeeDao {
 		//전체 사원에 대한 총원 조회    param에는 이름, 재직여부, 직책으로 조회가능

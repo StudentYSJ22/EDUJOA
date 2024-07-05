@@ -17,10 +17,10 @@ import com.edujoa.chs.approval.model.dto.PrePayment;
 import com.edujoa.chs.approval.model.dto.Vacay;
 
 public interface ApprovalDao {
-		//전체 결재 갯수 조회하기     결재상태, 문서 종류로 조건 검색 가능
-		int selectApprovalCount(SqlSession session, Map<String,String> param);
-		//전체 결재 문서 조회하기     결재상태, 문서 종류로 조건 검색 가능
-		List<Approval> selectAllApproval(SqlSession session, Map<String,Integer> rowbounds, Map<String,String> param);
+		//기안함 결재 갯수 조회하기     결재상태, 문서 종류로 조건 검색 가능
+		int selectMyApprovalCount(SqlSession session, Map<String,String> param);
+		//기안함 결재 문서 조회하기     결재상태, 문서 종류로 조건 검색 가능
+		List<Approval> selectMyApproval(SqlSession session, Map<String,Integer> rowbounds, Map<String,String> param);
 		//한 개의 결재 문서 조회하기    문서 번호로 조회 가능
 		Approval selectOneApproval(SqlSession session, String apvId);
 		//결재 문서 등록하기    
