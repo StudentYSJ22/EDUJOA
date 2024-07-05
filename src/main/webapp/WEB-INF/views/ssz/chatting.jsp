@@ -1,279 +1,140 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-   <head>
+<!DOCTYPE html>
+<html>
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Interface</title>
+    <title>사내 메신저</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            display: flex;
+        .messenger-container {
             height: 100vh;
-        }
-        .sidebar {
-            width: 300px;
-            background-color: #fff;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
             display: flex;
-            flex-direction: column;
-            overflow: hidden;
         }
-        .sidebar .search {
+        .employee-list, .chat-rooms, .chat-window {
             padding: 20px;
-            border-bottom: 1px solid #eee;
-        }
-        .sidebar .search input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .sidebar .chats, .sidebar .contacts {
-            flex: 1;
+            border-right: 1px solid #dee2e6;
             overflow-y: auto;
+            margin-top:50px;
+            
         }
-        .sidebar .chats .chat, .sidebar .contacts .contact {
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
+        .employee-list {
+            width: 15%;
+            margin-left:100px;
+        }
+        .chat-rooms {
+            width: 20%;
+        }
+        .chat-window {
+            width: 40%;
+        }
+        .employee-item, .chat-room-item {
             cursor: pointer;
-        }
-        .sidebar .chats .chat.active, .sidebar .contacts .contact:hover {
-            background-color: #f5f5f5;
-        }
-        .sidebar .chats .chat img, .sidebar .contacts .contact img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-        .sidebar .chats .chat .details, .sidebar .contacts .contact .details {
-            flex: 1;
-        }
-        .sidebar .chats .chat .details .name, .sidebar .contacts .contact .details .name {
-            font-weight: bold;
+            padding: 10px;
             margin-bottom: 5px;
+            border-radius: 5px;
         }
-        .sidebar .chats .chat .details .message, .sidebar .contacts .contact .details .status {
-            color: #888;
-            font-size: 14px;
+        .employee-item:hover, .chat-room-item:hover {
+            background-color: #f8f9fa;
         }
-        .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background-color: #fff;
-        }
-        .main .header {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-        }
-        .main .header img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-        .main .header .details {
-            flex: 1;
-        }
-        .main .header .details .name {
-            font-weight: bold;
-        }
-        .main .chat-area {
-            flex: 1;
-            padding: 20px;
+        .chat-messages {
+            height: 70vh;
             overflow-y: auto;
-            background-color: #f9f9f9;
-        }
-        .main .chat-area .message {
-            display: flex;
-            margin-bottom: 20px;
-        }
-        .main .chat-area .message.sent {
-            justify-content: flex-end;
-        }
-        .main .chat-area .message .content {
-            max-width: 60%;
-            padding: 15px;
-            border-radius: 15px;
-            position: relative;
-        }
-        .main .chat-area .message.sent .content {
-            background-color: #4f92ff;
-            color: #fff;
-            border-bottom-right-radius: 0;
-        }
-        .main .chat-area .message.received .content {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-bottom-left-radius: 0;
-        }
-        .main .chat-area .message .content .time {
-            font-size: 12px;
-            color: #888;
-            position: absolute;
-            bottom: -20px;
-            right: 15px;
-        }
-        .main .chat-input {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            align-items: center;
-        }
-        .main .chat-input input {
-            flex: 1;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-right: 10px;
+            margin-bottom: 10px;
         }
-        .main .chat-input button {
-            background-color: #4f92ff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
+        .chat-input {
+            display: flex;
+        }
+        .chat-input input {
+            flex-grow: 1;
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <div class="search">
-                <input type="text" placeholder="Search...">
-            </div>
-            <div class="chats">
-                <div class="chat active">
-                    <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="User">
-                    <div class="details">
-                        <div class="name">Felecia Rower</div>
-                        <div class="message">I will purchase it for...</div>
-                    </div>
+    <div class="messenger-container">
+        <!-- 직원 목록 -->
+        <div class="employee-list">
+            <h4>직원 목록</h4>
+            <c:forEach items="${employees}" var="employee">
+                <div class="employee-item" data-emp-id="${employee.empId}">
+                    <strong>${employee.empName}</strong> - ${employee.empTitle}
                 </div>
-                <div class="chat">
-                    <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="User">
-                    <div class="details">
-                        <div class="name">Waldemar Mannering</div>
-                        <div class="message">Refer friends. Get rew...</div>
-                    </div>
-                </div>
-                <div class="chat">
-                    <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="User">
-                    <div class="details">
-                        <div class="name">Calvin Moore</div>
-                        <div class="message">If it takes long you can ma...</div>
-                    </div>
-                </div>
-            </div>
-            <div class="contacts">
-                <div class="contact">
-                    <img src="https://randomuser.me/api/portraits/women/4.jpg" alt="User">
-                    <div class="details">
-                        <div class="name">Natalie Maxwell</div>
-                        <div class="status">UI/UX Designer</div>
-                    </div>
-                </div>
-                <div class="contact">
-                    <img src="https://randomuser.me/api/portraits/men/5.jpg" alt="User">
-                    <div class="details">
-                        <div class="name">Jess Cook</div>
-                        <div class="status">Business Analyst</div>
-                    </div>
-                </div>
-                <div class="contact">
-                    <img src="https://randomuser.me/api/portraits/men/6.jpg" alt="User">
-                    <div class="details">
-                        <div class="name">Louie Mason</div>
-                        <div class="status">Resource Manager</div>
-                    </div>
-                </div>
-                <div class="contact">
-                    <img src="https://randomuser.me/api/portraits/women/7.jpg" alt="User">
-                    <div class="details">
-                        <div class="name">Krystal Norton</div>
-                        <div class="status">Business Executive</div>
-                    </div>
-                </div>
-                <div class="contact">
-                    <img src="https://randomuser.me/api/portraits/women/8.jpg" alt="User">
-                    <div class="details">
-                        <div class="name">Stacy Garrison</div>
-                        <div class="status">Marketing Ninja</div>
-                    </div>
-                </div>
-                <div class="contact">
-                    <img src="https://randomuser.me/api/portraits/men/9.jpg" alt="User">
-                    <div class="details">
-                        <div class="name">Calvin Moore</div>
-                        <div class="status">UX Engineer</div>
-                    </div>
-                </div>
-            </div>
+            </c:forEach>
         </div>
-        <div class="main">
-            <div class="header">
-                <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="User">
-                <div class="details">
-                    <div class="name">Felecia Rower</div>
-                    <div class="status">NextJS developer</div>
+
+        <!-- 채팅방 목록 -->
+        <div class="chat-rooms">
+            <h4>채팅방 목록</h4>
+            <c:forEach items="${chatRooms}" var="room">
+                <div class="chat-room-item" data-room-id="${room.roomId}">
+                    ${room.roomName}
                 </div>
-            </div>
-            <div class="chat-area">
-                <div class="message received">
-                    <div class="content">
-                        How can I purchase it?
-                        <div class="time">10:05 AM</div>
-                    </div>
-                </div>
-                <div class="message sent">
-                    <div class="content">
-                        Thanks, you can purchase it.
-                        <div class="time">10:06 AM</div>
-                    </div>
-                </div>
-                <div class="message sent">
-                    <div class="content">
-                        Great, Feel free to get in touch.
-                        <div class="time">10:10 AM</div>
-                    </div>
-                </div>
-                <div class="message received">
-                    <div class="content">
-                        I will purchase it for sure. 👍
-                        <div class="time">10:08 AM</div>
-                    </div>
-                </div>
-                <div class="message received">
-                    <div class="content">
-                        Do you have design files for Sneat?
-                        <div class="time">10:15 AM</div>
-                    </div>
-                </div>
-                <div class="message sent">
-                    <div class="content">
-                        Yes that's correct documentation file, Design files are included with the template.
-                        <div class="time">10:15 AM</div>
-                    </div>
-                </div>
+            </c:forEach>
+        </div>
+
+        <!-- 채팅 창 -->
+        <div class="chat-window">
+            <h4>1:1 채팅</h4>
+            <div class="chat-messages" id="chatMessages">
+                <!-- 메시지들이 여기에 동적으로 추가됩니다 -->
             </div>
             <div class="chat-input">
-                <input type="text" placeholder="Type your message here...">
-                <button>Send</button>
+                <input type="text" id="messageInput" class="form-control" placeholder="메시지를 입력하세요...">
+                <button class="btn btn-primary" onclick="sendMessage()">전송</button>
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script>
+        let stompClient = null;
+        let selectedRoom = null;
+
+        function connect() {
+            let socket = new SockJS('/chat');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                console.log('Connected: ' + frame);
+                // 연결 후 로직
+            });
+        }
+
+        function sendMessage() {
+            let messageContent = $("#messageInput").val().trim();
+            if(messageContent && selectedRoom) {
+                let chatMessage = {
+                    roomId: selectedRoom,
+                    empName: '${currentEmployee.empName}',  // 현재 로그인한 직원 이름
+                    chatContent: messageContent,
+                    messageType: 'TALK'
+                };
+                stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+                $("#messageInput").val('');
+            }
+        }
+
+        $(document).ready(function() {
+            connect();
+
+            $(".employee-item").click(function() {
+                let empId = $(this).data('emp-id');
+                // 1:1 채팅방 생성 또는 기존 채팅방 열기 로직
+            });
+
+            $(".chat-room-item").click(function() {
+                selectedRoom = $(this).data('room-id');
+                // 채팅방 열기 로직
+            });
+        });
+    </script>
 </body>
    <div class="container-xxl flex-grow-1 container-p-y">
    </div>

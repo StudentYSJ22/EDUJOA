@@ -2,15 +2,14 @@ package com.edujoa.ssz.chatting.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ChatAttachment {
-	private String fileId;
 	private String roomId;
 	private String filePath;
 	private String fileOriname;
