@@ -1,6 +1,6 @@
 package com.edujoa.ssz.chatting.model.dto;
 
-import com.edujoa.chs.employee.model.dto.Employee;
+import com.edujoa.with.employee.model.dto.Employee;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
