@@ -10,16 +10,15 @@
 <!-- FullCalendar JS -->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
 <!-- Custom JS -->
-<script src="<%=request.getContextPath()%>/js/schedule.js"></script>
+<script src="<%=request.getContextPath()%>/js/ysj/schedule.js"></script>
+
+
+
+
+
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        events: '<%=request.getContextPath()%>/schedule/events' // 서버에서 이벤트를 가져오는 엔드포인트
-    });
-    calendar.render();
-});
+
 </script>
