@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.edujoa.chs.employee.model.dto.Employee;
+import com.edujoa.with.employee.model.dto.Employee;
 import com.edujoa.ysj.salary.model.service.SalaryService;
 
 import lombok.RequiredArgsConstructor;

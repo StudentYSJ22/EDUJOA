@@ -1,9 +1,11 @@
 package com.edujoa.ysj.salary.model.dao;
 
 import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
-import com.edujoa.chs.employee.model.dto.Employee;
+
+import com.edujoa.with.employee.model.dto.Employee;
 
 @Repository
 public class SalaryDaoImpl implements SalaryDao {
