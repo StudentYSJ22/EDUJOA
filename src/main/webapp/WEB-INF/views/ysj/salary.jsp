@@ -1,237 +1,114 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-   <!-- 모든 내용은 밑에있는 div안에만 설정해야함. -->
-   <div class="container-xxl flex-grow-1 container-p-y">
-   
-   <!-- 도전  -->
-   <!-- Hoverable Table rows -->
-<div class="card">
-  <h5 class="card-header">Hoverable rows</h5>
-  <div class="table-responsive text-nowrap">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Project</th>
-          <th>Client</th>
-          <th>Users</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody class="table-border-bottom-0">
-        <tr>
-          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Angular Project</strong></td>
-          <td>Albert Cook</td>
-          <td>
-            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Lilian Fuller"
-              >
-                <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-              </li>
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Sophia Wilkerson"
-              >
-                <img src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
-              </li>
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Christina Parker"
-              >
-                <img src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-              </li>
-            </ul>
-          </td>
-          <td><span class="badge bg-label-primary me-1">Active</span></td>
-          <td>
-            <div class="dropdown">
-              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="javascript:void(0);"
-                  ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                >
-                <a class="dropdown-item" href="javascript:void(0);"
-                  ><i class="bx bx-trash me-1"></i> Delete</a
-                >
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>React Project</strong></td>
-          <td>Barry Hunter</td>
-          <td>
-            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Lilian Fuller"
-              >
-                <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-              </li>
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Sophia Wilkerson"
-              >
-                <img src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
-              </li>
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Christina Parker"
-              >
-                <img src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-              </li>
-            </ul>
-          </td>
-          <td><span class="badge bg-label-success me-1">Completed</span></td>
-          <td>
-            <div class="dropdown">
-              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="javascript:void(0);"
-                  ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                >
-                <a class="dropdown-item" href="javascript:void(0);"
-                  ><i class="bx bx-trash me-1"></i> Delete</a
-                >
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><i class="fab fa-vuejs fa-lg text-success me-3"></i> <strong>VueJs Project</strong></td>
-          <td>Trevor Baker</td>
-          <td>
-            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Lilian Fuller"
-              >
-                <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-              </li>
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Sophia Wilkerson"
-              >
-                <img src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
-              </li>
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Christina Parker"
-              >
-                <img src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-              </li>
-            </ul>
-          </td>
-          <td><span class="badge bg-label-info me-1">Scheduled</span></td>
-          <td>
-            <div class="dropdown">
-              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="javascript:void(0);"
-                  ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                >
-                <a class="dropdown-item" href="javascript:void(0);"
-                  ><i class="bx bx-trash me-1"></i> Delete</a
-                >
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <i class="fab fa-bootstrap fa-lg text-primary me-3"></i> <strong>Bootstrap Project</strong>
-          </td>
-          <td>Jerry Milton</td>
-          <td>
-            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Lilian Fuller"
-              >
-                <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-              </li>
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Sophia Wilkerson"
-              >
-                <img src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
-              </li>
-              <li
-                data-bs-toggle="tooltip"
-                data-popup="tooltip-custom"
-                data-bs-placement="top"
-                class="avatar avatar-xs pull-up"
-                title="Christina Parker"
-              >
-                <img src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-              </li>
-            </ul>
-          </td>
-          <td><span class="badge bg-label-warning me-1">Pending</span></td>
-          <td>
-            <div class="dropdown">
-              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="javascript:void(0);"
-                  ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                >
-                <a class="dropdown-item" href="javascript:void(0);"
-                  ><i class="bx bx-trash me-1"></i> Delete</a
-                >
-              </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<link rel="stylesheet" href="${path}/resources/css/ysj/salary.css">
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="container">
+        <div class="header">
+            <h2>급여조회</h2>
+            <table>
+                <tr>
+                    <td rowspan="5"><img src="${path}/resources/images/profile.png" alt="Profile Picture"></td>
+                    <th>직원구분</th>
+                    <td>정규</td>
+                    <th>부서</th>
+                    <td>운영팀</td>
+                </tr>
+                <tr>
+                    <th>입사일자</th>
+                    <td>2005-09-01</td>
+                    <th>사원번호</th>
+                    <td>031-123-4567</td>
+                </tr>
+                <tr>
+                    <th>ID</th>
+                    <td>daou</td>
+                    <th>휴대전화</th>
+                    <td>010-1234-5678</td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td>bslove@bslove</td>
+                    <th>회사/부서 대표전화</th>
+                    <td>02-1234-5678</td>
+                </tr>
+                <tr>
+                    <th>메신저</th>
+                    <td></td>
+                    <th>FAX</th>
+                    <td>031-789-4561</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="salary-details">
+            <h3>급여상세</h3>
+            <table>
+                <tr>
+                    <th>급여유형</th>
+                    <td>연봉</td>
+                    <th>연봉</th>
+                    <td><fmt:formatNumber value="58800000" type="currency" currencySymbol="₩" /></td>
+                </tr>
+                <tr>
+                    <th>고정수당</th>
+                    <td>식대</td>
+                    <th>고정수당 포함여부</th>
+                    <td>예</td>
+                </tr>
+                <tr>
+                    <th>월급</th>
+                    <td colspan="3"><fmt:formatNumber value="4900000" type="currency" currencySymbol="₩" /></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="salary-slip">
+            <h3>급여명세서</h3>
+            <table>
+                <tr>
+                    <th>급(상)여월</th>
+                    <th>급(상)여지급일</th>
+                    <th>지급합계</th>
+                    <th>공제합계</th>
+                    <th>공제 후 지급액</th>
+                </tr>
+                <tr>
+                    <td>2022-06</td>
+                    <td>2022-07-05</td>
+                    <td><fmt:formatNumber value="5200000" type="currency" currencySymbol="₩" /></td>
+                    <td><fmt:formatNumber value="852890" type="currency" currencySymbol="₩" /></td>
+                    <td class="details"><fmt:formatNumber value="4347110" type="currency" currencySymbol="₩" /></td>
+                </tr>
+                <tr>
+                    <td>2022-05</td>
+                    <td>2022-06-05</td>
+                    <td><fmt:formatNumber value="5000000" type="currency" currencySymbol="₩" /></td>
+                    <td><fmt:formatNumber value="822040" type="currency" currencySymbol="₩" /></td>
+                    <td class="details"><fmt:formatNumber value="4177960" type="currency" currencySymbol="₩" /></td>
+                </tr>
+                <tr>
+                    <td>2022-04</td>
+                    <td>2022-05-05</td>
+                    <td><fmt:formatNumber value="5000000" type="currency" currencySymbol="₩" /></td>
+                    <td><fmt:formatNumber value="822040" type="currency" currencySymbol="₩" /></td>
+                    <td class="details"><fmt:formatNumber value="4177960" type="currency" currencySymbol="₩" /></td>
+                </tr>
+                <tr>
+                    <td>2022-03</td>
+                    <td>2022-04-05</td>
+                    <td><fmt:formatNumber value="5000000" type="currency" currencySymbol="₩" /></td>
+                    <td><fmt:formatNumber value="822040" type="currency" currencySymbol="₩" /></td>
+                    <td class="details"><fmt:formatNumber value="4177960" type="currency" currencySymbol="₩" /></td>
+                </tr>
+            </table>
+        </div>
+        
+       
+    </div>
 </div>
-<!--/ Hoverable Table rows -->
-   <!-- /도전  -->
-   
-   </div>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

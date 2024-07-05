@@ -30,11 +30,17 @@
 						<li style="width:10%">상태</li>
 						<li style="width:20%">최근 결재일</li>
 					</ul>
-					<ul class="chs-tbody-body">
-						<c:forEach var="a" items="${approvals }">
+					<c:forEach var="a" items="${approvals }">
+						<ul class="chs-tbody-body">
 							<li style="width:10%; font-weight:bold">
 								<c:if test="${a.apvType == 0 }">
 									휴가 신청서
+								</c:if>
+								<c:if test="${a.apvType == 1 }">
+									품의서
+								</c:if>
+								<c:if test="${a.apvType == 2 }">
+									지출결의서
 								</c:if>
 							</li>
 							<li style="width:30%">${a.apvTitle }</li>
@@ -54,8 +60,8 @@
 							<li style="width:20%">
 								<!-- 최근 결재된 날짜 구해야함. -->
 							</li>
-						</c:forEach>
-					</ul>
+						</ul>
+					</c:forEach>
 				</div>
 		${pageBar }
 			</div>
