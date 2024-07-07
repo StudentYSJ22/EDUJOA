@@ -50,7 +50,7 @@ public class PageFactory {
 		sb.append("</ul>");
 		sb.append("<script>");
 		sb.append("function fn_paging(pageNo){");
-		sb.append("location.assign('"+url+"?cPage='+pageNo+'&numPerpage="+numPerpage+"');");
+		sb.append("location.assign('"+url+"cPage='+pageNo+'&numPerpage="+numPerpage+"');");
 		sb.append("}");
 		sb.append("</script>");
 		

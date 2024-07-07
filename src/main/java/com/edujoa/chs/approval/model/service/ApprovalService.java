@@ -3,16 +3,10 @@ package com.edujoa.chs.approval.model.service;
 import java.util.List;
 import java.util.Map;
 
-import com.edujoa.chs.approval.model.dto.AfterPayment;
 import com.edujoa.chs.approval.model.dto.Approval;
-import com.edujoa.chs.approval.model.dto.ApprovalLine;
-import com.edujoa.chs.approval.model.dto.ApvAttachment;
-import com.edujoa.chs.approval.model.dto.ApvTag;
-import com.edujoa.chs.approval.model.dto.CarbonCopy;
 import com.edujoa.chs.approval.model.dto.FrequentLine;
 import com.edujoa.chs.approval.model.dto.FrequentPerson;
-import com.edujoa.chs.approval.model.dto.PrePayment;
-import com.edujoa.chs.approval.model.dto.Vacay;
+import com.edujoa.with.employee.model.dto.Employee;
 
 public interface ApprovalService {
 	//기안함 결재 갯수 조회하기     결재상태, 문서 종류로 조건 검색 가능
@@ -28,7 +22,7 @@ public interface ApprovalService {
 	//결재 문서 삭제하기 
 	int deleteApproval(String apvId);
 	//자주쓰는 결재라인 조회하기
-	List<FrequentPerson> selectAllFrequenLine();
+	List<FrequentLine> selectAllFrequenLine(String empId);
 	//자주쓰는 결재라인 등록하기
 	int insertFrequentLine(FrequentLine frequentLine);
 	//자주쓰는 결재라인 수정하기
@@ -41,4 +35,6 @@ public interface ApprovalService {
 	int updateFrequentPerson(FrequentPerson frequentPerson);
 	//자주쓰는 결재라인 인원 삭제하기
 	int deleteFrequentPerson(String feqpId);
+	//결재선 조회하기
+	List<Employee> selectAllApprvoalLine(String empId);
 }

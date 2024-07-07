@@ -10,15 +10,20 @@
 				<p>반려</p>
 			</div>
 			<div class="chs-thead-2">
-				<select name="new-old">
-					<option value="new">최근 순</option>
-					<option value="old">오래된 순</option>
-				</select>
-				<select name="rowbounds">
-					<option value="10">10</option>
-					<option value="5">5</option>
-					<option value="3">3</option>
-				</select>
+				<div>
+				</div>
+				<div>
+					<select name="new-old">
+						<option value="new">최근 순</option>
+						<option value="old">오래된 순</option>
+					</select>
+					<select name="rowbounds">
+						<option value="10">10</option>
+						<option value="5">5</option>
+						<option value="3">3</option>
+					</select>
+				</div>
+
 			</div>
 			<div class="chs-tbody">
 				<div>
@@ -30,19 +35,43 @@
 						<li style="width:10%">상태</li>
 						<li style="width:20%">최근 결재일</li>
 					</ul>
-					<%for(int i = 0; i < 10; i++){ %>
-					<ul class="chs-tbody-body">
-						<li style="width:10%; font-weight:bold">휴가 신청서</li>
-						<li style="width:30%">이리저리 휴가를 씁니다.</li>
-						<li style="width:10%">최헌수</li>
-						<li style="width:20%">2024-07-01</li>
-						<li style="width:10%">결재 중</li>
-						<li style="width:20%">2024-07-02</li>
-					</ul>
-					<%} %>
+					<c:forEach var="a" items="${approvals }">
+						<ul class="chs-tbody-body">
+							<li style="width:10%; font-weight:bold">
+								<c:if test="${a.apvType == 0 }">
+									휴가 신청서
+								</c:if>
+								<c:if test="${a.apvType == 1 }">
+									품의서
+								</c:if>
+								<c:if test="${a.apvType == 2 }">
+									지출결의서
+								</c:if>
+							</li>
+							<li style="width:30%">${a.apvTitle }</li>
+							<li style="width:10%">${a.employee.empName }</li>
+							<li style="width:20%">${a.apvDate }</li>
+							<li style="width:10%">
+								<c:if test="${a.apvStatus == 0}">
+									결재 중
+								</c:if>
+								<c:if test="${a.apvStatus == 1}">
+									반려
+								</c:if>
+								<c:if test="${a.apvStatus == 2}">
+									결재 완료
+								</c:if>
+							</li>
+							<li style="width:20%">
+								<c:if test="${a.apvDone != null }">
+									${a.apvDone }
+								</c:if>
+							</li>
+						</ul>
+					</c:forEach>
 				</div>
+		${pageBar }
 			</div>
 		</div>
-		
 	</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

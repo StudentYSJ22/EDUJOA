@@ -2,12 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib  prefix="c" uri="jakarta.tags.core"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
-<link rel="stylesheet"
-	href="${path }/resources/css/chs/approval/insert_approval.css">
+<link rel="stylesheet" href="${path }/resources/css/chs/approval/insert_approval.css">
 <script src="${path }/resources/js/jquery-3.7.1.min.js"></script>
 <div class="chs-custom">
 	<jsp:include page="/WEB-INF/views/chs/approval/left_approval.jsp" />
 	<div class="right-container">
+		<!-- 모달창 시작 -->
 		<div class="hs-modal-container">
 			<div class="modal-custom">
 				<div class="modal-header">
@@ -15,18 +15,14 @@
 					<button class="modal-close" onclick="modal_close();">x</button>
 				</div>
 				<div class="approval-line-select" style="padding: 0 2%">
-					<div class="search-radio">
-						<label for="name-radio"> <input type="radio"
-							name="select-radio" id="name-radio" checked> <span>이름</span>
-						</label> <label for="job-radio"> <input type="radio"
-							name="select-radio" id="job-radio"> <span>직급</span>
-						</label>
+<!-- 					<div class="search-radio">
+						<label for="name-radio"><input type="radio" name="select-radio" id="name-radio" checked><span>이름</span></label>
+						<label for="job-radio"><input type="radio" name="select-radio" id="job-radio"><span>직급</span></label>
 					</div>
 					<div class="search-text">
-						<input type="text"> <img
-							src="https://cdn-icons-png.flaticon.com/512/71/71403.png">
+						<input type="text"><img src="https://cdn-icons-png.flaticon.com/512/71/71403.png">
 					</div>
-					<div class="search-approval-line">
+ -->					<div class="search-approval-line">
 						<select>
 							<option value="" disabled selected>자주쓰는 결재라인</option>
 						</select>
@@ -39,14 +35,6 @@
 						<p class="user-top">매니저</p>
 					</div>
 					<div class="content-right">
-						<p class="user-bottom">누구</p>
-						<p class="user-bottom">누구</p>
-						<p class="user-bottom">누구</p>
-						<p class="user-bottom">누구</p>
-						<p class="user-bottom">누구</p>
-						<p class="user-bottom">누구</p>
-						<p class="user-bottom">누구</p>
-						<p class="user-bottom">누구</p>
 					</div>
 					<div class="select-bar">
 						<div class="bar-top">
@@ -70,12 +58,12 @@
 					</div>
 				</div>
 				<div class="modal-footer" style="padding-bottom: 2%">
-					<button onclick="applyApprovalLine()">확인</button>
+					<button id="confirm-button" onclick="applyApprovalLine()">확인</button>
 					<button onclick="modal_close()">취소</button>
 				</div>
 			</div>
+		<!-- 모달 끝 -->
 		</div>
-
 		<div class="right-container-header">
 			<div>
 				<p>기안서 작성</p>
@@ -93,8 +81,8 @@
 			</div>
 			<div class="approval-file">
 				<!-- 폼 필드 추가 -->
-				<input type="hidden" id="approval-field"> <input
-					type="hidden" id="refer-field">
+				<input type="hidden" id="approval-field"> 
+				<input 	type="hidden" id="refer-field">
 				<style>
 					body {
 						font-family: Arial, sans-serif;
@@ -150,6 +138,8 @@
 					.btn {
 						margin-top: 10px;
 						text-align: center;
+						display: flex;
+   						justify-content: flex-end;
 					}
 					
 					input[type=text] {
@@ -167,19 +157,25 @@
 					<div class="header">지 출 결 의 서</div>
 					<table class="approval-table">
 						<tr>
-							<th rowspan="2">결재</th>
-							<th>원장</th>
-							<th>팀장</th>
-							<th rowspan="2">참조</th>
-							<th>원장</th>
-							<th>팀장</th>
-						</tr>
-						<tr>
-							<td></td>
-							<td>사장 서명</td>
-							<td>사장 서명</td>
-							<td>사장 서명</td>
-						</tr>
+					        <th rowspan="3">결재</th>
+					        <th>원장</th>
+					        <th>팀장</th>
+					        <th rowspan="3">참조</th>
+					        <th>팀장</th>
+					        <th>매니저</th>
+					    </tr>
+					    <tr>
+					        <td id="approval-principal"></td>
+					        <td id="approval-team-leader"></td>
+					        <td id="refer-principal"></td>
+					        <td id="refer-team-leader"></td>
+					    </tr>
+					    <tr>
+					    	<td></td>
+					    	<td></td>
+					    	<td></td>
+					    	<td></td>
+					    </tr>
 					</table>
 					<table class="approval-table">
 						<tr>
@@ -187,10 +183,14 @@
 							<td>${loginMember.empName }</td>
 							<th>직책</th>
 							<td>
-								<c:if test="loginMember != null">
-									<c:if test="loginMember.empTitle == J1">
-										원장
-									</c:if>
+								<c:if test="${loginMember.empTitle == 'J1'}">
+									원장
+								</c:if>
+								<c:if test="${loginMember.empTitle == 'J2'}">
+									팀장
+								</c:if>
+								<c:if test="${loginMember.empTitle == 'J3'}">
+									매니저
 								</c:if>
 							</td>
 						</tr>
@@ -221,7 +221,7 @@
 						</tr>
 					</table>
 					<div class="btn">
-						<button onclick="addRow()">추가</button>
+						<button type="button" onclick="addRow()">추가</button>
 					</div>
 					<div class="footer">위 금액을 청구하오니 결재 바랍니다.</div>
 					<div class="footer">
