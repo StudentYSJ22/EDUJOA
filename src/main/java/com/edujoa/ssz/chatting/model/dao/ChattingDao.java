@@ -17,4 +17,10 @@ public interface ChattingDao {
 	int deleteChatRoom(SqlSession session, String roomId);
 	//채팅인원 추가
 	List<ChatAttendee> insertChatAttendee(SqlSession session, Map<String,String>param);
+	//채팅정보 저장
+	//첨부파일 전송
+	//채팅방 나가기
+	//채팅방 입장
+	
+	//채팅정보 수정
 }

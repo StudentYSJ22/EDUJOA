@@ -1,5 +1,8 @@
 package com.edujoa.ssz.webmail.model.dto;
 
+import java.sql.Date;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,14 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+//메일 보낼 때
 public class Mail {
-	private String mailId; 
-	private String empId;
-	private String empEmail;
+	private String senderEmail;//발신자
+	private List<String> receiverEmails;//수신자
+	private List<String> mailCarboncopies;//참조
 	private String mailTitle;
-	private String mailCarboncopy;
 	private String mailContent;
-	private String mailAttachment;
-	private Signature signature;
-	private MailAttachment attachment;
+	private Date mailDate;
+	private List<MailAttachment> attachments;
 }
