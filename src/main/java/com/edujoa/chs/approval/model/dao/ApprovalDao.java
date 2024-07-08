@@ -15,6 +15,7 @@ import com.edujoa.chs.approval.model.dto.FrequentLine;
 import com.edujoa.chs.approval.model.dto.FrequentPerson;
 import com.edujoa.chs.approval.model.dto.PrePayment;
 import com.edujoa.chs.approval.model.dto.Vacay;
+import com.edujoa.with.employee.model.dto.Employee;
 
 public interface ApprovalDao {
 		//기안함 결재 갯수 조회하기     결재상태, 문서 종류로 조건 검색 가능
@@ -62,7 +63,7 @@ public interface ApprovalDao {
 		//결재 태그 저장테이블 값 불러오기
 		ApvTag selectApvTag(SqlSession session, String apvType);
 		//자주쓰는 결재라인 조회하기
-		List<FrequentPerson> selectAllFrequenLine(SqlSession session);
+		List<FrequentLine> selectAllFrequenLine(SqlSession session, String empId);
 		//자주쓰는 결재라인 등록하기
 		int insertFrequentLine(SqlSession session, FrequentLine frequentLine);
 		//자주쓰는 결재라인 수정하기
@@ -75,4 +76,6 @@ public interface ApprovalDao {
 		int updateFrequentPerson(SqlSession session, FrequentPerson frequentPerson);
 		//자주쓰는 결재라인 인원 삭제하기
 		int deleteFrequentPerson(SqlSession session, String feqpId);
+		//결재선 조회하기
+		List<Employee> selectAllApprovalLine(SqlSession session, String empId);
 }

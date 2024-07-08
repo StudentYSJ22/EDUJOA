@@ -17,6 +17,7 @@ import com.edujoa.chs.approval.model.dto.FrequentLine;
 import com.edujoa.chs.approval.model.dto.FrequentPerson;
 import com.edujoa.chs.approval.model.dto.PrePayment;
 import com.edujoa.chs.approval.model.dto.Vacay;
+import com.edujoa.with.employee.model.dto.Employee;
 
 import lombok.RequiredArgsConstructor;
 
@@ -121,8 +122,8 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 	//자주쓰는 결재라인 조회하기
 	@Override
-	public List<FrequentPerson> selectAllFrequenLine() {
-		return dao.selectAllFrequenLine(session);
+	public List<FrequentLine> selectAllFrequenLine(String empId) {
+		return dao.selectAllFrequenLine(session,empId);
 	}
 	//자주쓰는 결재라인 등록하기
 	@Override
@@ -154,5 +155,9 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public int deleteFrequentPerson(String feqpId) {
 		return dao.deleteFrequentPerson(session, feqpId);
 	}
-
+	//결재선 조회하기
+	@Override
+	public List<Employee> selectAllApprvoalLine(String empId) {
+		return dao.selectAllApprovalLine(session, empId);
+	}
 }
