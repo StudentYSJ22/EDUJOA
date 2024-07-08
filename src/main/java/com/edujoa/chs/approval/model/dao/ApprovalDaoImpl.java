@@ -17,6 +17,7 @@ import com.edujoa.chs.approval.model.dto.FrequentLine;
 import com.edujoa.chs.approval.model.dto.FrequentPerson;
 import com.edujoa.chs.approval.model.dto.PrePayment;
 import com.edujoa.chs.approval.model.dto.Vacay;
+import com.edujoa.with.employee.model.dto.Employee;
 
 @Repository
 public class ApprovalDaoImpl implements ApprovalDao {
@@ -131,42 +132,47 @@ public class ApprovalDaoImpl implements ApprovalDao {
 	//결재 태그 저장 테이블에서 값 불러오기
 	@Override
 	public ApvTag selectApvTag(SqlSession session, String apvType) {
-		return session.selectOne("selectApvTag",apvType);
+		return session.selectOne("approval.selectApvTag",apvType);
 	}
 	//자주쓰는 결재라인 조회하기
 	@Override
-	public List<FrequentPerson> selectAllFrequenLine(SqlSession session) {
-		return session.selectList("selectFrequentLine");
+	public List<FrequentLine> selectAllFrequenLine(SqlSession session, String empId) {
+		return session.selectList("approval.selectFrequentLine", empId);
 	}
 	//자주쓰는 결재라인 등록하기
 	@Override
 	public int insertFrequentLine(SqlSession session, FrequentLine frequentLine) {
-		return session.insert("insertFrequentLine",frequentLine);
+		return session.insert("approval.insertFrequentLine",frequentLine);
 	}
 	//자주쓰는 결재라인 수정하기
 	@Override
 	public int updateFrequentLine(SqlSession session, FrequentLine frequentLine) {
-		return session.update("updateFrequentLine",frequentLine);
+		return session.update("approval.updateFrequentLine",frequentLine);
 	}
 	//자주쓰는 결재라인 삭제하기
 	@Override
 	public int deleteFrequentLine(SqlSession session, String feqId) {
-		return session.delete("deleteFrequentLine",feqId);
+		return session.delete("approval.deleteFrequentLine",feqId);
 	}
 	//자주쓰는 결재라인 인원 등록하기
 	@Override
 	public int insertFrequentPerson(SqlSession session, FrequentPerson frequentPerson) {
-		return session.insert("insertFrequentPerson",frequentPerson);
+		return session.insert("approval.insertFrequentPerson",frequentPerson);
 	}
 	//자주쓰는 결재라인 인원 수정하기
 	@Override
 	public int updateFrequentPerson(SqlSession session, FrequentPerson frequentPerson) {
-		return session.update("updateFrequentPerson",frequentPerson);
+		return session.update("approval.updateFrequentPerson",frequentPerson);
 	}
 	//자주쓰는 결재라인 인원 삭제하기
 	@Override
 	public int deleteFrequentPerson(SqlSession session, String feqpId) {
-		return session.delete("deleteFrequentPerson",feqpId);
+		return session.delete("approval.deleteFrequentPerson",feqpId);
+	}
+	//결재선 조회하기
+	@Override
+	public List<Employee> selectAllApprovalLine(SqlSession session, String empId) {
+		return session.selectList("approval.selectAllApprovalLine", empId);
 	}
 
 }

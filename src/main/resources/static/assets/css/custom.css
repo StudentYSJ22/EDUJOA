@@ -1,1 +1,16 @@
+/* custom.css */
 @charset "UTF-8";
+
+.menu-link:hover {
+    background-color: #4ec14a; 
+    color: #ffffff; 
+    border-radius: 10px;
+}
+
+/* 메뉴 활성화 */
+/* .menu-item.active .menu-link {
+    background-color: #4ec14a; 
+    color: white; 
+    border-radius: 10px; 
+}
+ */

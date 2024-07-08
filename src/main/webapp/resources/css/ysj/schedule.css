@@ -1,0 +1,57 @@
+#sub-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 250px;
+    z-index: 99;
+    padding: 48px 0 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    background-color: #f8f9fa;
+    overflow-y: auto;
+}
+
+#sub-sidebar .nav-link {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+#sub-sidebar .nav-link:hover,
+#sub-sidebar .nav-link.active {
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+main {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.fc-day-sat { color: blue; }
+.fc-day-sun { color: red; }
+
+.calendar-section {
+    margin-bottom: 20px;
+}
+
+.calendar-item {
+    margin-left: 20px;
+}
+
+#calendar {
+    height: 900px;
+}
+
+#addScheduleBtn {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.modal-dialog {
+    max-width: 500px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}

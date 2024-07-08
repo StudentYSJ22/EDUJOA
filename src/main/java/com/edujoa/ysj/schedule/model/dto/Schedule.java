@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Schedule {
 	private String schId;
-	private int ttId;
+//	private String ttId;
 	private String empId;
 	private String schTitle;
 	private String schContent;
