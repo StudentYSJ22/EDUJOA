@@ -18,4 +18,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<Schedule> getAllSchedules() {
         return scheduleDao.selectAllSchedules();
     }
+
+    @Override
+    public void addSchedule(Schedule schedule) {
+        scheduleDao.insertSchedule(schedule);
+    }
 }
