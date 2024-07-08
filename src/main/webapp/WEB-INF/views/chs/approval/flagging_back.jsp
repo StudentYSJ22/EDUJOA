@@ -131,6 +131,7 @@
 	    });
 	}
 	
+	
 	// 페이지 바 업데이트 함수
 	function updatePageBar(pageBar) {
 	    $('#page-bar').html(pageBar);
