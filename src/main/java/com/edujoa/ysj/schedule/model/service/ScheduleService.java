@@ -6,5 +6,6 @@ import com.edujoa.ysj.schedule.model.dto.Schedule;
 
 public interface ScheduleService {
     List<Schedule> getAllSchedules();
-    void addSchedule(Schedule schedule);
+    List<Schedule> getSchedulesByCalendars(List<String> calendars);
+    int insertSchedule(Schedule schedule);
 }
