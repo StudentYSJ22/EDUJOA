@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="${path }/resources/css/khj/login_hj.css">
 <!DOCTYPE html>
 <html
   lang="en"
@@ -16,7 +17,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Login Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Login Page</title>
 
     <meta name="description" content="" />
 
@@ -120,24 +121,26 @@
                       </g>
                     </svg> -->
                   </span>
-                  <span class="app-brand-text demo text-body fw-bolder">에듀조아</span>
+                  <img src="${pageContext.request.contextPath}/images/edulogo.png" alt="에듀로고" width=220px height=90px>
+                  <!-- <span class="app-brand-text demo text-body fw-bolder">에듀조아</span> -->
                 </a>
               </div>
               <!-- /Logo -->
-              <h4 class="mb-2">x</h4>
-              <p class="mb-4">x</p>
+             <!--  <h4 class="mb-2">공간</h4> -->
+             <!--  <p class="mb-4">공간</p> -->
 
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              <form id="formAuthentication" class="mb-3" action="${pageContext.request.contextPath }/member/loginpage" method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label">아이디를 입력하세요</label>
                   <input
                     type="text"
                     class="form-control"
                     id="email"
-                    name="email-username"
-                    placeholder="Enter your email or username"
+                    name="username"
+                    placeholder="Enter your ID"
                     autofocus
                   />
+        
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
@@ -161,18 +164,18 @@
                 <div class="mb-3">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="remember-me" />
-                    <label class="form-check-label" for="remember-me"> Remember ID </label>
+                    <label class="form-check-label" for="remember-me"> 아이디 저장 </label>
                   </div>
                 </div>
                 <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">로그인</button>
+                  <button class="btn btn-primary d-grid w-100" id="logbtn" type="submit">L O G I N</button>
                 </div>
               </form>
 
               <p class="text-center">
-                <span>계정을 잊으셨나요?</span>
+                <b>계정을 잊으셨나요?</b>
                 <a href="auth-register-basic.html">
-                  <span>아이디/비밀번호 찾기</span>
+                  <b>아이디/비밀번호 찾기</b>
                 </a>
               </p>
             </div>

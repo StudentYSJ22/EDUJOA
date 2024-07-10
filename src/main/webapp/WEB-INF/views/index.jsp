@@ -375,7 +375,7 @@
                           </button>
                         </li>
                         <li class="nav-item">
-                          <button type="button" class="nav-link" role="tab">Expenses</button>
+                          <button type="button" class="nav-link" role="tab">전자결재 현황</button>
                         </li>
                         <li class="nav-item">
                           <button type="button" class="nav-link" role="tab">Profit</button>
@@ -419,10 +419,10 @@
 
                 <!-- Transactions -->
                 <div class="col-md-6 col-lg-4 order-2 mb-4">
-                  <div class="card h-100">
+                <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                      <h5 class="card-title m-0 me-2">Transactions</h5>
-                      <div class="dropdown">
+                      <h5 class="card-title m-0 me-2">받은 메일함</h5>
+                      <!-- <div class="dropdown">
                         <button
                           class="btn p-0"
                           type="button"
@@ -533,8 +533,26 @@
                         </li>
                       </ul>
                     </div>
-                  </div>
-                </div>
+                  </div> -->
+            
+            <br>     
+			           <div class="mail-summary">
+			    <div class="mail-info">
+			        <div class="label">제목:</div>
+			        <div class="value">${mail.mailTitle}</div>
+			    </div>
+			    <div class="mail-info">
+			        <div class="label">발신인:</div>
+			        <div class="value">${mail.senderEmail}</div>
+			    </div>
+			    <div class="mail-info">
+			        <div class="label">수신일자:</div>
+			        <div class="value">${mail.mailDate}</div>
+			    </div>
+			</div>
+                  
+                  
+               <!--  </div> -->
                 <!--/ Transactions -->
               </div>
             </div>
