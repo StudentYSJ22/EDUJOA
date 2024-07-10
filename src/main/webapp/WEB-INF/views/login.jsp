@@ -66,7 +66,7 @@
               <div class="app-brand justify-content-center">
                 <a href="index.html" class="app-brand-link gap-2">
                   <span class="app-brand-logo demo">
-                    <svg
+                  <!--   <svg
                       width="25"
                       viewBox="0 0 25 42"
                       version="1.1"
@@ -118,18 +118,18 @@
                           </g>
                         </g>
                       </g>
-                    </svg>
+                    </svg> -->
                   </span>
-                  <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
+                  <span class="app-brand-text demo text-body fw-bolder">에듀조아</span>
                 </a>
               </div>
               <!-- /Logo -->
-              <h4 class="mb-2">Welcome to Sneat! 👋</h4>
-              <p class="mb-4">Please sign-in to your account and start the adventure</p>
+              <h4 class="mb-2">x</h4>
+              <p class="mb-4">x</p>
 
               <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
                 <div class="mb-3">
-                  <label for="email" class="form-label">Email or Username</label>
+                  <label for="email" class="form-label">아이디를 입력하세요</label>
                   <input
                     type="text"
                     class="form-control"
@@ -141,10 +141,10 @@
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
-                    <label class="form-label" for="password">Password</label>
-                    <a href="auth-forgot-password-basic.html">
-                      <small>Forgot Password?</small>
-                    </a>
+                    <label class="form-label" for="password">비밀번호를 입력하세요</label>
+                    <!-- <a href="auth-forgot-password-basic.html">
+                      <small>Forgot ID or Password?</small>
+                    </a> -->
                   </div>
                   <div class="input-group input-group-merge">
                     <input
@@ -161,18 +161,18 @@
                 <div class="mb-3">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="remember-me" />
-                    <label class="form-check-label" for="remember-me"> Remember Me </label>
+                    <label class="form-check-label" for="remember-me"> Remember ID </label>
                   </div>
                 </div>
                 <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                  <button class="btn btn-primary d-grid w-100" type="submit">로그인</button>
                 </div>
               </form>
 
               <p class="text-center">
-                <span>New on our platform?</span>
+                <span>계정을 잊으셨나요?</span>
                 <a href="auth-register-basic.html">
-                  <span>Create an account</span>
+                  <span>아이디/비밀번호 찾기</span>
                 </a>
               </p>
             </div>

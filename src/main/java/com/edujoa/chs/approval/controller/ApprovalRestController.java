@@ -27,14 +27,99 @@ import lombok.RequiredArgsConstructor;
 public class ApprovalRestController {
 	private final ApprovalService service;
 	private final PageFactory pageFactory;
-	
-	//임시 저장에 대한 결과 조회
-	@GetMapping("/temporarystorage")
+	//진행 중에 대한 결과 조회
+	@GetMapping("/flagginging")
 	public ResponseEntity<Map<String, Object>> flaggingIng(@RequestParam(defaultValue = "10") int numPerpage,
 			@RequestParam(defaultValue = "1") int cPage,
 			String empId,
 			String date) {
-		System.out.println(date);
+		Map<String, String> param = new HashMap<>();
+		if ("old".equals(date)) {
+			param.put("old", "old");
+		}
+		param.put("empId", empId);
+		param.put("apvStatus", "0");
+		param.put("apvStrg", "0");
+
+		// 페이지 데이터 불러오기
+		String pageBar = pageFactory.getPage(cPage, numPerpage, service.selectMyApprovalCount(param), "/approval/temporarystorage.do?empId="+empId+"&date="+param.get("old")+"&");
+		List<Approval> approvals = service.selectMyApproval(Map.of("cPage", cPage, "numPerpage", numPerpage), param);
+
+		// 응답 데이터 구성
+		Map<String, Object> response = new HashMap<>();
+		response.put("approvals", approvals);
+		response.put("pageBar", pageBar);
+		response.put("numPerpage", numPerpage);
+		if ("old".equals(date)) {
+			response.put("old", "old");
+		}
+		response.put("old", "old");
+		return ResponseEntity.ok(response);
+	}
+	//반려에 대한 결과 조회
+	@GetMapping("/flaggingback")
+	public ResponseEntity<Map<String, Object>> flaggingback(@RequestParam(defaultValue = "10") int numPerpage,
+			@RequestParam(defaultValue = "1") int cPage,
+			String empId,
+			String date) {
+		Map<String, String> param = new HashMap<>();
+		if ("old".equals(date)) {
+			param.put("old", "old");
+		}
+		param.put("empId", empId);
+		param.put("apvStatus", "1");
+		param.put("apvStrg", "0");
+		
+		// 페이지 데이터 불러오기
+		String pageBar = pageFactory.getPage(cPage, numPerpage, service.selectMyApprovalCount(param), "/approval/temporarystorage.do?empId="+empId+"&date="+param.get("old")+"&");
+		List<Approval> approvals = service.selectMyApproval(Map.of("cPage", cPage, "numPerpage", numPerpage), param);
+		
+		// 응답 데이터 구성
+		Map<String, Object> response = new HashMap<>();
+		response.put("approvals", approvals);
+		response.put("pageBar", pageBar);
+		response.put("numPerpage", numPerpage);
+		if ("old".equals(date)) {
+			response.put("old", "old");
+		}
+		response.put("old", "old");
+		return ResponseEntity.ok(response);
+	}
+	//진행 중에 대한 결과 조회
+	@GetMapping("/flaggingapproval")
+	public ResponseEntity<Map<String, Object>> flaggingApproval(@RequestParam(defaultValue = "10") int numPerpage,
+			@RequestParam(defaultValue = "1") int cPage,
+			String empId,
+			String date) {
+		Map<String, String> param = new HashMap<>();
+		if ("old".equals(date)) {
+			param.put("old", "old");
+		}
+		param.put("empId", empId);
+		param.put("apvStatus", "2");
+		param.put("apvStrg", "0");
+		
+		// 페이지 데이터 불러오기
+		String pageBar = pageFactory.getPage(cPage, numPerpage, service.selectMyApprovalCount(param), "/approval/temporarystorage.do?empId="+empId+"&date="+param.get("old")+"&");
+		List<Approval> approvals = service.selectMyApproval(Map.of("cPage", cPage, "numPerpage", numPerpage), param);
+		
+		// 응답 데이터 구성
+		Map<String, Object> response = new HashMap<>();
+		response.put("approvals", approvals);
+		response.put("pageBar", pageBar);
+		response.put("numPerpage", numPerpage);
+		if ("old".equals(date)) {
+			response.put("old", "old");
+		}
+		response.put("old", "old");
+		return ResponseEntity.ok(response);
+	}
+	//임시 저장에 대한 결과 조회
+	@GetMapping("/temporarystorage")
+	public ResponseEntity<Map<String, Object>> getTemporaryStroage(@RequestParam(defaultValue = "10") int numPerpage,
+			@RequestParam(defaultValue = "1") int cPage,
+			String empId,
+			String date) {
 		Map<String, String> param = new HashMap<>();
 		if ("old".equals(date)) {
 			param.put("old", "old");
