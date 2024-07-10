@@ -1,4 +1,6 @@
+
 $(document).ready(function() {
+	
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -12,11 +14,12 @@ $(document).ready(function() {
         editable: true,
         eventSources: [
             {
-                url: '/schedule/events', // 백엔드에서 이벤트를 가져올 URL
+                url: `${path}/schedule/events`, // 백엔드에서 이벤트를 가져올 URL
                 method: 'GET',
                 failure: function() {
-                    alert('there was an error while fetching events!');
+                    alert('이벤트를 가져오는 중 오류가 발생했습니다!');
                 }
+            
             }
         ],
         height: 'auto',
@@ -27,10 +30,16 @@ $(document).ready(function() {
         },
         dateClick: function(info) {
             $('#addEventModal').modal('show');
-            $('#eventStartDate').val(info.dateStr);
+            $('#schStartDate').val(info.dateStr);
         }
     });
     calendar.render();
+	
+	
+
+
+
+
 
     // 일정 등록 버튼 클릭 이벤트
     $('#addScheduleBtn').on('click', function() {
@@ -41,27 +50,40 @@ $(document).ready(function() {
     $('#eventForm').on('submit', function(e) {
         e.preventDefault();
         var eventData = {
-            title: $('#eventTitle').val(),
-            start: $('#eventStartDate').val() + 'T' + $('#eventStartTime').val(),
-            end: $('#eventEndDate').val() + 'T' + $('#eventEndTime').val(),
-            allDay: $('#eventAllDay').is(':checked'),
-            content: $('#eventContent').val(),
-            location: $('#eventLocation').val(),
-            empId: '1',  // 임시로 고정된 empId, 실제 구현 시 로그인 사용자로 변경 필요
-            ttId: '1'    // 임시로 고정된 ttId, 실제 구현 시 필요에 따라 변경 필요
+            empId: $('#empId').val(),
+            schTitle: $('#schTitle').val(),
+            schContent: $('#schContent').val(),
+            schStart: $('#schStart').val(), 
+            schEnd: $('#schEnd').val(),
+            schType: $('#schType').val(),
+            schColor: $('#schColor').val(),
+            calendarType: $('#calendarType').val()
         };
-
+        alert(eventData);
+        
+        
+        // 날짜와 시간의 유효성 검사 
+        if (new Date(eventData.schStart) > new Date(eventData.schEnd)) {
+            alert('시작 날짜는 종료 날짜보다 빨라야 합니다.');
+            return;
+        }
+        
+        
+        
+        
         $.ajax({
-            url: '/schedule/add',
+            url: `${path}/schedule/addevent.do`, // 서버의 엔드포인트 URL
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(eventData),
+            data: JSON.stringify(eventData), // 데이터를 JSON 문자열로 변환하여 전송
             success: function(response) {
-                calendar.addEvent(response);
-                $('#addEventModal').modal('hide');
-                $('#eventForm')[0].reset();
+                alert('일정이 성공적으로 등록되었습니다.');
+                alert(`${response}`);
+                $('#addEventModal').modal('hide'); // 모달 닫기
+                $('#eventForm')[0].reset(); // 폼 초기화
+                calendar.refetchEvents(); // 캘린더 이벤트 새로고침
             },
-            error: function() {
+            error: function(xhr, status, error) {
                 alert('일정 등록에 실패했습니다.');
             }
         });
@@ -70,9 +92,9 @@ $(document).ready(function() {
     // 종일 체크박스 이벤트
     $('#eventAllDay').on('change', function() {
         if ($(this).is(':checked')) {
-            $('#eventStartTime, #eventEndTime').hide();
+            $('#schStartTime, #schEndTime').hide();
         } else {
-            $('#eventStartTime, #eventEndTime').show();
+            $('#schStartTime, #schEndTime').show();
         }
     });
 

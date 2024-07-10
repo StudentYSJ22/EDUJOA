@@ -1,6 +1,9 @@
 package com.edujoa.ysj.schedule.model.dto;
 
-import java.sql.Date;
+
+
+
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,13 +15,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Schedule {
-	private String schId;
-//	private String ttId;
-	private String empId;
-	private String schTitle;
-	private String schContent;
-	private Date schStart;
-	private Date schEnd;
-	private String schType;
-	private String schColor;
+    private String schId;
+    private String empId;
+    private String schTitle;
+    private String schContent;
+    
+    private LocalDateTime schStart; 
+    private LocalDateTime schEnd; 
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+//    private LocalDateTime schStart;
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+//    private LocalDateTime schEnd;
+    private String schType;
+    private String schColor;
+    private String calendarType;
 }

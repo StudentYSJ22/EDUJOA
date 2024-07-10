@@ -2,19 +2,17 @@ package com.edujoa.ysj.schedule.model.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.edujoa.ysj.schedule.model.dto.Schedule;
 
+import lombok.RequiredArgsConstructor;
+
 @Repository
+@RequiredArgsConstructor
 public class ScheduleDaoImpl implements ScheduleDao {
-
-    private final SqlSession sqlSession;
-
-    public ScheduleDaoImpl(SqlSession sqlSession) {
-        this.sqlSession = sqlSession;
-    }
+    private final SqlSessionTemplate sqlSession;
 
     @Override
     public List<Schedule> selectAllSchedules() {
@@ -22,7 +20,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     @Override
-    public void insertSchedule(Schedule schedule) {
-        sqlSession.insert("schedule.insertSchedule", schedule);
+    public int insertSchedule(Schedule schedule) {
+        return sqlSession.insert("schedule.insertSchedule", schedule);
     }
 }
