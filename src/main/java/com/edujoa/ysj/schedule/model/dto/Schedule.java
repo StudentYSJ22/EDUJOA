@@ -22,10 +22,7 @@ public class Schedule {
     
     private LocalDateTime schStart; 
     private LocalDateTime schEnd; 
-//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-//    private LocalDateTime schStart;
-//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-//    private LocalDateTime schEnd;
+
     private String schType;
     private String schColor;
     private String calendarType;

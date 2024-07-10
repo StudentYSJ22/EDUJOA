@@ -20,6 +20,11 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     @Override
+    public List<Schedule> selectSchedulesByCalendars(List<String> calendars) {
+        return sqlSession.selectList("schedule.selectSchedulesByCalendars", calendars);
+    }
+
+    @Override
     public int insertSchedule(Schedule schedule) {
         return sqlSession.insert("schedule.insertSchedule", schedule);
     }

@@ -136,7 +136,7 @@
 
 <script>
 	const path = '${pageContext.request.contextPath}';
-	alert(path);
+	
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

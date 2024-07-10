@@ -22,7 +22,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public int addSchedule(Schedule schedule) {
+    public List<Schedule> getSchedulesByCalendars(List<String> calendars) {
+        return dao.selectSchedulesByCalendars(calendars);
+    }
+
+    @Override
+    public int insertSchedule(Schedule schedule) {
 		return dao.insertSchedule(schedule);
     }
 }
