@@ -81,7 +81,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="${path}/employee/selectall?empYn=0" class="menu-link">
               <i class="menu-icon tf-icons bx bx-group"></i>
               <div data-i18n="Layouts">조직관리</div>
             </a>
