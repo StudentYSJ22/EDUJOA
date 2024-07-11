@@ -1,7 +1,7 @@
 /* Example custom CSS for color and layout changes */
 
 body {
-  background-color: #f5fff0; /* 배경색 변경 */
+  /* background-color: #f5fff0; */ /* 배경색 변경 */
 }
 
 .layout-menu-fixed .layout-menu {

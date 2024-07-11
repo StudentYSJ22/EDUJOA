@@ -1,57 +1,90 @@
-#sub-sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 250px;
-    z-index: 99;
-    padding: 48px 0 0;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-    background-color: #f8f9fa;
-    overflow-y: auto;
+body, html {
+  height: 100%;
+  margin: 0;
 }
 
-#sub-sidebar .nav-link {
-    padding: 0.5rem 1rem;
-    font-weight: 500;
-    color: #333;
+.container-fluid {
+  height: 100%;
 }
 
-#sub-sidebar .nav-link:hover,
-#sub-sidebar .nav-link.active {
-    color: #007bff;
-    background-color: rgba(0, 123, 255, 0.1);
+.row {
+  height: 100%;
+}
+
+#sidebar {
+  height: 100%;
+  background-color: #f8f9fa;
+  padding: 20px;
+  overflow-y: auto;
 }
 
 main {
-    margin-left: 250px;
-    padding: 20px;
+  height: 100%;
+  padding: 20px;
+}
+
+#calendar {
+  height: calc(100vh - 40px); /* Adjust this value if you have additional margins/paddings */
 }
 
 .fc-day-sat { color: blue; }
 .fc-day-sun { color: red; }
 
 .calendar-section {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .calendar-item {
-    margin-left: 20px;
-}
-
-#calendar {
-    height: 900px;
+  margin-left: 20px;
 }
 
 #addScheduleBtn {
-    width: 100%;
-    margin-bottom: 20px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
-.modal-dialog {
-    max-width: 500px;
+/* 추가된 CSS */
+input[type="checkbox"]:checked + label {
+  color: #4ec14a;
 }
 
-.form-group {
-    margin-bottom: 15px;
+/* 체크박스 스타일 */
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid green;
+    border-radius: 3px;
+    position: relative;
+}
+
+input[type="checkbox"]:checked {
+    background-color: green;
+    border-color: green;
+}
+
+input[type="checkbox"]:checked::after {
+    content: '✔';
+    color: white;
+    font-size: 16px;
+    position: absolute;
+    top: -2px;
+    left: 2px;
+}
+
+/* FullCalendar 버튼 스타일 */
+.fc .fc-button-primary {
+    background-color: green;
+    border-color: green;
+}
+
+.fc .fc-button-primary:hover,
+.fc .fc-button-primary:focus,
+.fc .fc-button-primary.fc-button-active {
+    background-color: darkgreen;
+    border-color: darkgreen;
+}
+
+.fc .fc-button-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 128, 0, 0.25);
 }

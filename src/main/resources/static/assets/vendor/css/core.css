@@ -224,7 +224,7 @@ sup {
 }
 
 a {
-  color: #696cff;
+  color: #00b700;
   text-decoration: none;
 }
 a:hover {
@@ -2458,7 +2458,7 @@ textarea.form-control-lg {
   box-shadow: 0 0 0.25rem 0.05rem rgba(105, 108, 255, 0.1);
 }
 .form-check-input:checked {
-  background-color: rgba(105, 108, 255, 0.08);
+  background-color:  rgb(105, 191, 86);
   border-color: rgba(105, 108, 255, 0.08);
 }
 .form-check-input:checked[type=checkbox] {
@@ -3868,7 +3868,8 @@ textarea.form-control-lg {
 
 .card-body {
   flex: 1 1 auto;
-  padding: 1.5rem 1.5rem;
+  /* padding: 1.5rem 1.5rem; */
+  padding: 4rem 2rem;
 }
 
 .card-title {
@@ -9324,6 +9325,7 @@ button.list-group-item-gray.active {
 
 .justify-content-center {
   justify-content: center !important;
+  margin-right:13px;
 }
 
 .justify-content-between {
@@ -9448,6 +9450,7 @@ button.list-group-item-gray.active {
 
 .m-2 {
   margin: 0.5rem !important;
+  
 }
 
 .m-3 {
@@ -9479,6 +9482,7 @@ button.list-group-item-gray.active {
 .mx-2 {
   margin-right: 0.5rem !important;
   margin-left: 0.5rem !important;
+  color: white;
 }
 
 .mx-3 {
@@ -9574,15 +9578,17 @@ button.list-group-item-gray.active {
 
 .mb-2 {
   margin-bottom: 0.5rem !important;
+  color:white;
 }
 
 .mb-3 {
   margin-bottom: 1rem !important;
 }
 
-.mb-4 {
+/* .mb-4 {
   margin-bottom: 1.5rem !important;
-}
+  color:white;
+} */
 
 .mb-5 {
   margin-bottom: 3rem !important;
@@ -15647,12 +15653,16 @@ html:not(.layout-footer-fixed) .content-wrapper {
   line-height: 1;
   min-height: 1px;
   align-items: center;
+  
 }
 
 .app-brand-link {
   display: flex;
   align-items: center;
+  margin-top: 30px;
 }
+
+
 
 .app-brand-logo {
   display: block;
