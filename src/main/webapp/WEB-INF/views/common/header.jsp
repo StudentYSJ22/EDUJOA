@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="${path}/resources/common/assets/" data-template="vertical-menu-template-free">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
@@ -11,8 +11,8 @@
   <meta name="description" content="" />
 
   <!-- Favicon -->
-  <!-- <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" /> -->
-  <link rel="icon" type="image/x-icon" href="../assets/img/edufavi.png"  />
+  <!-- <link rel="icon" type="image/x-icon" href="${path}/resources/common/assets/img/favicon/favicon.ico" /> -->
+  <link rel="icon" type="image/x-icon" href="${path}/resources/common/assets/img/edufavi.png"  />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,23 +20,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Icons -->
-  <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+  <link rel="stylesheet" href="${path}/resources/common/assets/vendor/fonts/boxicons.css" />
 
   <!-- Core CSS -->
-  <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
-  <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-  <link rel="stylesheet" href="../assets/css/demo.css" />
+  <link rel="stylesheet" href="${path}/resources/common/assets/vendor/css/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="${path}/resources/common/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="${path}/resources/common/assets/css/demo.css" />
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="../assets/css/custom.css" /> <!-- custom.css에 직접 스타일을 추가 -->
+  <link rel="stylesheet" href="${path}/resources/common/assets/css/custom.css" /> <!-- custom.css에 직접 스타일을 추가 -->
 
   <!-- Vendors CSS -->
-  <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-  <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
+  <link rel="stylesheet" href="${path}/resources/common/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="${path}/resources/common/assets/vendor/libs/apex-charts/apex-charts.css" />
 
   <!-- Helpers -->
-  <script src="../assets/vendor/js/helpers.js"></script>
-  <script src="../assets/js/config.js"></script>
+  <script src="${path}/resources/common/assets/vendor/js/helpers.js"></script>
+  <script src="${path}/resources/common/assets/js/config.js"></script>
 </head>
 <body>
   <div class="layout-wrapper layout-content-navbar">
@@ -46,7 +46,7 @@
         <div class="app-brand demo" style="margin-top: 20px;"> <!-- 로고 아래로 이동 -->
           <a href="${path }/login" class="app-brand-link">
             <span class="app-brand-logo demo">
-              <img src="../assets/img/edulogo.png" alt="Logo" width="170" height="70">
+              <img src="${path}/resources/common/assets/img/edulogo.png" alt="Logo" width="170" height="70">
             </span>
             <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">에듀조아</span> -->
           </a>
@@ -129,7 +129,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="${path }/logout.do" class="menu-link">
               <i class="menu-icon tf-icons bx bx-log-out"></i>
               <div data-i18n="Layouts">로그아웃</div>
             </a>

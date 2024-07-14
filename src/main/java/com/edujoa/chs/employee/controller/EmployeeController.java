@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class EmployeeController {
 	private final ChsEmployeeService service;
 	private final PageFactory page;
+	private final PasswordEncoder passwordEncoder;
 	//메일을 처리하기 위한 Service 의존성 주입
 	private final ChsMailService mailService;
 	
@@ -91,6 +92,8 @@ public class EmployeeController {
 	            							.empHireDate(empHireDate)
 	            							.empProfile(originalFileName)
 	            							.empEmail(empEmail)
+	            							.empAccount(originalFileName)
+	            							.empPassword(passwordEncoder.encode("0000"))
 	            							.empAddress(empAddress)
 	            							.build();
 	            String result = service.insertEmployee(employee);
@@ -105,7 +108,7 @@ public class EmployeeController {
 	            }
 	        } catch (IOException e) {
 	            e.printStackTrace();
-	            return "error"; 
+	            return "redirect:/employee/insert";
 	        }
 	        return null;
 	    }

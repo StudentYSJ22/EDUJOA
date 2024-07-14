@@ -32,6 +32,7 @@ public class ChsEmployeeDaoImpl implements ChsEmployeeDao{
 	@Override
 	public String insertEmployee(SqlSession session, Employee employee) {
 		session.insert("employee.insertEmployee",employee);
+		//mapper에서 가져온 시퀀스값
 		String empId = employee.getEmpId();
 		return empId;
 	}

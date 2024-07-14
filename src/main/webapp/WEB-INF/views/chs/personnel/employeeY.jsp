@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <link rel="stylesheet" href="${path }/resources/css/chs/personnel/personnel.css">
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="chs-custom">
@@ -30,7 +31,9 @@
         <div class="chs-tbody">
             <div id="employee-list">
                 <ul class="chs-tbody-header">
-                	<li style="width:5%"><input type="checkbox" id="select-all"></li>
+                	<c:if test="${loginMember.empTitle ==  'J1'}">
+                		<li style="width:5%"><input type="checkbox" id="select-all"></li>
+                	</c:if>
                     <li style="width:15%">이름</li>
                     <li style="width:15%">직책</li>
                     <li style="width:20%">입사 일자</li>
@@ -40,8 +43,10 @@
                 </ul>
                 <c:forEach var="e" items="${employees}">
                     <ul class="chs-tbody-body">
-                    	<li style="width:5%"><input type="checkbox" class="select-row" data-id="${e.empId}"></li>
-                        <li style="width:15%; font-weight:bold">${e.empName }</li>                       
+                	    <c:if test="${loginMember.empTitle ==  'J1'}">
+                    		<li style="width:5%"><input type="checkbox" class="select-row" data-id="${e.empId}"></li>
+                    	</c:if>
+                        <li style="width:15%; font-weight:bold" data-empid="${e.empId }" class="employee-link"><a href="#">${e.empName }</a></li>                       
                         <li style="width:15%">
                         	<c:if test="${e.empTitle == 'J1'}">원장</c:if>
                         	<c:if test="${e.empTitle == 'J2'}">팀장</c:if>
@@ -54,14 +59,71 @@
                     </ul>
                 </c:forEach>
             </div>
-            <div id="page-bar">
+            <div id="page-bar" style="height:60px;">
                 ${pagebar}
             </div>
+            <!-- Modal HTML -->
+				<div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
+				  <div class="modal-dialog modal-lg">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="employeeModalLabel">인사 카드</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      </div>
+				      <div class="modal-body">
+				        <!-- Employee details will be loaded here -->
+				        <div class="card">
+				          <div class="card-body">
+				            <div class="row">
+				              <div class="col-md-3">
+				                <img  alt="Profile Picture" class="img-fluid">
+				              </div>
+				              <div class="col-md-9">
+				                <table class="table table-bordered">
+				                  <tbody>
+				                    <tr>
+				                      <th>사번</th>
+				                      <td id="empId"></td>
+				                      <th>입사일자</th>
+				                      <td id="empHireDate"></td>
+				                    </tr>
+				                    <tr>
+				                      <th>직급</th>
+				                      <td id="empTitle"></td>
+				                      <th>재직 구분</th>
+				                      <td id="empStatus"></td>
+				                    </tr>
+				                    <tr>
+				                      <th>주소</th>
+				                      <td id="empAddress" colspan="3"></td>
+				                    </tr>
+				                    <tr>
+				                      <th>성명(한글)</th>
+				                      <td id="empName"></td>
+				                      <th>개인 메일 주소</th>
+				                      <td id="empEmail" colspan="3"></td>
+				                    </tr>
+				                  </tbody>
+				                </table>
+				              </div>
+				            </div>
+				          </div>
+				        </div>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
         </div>
+        
     </div>
+    
 	</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script>
+	
 	//전체 선택 체크박스 클릭 이벤트
 	$('#select-all').click(function() {
 	    $('.select-row').prop('checked', this.checked);
@@ -123,7 +185,7 @@
 	    	}
 	    	const ul = "<ul class=\"chs-tbody-body\">" +
 	        "<li style=\"width:5%\"><input type=\"checkbox\" class=\"select-row\" data-id=\"" + e.empId + "\"></li>" +
-	        "<li style=\"width:15%; font-weight:bold\">" + e.empName + "</li>" +
+	        "<li style=\"width:15%; font-weight:bold\" data-empid=" + e.empId + " class='employee-link'><a href='#'>" + e.empName + "</a></li>" +
 	        "<li style=\"width:15%\">" + empTitle(e.empTitle) + "</li>" +
 	        "<li style=\"width:20%\">" + e.empHireDate + "</li>" +
 	        "<li style=\"width:20%\">" + e.empEmail + "</li>" +
@@ -213,7 +275,43 @@
 	        error: function(jqXHR, textStatus, errorThrown) {
 	            console.error('Error: ' + textStatus, errorThrown);
 	        }
-	        
 		});
 	}
+	
+	$('.employee-link').on('click', function(e){
+	    e.preventDefault();
+	    var empId = $(this).data('empid');
+	    $.ajax({
+			url:"${path}/rest/employee/selectone",
+			method:'GET',
+			data: {empId, empId},
+	        success: function(response) {
+	            // 응답 데이터 처리
+	            const emp = response;
+	            let title;
+	            switch(emp.empTitle){
+	            case "J1" : title="원장";
+	            case "J2" : title="팀장";
+	            case "J3" : title="매니저";
+	            }
+	            console.log(emp);
+				 $('#empId').text(emp.empId);
+                 $('#empHireDate').text(emp.empHireDate);
+                 $('#empStatus').text(emp.empYn=='0'?'재직':'퇴직');
+                 $('#empTitle').text(title);
+                 $('#empAddress').text(emp.empAddress);
+                 $('#empName').text(emp.empName);
+                 $('#empEmail').text(emp.empEmail);
+                 if(emp.empProfile!=null){
+	                 $('.img-fluid').attr('src', path+"/resources/upload/chs/employee/"+empProfile);
+                 }else{
+	                 $('.img-fluid').attr('src', path+"/resources/upload/chs/employee/user.png");
+                 }
+	        },
+	        error: function(jqXHR, textStatus, errorThrown) {
+	            console.error('Error: ' + textStatus, errorThrown);
+	        }
+		});
+	   $('#employeeModal').modal('show');
+	});
 </script>

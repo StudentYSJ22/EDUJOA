@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!-- 시큐리티에서 가져온 세션값 담기 -->
 <%@ taglib  prefix="c" uri="jakarta.tags.core"%>
+<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <link rel="stylesheet" href="${path }/resources/css/chs/approval/insert_approval.css">
 <script src="${path }/resources/js/jquery-3.7.1.min.js"></script>
@@ -180,7 +182,7 @@
 					<table class="approval-table">
 						<tr>
 							<th>성명</th>
-							<td>${loginMember.empName }</td>
+							<td>${loginMember.empName}</td>
 							<th>직책</th>
 							<td>
 								<c:if test="${loginMember.empTitle == 'J1'}">

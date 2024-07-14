@@ -26,12 +26,17 @@
 	gap:1%;
 }
 .delete-container>button{
-	font-size:13px;
-	font-weight:bold;
-	border:2px solid lightgray;
-	border-radius:6px;
-	background-color:lightgray;
-	box-shadow:0 4px 5px rgba(0,0,0,0.2); 
+	background-color: #dc3545; /* Bootstrap의 위험 색상 */
+    color: white;
+    border: none;
+    padding: 0px 7px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+} 
+.delete-container>button:hover{
+	background-color: #c82333;
 }
 .chs-tbody{
 	width:100%;	
@@ -67,4 +72,18 @@
 	font-weight:500;
 	box-sizing: border-box;
 	border-bottom: 1px solid lightgray;
+}
+
+
+.card-body {
+    padding: 20px;
+}
+.table td, .table th {
+    word-break: break-word; /* 또는 word-break: break-all; */
+    white-space: normal;
+}
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - 1rem);
 }

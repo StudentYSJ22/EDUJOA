@@ -17,7 +17,8 @@ import com.edujoa.chs.employee.model.service.ChsEmployeeService;
 import com.edujoa.with.employee.model.dto.Employee;
 
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/rest/employee")
@@ -50,7 +51,12 @@ public class EmployeeRestController {
 		response.put("numPerpage", numPerpage);
 		return ResponseEntity.ok(response);
 	}
-	
+	@GetMapping("/selectone")
+	public ResponseEntity<Employee> selectOneEmployee(@RequestParam("empId") String empId) {
+		Employee result = service.selectOneEmployee(empId);
+		return ResponseEntity.ok(result);
+		
+	}
 	//직원 삭제
 	@PutMapping("/delete")
 	public ResponseEntity<String> updateEmployee(@RequestBody String[] empIds){

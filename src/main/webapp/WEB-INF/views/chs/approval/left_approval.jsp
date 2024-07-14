@@ -1,5 +1,7 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <link rel="stylesheet" href="${path }/resources/css/chs/approval/left_approval.css">
 		<div class="left-container">
 			<div class='btn-container'>
