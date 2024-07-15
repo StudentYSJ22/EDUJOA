@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <link rel="stylesheet" href="${path }/resources/css/chs/approval/flagging_ing.css">
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="chs-custom">
@@ -60,7 +61,7 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script>
 	function loadApprovals() {
-	    const empId = "${sessionScope.loginMember.empId}"; // 현재 로그인한 사용자의 ID
+	    const empId = "${loginMember.empId}"; // 현재 로그인한 사용자의 ID
 	    const dateOrder = $('#new-old').val();
 	    const rowBounds = $('#rowbounds').val();
 	    const cPage = 1; // 초기 페이지 번호 (필요에 따라 변경 가능)

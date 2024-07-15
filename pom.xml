@@ -100,14 +100,16 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
 	    <groupId>org.glassfish.web</groupId>
 	    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
 	</dependency>
-
-	<dependency>
-	    <groupId>mysql</groupId>
-	    <artifactId>mysql-connector-java</artifactId>
-	    <version>8.0.23</version>
+	 <!-- 2024-07-08 메일 디풴뒈쉬 추가 -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-mail</artifactId>
+    </dependency>
+    <!-- 2024-07-11 시큐리티 추가 -->
+    <dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-security</artifactId>
 	</dependency>
-
-
 </dependencies>
 
 <build>
