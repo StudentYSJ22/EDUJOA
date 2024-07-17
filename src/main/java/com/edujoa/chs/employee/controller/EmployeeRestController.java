@@ -43,7 +43,7 @@ public class EmployeeRestController {
 		}
 		int count = service.selectEmployeeCount(param);
 		List<Employee> employees = service.selectAllEmployee(Map.of("cPage",cPage,"numPerpage",numPerpage),param);
-		String pagebar = page.getPage(cPage, numPerpage, count, "/employee/selectall?");
+		String pagebar = page.getPage(cPage, numPerpage, count, "/employee/selectall?empYn="+empYn+"&");
 		// 응답 데이터 구성
 		Map<String, Object> response = new HashMap<>();
 		response.put("employees", employees);
