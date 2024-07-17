@@ -112,10 +112,10 @@
               <option value="반복 일정">반복 일정</option>
             </select>
           </div>
-          <!-- <div class="form-group">
+        <!--   <div class="form-group">
             <label for="schColor">일정 색깔</label>
             <input type="color" class="form-control" id="schColor">
-          </div> -->
+          </div>  -->
           <div class="form-group">
             <label for="calendarType">캘린더</label>
             <select class="form-control" id="calendarType">
