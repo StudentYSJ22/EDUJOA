@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.edujoa.chs.common.PageFactory;
 import com.edujoa.chs.tutor.model.dto.ClassRoom;
+import com.edujoa.chs.tutor.model.dto.MyClass;
 import com.edujoa.chs.tutor.model.dto.Student;
 import com.edujoa.chs.tutor.model.dto.Subject;
 import com.edujoa.chs.tutor.model.dto.SuperVision;
@@ -196,7 +197,7 @@ public class TutorController {
             							.build();
             int result = service.updateTutor(tutor);
             if(result>0) {
-            	msg="수정 성공하였습니다.\n 해당 이메일로 전송됐습니다.";
+            	msg="수정 성공하였습니다.";
             }else{
             	msg="수정 실패하였습니다.";
             	File delFile=new File(uploadDir + ttProfile.getOriginalFilename());
@@ -231,12 +232,50 @@ public class TutorController {
 				.build();
 		 int result = service.insertStudent(student);
          if(result>0) {
-         	 msg="등록 성공하였습니다.\n 해당 이메일로 전송됐습니다.";
+         	 msg="등록 성공하였습니다.";
          }else{
          	msg="등록 실패하였습니다.";
          }
 		redirectAttributes.addFlashAttribute("msg", msg);
 		return "redirect:/tutor/insertstudent";
+	}
+	
+	//학생 수정 페이지
+	@GetMapping("/updatestudent")
+	public String updateStudent(String stdId, Model model) {
+		Student student = service.selectOneStudent(stdId);
+		List<ClassRoom> classRoom = service.selectClass();
+		model.addAttribute("student",student);
+		model.addAttribute("classRoom",classRoom);
+		return "chs/tutor/updateStudent";
+	}
+	
+	//학생 수정 
+	@PostMapping("/updatestudentend")
+	public String updateStudentEnd(String stdId, String stdName, String stdSchool, String stdPhone,
+									RedirectAttributes redirectAttributes,
+									String stdParentPhone, int stdPayment,String myClass) {
+		Student student = Student.builder()
+									.stdId(stdId)
+									.stdName(stdName)
+									.stdSchool(stdSchool)
+									.stdParentPhone(stdParentPhone)
+									.stdPhone(stdPhone)
+									.stdPayment(stdPayment)
+									.build();
+		int result = service.updateStudent(student);
+		if(result > 0) {
+			if(myClass != null) {
+				result = service.insertMyClass(MyClass.builder()
+														.stdId(stdId)
+														.classId(myClass)
+														.build());
+			}
+		}
+		
+		String msg=result > 0 ? "수정 성공하였습니다." : "수정 실패하였습니다.";
+		redirectAttributes.addFlashAttribute("msg",msg);
+		return "redirect:/tutor/selectallstudent";
 	}
 	
 	//학생 전체 조회
@@ -269,6 +308,7 @@ public class TutorController {
 	    model.addAttribute("count", count);
 	    return "chs/tutor/student";
 	}
+	
 	
 	//강의 등록 창 들어갈 때
 	@GetMapping("/insertclass")

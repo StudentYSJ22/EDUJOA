@@ -55,7 +55,7 @@
                         <li style="width:20%">${std.stdPhone }</li>
                         <li style="width:20%">${std.stdParentPhone }</li>
                         <li style="width:20%">${std.stdYn=='0' ? '재학':'제적' }</li>
-                        <li style="width:10%"><button class="btn btn-sm btn-outline-primary" onclick="updateStudent('${loginMember.empId},${loginMember.empTitle }');">수정</button></li>
+                        <li style="width:10%"><button class="btn btn-sm btn-outline-primary" onclick="updateStudent('${std.stdId}','${loginMember.empTitle }');">수정</button></li>
                     </ul>
                 </c:forEach>
             </div>
@@ -83,7 +83,7 @@
 				                    <tr>
 				                      <th>학생 번호</th>
 				                      <td id="stdId"></td>
-				                      <th>수강중인 반 수</th>
+				                      <th>결제 금액</th>
 				                      <td id="myClass"></td>
 				                    </tr>
 				                    <tr>
@@ -99,6 +99,10 @@
 				                    <tr>
 				                      <th>보호자 전화번호</th>
 				                      <td id="stdParentPhone" colspan="3"></td>
+				                    </tr>
+				                    <tr>
+				                      <th>수강 목록</th>
+				                      <td id="myClassList" colspan="3"></td>
 				                    </tr>
 				                  </tbody>
 				                </table>
@@ -118,9 +122,13 @@
     </div>
     
 	</div>
+	<div id="msg">${msg }</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script>
-	
+	const msg = $("#msg").text();
+	if(msg != null && msg != ''){
+		alert(msg);
+	}
 	//전체 선택 체크박스 클릭 이벤트
 	$('#select-all').click(function() {
 	    $('.select-row').prop('checked', this.checked);
@@ -194,9 +202,11 @@
 		alert(msg);
 	}
 	//수정 버튼 눌렀을 때
-	function updateStudent(empId,empTitle){
+	function updateStudent(stdId,empTitle){
 		if(empTitle != 'J1' && empTitle!="J3"){
 			return alertMsg("권한이 부족합니다.");
+		}else{
+			location.assign("${path}/tutor/updatestudent?stdId="+stdId);
 		}
 	}
 	
@@ -267,19 +277,33 @@
 	$('.std-link').on('click', function(e){
 	    e.preventDefault();
 	    var stdId = $(this).data('stdid');
+	    $('#stdId').text('');
+	    $('#stdName').text('');
+        $('#stdSchool').text('');
+        $('#myClass').text('');
+        $('#stdPhone').text('');
+        $('#stdParentPhone').text('');
 	    $.ajax({
 			url:"${path}/rest/tutor/selectonestudent",
 			method:'GET',
 			data: {stdId, stdId},
 	        success: function(response) {
 	            // 응답 데이터 처리
-	            const st = response;
+	            const myClassList = $('#myClassList');
+	            const st = response.student;
+	            const myClass = response.myClass;
 				 $('#stdId').text(st.stdId);
                  $('#stdName').text(st.stdName);
                  $('#stdSchool').text(st.stdSchool);
-                 $('#myClass').text(st.myClass.length);
                  $('#stdPhone').text(st.stdPhone);
                  $('#stdParentPhone').text(st.stdParentPhone);
+                 $('#myClass').text(st.stdPayment);
+                 myClassList.empty();
+                 for(let i = 0; i< myClass.length; i++){
+                	 if(st.stdId == myClass[i].stdId){
+	                	 myClassList.append('<li>'+myClass[i].classId+"</li>")
+                	 }
+                 }
 	        },
 	        error: function(jqXHR, textStatus, errorThrown) {
 	            console.error('Error: ' + textStatus, errorThrown);

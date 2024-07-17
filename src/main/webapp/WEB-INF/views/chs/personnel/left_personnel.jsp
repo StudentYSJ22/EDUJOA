@@ -17,7 +17,7 @@
 	<p class="tag-bottom" onclick="location.assign(`${path}/tutor/selectallstudent`);">학생 조회</p>
 	<p class="tag-top">강의</p>
 	<p class="tag-bottom" onclick="insertClass('${loginMember.empTitle}')">강의 등록</p>
-	<p class="tag-bottom">강의 조회</p>
+	<!-- <p class="tag-bottom">강의 조회</p> -->
 </div>
 <script>
     // JSTL 변수를 JpvpScript 변수에 할당

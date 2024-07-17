@@ -141,8 +141,13 @@
         
     </div>
 	</div>
+	<div id="msg" style="display:none">${msg }</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script>
+	const msg = $('#msg').text();
+	if(msg!='' && msg != null){
+		alert(msg);	
+	}
 	//전체 선택 체크박스 클릭 이벤트
 	$('#select-all').click(function() {
 	    $('.select-row').prop('checked', this.checked);

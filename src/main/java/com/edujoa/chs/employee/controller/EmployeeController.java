@@ -101,7 +101,7 @@ public class EmployeeController {
 					.build();
 			String result = service.insertEmployee(employee);
 			if(!result.isEmpty()) {
-				msg="등록 성공하였습니다.";
+				msg="등록 성공하였습니다.\n해당 이메일로 전송하였습니다.";
 				mailService.registerUser(empEmail, result);
 			}
 			if(result.isEmpty()) {

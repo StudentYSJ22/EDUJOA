@@ -99,6 +99,11 @@ public class TutorServiceImpl implements TutorService {
 	public int deleteSubject(String subId) {
 		return dao.deleteSubject(session, subId);
 	}
+	//수강 조회
+	@Override
+	public List<MyClass> selectMyClass() {
+		return dao.selectMyClass(session);
+	}
 	//수강 등록
 	@Override
 	public int insertMyClass(MyClass myClass) {

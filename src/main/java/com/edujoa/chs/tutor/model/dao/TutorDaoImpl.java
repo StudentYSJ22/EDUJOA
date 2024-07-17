@@ -104,6 +104,11 @@ public class TutorDaoImpl implements TutorDao {
 	public int deleteSubject(SqlSession session, String subId) {
 		return session.delete("tutor.deleteSubjectd",subId);
 	}
+	//수강 조회
+	@Override
+	public List<MyClass> selectMyClass(SqlSession session) {
+		return session.selectList("tutor.selectMyClass");
+	}
 	//수강 등록
 	@Override
 	public int insertMyClass(SqlSession session, MyClass myClass) {

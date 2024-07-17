@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edujoa.chs.common.PageFactory;
+import com.edujoa.chs.tutor.model.dto.MyClass;
 import com.edujoa.chs.tutor.model.dto.Student;
 import com.edujoa.chs.tutor.model.dto.SuperVision;
 import com.edujoa.chs.tutor.model.dto.Tutor;
@@ -109,9 +110,13 @@ public class TutorRestController {
 	
 	//한 학생만 조회 
 	@GetMapping("selectonestudent")
-	public ResponseEntity<Student> selectOneStudent(@RequestParam String stdId){
+	public ResponseEntity<Map<String,Object>> selectOneStudent(@RequestParam String stdId){
 		Student result = service.selectOneStudent(stdId);
-		return ResponseEntity.ok(result);
+		List<MyClass> myClass = service.selectMyClass();
+		Map<String, Object> response = new HashMap<>();
+		response.put("myClass", myClass);
+		response.put("student", result);
+		return ResponseEntity.ok(response);
 	}
 	//학생 삭제
 	@PutMapping("/deletestudent")
