@@ -28,14 +28,14 @@ public class ChatController {
 		private final LoginEmployeeService service;
 		private final ChattingService chatService;
 	
-		@ResponseBody
-	    @GetMapping("/chatting/employees")
-	    public List<Employee> getEmployees() {
-			Employee loginMember=(Employee)session.getAttribute("loginMember");
-	        String loginId=loginMember.getEmpId();
-			List<Employee> employees = service.getAllEmployees(loginId);
-	        return employees;
-	    }
+//		@ResponseBody
+//	    @GetMapping("/chatting/employees")
+//	    public List<Employee> getEmployees() {
+//			Employee loginMember=(Employee)session.getAttribute("loginMember");
+//	        String loginId=loginMember.getEmpId();
+////			List<Employee> employees = service.getAllEmployees(loginId);
+////	        return employees;
+//	    }
 		@ResponseBody
 		@GetMapping("/chatting/chatrooms")
 		public List<ChatRoom> getRooms() {
@@ -53,8 +53,8 @@ public class ChatController {
 		m.addAttribute("loginMember", loginMember);
 		String loginId=loginMember.getEmpId();
 		//메신저상에서 사내에 모든 인원과 채팅하기 위해 정보 가져옴
-		List<Employee> employees=service.getAllEmployees(loginId);
-		m.addAttribute("employees",employees);
+//		List<Employee> employees=service.getAllEmployees(loginId);
+//		m.addAttribute("employees",employees);
 		//로그인된 id와 일치하는 컬럼값을 가진 채팅방목록 조회
 		List<ChatRoom> chatrooms=chatService.getRooms(loginId);
 		m.addAttribute("chatrooms",chatrooms);
