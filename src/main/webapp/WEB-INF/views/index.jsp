@@ -12,7 +12,6 @@
 		
 		
 		
-		
 		 <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
@@ -38,7 +37,7 @@
                       <div class="col-sm-5 text-center text-sm-left">
                         <div class="card-body pb-0 px-0 px-md-4">
                           <img
-                            src="../assets/img/illustrations/man-with-laptop-light.png"
+                            src="${path}/resources/common/assets/img/illustrations/man-with-laptop-light.png"
                             height="140"
                             alt="View Badge User"
                             data-app-dark-img="illustrations/man-with-laptop-dark.png"
@@ -56,7 +55,7 @@
                           <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="avatar flex-shrink-0">
                               <img
-                                src="../assets/img/icons/unicons/chart-success.png"
+                                src="${path}/resources/common/assets/img/icons/unicons/chart-success.png"
                                 alt="chart success"
                                 class="rounded" />
                             </div>
@@ -88,7 +87,7 @@
                           <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="avatar flex-shrink-0">
                               <img
-                                src="../assets/img/icons/unicons/wallet-info.png"
+                                src="${path}/resources/common/assets/img/icons/unicons/wallet-info.png"
                                 alt="Credit Card"
                                 class="rounded" />
                             </div>
@@ -180,7 +179,7 @@
                         <div class="card-body">
                           <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="avatar flex-shrink-0">
-                              <img src="../assets/img/icons/unicons/paypal.png" alt="Credit Card" class="rounded" />
+                              <img src="${path}/resources/common/assets/img/icons/unicons/paypal.png" alt="Credit Card" class="rounded" />
                             </div>
                             <div class="dropdown">
                               <button
@@ -209,7 +208,7 @@
                         <div class="card-body">
                           <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="avatar flex-shrink-0">
-                              <img src="../assets/img/icons/unicons/cc-primary.png" alt="Credit Card" class="rounded" />
+                              <img src="${path}/resources/common/assets/img/icons/unicons/cc-primary.png" alt="Credit Card" class="rounded" />
                             </div>
                             <div class="dropdown">
                               <button
@@ -378,7 +377,7 @@
                           </button>
                         </li>
                         <li class="nav-item">
-                          <button type="button" class="nav-link" role="tab">Expenses</button>
+                          <button type="button" class="nav-link" role="tab">전자결재 현황</button>
                         </li>
                         <li class="nav-item">
                           <button type="button" class="nav-link" role="tab">Profit</button>
@@ -390,7 +389,7 @@
                         <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
                           <div class="d-flex p-4 pt-3">
                             <div class="avatar flex-shrink-0 me-3">
-                              <img src="../assets/img/icons/unicons/wallet.png" alt="User" />
+                              <img src="${path}/resources/common/assets/img/icons/unicons/wallet.png" alt="User" />
                             </div>
                             <div>
                               <small class="text-muted d-block">Total Balance</small>
@@ -422,10 +421,10 @@
 
                 <!-- Transactions -->
                 <div class="col-md-6 col-lg-4 order-2 mb-4">
-                  <div class="card h-100">
+                <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                      <h5 class="card-title m-0 me-2">Transactions</h5>
-                      <div class="dropdown">
+                      <h5 class="card-title m-0 me-2">받은 메일함</h5>
+                      <!-- <div class="dropdown">
                         <button
                           class="btn p-0"
                           type="button"
@@ -446,7 +445,7 @@
                       <ul class="p-0 m-0">
                         <li class="d-flex mb-4 pb-1">
                           <div class="avatar flex-shrink-0 me-3">
-                            <img src="../assets/img/icons/unicons/paypal.png" alt="User" class="rounded" />
+                            <img src="${path}/resources/common/assets/img/icons/unicons/paypal.png" alt="User" class="rounded" />
                           </div>
                           <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                             <div class="me-2">
@@ -461,7 +460,7 @@
                         </li>
                         <li class="d-flex mb-4 pb-1">
                           <div class="avatar flex-shrink-0 me-3">
-                            <img src="../assets/img/icons/unicons/wallet.png" alt="User" class="rounded" />
+                            <img src="${path}/resources/common/assets/img/icons/unicons/wallet.png" alt="User" class="rounded" />
                           </div>
                           <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                             <div class="me-2">
@@ -476,7 +475,7 @@
                         </li>
                         <li class="d-flex mb-4 pb-1">
                           <div class="avatar flex-shrink-0 me-3">
-                            <img src="../assets/img/icons/unicons/chart.png" alt="User" class="rounded" />
+                            <img src="${path}/resources/common/assets/img/icons/unicons/chart.png" alt="User" class="rounded" />
                           </div>
                           <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                             <div class="me-2">
@@ -491,7 +490,7 @@
                         </li>
                         <li class="d-flex mb-4 pb-1">
                           <div class="avatar flex-shrink-0 me-3">
-                            <img src="../assets/img/icons/unicons/cc-success.png" alt="User" class="rounded" />
+                            <img src="${path}/resources/common/assets/img/icons/unicons/cc-success.png" alt="User" class="rounded" />
                           </div>
                           <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                             <div class="me-2">
@@ -506,7 +505,7 @@
                         </li>
                         <li class="d-flex mb-4 pb-1">
                           <div class="avatar flex-shrink-0 me-3">
-                            <img src="../assets/img/icons/unicons/wallet.png" alt="User" class="rounded" />
+                            <img src="${path}/resources/common/assets/img/icons/unicons/wallet.png" alt="User" class="rounded" />
                           </div>
                           <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                             <div class="me-2">
@@ -521,7 +520,7 @@
                         </li>
                         <li class="d-flex">
                           <div class="avatar flex-shrink-0 me-3">
-                            <img src="../assets/img/icons/unicons/cc-warning.png" alt="User" class="rounded" />
+                            <img src="${path}/resources/common/assets/img/icons/unicons/cc-warning.png" alt="User" class="rounded" />
                           </div>
                           <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                             <div class="me-2">
@@ -536,8 +535,26 @@
                         </li>
                       </ul>
                     </div>
-                  </div>
-                </div>
+                  </div> -->
+            
+            <br>     
+			           <div class="mail-summary">
+			    <div class="mail-info">
+			        <div class="label">제목:</div>
+			        <div class="value">${mail.mailTitle}</div>
+			    </div>
+			    <div class="mail-info">
+			        <div class="label">발신인:</div>
+			        <div class="value">${mail.senderEmail}</div>
+			    </div>
+			    <div class="mail-info">
+			        <div class="label">수신일자:</div>
+			        <div class="value">${mail.mailDate}</div>
+			    </div>
+			</div>
+                  
+                  
+               <!--  </div> -->
                 <!--/ Transactions -->
               </div>
             </div>
@@ -562,22 +579,22 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
 
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="../assets/vendor/libs/popper/popper.js"></script>
-    <script src="../assets/vendor/js/bootstrap.js"></script>
-    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="../assets/vendor/js/menu.js"></script>
+    <script src="${path}/resources/common/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="${path}/resources/common/assets/vendor/libs/popper/popper.js"></script>
+    <script src="${path}/resources/common/assets/vendor/js/bootstrap.js"></script>
+    <script src="${path}/resources/common/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="${path}/resources/common/assets/vendor/js/menu.js"></script>
 
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="${path}/resources/common/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
     <!-- Main JS -->
-    <script src="../assets/js/main.js"></script>
+    <script src="${path}/resources/common/assets/js/main.js"></script>
 
     <!-- Page JS -->
-    <script src="../assets/js/dashboards-analytics.js"></script>
+    <script src="${path}/resources/common/assets/js/dashboards-analytics.js"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>

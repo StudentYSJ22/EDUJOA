@@ -11,7 +11,9 @@ import com.edujoa.chs.tutor.model.dto.ClassRoom;
 import com.edujoa.chs.tutor.model.dto.MyClass;
 import com.edujoa.chs.tutor.model.dto.Student;
 import com.edujoa.chs.tutor.model.dto.Subject;
+import com.edujoa.chs.tutor.model.dto.SuperVision;
 import com.edujoa.chs.tutor.model.dto.Tutor;
+import com.edujoa.with.employee.model.dto.Employee;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +23,22 @@ public class TutorServiceImpl implements TutorService {
 	private final TutorDao dao;
 	private final SqlSession session;
 	
+	//담당 매니저 불러오기
+	@Override
+	public List<SuperVision> selectVision() {
+		return dao.selectVision(session);
+	}
+
+	//매니저 불러오기
+	@Override
+	public List<Employee> selectManager() {
+		return dao.selectManager(session);
+	}
+	//매니저 등록하기
+	@Override
+	public int insertManager(Map<String, String> param) {
+		return dao.insertManager(session,param);
+	}
 	//선생 인원 수 조회      // param으론 이름, 과목으로 조회 가능
 	@Override
 	public int selectTutorCount(Map<String, String> param) {
@@ -38,8 +56,8 @@ public class TutorServiceImpl implements TutorService {
 	}
 	//선생 등록
 	@Override
-	public int insertTutor(Tutor tutor) {
-		return dao.insertTutor(session, tutor);
+	public int insertTutor(Tutor tutor, String empId) {
+		return dao.insertTutor(session, tutor, empId);
 	}
 	//선생 수정
 	@Override
@@ -51,10 +69,20 @@ public class TutorServiceImpl implements TutorService {
 	public int deleteTutor(String ttId) {
 		return dao.deleteTutor(session, ttId);
 	}
+	//반 조회
+	@Override
+	public List<ClassRoom> selectClass() {
+		return dao.selectClass(session);
+	}
 	//반 생성
 	@Override
 	public int insertClass(ClassRoom class_) {
 		return dao.insertClass(session, class_);
+	}
+	//과목 조회
+	@Override
+	public List<Subject> selectSubject() {
+		return dao.selectSubject(session);
 	}
 	//과목 생성
 	@Override
@@ -70,6 +98,11 @@ public class TutorServiceImpl implements TutorService {
 	@Override
 	public int deleteSubject(String subId) {
 		return dao.deleteSubject(session, subId);
+	}
+	//수강 조회
+	@Override
+	public List<MyClass> selectMyClass() {
+		return dao.selectMyClass(session);
 	}
 	//수강 등록
 	@Override

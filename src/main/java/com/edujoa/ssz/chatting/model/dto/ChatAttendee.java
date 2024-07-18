@@ -1,11 +1,9 @@
 package com.edujoa.ssz.chatting.model.dto;
 
-
 import java.util.List;
 
 import com.edujoa.with.employee.model.dto.Employee;
 
-//import com.edujoa.with.employee.model.dto.Employee;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

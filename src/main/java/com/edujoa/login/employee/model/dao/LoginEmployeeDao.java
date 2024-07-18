@@ -1,15 +1,12 @@
 package com.edujoa.login.employee.model.dao;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.edujoa.with.employee.model.dto.Employee;
-
-
+import com.edujoa.chs.logintest.model.dto.LoginTest;
 
 public interface LoginEmployeeDao {
-	Employee selectOneEmp(SqlSession session, Map<String,String>param);
-	List<Employee>getAllEmployees(SqlSession session,String loginId);
+//	LoginEmployee selectOneEmp(SqlSession session, Map<String,String>param);
+	LoginTest selectOneEmp(SqlSession session, Map<String,String>param);
 }

@@ -1,0 +1,262 @@
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.container-fluid {
+  height: 100%;
+}
+
+.row {
+  height: 100%;
+}
+
+#sidebar {
+  height: 100%;
+  background-color: #f8f9fa;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+main {
+  height: 100%;
+  padding: 20px;
+}
+
+#calendar {
+  height: calc(100vh - 40px); /* Adjust this value if you have additional margins/paddings */
+}
+
+.fc-day-sat { color: blue; }
+.fc-day-sun { color: red; }
+
+.calendar-section {
+  margin-bottom: 20px;
+}
+
+.calendar-item {
+  margin-left: 20px;
+}
+
+#addScheduleBtn {
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #46b25b;
+  border-color: #46b25b;
+}
+
+
+
+
+
+/* 체크박스 스타일 */
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #848482;
+    border-radius: 3px;
+    position: relative;
+}
+
+input[type="checkbox"] + label {
+  padding: 5px;
+  border-radius: 3px;
+}
+
+/* input[type="checkbox"]:checked {
+    background-color: #46b25b;
+    border-color: green;
+}
+ */
+input[type="checkbox"]:checked::after {
+    /* content: '✔'; */
+    color: white;
+    font-size: 16px;
+    position: absolute;
+    top: -2px;
+    left: 2px;
+}
+
+
+
+/* FullCalendar 버튼 스타일 */
+.fc .fc-button-primary {
+  background-color: #46b25b;
+  border-color: #46b25b;
+}
+
+.fc .fc-button-primary:hover,
+.fc .fc-button-primary:focus {
+  background-color: darkgreen;
+  border-color: darkgreen;
+}
+
+/* 활성화된 버튼 스타일 (예: month 버튼이 클릭된 상태) */
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background-color: darkgreen !important;
+  border-color: darkgreen !important;
+}
+
+.fc .fc-button-primary:focus {
+  /* box-shadow: 0 0 0 0.1rem rgba(0, 100, 0, 0.5); */
+  box-shadow: 0 0 0 0.1rem #46b25b !important;
+}
+
+/* 일정색깔 출력 */
+#colorPicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.color-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.color-btn.selected {
+   border: 2px solid #000; 
+ /*   border: 3px solid; */
+}
+
+ .fc-event, .fc-event-dot {
+    color: black !important; /* 이벤트 글자를 검정색으로 설정 */
+  }
+
+/* 참여자 슬라이드 */
+.participant-panel {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: #f8f9fa;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  transition: right 0.3s ease-in-out;
+  z-index: 1050;
+}
+
+.participant-panel.open {
+  right: 0;
+}
+
+.participant-list, .selected-participants {
+  height: 40%;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#empList li, #selectedEmpList li {
+  cursor: pointer;
+  padding: 5px;
+  list-style-type: none;
+}
+
+#empList li:hover, #selectedEmpList li:hover {
+  background-color: #e9ecef;
+}
+/* /참여자 슬라이드 */
+
+
+
+
+
+.sharers-slide-panel {
+  position: fixed;
+  right: -100%;
+  top: 0;
+  width: 400px;
+  height: 100%;
+  background-color: #f8f9fa;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right 0.3s ease;
+  z-index: 1050;
+}
+
+.sharers-slide-panel.open {
+  right: 0;
+}
+
+.sharers-slide-content {
+  padding: 20px;
+}
+
+.sharers-left, .sharers-right {
+  width: 100%;
+}
+
+.sharers-left {
+  float: left;
+  width: 60%;
+}
+
+.sharers-right {
+  float: right;
+  width: 40%;
+  padding-left: 10px;
+}
+
+.sharers-tree {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.selected-sharers {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.sharers-slide-content button {
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* 슬라이드 패널 */
+.participant-panel {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    transition: right 0.3s ease-in-out;
+    z-index: 1050;
+}
+
+.participant-panel.open {
+    right: 0;
+}
+
+.participant-list, .selected-participants {
+    height: 40%;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#empList li, #selectedEmpList li {
+    cursor: pointer;
+    padding: 5px;
+    list-style-type: none;
+}
+
+#empList li:hover, #selectedEmpList li:hover {
+    background-color: #e9ecef;
+}
