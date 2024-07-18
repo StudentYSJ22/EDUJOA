@@ -2,10 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="com.edujoa.login.employee.model.dto.LoginEmployee"  %>
-<% LoginEmployee login=(LoginEmployee)session.getAttribute("loginMember");  
-	String empId=login.getEmpId();
-%>
+<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
    <!-- 모든 내용은 밑에있는 div안에만 설정해야함. -->
    <head>
@@ -68,7 +65,7 @@
         <div id="sidebar">
             <div class="profile">
                 <img src="profile.jpg" alt="Profile Picture" style="width: 100%;">
-                <p><%=empId %></p>
+                <p>${loginMember.empId }</p>
                 <p>명지대 정보통신공학과</p>
                 <p>1,768/2,686</p>
             </div>

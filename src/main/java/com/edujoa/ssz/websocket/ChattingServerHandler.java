@@ -28,8 +28,7 @@ public class ChattingServerHandler extends TextWebSocketHandler{
 	private Map<String,WebSocketSession> emps=new HashMap<>();
 	private final ChattingService service;
 	
-	@Autowired
-	private ObjectMapper mapper; //json파싱용 객체
+	private final ObjectMapper mapper; //json파싱용 객체
 
 
 	@Override

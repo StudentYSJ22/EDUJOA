@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!--  <meta http-equiv="Refresh" content="10">-->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.edujoa.with.employee.model.dto.Employee" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-<!--  <% Employee loginMember=(Employee)session.getAttribute("loginMember"); %>-->
 <!--<c:set var="loginMember" value="${sessionScope.loginMember }"/>-->
    <!-- 모든 내용은 밑에있는 div안에만 설정해야함. -->
    <title>사내 메신저</title>
