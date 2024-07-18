@@ -69,7 +69,7 @@
 
           <!-- Other menu items -->
           <li class="menu-item">
-            <a href="${path }/approval/approval.do" class="menu-link">
+            <a href="${path }/approval/insert" class="menu-link">
               <i class="menu-icon tf-icons bx bx-bar-chart-alt"></i>
               <div data-i18n="Layouts">전자결재</div>
             </a>

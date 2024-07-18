@@ -1,6 +1,7 @@
 package com.edujoa.chs.approval.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.edujoa.chs.approval.model.dto.FrequentLine;
 import com.edujoa.chs.approval.model.service.ApprovalService;
 import com.edujoa.chs.common.PageFactory;
 
@@ -20,10 +22,19 @@ import lombok.RequiredArgsConstructor;
 public class ApprovalController {
 	private final ApprovalService service;
 	private final PageFactory pageFactory;
-	@GetMapping("/approval.do")
-	public String approvalHome() {
-		return "chs/approval/insert_approval";
-	}
+	/*
+	 * //결재 등록에 대한 페이지 이동
+	 * 
+	 * @GetMapping("/insert") public String insertApproval(@RequestParam String
+	 * empId, Model model) { List<FrequentLine> frequentLine =
+	 * service.selectAllFrequenLine(empId); List<Employee> employees =
+	 * service.selectAllApprvoalLine(empId);
+	 * model.addAttribute("frequentLine",frequentLine);
+	 * model.addAttribute("employees",employees); return
+	 * "chs/approval/insert_approval"; }
+	 */
+	
+	//기안함 진행중에 대한 로직
 	@GetMapping("/flagginging.do")
 	public String flaggingIng(@RequestParam(defaultValue = "10") int numPerpage,
 							  @RequestParam(defaultValue = "1") int cPage,
