@@ -1,18 +1,21 @@
 package com.edujoa.ssz.chatting.model.dto;
 
+import java.util.List;
+
 import com.edujoa.with.employee.model.dto.Employee;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ChatAttendee {
 	private String roomId;
-	private Employee employee;
-	private String empName;
+	private String empId;
+	private List<Employee> employee;
 }

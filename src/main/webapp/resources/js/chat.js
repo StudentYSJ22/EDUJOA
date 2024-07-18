@@ -17,7 +17,7 @@ function connect(event) {
 }
 
 function onConnected() {
-    stompClient.subscribe('/topic/public', onMessageReceived);
+    stompClient.subscribe('/topic/public'+roomId, onMessageReceived);
 
     stompClient.send("/app/chat.addUser",
         {},
@@ -36,7 +36,8 @@ function sendMessage(event) {
         var chatMessage = {
             messageType: 'TALK',
             empName: username,
-            chatContent: messageContent
+            chatContent: messageContent,
+            roomId: roomId
         };
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         document.querySelector('#chatMessage').value = '';

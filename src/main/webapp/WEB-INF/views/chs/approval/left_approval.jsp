@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="${path }/resources/css/chs/approval/left_approval.css">
 		<div class="left-container">
 			<div class='btn-container'>
-				<button onclick="location.assign('${path }/approval/approval.do');">기안서 작성</button>
+				<button onclick="location.assign('${path }/approval/insert');">기안서 작성</button>
 			</div>
 			<div class="request-container">
 				<div>

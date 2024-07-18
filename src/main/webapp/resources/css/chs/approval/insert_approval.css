@@ -216,12 +216,14 @@
             border: 1px solid rgb(180, 179, 179);
             margin-bottom: 10%;
             font-size: 14px;
+            overflow-y:auto;
         }
         .select-refer {
             width: 100%;
             height: 40%;
             border: 1px solid rgb(180, 179, 179);
             font-size: 14px;
+            overflow-y:auto;
         }
         .select-approval-p, .select-refer-p {
             font-size: 16px;
