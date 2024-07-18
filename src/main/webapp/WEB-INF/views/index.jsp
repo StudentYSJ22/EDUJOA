@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="${path }/resources/css/khj/index_hj.css">
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<!-- 모든 내용은 밑에있는 div안에만 설정해야함. -->
+	${sessionScope.loginMember }
+	
 	<div class="container-xxl flex-grow-1 container-p-y">
 	
 		

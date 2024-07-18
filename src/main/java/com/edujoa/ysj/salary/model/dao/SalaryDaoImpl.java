@@ -9,14 +9,31 @@ import com.edujoa.with.employee.model.dto.Employee;
 
 @Repository
 public class SalaryDaoImpl implements SalaryDao {
-    private final SqlSession sqlSession;
+   
 
-    public SalaryDaoImpl(SqlSession sqlSession) {
-        this.sqlSession = sqlSession;
+    
+
+   
+    public List<Employee> selectAllSalary(SqlSession session ) {
+        return session.selectList("salary.selectAllSalary");
     }
 
-    @Override
-    public List<Employee> selectAllSalary() {
-        return sqlSession.selectList("salary.selectAllSalary");
-    }
+	public Employee getEmpUsername(SqlSession session , String userName) {
+		
+		return session.selectOne("salary.getEmpUserName");
+	}
+
+	    @Override
+	    public List<Employee> getAllSalary(SqlSession session) {
+	        return session.selectList("salary.getAllSalary");
+	    }
+	    
+	    //삭제해야함 
+		@Override
+		public Employee getEmpUsername(String username) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+	
 }
