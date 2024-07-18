@@ -31,6 +31,7 @@ public class Employee {
 	private String empBank;
 	private String empAccount;
 	private String oriname;
+	private Date empRetireDate;
 	private List<Alarm> alarm;
 	
 }
