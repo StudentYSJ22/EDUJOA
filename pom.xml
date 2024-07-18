@@ -52,80 +52,80 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
 <artifactId>mybatis-spring-boot-starter</artifactId>
 <version>3.0.3</version>
 </dependency>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-devtools</artifactId>
-		<scope>runtime</scope>
-		<optional>true</optional>
-	</dependency>
-	<dependency>
-		<groupId>com.oracle.database.jdbc</groupId>
-		<artifactId>ojdbc11</artifactId>
-		<scope>runtime</scope>
-	</dependency>
-	<dependency>
-		<groupId>org.projectlombok</groupId>
-		<artifactId>lombok</artifactId>
-		<optional>true</optional>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-tomcat</artifactId>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-test</artifactId>
-		<scope>test</scope>
-	</dependency>
-	<dependency>
-		<groupId>org.mybatis.spring.boot</groupId>
-		<artifactId>mybatis-spring-boot-starter-test</artifactId>
-		<version>3.0.3</version>
-		<scope>test</scope>
-	</dependency>
+   <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+   </dependency>
+   <dependency>
+      <groupId>com.oracle.database.jdbc</groupId>
+      <artifactId>ojdbc11</artifactId>
+      <scope>runtime</scope>
+   </dependency>
+   <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+   </dependency>
+   <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <scope>provided</scope>
+   </dependency>
+   <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+   </dependency>
+   <dependency>
+      <groupId>org.mybatis.spring.boot</groupId>
+      <artifactId>mybatis-spring-boot-starter-test</artifactId>
+      <version>3.0.3</version>
+      <scope>test</scope>
+   </dependency>
 
-	 <!-- <https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper> -->
-	<dependency>
-	    <groupId>org.apache.tomcat.embed</groupId>
-	    <artifactId>tomcat-embed-jasper</artifactId>
-	</dependency>
-	<!-- <https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api> -->
-	<dependency>
-	    <groupId>jakarta.servlet.jsp.jstl</groupId>
-	    <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-	</dependency>
-	<!-- <https://mvnrepository.com/artifact/org.glassfish.web/jakarta.servlet.jsp.jstl> -->
-	<dependency>
-	    <groupId>org.glassfish.web</groupId>
-	    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-	</dependency>
-	 <!-- 2024-07-08 메일 디풴뒈쉬 추가 -->
+    <!-- <https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper> -->
+   <dependency>
+       <groupId>org.apache.tomcat.embed</groupId>
+       <artifactId>tomcat-embed-jasper</artifactId>
+   </dependency>
+   <!-- <https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api> -->
+   <dependency>
+       <groupId>jakarta.servlet.jsp.jstl</groupId>
+       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+   </dependency>
+   <!-- <https://mvnrepository.com/artifact/org.glassfish.web/jakarta.servlet.jsp.jstl> -->
+   <dependency>
+       <groupId>org.glassfish.web</groupId>
+       <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+   </dependency>
+    <!-- 2024-07-08 메일 디풴뒈쉬 추가 -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-mail</artifactId>
     </dependency>
     <!-- 2024-07-11 시큐리티 추가 -->
     <dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-security</artifactId>
-	</dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+   </dependency>
 </dependencies>
 
 <build>
-	<plugins>
-		<plugin>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-maven-plugin</artifactId>
-			<configuration>
-				<excludes>
-					<exclude>
-						<groupId>org.projectlombok</groupId>
-						<artifactId>lombok</artifactId>
-					</exclude>
-				</excludes>
-			</configuration>
-		</plugin>
-	</plugins>
+   <plugins>
+      <plugin>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-maven-plugin</artifactId>
+         <configuration>
+            <excludes>
+               <exclude>
+                  <groupId>org.projectlombok</groupId>
+                  <artifactId>lombok</artifactId>
+               </exclude>
+            </excludes>
+         </configuration>
+      </plugin>
+   </plugins>
 </build>
 </project>
