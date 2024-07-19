@@ -1,7 +1,6 @@
 package com.edujoa.ssz.chatting.model.dto;
 
-import java.sql.Date;
-
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.edujoa.with.employee.model.dto.Employee;
@@ -16,15 +15,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ChatRecord {
-	// 메시지  타입 : 입장, 채팅
-    public enum MessageType{
-        ENTER, TALK
-    }
-	private MessageType messageType;
 	private String roomId;
-	private Employee employee;
-	private String empName;
-	private Date chatTime;
-	private String chatContent;
-	private List<ChatAttachment> attachments;
+	private String empId;
+	private String content;
+	private LocalDateTime chatTime;
+	private List<Employee> employee;
 }

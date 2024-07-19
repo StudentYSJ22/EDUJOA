@@ -17,14 +17,7 @@
 					<button class="modal-close" onclick="modal_close();">x</button>
 				</div>
 				<div class="approval-line-select" style="padding: 0 2%">
-<!-- 					<div class="search-radio">
-						<label for="name-radio"><input type="radio" name="select-radio" id="name-radio" checked><span>이름</span></label>
-						<label for="job-radio"><input type="radio" name="select-radio" id="job-radio"><span>직급</span></label>
-					</div>
-					<div class="search-text">
-						<input type="text"><img src="https://cdn-icons-png.flaticon.com/512/71/71403.png">
-					</div>
- -->					<div class="search-approval-line">
+					<div class="search-approval-line">
 						<select>
 							<option value="" disabled selected>자주쓰는 결재라인</option>
 						</select>
@@ -314,10 +307,6 @@
                 }
                 
                 
-                function applyApprovalLine(){
-                	
-                	
-                }
               </script>
 			</div>
 		</div>

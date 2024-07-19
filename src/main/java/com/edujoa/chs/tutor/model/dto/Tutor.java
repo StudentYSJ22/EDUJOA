@@ -21,7 +21,7 @@ public class Tutor {
 	private String ttProfile;
 	private String ttYn;
 	private int ttSalary;
-	private int ttAnnual;
+	private int ttAnnualSal;
 	private ClassRoom class_;
 	private Subject subject;
 }

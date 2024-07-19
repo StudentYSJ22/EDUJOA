@@ -1,0 +1,45 @@
+!SESSION 2024-07-09 16:18:04.167 -----------------------------------------------
+eclipse.buildId=4.22.1.202405011620
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Framework arguments:  -product org.springframework.boot.ide.branding.sts4
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.springframework.boot.ide.branding.sts4
+
+!ENTRY org.eclipse.emf.ecore 2 0 2024-07-09 16:18:08.182
+!MESSAGE Both 'org.eclipse.jst.j2ee.core' and 'org.eclipse.jst.j2ee.core' register a package for 'application.xmi'
+
+!ENTRY ch.qos.logback.classic 1 0 2024-07-09 16:18:08.554
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2024-07-09 16:18:27.165
+!MESSAGE Logback config file: C:\Users\hy802\git\EDUJOA\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.0.20240217-1525.xml
+
+!ENTRY org.eclipse.ui 2 0 2024-07-09 16:18:27.840
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-09 16:18:27.840
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2024-07-09 16:18:28.266
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-09 16:18:28.266
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.egit.ui 2 0 2024-07-09 16:18:34.472
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\hy802'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.ui 2 2 2024-07-09 16:18:34.784
+!MESSAGE Invalid preference category path: org.jkiss.dbeaver.preferences.main (bundle: org.jkiss.dbeaver.core, page: org.jkiss.dbeaver.preferences.main.toolbar.customization)
+
+!ENTRY org.eclipse.ui 2 2 2024-07-09 16:18:34.786
+!MESSAGE Invalid preference category path: org.jkiss.dbeaver.preferences.main (bundle: org.jkiss.dbeaver.core, page: org.jkiss.dbeaver.preferences.accessibility)
+
+!ENTRY org.eclipse.ui 2 2 2024-07-09 16:18:34.787
+!MESSAGE Invalid preference category path: org.jkiss.dbeaver.preferences.main (bundle: org.jkiss.dbeaver.ui.app.eclipse, page: org.jkiss.dbeaver.preferences.main.notifications)
+
+!ENTRY org.eclipse.ui 2 2 2024-07-09 16:18:34.788
+!MESSAGE Invalid preference category path: org.jkiss.dbeaver.preferences.main (bundle: org.jkiss.dbeaver.ui.app.eclipse, page: org.jkiss.dbeaver.preferences.main.misc)

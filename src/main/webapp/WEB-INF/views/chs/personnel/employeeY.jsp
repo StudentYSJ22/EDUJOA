@@ -55,7 +55,7 @@
                         <li style="width:20%">${e.empHireDate }</li>
                         <li style="width:20%">${e.empEmail }</li>
                         <li style="width:20%">${e.empAddress }</li>
-                        <li style="width:10%"><button class="btn btn-sm btn-outline-primary" onclick="updateEmployee('${loginMember.empId},${loginMember.empTitle }');">수정</button></li>
+                        <li style="width:10%"><button class="btn btn-sm btn-outline-primary" onclick="updateEmployee('${e.empId}','${loginMember.empTitle }');">수정</button></li>
                     </ul>
                 </c:forEach>
             </div>
@@ -211,6 +211,8 @@
 	function updateEmployee(empId,empTitle){
 		if(empTitle != 'J1'){
 			return alertMsg("권한이 부족합니다.");
+		}else{
+			location.assign("${path}/employee/updateemployee?empId="+empId);
 		}
 	}
 	
@@ -280,6 +282,15 @@
 	
 	$('.employee-link').on('click', function(e){
 	    e.preventDefault();
+		 // 기존 값 비우기
+	    $('#empId').text('');
+	    $('#empHireDate').text('');
+	    $('#empStatus').text('');
+	    $('#empTitle').text('');
+	    $('#empAddress').text('');
+	    $('#empName').text('');
+	    $('#empEmail').text('');
+	    $('.img-fluid').attr('src', ''); // 이미지 src 초기화
 	    var empId = $(this).data('empid');
 	    $.ajax({
 			url:"${path}/rest/employee/selectone",
@@ -290,9 +301,9 @@
 	            const emp = response;
 	            let title;
 	            switch(emp.empTitle){
-	            case "J1" : title="원장";
-	            case "J2" : title="팀장";
-	            case "J3" : title="매니저";
+	            case "J1" : title="원장"; break;
+	            case "J2" : title="팀장"; break;
+	            case "J3" : title="매니저"; break;
 	            }
 	            console.log(emp);
 				 $('#empId').text(emp.empId);
@@ -302,8 +313,8 @@
                  $('#empAddress').text(emp.empAddress);
                  $('#empName').text(emp.empName);
                  $('#empEmail').text(emp.empEmail);
-                 if(emp.empProfile!=null){
-	                 $('.img-fluid').attr('src', path+"/resources/upload/chs/employee/"+empProfile);
+                 if(emp.empProfile!=''){
+	                 $('.img-fluid').attr('src', "${path}/resources/upload/chs/employee/"+emp.empProfile);
                  }else{
 	                 $('.img-fluid').attr('src', path+"/resources/upload/chs/employee/user.png");
                  }

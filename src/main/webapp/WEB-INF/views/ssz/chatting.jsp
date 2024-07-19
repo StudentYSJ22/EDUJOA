@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <!DOCTYPE html>
 <html>
@@ -18,7 +19,6 @@
             border-right: 1px solid #dee2e6;
             overflow-y: auto;
             margin-top:50px;
-            
         }
         .employee-list {
             width: 15%;
@@ -60,33 +60,38 @@
     <div class="messenger-container">
         <!-- 직원 목록 -->
         <div class="employee-list">
-            <h4>직원 목록</h4>
+            <h5>직원 목록</h5>
             <c:forEach items="${employees}" var="employee">
                 <div class="employee-item" data-emp-id="${employee.empId}">
-                    <strong>${employee.empName}</strong> - ${employee.empTitle}
+                    <a href="javascript:void(0);" onclick="openChatRoom('${employee.empName}','${employee.empId}');" style="color: black;">${employee.empName} - ${employee.empTitle}</a>
                 </div>
             </c:forEach>
         </div>
 
         <!-- 채팅방 목록 -->
-        <div class="chat-rooms">
-            <h4>채팅방 목록</h4>
-            <c:forEach items="${chatRooms}" var="room">
-                <div class="chat-room-item" data-room-id="${room.roomId}">
-                    ${room.roomName}
+        <div class="chat-rooms" id="chatRooms">
+            <h5>채팅방 목록</h5>
+            <c:forEach items="${chatrooms}" var="room">
+                <div class="chat-room-item" id="chat-room-item">
+                <!--여기는 로그인한 empId랑 roomId 일치하는 거 있는지 체크 후 없으면 생성 있으면 불러오기  -->
+                    ${room}
                 </div>
             </c:forEach>
         </div>
 
         <!-- 채팅 창 -->
         <div class="chat-window">
-            <h4>1:1 채팅</h4>
+            <h5>채팅</h5>
             <div class="chat-messages" id="chatMessages">
                 <!-- 메시지들이 여기에 동적으로 추가됩니다 -->
             </div>
             <div class="chat-input">
                 <input type="text" id="messageInput" class="form-control" placeholder="메시지를 입력하세요...">
                 <button class="btn btn-primary" onclick="sendMessage()">전송</button>
+            </div>
+            <div class="chat-input">
+                <input type="file" id="fileInput" class="form-control-file">
+                <button class="btn btn-secondary" onclick="sendFile()">파일 전송</button>
             </div>
         </div>
     </div>
@@ -97,13 +102,17 @@
     <script>
         let stompClient = null;
         let selectedRoom = null;
+        let empName = null;
+        let empId = null;
 
         function connect() {
             let socket = new SockJS('/chat');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 console.log('Connected: ' + frame);
-                // 연결 후 로직
+                stompClient.subscribe('/topic/public', function(messageOutput) {
+                    showMessage(JSON.parse(messageOutput.body));
+                });
             });
         }
 
@@ -111,13 +120,56 @@
             let messageContent = $("#messageInput").val().trim();
             if(messageContent && selectedRoom) {
                 let chatMessage = {
-                    roomId: selectedRoom,
-                    empName: '${currentEmployee.empName}',  // 현재 로그인한 직원 이름
+                    empName: '${loginMember.empName}',  // 현재 로그인한 직원 이름
                     chatContent: messageContent,
-                    messageType: 'TALK'
+                    messageType: 'TALK',
+                    roomId: selectedRoom
                 };
                 stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
                 $("#messageInput").val('');
+            }
+        }
+
+        function sendFile() {
+            let file = $("#fileInput")[0].files[0];
+            if (file && selectedRoom) {
+                let formData = new FormData();
+                formData.append("file", file);
+
+                $.ajax({
+                    url: "/uploadFile",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(fileUrl) {
+                        let chatMessage = {
+                            empName: '${loginMember.empName}',
+                            chatContent: messageContent,
+                            messageType: 'TALK',
+                            roomId: selectedRoom
+                        };
+                        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+                    },
+                    error: function() {
+                        alert("파일 업로드 실패");
+                    }
+                });
+            }
+        }
+
+        function showMessage(message) {
+            if (message.messageType === 'TALK' || message.messageType === 'FILE') {
+                let content = message.messageType === 'TALK' ? message.chatContent : `<a href="${message.chatContent}" target="_blank">파일 다운로드</a>`;
+                $("#chatMessages").append(`<div><strong>${message.empName}:</strong> ${content}</div>`);
+            }
+        }
+        function openChatRoom(empName, empId) {
+        	// 기존 채팅방 목록에 동일한 아이디의 채팅방이 있는지 확인
+            if ($(`.chat-room-item[data-room-id='${room.empId}']`).length === 0) {
+            // 채팅방 목록에 추가
+            let roomElement = `<div class="chat-room-item" data-room-id="${room.empId}">${room.empName}</div>`;
+            $("#chatRooms").append(roomElement);
             }
         }
 
@@ -125,17 +177,18 @@
             connect();
 
             $(".employee-item").click(function() {
-                let empId = $(this).data('emp-id');
-                // 1:1 채팅방 생성 또는 기존 채팅방 열기 로직
+                let empId = $(this).data("emp-id");
+                selectedRoom = empId; // 단일 사용자와 채팅하는 경우
+                $("#chatMessages").empty(); // 새로운 대화를 위해 메시지 초기화
+                openChatRoom($(this).text(), empId);
             });
 
             $(".chat-room-item").click(function() {
-                selectedRoom = $(this).data('room-id');
-                // 채팅방 열기 로직
+                let roomId = $(this).data("room-id");
+                selectedRoom = roomId; // 그룹 채팅방 선택
+                $("#chatMessages").empty(); // 새로운 대화를 위해 메시지 초기화
             });
         });
     </script>
 </body>
-   <div class="container-xxl flex-grow-1 container-p-y">
-   </div>
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+</html>

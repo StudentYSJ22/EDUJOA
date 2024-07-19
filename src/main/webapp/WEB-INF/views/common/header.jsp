@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="${path}/resources/common/assets/" data-template="vertical-menu-template-free">
 <head>
   <meta charset="utf-8" />
@@ -69,7 +70,7 @@
 
           <!-- Other menu items -->
           <li class="menu-item">
-            <a href="${path }/approval/approval.do" class="menu-link">
+            <a href="${path }/approval/insert" class="menu-link">
               <i class="menu-icon tf-icons bx bx-bar-chart-alt"></i>
               <div data-i18n="Layouts">전자결재</div>
             </a>
@@ -111,7 +112,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="${path }/chatting/chattestview?empId=${loginMember.empId}" class="menu-link">
               <i class="menu-icon tf-icons bx bx-chat"></i>
               <div data-i18n="Layouts">메신저</div>
             </a>
