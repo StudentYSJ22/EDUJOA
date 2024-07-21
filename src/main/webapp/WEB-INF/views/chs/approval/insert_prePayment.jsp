@@ -95,7 +95,7 @@
 				<form class="container" onsubmit="" enctype="multipart/form-data">
         <!-- 폼 필드 추가 -->
         <input type="hidden" name="empId" value="${loginMember.empId}">
-        <input type="hidden" name="apvType" value="2">
+        <input type="hidden" name="apvType" value="1">
         <input type="hidden" name="apvStatus" value="0">
         <input type="hidden" name="apvStrg" value="0">
         <input type="hidden" name="carbonCopy" id="carbonCopy" value="0">
@@ -103,7 +103,7 @@
         <input type="hidden" name="apvStrg" value="0">
         <input type="hidden" id="approval-field">
         <input type="hidden" id="refer-field">
-        <div class="header">지 출 결 의 서</div>
+        <div class="header">품 의 서</div>
         <table class="approval-table">
             <tr>
                 <th class="apporval-th" rowspan="3">결재</th>
@@ -144,7 +144,7 @@
                 </td>
             </tr>
             <tr>
-                <th>지출금액</th>
+                <th>예상 지출금액</th>
                 <td colspan="5" id="totalAmount">0</td>
             </tr>
             <tr>
@@ -160,7 +160,7 @@
                 <td id="input-td" colspan="5"><input type="text" name="apvCase" required></td>
             </tr>
             <tr>
-                <th>지출 날짜</th>
+                <th>예상 지출 날짜</th>
                 <td id="input-td" colspan="5"><input type="date" name="payDate" required></td>
             </tr>
             <tr>

@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class AfterPayment {
 	private String apvId;
 	private String payCase;
-	private String payAmount;
+	private Integer payAmount;
 	private Date payDate;
 }

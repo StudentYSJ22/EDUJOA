@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <!--  <meta http-equiv="Refresh" content="10">-->
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
+<c:set var ="loginmember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
