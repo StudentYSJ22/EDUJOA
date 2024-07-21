@@ -32,26 +32,7 @@ public class ScheduleController {
         }
     }
     @PostMapping("/addevent.do")
-    @ResponseBody
-//    public ResponseEntity insertSchedule(@RequestBody Schedule schedule) {
-//        int result = service.insertSchedule(schedule);
-//        String msg = result > 0 ? "success" : "failed";
-//        return ResponseEntity.ok(msg);
-//    }
-    
-    //
-//    public ResponseEntity insertSchedule(@RequestBody Schedule schedule) {
-//        try {
-//            int result = service.insertSchedule(schedule);
-//            String msg = result > 0 ? "success" : "failed";
-//            return ResponseEntity.ok(msg);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-//        }
-//    }
-//    
-    
+    @ResponseBody  
     public ResponseEntity insertSchedule(@RequestBody Schedule schedule) {
         schedule.setSchId(null); // schId를 null로 설정 -> 시퀀스가
         int result = service.insertSchedule(schedule);

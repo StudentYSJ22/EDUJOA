@@ -1,612 +1,172 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <link rel="stylesheet" href="${path }/resources/css/khj/index_hj.css">
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<!-- 모든 내용은 밑에있는 div안에만 설정해야함. -->
-	${sessionScope.loginMember }
+	<!-- <body>안내용만. 모든 내용은 밑에있는 div안에만 설정해야함. -->
 	
-	<div class="container-xxl flex-grow-1 container-p-y">
-	
-		
-		
-		
-		
-		 <!-- Content wrapper -->
-          <div class="content-wrapper">
-            <!-- Content -->
-
-            <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row">
-                <div class="col-lg-8 mb-4 order-0">
-                  <div class="card">
-                    <div class="d-flex align-items-end row">
-                      <div class="col-sm-7">
-                        <div class="card-body">
-                         <!--  <h5 class="card-title text-primary">히히 🎉</h5> -->
-                          <!-- <p class="mb-4">
-                            히히 <span class="fw-medium">히히</span> 히히
-                          </p> -->
-                           <p class="mb-4">
-                            히히 <span class="test1">히히</span> 히히
-                          </p>
-
-                          <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
+  <div class="main">
+        <div class="first-container">
+            <div class="first">
+                <div class="mini-container">
+                    <div class="mini-first-container">
+                        <div class="emp-info-container">
+                            <div class="emp-pic"></div>
+                            <div class="emp-info" style="color: rgb(145, 145, 145); font-size: 15px;">(DB)교육운영팀</div>
+                            <div class="emp-info" style="color: rgb(145, 145, 145); font-size: 12px;">(DB)매니저</div>
+                            <div class="emp-info" style="font-size: 20px; color: black;"><b>(DB)유병승</b></div>
                         </div>
-                      </div>
-                      <div class="col-sm-5 text-center text-sm-left">
-                        <div class="card-body pb-0 px-0 px-md-4">
-                          <img
-                            src="${path}/resources/common/assets/img/illustrations/man-with-laptop-light.png"
-                            height="140"
-                            alt="View Badge User"
-                            data-app-dark-img="illustrations/man-with-laptop-dark.png"
-                            data-app-light-img="illustrations/man-with-laptop-light.png" />
-                        </div>
-                      </div>
                     </div>
-                  </div>
+                    <div class="mini-second-container">
+                        <div class="attendance-title" style="font-size: 20px; color:black;"><b>근태관리</b></div>
+                        <div class="attendance-systime" style="color: #7f7f7f;">2024년 7월 19일(목)12:42</div>
+                        <div class="time-office-container">
+                            <div class="time">
+                                <div class="time-title">출근시간</div>
+                                <div class="time-info"><b>(DB)00:00:00</b></div>
+                            </div>
+                            <div class="time">
+                                <div class="time-title">퇴근시간</div>
+                                <div class="time-info"><b>(DB)00:00:00</b></div>
+                            </div>
+                        </div>
+                        <div class="time-btn-container">
+                            <div><button class="attn-btn"><b>출근하기</b></button></div>
+                            <div><button class="attn-btn"><b>퇴근하기</b></button></div>
+                        </div>
+                        <div class="time-btn-go"><button class="attn-btn-go"><b>+ 근태관리 바로가기</b></button></div>
+                    </div>
                 </div>
-                <div class="col-lg-4 col-md-4 order-1">
-                  <div class="row">
-                    <div class="col-lg-6 col-md-12 col-6 mb-4">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="card-title d-flex align-items-start justify-content-between">
-                            <div class="avatar flex-shrink-0">
-                              <img
-                                src="${path}/resources/common/assets/img/icons/unicons/chart-success.png"
-                                alt="chart success"
-                                class="rounded" />
-                            </div>
-                            <div class="dropdown">
-                              <button
-                                class="btn p-0"
-                                type="button"
-                                id="cardOpt3"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                                <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                              </div>
-                            </div>
-                          </div>
-                          <span class="fw-medium d-block mb-1">히히</span>
-                          <h3 class="card-title mb-2">히히</h3>
-                          <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> 히히</small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12 col-6 mb-4">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="card-title d-flex align-items-start justify-content-between">
-                            <div class="avatar flex-shrink-0">
-                              <img
-                                src="${path}/resources/common/assets/img/icons/unicons/wallet-info.png"
-                                alt="Credit Card"
-                                class="rounded" />
-                            </div>
-                            <div class="dropdown">
-                              <button
-                                class="btn p-0"
-                                type="button"
-                                id="cardOpt6"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                                <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                                <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                              </div>
-                            </div>
-                          </div>
-                          <span>히히</span>
-                          <h3 class="card-title text-nowrap mb-1">$히히</h3>
-                          <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +히히</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Total Revenue -->
-                <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
-                  <div class="card">
-                    <div class="row row-bordered g-0">
-                      <div class="col-md-8">
-                        <h5 class="card-header m-0 me-2 pb-3">히히</h5>
-                        <div id="totalRevenueChart" class="px-2"></div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="card-body">
-                          <div class="text-center">
-                            <div class="dropdown">
-                              <button
-                                class="btn btn-sm btn-outline-primary dropdown-toggle"
-                                type="button"
-                                id="growthReportId"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                히히
-                              </button>
-                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">
-                                <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                                <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                                <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div id="growthChart"></div>
-                        <div class="text-center fw-medium pt-3 mb-2">히히</div>
-
-                        <div class="d-flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
-                          <div class="d-flex">
-                            <div class="me-2">
-                              <span class="badge bg-label-primary p-2"><i class="bx bx-dollar text-primary"></i></span>
-                            </div>
-                            <div class="d-flex flex-column">
-                              <small>히히</small>
-                              <h6 class="mb-0">히히</h6>
-                            </div>
-                          </div>
-                          <div class="d-flex">
-                            <div class="me-2">
-                              <span class="badge bg-label-info p-2"><i class="bx bx-wallet text-info"></i></span>
-                            </div>
-                            <div class="d-flex flex-column">
-                              <small>히히</small>
-                              <h6 class="mb-0">히히</h6>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--/ Total Revenue -->
-                <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
-                  <div class="row">
-                    <div class="col-6 mb-4">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="card-title d-flex align-items-start justify-content-between">
-                            <div class="avatar flex-shrink-0">
-                              <img src="${path}/resources/common/assets/img/icons/unicons/paypal.png" alt="Credit Card" class="rounded" />
-                            </div>
-                            <div class="dropdown">
-                              <button
-                                class="btn p-0"
-                                type="button"
-                                id="cardOpt4"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                                <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                                <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                              </div>
-                            </div>
-                          </div>
-                          <span class="d-block mb-1">히히</span>
-                          <h3 class="card-title text-nowrap mb-2">히히</h3>
-                          <small class="text-danger fw-medium"><i class="bx bx-down-arrow-alt"></i> 히히</small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6 mb-4">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="card-title d-flex align-items-start justify-content-between">
-                            <div class="avatar flex-shrink-0">
-                              <img src="${path}/resources/common/assets/img/icons/unicons/cc-primary.png" alt="Credit Card" class="rounded" />
-                            </div>
-                            <div class="dropdown">
-                              <button
-                                class="btn p-0"
-                                type="button"
-                                id="cardOpt1"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                                <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                                <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                              </div>
-                            </div>
-                          </div>
-                          <span class="fw-medium d-block mb-1">히히</span>
-                          <h3 class="card-title mb-2">히히</h3>
-                          <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> 히히</small>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- </div>
-    <div class="row"> -->
-                    <div class="col-12 mb-4">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
-                            <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
-                              <div class="card-title">
-                                <h5 class="text-nowrap mb-2">히히</h5>
-                                <span class="badge bg-label-warning rounded-pill">히히</span>
-                              </div>
-                              <div class="mt-sm-auto">
-                                <small class="text-success text-nowrap fw-medium"
-                                  ><i class="bx bx-chevron-up"></i> 히히</small
-                                >
-                                <h3 class="mb-0">히히</h3>
-                              </div>
-                            </div>
-                            <div id="profileReportChart"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <!-- Order Statistics -->
-                <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
-                  <div class="card h-100">
-                    <div class="card-header d-flex align-items-center justify-content-between pb-0">
-                      <div class="card-title mb-0">
-                        <h5 class="m-0 me-2">히히</h5>
-                        <small class="text-muted">히히</small>
-                      </div>
-                      <div class="dropdown">
-                        <button
-                          class="btn p-0"
-                          type="button"
-                          id="orederStatistics"
-                          data-bs-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false">
-                          <i class="bx bx-dots-vertical-rounded"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="orederStatistics">
-                          <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                          <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                          <a class="dropdown-item" href="javascript:void(0);">히히</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="d-flex flex-column align-items-center gap-1">
-                          <h2 class="mb-2">히히</h2>
-                          <span>히히</span>
-                        </div>
-                        <div id="orderStatisticsChart"></div>
-                      </div>
-                      <ul class="p-0 m-0">
-                        <li class="d-flex mb-4 pb-1">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <span class="avatar-initial rounded bg-label-primary"
-                              ><i class="bx bx-mobile-alt"></i
-                            ></span>
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">히히</h6>
-                              <small class="text-muted">히히</small>
-                            </div>
-                            <div class="user-progress">
-                              <small class="fw-medium">히히</small>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <span class="avatar-initial rounded bg-label-success"><i class="bx bx-closet"></i></span>
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">히히</h6>
-                              <small class="text-muted">히히</small>
-                            </div>
-                            <div class="user-progress">
-                              <small class="fw-medium">히히</small>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <span class="avatar-initial rounded bg-label-info"><i class="bx bx-home-alt"></i></span>
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">히히</h6>
-                              <small class="text-muted">히히</small>
-                            </div>
-                            <div class="user-progress">
-                              <small class="fw-medium">히히</small>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <span class="avatar-initial rounded bg-label-secondary"
-                              ><i class="bx bx-football"></i
-                            ></span>
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">히히</h6>
-                              <small class="text-muted">Football, Cricket Kit</small>
-                            </div>
-                            <div class="user-progress">
-                              <small class="fw-medium">99</small>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <!--/ Order Statistics -->
-
-                <!-- Expense Overview -->
-                <div class="col-md-6 col-lg-4 order-1 mb-4">
-                  <div class="card h-100">
-                    <div class="card-header">
-                      <ul class="nav nav-pills" role="tablist">
-                        <li class="nav-item">
-                          <button
-                            type="button"
-                            class="nav-link active"
-                            role="tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#navs-tabs-line-card-income"
-                            aria-controls="navs-tabs-line-card-income"
-                            aria-selected="true">
-                            Income
-                          </button>
-                        </li>
-                        <li class="nav-item">
-                          <button type="button" class="nav-link" role="tab">전자결재 현황</button>
-                        </li>
-                        <li class="nav-item">
-                          <button type="button" class="nav-link" role="tab">Profit</button>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="card-body px-0">
-                      <div class="tab-content p-0">
-                        <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
-                          <div class="d-flex p-4 pt-3">
-                            <div class="avatar flex-shrink-0 me-3">
-                              <img src="${path}/resources/common/assets/img/icons/unicons/wallet.png" alt="User" />
-                            </div>
-                            <div>
-                              <small class="text-muted d-block">Total Balance</small>
-                              <div class="d-flex align-items-center">
-                                <h6 class="mb-0 me-1">$459.10</h6>
-                                <small class="text-success fw-medium">
-                                  <i class="bx bx-chevron-up"></i>
-                                  42.9%
-                                </small>
-                              </div>
-                            </div>
-                          </div>
-                          <div id="incomeChart"></div>
-                          <div class="d-flex justify-content-center pt-4 gap-2">
-                            <div class="flex-shrink-0">
-                              <div id="expensesOfWeek"></div>
-                            </div>
-                            <div>
-                              <p class="mb-n1 mt-1">Expenses This Week</p>
-                              <small class="text-muted">$39 less than last week</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--/ Expense Overview -->
-
-                <!-- Transactions -->
-                <div class="col-md-6 col-lg-4 order-2 mb-4">
-                <div class="card h-100">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                      <h5 class="card-title m-0 me-2">받은 메일함</h5>
-                      <!-- <div class="dropdown">
-                        <button
-                          class="btn p-0"
-                          type="button"
-                          id="transactionID"
-                          data-bs-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false">
-                          <i class="bx bx-dots-vertical-rounded"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
-                          <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                          <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                          <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                      <ul class="p-0 m-0">
-                        <li class="d-flex mb-4 pb-1">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <img src="${path}/resources/common/assets/img/icons/unicons/paypal.png" alt="User" class="rounded" />
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <small class="text-muted d-block mb-1">Paypal</small>
-                              <h6 class="mb-0">Send money</h6>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0">+82.6</h6>
-                              <span class="text-muted">USD</span>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <img src="${path}/resources/common/assets/img/icons/unicons/wallet.png" alt="User" class="rounded" />
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <small class="text-muted d-block mb-1">Wallet</small>
-                              <h6 class="mb-0">Mac'D</h6>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0">+270.69</h6>
-                              <span class="text-muted">USD</span>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <img src="${path}/resources/common/assets/img/icons/unicons/chart.png" alt="User" class="rounded" />
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <small class="text-muted d-block mb-1">Transfer</small>
-                              <h6 class="mb-0">Refund</h6>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0">+637.91</h6>
-                              <span class="text-muted">USD</span>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <img src="${path}/resources/common/assets/img/icons/unicons/cc-success.png" alt="User" class="rounded" />
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <small class="text-muted d-block mb-1">Credit Card</small>
-                              <h6 class="mb-0">Ordered Food</h6>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0">-838.71</h6>
-                              <span class="text-muted">USD</span>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <img src="${path}/resources/common/assets/img/icons/unicons/wallet.png" alt="User" class="rounded" />
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <small class="text-muted d-block mb-1">Wallet</small>
-                              <h6 class="mb-0">Starbucks</h6>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0">+203.33</h6>
-                              <span class="text-muted">USD</span>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <img src="${path}/resources/common/assets/img/icons/unicons/cc-warning.png" alt="User" class="rounded" />
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <small class="text-muted d-block mb-1">Mastercard</small>
-                              <h6 class="mb-0">Ordered Food</h6>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0">-92.45</h6>
-                              <span class="text-muted">USD</span>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div> -->
-            
-            <br>     
-			           <div class="mail-summary">
-			    <div class="mail-info">
-			        <div class="label">제목:</div>
-			        <div class="value">${mail.mailTitle}</div>
-			    </div>
-			    <div class="mail-info">
-			        <div class="label">발신인:</div>
-			        <div class="value">${mail.senderEmail}</div>
-			    </div>
-			    <div class="mail-info">
-			        <div class="label">수신일자:</div>
-			        <div class="value">${mail.mailDate}</div>
-			    </div>
-			</div>
-                  
-                  
-               <!--  </div> -->
-                <!--/ Transactions -->
-              </div>
             </div>
-            <!-- / Content -->
+            <div class="second">
+                <div class="mini2-container">
+                    <div class="mini2-first-container">
+                        <div class="five-container">
+                            <div class="circle" style="background-image: url(images/chat-icon.png);"></div>
+                            <div class="circle-info">전자우편</div>
+                        </div>
+                        <div class="five-container">
+                            <div class="circle" style="background-image: url(images/chat-icon.png);"></div>
+                            <div class="circle-info">전자결재</div>
+                            </div>
+                        <div class="five-container">
+                            <div class="circle" style="background-image: url(images/chat-icon.png);"></div>
+                            <div class="circle-info">문서함</div>
+                            </div>
+                        <div class="five-container">
+                            <div class="circle" style="background-image: url(images/chat-icon.png);"></div>
+                            <div class="circle-info">오늘의 일정</div>
+                            </div>
+                        <div class="five-container">
+                            <div class="circle" style="background-image: url(images/chat-icon.png);"></div>
+                            <div class="circle-info">메신저</div>
+                        </div>
+                    </div>
+                    <div class="mini2-second-container">
+                        <div class="todo-title"><b>유병승님의 Monthly Schedule</b></div>
+                        <div class="todo-info-container">
+                        <div class="todo-info"></div>
+                        <div class="todo-info"></div>
+                        </div>
+                    </div>
+                </div>
 
-         
 
-            <div class="content-backdrop fade"></div>
-          </div>
-          <!-- Content wrapper -->
+            </div>
         </div>
-        <!-- / Layout page -->
-      </div>
+        <div class="third">
+            <div class="mini3-container">
+                <div class="mini3-first-container">
+                    <div style="margin: 25px; color:black;"><b>내 전자결재 현황</b></div>
+                    <div class="myaprv-container">
+                        <div class="myaprv">문서종류</div>
+                        <div class="myaprv">제목</div>
+                        <div class="myaprv">상태</div>
+                        <div class="myaprv">기안일</div>
+                    </div>
+                    <div class="aprv-mail">
+                        <ul>
+                            <li>지출결의서</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                        </ul>
+                        <ul>
+                            <li>[강사] 비품요청 상신의 건</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                        </ul>
+                        <ul>
+                            <li>결재중</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                        </ul>
+                        <ul>
+                            <li>2024.02.13(월)</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mini3-second-container">
+                    <div style="margin: 25px;  color:black;"><b>받은메일함</b></div>
+                    <div class="mymailtitle-container">
+                    <div class="mymail-container">
+                        <div class="mymail">제  목</div>
+                        <div class="mymail">송신인</div>
+                        <div class="mymail">수신일</div>
+                    </div>
+                    </div>
+                    <div class="aprv-mail">
+                        <ul>
+                            <li>[공지] 전사 2024 하반기 워크샵 안내</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                        </ul>
+                        <ul>
+                            <li>빼빼로 매니저</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                        </ul>
+                        <ul>
+                            <li>2024.08.07(수)</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                        </ul>
 
-      <!-- Overlay -->
-      <div class="layout-overlay layout-menu-toggle"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- / Layout wrapper -->
-
-
-
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-
-    <script src="${path}/resources/common/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="${path}/resources/common/assets/vendor/libs/popper/popper.js"></script>
-    <script src="${path}/resources/common/assets/vendor/js/bootstrap.js"></script>
-    <script src="${path}/resources/common/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="${path}/resources/common/assets/vendor/js/menu.js"></script>
-
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-    <script src="${path}/resources/common/assets/vendor/libs/apex-charts/apexcharts.js"></script>
-
-    <!-- Main JS -->
-    <script src="${path}/resources/common/assets/js/main.js"></script>
-
-    <!-- Page JS -->
-    <script src="${path}/resources/common/assets/js/dashboards-analytics.js"></script>
-
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-		
-		
-		
-		
-		
-		
+    </div>
 		
 		
 		
 	
-	</div>
+		
+		
+	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
