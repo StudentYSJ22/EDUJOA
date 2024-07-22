@@ -21,15 +21,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ChattingServerHandler extends TextWebSocketHandler{
-	private Map<String,WebSocketSession> emps=new HashMap<>();
+public class ChattingServerHandler extends TextWebSocketHandler {
+	private Map<String, WebSocketSession> emps = new HashMap<>();
 	private final ChattingService service;
-	
-	private final ObjectMapper mapper; //json파싱용 객체
 
+	private final ObjectMapper mapper; // json파싱용 객체
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -39,13 +39,19 @@ public class ChattingServerHandler extends TextWebSocketHandler{
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		RequestMessage rm = mapper.readValue(message.getPayload(), RequestMessage.class);
-		log.debug("{}",rm);
-		//view에서 들어오는 메세지
-		switch(rm.getChatType()) {
+		log.debug("{}", rm);
+		// view에서 들어오는 메세지
+		switch (rm.getChatType()) {
 //		case "open" : addEmployee(session, rm); break;
-		case "send" : sendMessage(rm);break;
-		case "load" : loadChatRecord(rm); break;
-		case "check" : checkChatRoom(rm);break;
+		case "send":
+			sendMessage(rm);
+			break;
+		case "load":
+			loadChatRecord(rm);
+			break;
+		case "check":
+			checkChatRoom(rm);
+			break;
 
 		}
 	}
@@ -53,11 +59,11 @@ public class ChattingServerHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		log.debug("손놈 갔다.");
-		String id="";
-		for(Map.Entry<String, WebSocketSession> emp:emps.entrySet()) {
-			WebSocketSession cSession=emp.getValue();
-			if(session.equals(cSession)) {
-				id=emp.getKey();
+		String id = "";
+		for (Map.Entry<String, WebSocketSession> emp : emps.entrySet()) {
+			WebSocketSession cSession = emp.getValue();
+			if (session.equals(cSession)) {
+				id = emp.getKey();
 				break;
 			}
 		}
@@ -65,75 +71,78 @@ public class ChattingServerHandler extends TextWebSocketHandler{
 //		sendMessage(ChatRecord.builder().roomId("close").empId(id).build());
 //		attendMessage();
 	}
-	
-	//직원목록을 더블클릭했을 때
+
+	// 직원목록을 더블클릭했을 때
+	// chatType: check
 	private void checkChatRoom(RequestMessage rm) {
-		Map<String,Object> chatDB=new HashMap<>();
-		String sender = rm.getSender();//발신자ID
-		String senderName = rm.getSenderName();//발신자이름
-		String receiver = rm.getReceiver();//수신자ID
-		String receiverName = rm.getRoomName();//수신자이름
+		Map<String, Object> chatDB = new HashMap<>();
+		String sender = rm.getSender();// 발신자ID
+		String senderName = rm.getSenderName();// 발신자이름
+		String receiver = rm.getReceiver();// 수신자ID
+		String receiverName = rm.getRoomName();// 수신자이름
 		chatDB.put("sender", sender);
 		chatDB.put("senderName", senderName);
 		chatDB.put("receiver", receiver);
 		chatDB.put("receiverName", receiverName);
-		String result=service.checkChatRoomExists(chatDB);
-		if(result==null) { //채팅방이 없으면 채팅방 생성하고 채팅인원 저장
+		String result = service.checkChatRoomExists(chatDB);
+		if (result == null) { // 채팅방이 없으면 채팅방 생성하고 채팅인원 저장
 			try {
 				service.insertChatRoomAndAttendee(chatDB);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else if(result!=null&&result.length()>0) { //채팅방이 있으면 roomId확인하고 채팅내역 가져옴
-			for(Map.Entry<String, WebSocketSession> emp:emps.entrySet()) {
-				WebSocketSession cSession=emp.getValue();
+		} else if (result != null && result.length() > 0) { // 채팅방이 있으면 roomId확인하고 채팅내역 가져옴
+			for (Map.Entry<String, WebSocketSession> emp : emps.entrySet()) {
+				WebSocketSession cSession = emp.getValue();
 				try {
-					List<ChatRecord> records=service.getRoomIdAndRecord(chatDB);			
-					String message=mapper.writeValueAsString(records);
-					cSession.sendMessage(new TextMessage(message));		
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+					List<ChatRecord> records = service.getRoomIdAndRecord(chatDB);
+					String message = mapper.writeValueAsString(records);
+					cSession.sendMessage(new TextMessage(message));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		}
 	}
-	
-	//채팅방목록을 더블클릭했을 때
-	private void loadChatRecord(RequestMessage rm){
-		//view에서 전달받은 값으로 chatrecord 조회해서 client에 다시 쏴주기
-		Map<String,Object> chatDB=new HashMap<>();
-		String sender = rm.getSender();//발신자ID
-		String receiver = rm.getReceiver();//수신자ID
+
+	// 채팅방목록을 더블클릭했을 때
+	// chatType: load
+	private void loadChatRecord(RequestMessage rm) {
+		// view에서 전달받은 값으로 chatrecord 조회해서 client에 다시 쏴주기
+		Map<String, Object> chatDB = new HashMap<>();
+		String sender = rm.getSender();// 발신자ID
+		String receiver = rm.getReceiver();// 수신자ID
 		chatDB.put("sender", sender);
 		chatDB.put("receiver", receiver);
-		String roomId=service.getRoomId(chatDB);
-		List<ChatRecord> records=service.getChatRecord(roomId);
-		System.out.println("roomId로 가져온 채팅목록"+records);
-		
-		for(Map.Entry<String, WebSocketSession> emp:emps.entrySet()) {
-			WebSocketSession cSession=emp.getValue();			
+		String roomId = service.getRoomId(chatDB);
+		List<ChatRecord> records = service.getChatRecord(roomId);
+		System.out.println("roomId로 가져온 채팅목록" + records);
+
+		for (Map.Entry<String, WebSocketSession> emp : emps.entrySet()) {
+			WebSocketSession cSession = emp.getValue();
 			try {
-				String message=mapper.writeValueAsString(records);
-				//System.out.println("서버에서 보내는 메세지: "+message);
+				String message = mapper.writeValueAsString(records);
+				// System.out.println("서버에서 보내는 메세지: "+message);
 				cSession.sendMessage(new TextMessage(message));
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	//메세지를 전송했을 때
+
+	// 메세지를 전송했을 때
+	// chatType:send
 	private void sendMessage(RequestMessage rm) {
 //		log.debug("{}",rm);
-		Map<String,Object> chatDB=new HashMap<>();
-		String sender = rm.getSender();//발신자ID
-		String senderName = rm.getSenderName();//발신자이름
-		String receiver = rm.getReceiver();//수신자ID
-		String roomName = rm.getRoomName();//수신자이름
-		String chatContent = rm.getChatContent();//메세지내용
-		LocalDateTime chatTime = rm.getChatTime();//메세지보낸 시간
+		Map<String, Object> chatDB = new HashMap<>();
+		String sender = rm.getSender();// 발신자ID
+		String senderName = rm.getSenderName();// 발신자이름
+		String receiver = rm.getReceiver();// 수신자ID
+		String roomName = rm.getRoomName();// 수신자이름
+		String chatContent = rm.getChatContent();// 메세지내용
+		LocalDateTime chatTime = rm.getChatTime();// 메세지보낸 시간
 		chatDB.put("sender", sender);
 		chatDB.put("senderName", senderName);
 		chatDB.put("receiver", receiver);
@@ -141,22 +150,22 @@ public class ChattingServerHandler extends TextWebSocketHandler{
 		chatDB.put("chatContent", chatContent);
 		chatDB.put("chatTime", chatTime);
 //		log.debug("{}",chatDB);
-		
-		//jsp에서 더블클릭하면 아래 로직 실행		
-		//sender랑 receiver ID로 방id 가져오기	
-		String roomId=service.getRoomId(chatDB);
-		chatDB.put("roomId",roomId);
-		//roomId가지고 chat_record에 메세지 저장
-		int result=service.insertChatRecord(chatDB);
-		//result가 0이상이면 저장성공
-		List<ChatRecord> records=service.getChatRecord(roomId);
-		
-			//매퍼로 파싱해서 session.send로 보내면 됨.
-			for(Map.Entry<String, WebSocketSession> emp:emps.entrySet()) {
-				WebSocketSession cSession=emp.getValue();
-				try {
-					String chatRecords=mapper.writeValueAsString(records);
-					
+
+		// jsp에서 더블클릭하면 아래 로직 실행
+		// sender랑 receiver ID로 방id 가져오기
+		String roomId = service.getRoomId(chatDB);
+		chatDB.put("roomId", roomId);
+		// roomId가지고 chat_record에 메세지 저장
+		int result = service.insertChatRecord(chatDB);
+		// result가 0이상이면 저장성공
+		List<ChatRecord> records = service.getChatRecord(roomId);
+
+		// 매퍼로 파싱해서 session.send로 보내면 됨.
+		for (Map.Entry<String, WebSocketSession> emp : emps.entrySet()) {
+			WebSocketSession cSession = emp.getValue();
+			try {
+				String chatRecords = mapper.writeValueAsString(records);
+
 //					RequestMessage msg=RequestMessage.builder()
 //							.chatType("load")
 //							.sender(sender)
@@ -166,17 +175,16 @@ public class ChattingServerHandler extends TextWebSocketHandler{
 //							.chatContent(chatRecords)
 //							.chatTime(chatTime)
 //							.build();
-					try {
-						cSession.sendMessage(new TextMessage(chatRecords.toString()));
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				} catch (JsonProcessingException e) {
+				try {
+					cSession.sendMessage(new TextMessage(chatRecords.toString()));
+				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-	}	
-
+	}
+}

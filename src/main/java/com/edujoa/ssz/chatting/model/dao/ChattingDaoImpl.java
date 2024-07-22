@@ -10,9 +10,11 @@ import com.edujoa.ssz.chatting.model.dto.ChatAttachment;
 import com.edujoa.ssz.chatting.model.dto.ChatAttendee;
 import com.edujoa.ssz.chatting.model.dto.ChatRecord;
 import com.edujoa.ssz.chatting.model.dto.ChatRoom;
+import com.edujoa.ssz.chatting.model.dto.MyChatRecords;
+import com.edujoa.with.employee.model.dto.Employee;
 
 @Repository
-public class ChattingDaoImpl implements ChattingDao{
+public class ChattingDaoImpl implements ChattingDao {
 
 	@Override
 	public List<ChatRoom> getAllChatRooms(SqlSession session, Map<String, String> param) {
@@ -23,7 +25,7 @@ public class ChattingDaoImpl implements ChattingDao{
 	@Override
 	public int insertChatRoom(SqlSession session, Map<String, Object> param) {
 		// TODO Auto-generated method stub
-		return session.insert("chatroom.putRoom",param);
+		return session.insert("chatroom.putRoom", param);
 	}
 
 	@Override
@@ -33,7 +35,7 @@ public class ChattingDaoImpl implements ChattingDao{
 	}
 
 	@Override
-	public int insertChatAttendee(SqlSession session, Map<String,Object> param) {
+	public int insertChatAttendee(SqlSession session, Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		return session.insert("chatroom.insertChatAttendee", param);
 	}
@@ -65,9 +67,9 @@ public class ChattingDaoImpl implements ChattingDao{
 	@Override
 	public List<ChatRoom> getRooms(SqlSession session, String loginId) {
 		// TODO Auto-generated method stub
-		return session.selectList("chatroom.getRooms",loginId);
+		return session.selectList("chatroom.getRooms", loginId);
 	}
-	
+
 	@Override
 	public List<ChatRoom> getRooms(SqlSession session) {
 		// TODO Auto-generated method stub
@@ -83,7 +85,7 @@ public class ChattingDaoImpl implements ChattingDao{
 	@Override
 	public List<ChatRecord> getChatRecord(SqlSession session, String roomId) {
 		// TODO Auto-generated method stub
-		return session.selectList("chatroom.getChatRecord", roomId);
+		return session.selectList("chatroom.getMyChatRecords", roomId);
 	}
 
 	@Override
@@ -96,6 +98,24 @@ public class ChattingDaoImpl implements ChattingDao{
 	public int insertChatRecord(SqlSession session, Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		return session.insert("chatroom.insertChatRecord", param);
+	}
+
+	@Override
+	public List<ChatRoom> getMyChatRooms(SqlSession session, String empId) {
+		// TODO Auto-generated method stub
+		return session.selectList("chatroom.getMyChatRooms", empId);
+	}
+
+	@Override
+	public List<ChatRecord> getMyChatRecords(SqlSession session, String roomId) {
+		// TODO Auto-generated method stub
+		return session.selectList("chatroom.getMyChatRecords", roomId);
+	}
+
+	@Override
+	public Employee getReceiverInfo(SqlSession session, Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("chatroom.getReceiverInfo", param);
 	}
 	
 	
