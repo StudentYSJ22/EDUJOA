@@ -25,7 +25,7 @@ public class Approval {
 	private Date apvDone;
 	private String apvStatus;
 	private String apvStrg;
-	private List<ApvAttachment> apvAttachment;
+	private ApvAttachment apvAttachment;
 	private List<CarbonCopy> carbonCopy;
 	private List<ApprovalLine> approvalLine;
 	private ApvTag apvTag;

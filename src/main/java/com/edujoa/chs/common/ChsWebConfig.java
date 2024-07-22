@@ -9,6 +9,8 @@ public class ChsWebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/approval/insertvacay").setViewName("chs/approval/insert_vacay");
+		registry.addViewController("/approval/insertpre").setViewName("chs/approval/insert_prePayment");
 		registry.addViewController("/approval/insert").setViewName("chs/approval/insert_approval");
 		registry.addViewController("/employee/insert").setViewName("chs/personnel/insert_emp_personnel");
 		registry.addViewController("/tutor/insertstudent").setViewName("chs/tutor/insertStudent");

@@ -3,9 +3,9 @@ package com.edujoa.ssz.chatting.model.service;
 import java.util.List;
 import java.util.Map;
 
-import com.edujoa.ssz.chatting.model.dto.ChatAttendee;
 import com.edujoa.ssz.chatting.model.dto.ChatRecord;
 import com.edujoa.ssz.chatting.model.dto.ChatRoom;
+import com.edujoa.with.employee.model.dto.Employee;
 
 public interface ChattingService {
 	//전체 채팅방 조회
@@ -37,4 +37,10 @@ public interface ChattingService {
 	List<ChatRecord> getRoomIdAndRecord(Map<String, Object>param) throws Exception;
 	
 	int insertChatRecord(Map<String, Object>param);
+	
+	List<ChatRoom> getMyChatRooms(String empId);
+	
+	List<ChatRecord> getMyChatRecords(String roomId);
+	
+	Employee getReceiverInfo(Map<String, Object> param);
 }

@@ -115,7 +115,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
        <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
        <version>1.16</version>
    </dependency>
-
+	<!-- 2024-07-21 gson 추가 최헌수-->
+	<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+	</dependency>
 </dependencies>
 
 <build>

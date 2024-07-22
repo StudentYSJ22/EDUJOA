@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.edujoa.chs.approval.model.dto.Approval;
+import com.edujoa.chs.approval.model.dto.ApvTag;
 import com.edujoa.chs.approval.model.dto.FrequentLine;
 import com.edujoa.chs.approval.model.dto.FrequentPerson;
 import com.edujoa.with.employee.model.dto.Employee;
@@ -25,16 +26,12 @@ public interface ApprovalService {
 	List<FrequentLine> selectAllFrequenLine(String empId);
 	//자주쓰는 결재라인 등록하기
 	int insertFrequentLine(FrequentLine frequentLine);
-	//자주쓰는 결재라인 수정하기
-	int updateFrequentLine(FrequentLine frequentLine);
 	//자주쓰는 결재라인 삭제하기
 	int deleteFrequentLine(String feqId);
-	//자주쓰는 결재라인 인원 등록하기
-	int insertFrequentPerson(FrequentPerson frequentPerson);
-	//자주쓰는 결재라인 인원 수정하기
-	int updateFrequentPerson(FrequentPerson frequentPerson);
-	//자주쓰는 결재라인 인원 삭제하기
-	int deleteFrequentPerson(String feqpId);
 	//결재선 조회하기
 	List<Employee> selectAllApprvoalLine(String empId);
+	//결재 사인 생성하기
+	int updateSignatureUrl(Map<String,String> param);
+	//태그 불러오기
+	ApvTag selectApvTag(String apvType);
 }

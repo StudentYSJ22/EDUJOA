@@ -13,6 +13,7 @@ import com.edujoa.chs.approval.model.dto.ApvTag;
 import com.edujoa.chs.approval.model.dto.CarbonCopy;
 import com.edujoa.chs.approval.model.dto.FrequentLine;
 import com.edujoa.chs.approval.model.dto.FrequentPerson;
+import com.edujoa.chs.approval.model.dto.PaymentList;
 import com.edujoa.chs.approval.model.dto.PrePayment;
 import com.edujoa.chs.approval.model.dto.Vacay;
 import com.edujoa.with.employee.model.dto.Employee;
@@ -40,6 +41,8 @@ public interface ApprovalDao {
 		int updatePrePayment(SqlSession session, PrePayment prePayment);
 		//지출결의서 등록하기
 		int insertAfterPayment(SqlSession session, AfterPayment afterPayment);
+		//지출 리스트 등록하기
+		int insertPaymentList(SqlSession session, PaymentList paymentList);
 		//지출결의서 수정하기
 		int updateAfterPayment(SqlSession session, AfterPayment afterPayment);
 		//참조인 등록하기
@@ -71,11 +74,13 @@ public interface ApprovalDao {
 		//자주쓰는 결재라인 삭제하기
 		int deleteFrequentLine(SqlSession session, String feqId);
 		//자주쓰는 결재라인 인원 등록하기
-		int insertFrequentPerson(SqlSession session, FrequentPerson frequentPerson);
+		int insertFrequentPerson(SqlSession session,FrequentPerson frequentPerson);
 		//자주쓰는 결재라인 인원 수정하기
 		int updateFrequentPerson(SqlSession session, FrequentPerson frequentPerson);
 		//자주쓰는 결재라인 인원 삭제하기
 		int deleteFrequentPerson(SqlSession session, String feqpId);
 		//결재선 조회하기
 		List<Employee> selectAllApprovalLine(SqlSession session, String empId);
+		//결재 사인 생성하기
+		int updateSignatureUrl(SqlSession session, Map<String,String> param);
 }
