@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PaymentList {
 	private String apvId;
-	private String apvType;
-	private String payList;
-	private String payAmount;
+	private String payList; //품명
+	private Integer payAmount; //금액
+	private String reference; //비고
 }

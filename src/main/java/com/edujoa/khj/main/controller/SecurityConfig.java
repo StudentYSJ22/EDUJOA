@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 //Lombok에서 제공하는 것. // 필드에 final을 선언하면 의존성 주입을 알아서 해줌.
 @RequiredArgsConstructor
+//스프링 시큐리티를 활성화함
 @EnableWebSecurity
 public class SecurityConfig {
 	// 커스텀 인증 공급자를 주입받음

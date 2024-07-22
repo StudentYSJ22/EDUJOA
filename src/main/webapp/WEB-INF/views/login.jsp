@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ 
 <link rel="stylesheet" href="${path }/resources/css/khj/login_hj.css">
 <!DOCTYPE html>
 <html
@@ -174,8 +175,11 @@
 
               <p class="text-center">
                 <b>계정을 잊으셨나요?</b>
-                <a href="auth-register-basic.html">
+                <a href="${pageContext.request.contextPath}/findempid">
                   <b>아이디/비밀번호 찾기</b>
+                </a>
+                <a href="#">
+                	<b>비밀번호 찾기</b>
                 </a>
               </p>
             </div>

@@ -18,6 +18,16 @@
 		        <button onclick="closeSignatureModal()">취소</button>
 		    </div>
 		</div>
+		<!-- 자주쓰는 결재라인 추가 모달 -->
+		<div id="approval-line-modal" style="display:none; position:fixed;z-index:100; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+		    <div style="background-color:white; padding:20px; border-radius:10px; text-align:center;">
+		        <p>즐겨찾기 이름을 입력하세요:</p>
+		        <input style="border:1px solid black" type="text" id="favorite-name" />
+		        <br/>
+		        <button onclick="saveApprovalLine()">확인</button>
+		        <button onclick="closeApprovalLineModal()">취소</button>
+		    </div>
+		</div>
 	<div class="right-container">
 		<!-- 모달창 시작 -->
 		<div class="hs-modal-container">
@@ -31,6 +41,9 @@
 						<select>
 							<option value="" disabled selected>자주쓰는 결재라인</option>
 						</select>
+					</div>
+					<div>
+						<button onclick="addApprovalLine();">결재라인 추가하기</button>
 					</div>
 				</div>
 				<div class="hs-modal-content" style="padding: 0 2%;">
@@ -95,7 +108,7 @@
 				<form class="container" onsubmit="" enctype="multipart/form-data">
         <!-- 폼 필드 추가 -->
         <input type="hidden" name="empId" value="${loginMember.empId}">
-        <input type="hidden" name="apvType" value="2">
+        <input type="hidden" name="apvType" value="0">
         <input type="hidden" name="apvStatus" value="0">
         <input type="hidden" name="apvStrg" value="0">
         <input type="hidden" name="carbonCopy" id="carbonCopy" value="0">
@@ -103,7 +116,7 @@
         <input type="hidden" name="apvStrg" value="0">
         <input type="hidden" id="approval-field">
         <input type="hidden" id="refer-field">
-        <div class="header">지 출 결 의 서</div>
+        <div class="header">휴 가 신 청 서</div>
         <table class="approval-table">
             <tr>
                 <th class="apporval-th" rowspan="3">결재</th>
@@ -144,10 +157,6 @@
                 </td>
             </tr>
             <tr>
-                <th>지출금액</th>
-                <td colspan="5" id="totalAmount">0</td>
-            </tr>
-            <tr>
                 <th>제목</th>
                 <td id="input-td" colspan="5"><input type="text" name="apvTitle" required></td>
             </tr>
@@ -156,37 +165,33 @@
                 <td id="input-td" colspan="5"><input type="text" name="apvContent" required></td>
             </tr>
             <tr>
-                <th>지출건</th>
-                <td id="input-td" colspan="5"><input type="text" name="apvCase" required></td>
+                <th>총 휴가 일</th>
+                <td>${loginMember.empTvacation }</td>
+                <th>남은 휴가 일</th>
+                <td>${loginMember.empRvacation }</td>
             </tr>
             <tr>
-                <th>지출 날짜</th>
-                <td id="input-td" colspan="5"><input type="date" name="payDate" required></td>
+                <th>휴가 종류</th>
+                <td  id="input-td" colspan="5" >
+	                <select name="vacayType" id="vacayType">
+	                	<option value="0">연차</option>
+	                	<option value="1">반차</option>
+	                </select>
+	            </td>
             </tr>
+            <tr>
+          		<th>휴가 시작일</th>
+	            <td id="input-td" colspan="5"><input type="date" id="vacayStart" name="vacayStart" required></td>
+	        </tr>
+	        <tr>
+	            <th>휴가 종료일</th>
+	            <td id="input-td" colspan="5"><input type="date" id="vacayEnd" name="vacayEnd" required></td>
+	        </tr>
             <tr>
                 <th>첨부파일</th>
                 <td id="input-td" colspan="5"><input type="file" name="apvAttachment"></td>
             </tr>
         </table>
-        <table class="detail-table" id="detail-table">
-            <tr>
-                <th>번호</th>
-                <th>품명</th>
-                <th>금액</th>
-                <th>비고</th>
-                <th>작업</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td><input type="text" name="payList" id="품명1"></td>
-                <td><input type="text" name="payAmount" id="금액1" oninput="validateAmount(this)" onblur="updateTotalAmount()"></td>
-                <td><input type="text" name="reference" id="비고1"></td>
-                <td><button onclick="removeRow(this)">삭제</button></td>
-            </tr>
-        </table>
-        <div class="btn">
-            <button type="button" onclick="addRow()">추가</button>
-        </div>
         <div class="footer">위 금액을 청구하오니 결재 바랍니다.</div>
         <div class="footer">
             <span id="current-date"></span>
@@ -203,10 +208,11 @@
         <input type="submit" value="전송">
     </form>
     <script src="${path}/resources/js/chs/canvas.js"></script>
-    <script src="${path}/resources/js/chs/afterPayment.js"></script>
 		</div>
 	</div>
+	<script src="${path }/resources/js/chs/insert_approval.js"></script>
 	<script>
+	$(document).ready(function() {
 		const empId2 = "${loginMember.empId}";
 		const apvTag = function(apvType) {
 			switch(apvType){
@@ -215,6 +221,85 @@
 				case '2' : location.assign(`${path}/approval/insert`); break;
 			}
 		}
+		
+		 document.addEventListener('DOMContentLoaded', (event) => {
+		        updateCurrentDate();
+		});
+		 function updateCurrentDate() {
+             const today = new Date();
+             const year = today.getFullYear();
+             const month = ('0' + (today.getMonth() + 1)).slice(-2);
+             const day = ('0' + today.getDate()).slice(-2);
+             document.getElementById('current-date').innerText = year+"년 "+month+"월 "+day+"일";
+         }
+		 
+		 
+
+		// 폼 제출 할 때 
+		    const insertApproval = function(e) {
+		        e.preventDefault();
+		        const formData = new FormData();
+		        const approval = $('#approval-principal');
+		        const empRvacation = ${loginMember.empRvacation}; // 남은 휴가 일수
+		        const startDate = new Date(document.getElementById('vacayStart').value);
+		        const endDate = new Date(document.getElementById('vacayEnd').value);				
+		        if (approval.text() == '') {
+		            alert('결재자를 선택해주세요.');
+		            return false;
+		        }
+		  	   // 휴가 일수 계산
+		        const vacationDays = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
+		        if (vacationDays > empRvacation) {
+		            alert('남은 휴가 일수보다 많게 설정할 수 없습니다.');
+		            return false; // 폼 제출을 막음
+		        }
+
+		        // 숨겨진 필드에 현재 날짜 값을 설정
+		        const currentDate = $('#current-date').text();
+		        formData.append('apvDate', currentDate);
+
+		        // 결재자, 참조자 정보 추가
+				formData.append('carbonCopy',$('#refer-field').val());
+				const approvalLine = JSON.parse($('#approval-field').val());
+			    formData.append('approvalLine', JSON.stringify(approvalLine));
+		        // 기타 폼 데이터 추가
+		        formData.append('empId', $('input[name="empId"]').val());
+		        formData.append('apvType', $('input[name="apvType"]').val());
+		        formData.append('apvStatus', $('input[name="apvStatus"]').val());
+		        formData.append('apvStrg', $('input[name="apvStrg"]').val());
+		        formData.append('apvTitle', $('input[name="apvTitle"]').val());
+		        formData.append('apvContent', $('input[name="apvContent"]').val());
+		        formData.append('vacayType', $('#vacayType').val());
+		        formData.append('vacayStart', $('#vacayStart').val());
+		        formData.append('vacayEnd', $('#vacayEnd').val());
+
+		        // 파일 추가
+		        const fileInput = $('input[name="apvAttachment"]')[0];
+		        if (fileInput.files.length > 0) {
+		            formData.append('apvAttachment', fileInput.files[0]);
+		        }
+				  // FormData 내용 확인
+		        for (let pair of formData.entries()) {
+		            console.log(pair[0] + ': ' + pair[1]); 
+		        }
+		        $.ajax({
+		            url: `${path}/rest/approval/insert`,
+		            type: 'POST',
+		            data: formData,
+		            contentType: false, // FormData를 사용할 때는 false로 설정
+		            processData: false, // FormData를 사용할 때는 false로 설정
+		            success: function(response) {
+		                alert('결재가 성공적으로 제출되었습니다.');
+		                location.assign(`${path}/approval/flagginging.do?empId=${empId2}`);
+		                // 성공 시 추가 작업;
+		            },
+		            error: function(xhr, status, error) {
+		                alert('결재 제출 중 오류가 발생했습니다.');
+		                console.error(error);
+		            }
+		        });
+		    }     
+		    $('form.container').on('submit', insertApproval);  
+	});
 	</script>
-	<script src="${path }/resources/js/chs/insert_approval.js"></script>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />

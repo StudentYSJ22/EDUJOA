@@ -1,6 +1,464 @@
 @charset "UTF-8";
 
-.test1{
+		.mini-first-container, .mini-second-container, .five-container, .mini2-second-container, .mini3-first-container, .mini3-second-container{
+            border: 2px solid rgba(255, 255, 255, 0.442); /*흐린테두리*/
+            box-shadow: 0 4px 16px rgba(0, 185, 83, 0.271); /*부드러운 그림자*/
+        }
+
+        body {
+            background-color: rgb(240, 255, 246) !important;
+            font-family: "Noto Sans KR", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+
+           
+            /* max-height: 2000px; */
+            /* margin: 0 auto; */
+            /* overflow-y: auto; */
+            /* padding: 20px; */
+            /* box-sizing: border-box; */
+        }
+
+        div {
+            border-radius: 10px;
+        }
+
+        
+        .main {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* border: 1px solid red; */
+            width: 98%;
+            height: 1200px;
+        }
+
+        .first-container {
+            /* border: 3px solid purple; */
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            /* height: 730px; */
+        }
+
+        .first {
+            /* color: black; */
+            /* border: 1px solid red; */
+            width: 25%;
+            height: 700px;
+        }
+
+        .second {
+            /* color: red; */
+            /* border: 1px solid red; */
+            width: 70%;
+            height: 700px;
+            margin-right: 20px;
+        }
+
+        .third {
+            /* color: red; */
+            /* border: 1px solid red; */
+            /* width: 100%; */
+            height: 600px;
+            margin-top: 30px;            
+            margin-right: 20px;
+        }
+
+        .mini-container {
+            /* border: 3px solid rgb(22, 15, 3); */
+            width: 100%;
+            height: 100%;
+            /* padding: 20px; */
+            /* 높이를 100%로 설정하여 부모인 .first의 높이를 따라갈 수 있도록 합니다. */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+        }
+
+        .mini-first-container {
+            padding: 0px;
+            background-color: white;                        
+            width: 100%;
+            height: 44%;
+            
+            /* 높이를 %로 설정하여 부모인 .mini-container의 높이를 따라갈 수 있도록 합니다. */
+        }
+
+        .mini-second-container {
+
+            background-color: white;
+            /* color: red; */
+            /* padding: 10px; */
+            /* margin: 10px; */
+            /* border: 1px solid rgb(17, 182, 211); */
+            width: 100%;
+            height: 50%;
+            /* 높이를 %로 설정하여 부모인 .mini-container의 높이를 따라갈 수 있도록 합니다. */
+        }
+
+        .mini2-container {
+            /* border: 3px solid orange; */
+            width: 100%;
+            height: 100%;
+            /* 높이를 100%로 설정하여 부모인 .first의 높이를 따라갈 수 있도록 합니다. */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .mini2-first-container {
+            
+            /* color: red; */
+            /* border: 1px solid orange; */
+            width: 100%;
+            height: 20%;
+            /* 높이를 %로 설정하여 부모인 .mini-container의 높이를 따라갈 수 있도록 합니다. */
+        }
+
+        .mini2-second-container {
+            background-color: white;
+            /* color: red; */
+            /* border: 1px solid rgb(187, 47, 164); */
+            width: 100%;
+            height: 75%;
+            /* 높이를 %로 설정하여 부모인 .mini-container의 높이를 따라갈 수 있도록 합니다. */
+        }
+
+        .mini2-second-container>div {
+            /* border: 1px solid orange; */
+
+
+        }
+
+        .mini3-container {
+            /* border: 3px solid blue; */
+            width: 100%;
+            height: 98%;
+            /* 높이를 100%로 설정하여 부모인 .first의 높이를 따라갈 수 있도록 합니다. */
+            display: flex;
+             justify-content: space-between; 
+             gap: 25px;
+             margin-right: 20px;
+        }
+
+        .mini3-first-container {            
+            background-color: white;
+            /* color: red; */
+            /* border: 1px solid blue; */
+            width: 100%;
+            height: 100%;
+            /* 높이를 %로 설정하여 부모인 .mini-container의 높이를 따라갈 수 있도록 합니다. */
+        }
+
+        .mini3-first-container>div {
+            /* border: 1px solid blue; */
+        }
+
+        .mini3-second-container {
+            background-color: white;
+            /* color: red; */
+            /* border: 1px solid blue; */
+            width: 100%;
+            height: 100%;
+            /* 높이를 %로 설정하여 부모인 .mini-container의 높이를 따라갈 수 있도록 합니다. */
+        }
+
+        .mini3-second-container>div {
+            /* border: 1px solid blue; */
+        }
+
+        .mini2-first-container {
+            display: flex;
+            /* flex-direction: column; */
+            justify-content: space-between;
+
+        }
+
+        .five-container {
+            background-color: white;
+            /* color: red; */
+            /* border: 1px solid yellow; */
+            /* justify-content: space-between; */
+            width: 18%;
+        }
+
+        .circle{
+            display: flex;
+            /* border: 2px solid rgba(179, 219, 149, 0.682); 흐린테두리 */
+            /* box-shadow: 0 4px 10px rgba(167, 167, 167, 0.1); */
+            width: 60px;
+            height: 60px;
+            /* border-radius: 100px;             */
+            
+            /* background-image: url(images/1.jpg);             */
+            margin-top: 25px;
+            margin-bottom: 10px;
+            margin-left: 57px;
+            text-align: center;
+           
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+
+
+
+        }
+        .circle-info{
+            /* border: 1px solid yellow; */
+            text-align: center;
+            margin-top: 2px;
+            font-weight: bold;
+            font-size: 13px;
+            color: black;
+            
+        }
+
+        .circle:hover{
+            width: 70px;
+            height: 70px;
+            margin-left: 52px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .emp-info-container {
+            margin-left: 65px;
+            margin-top: 10%;
+            
+
+        }
+
+        .emp-info {
+            display: flex;
+            /* align-items: center; */
+            /* 텍스트 세로 가운데 정렬 */
+            justify-content: center;
+            /* 텍스트 가로 가운데 정렬 */
+            /* border: 1px solid red; */
+            width: 60%;
+            height: 25px;
+            margin-left: 10px;
+            
+        }
+
+        .emp-pic {
+            align-items: center;
+            /* 텍스트 세로 가운데 정렬 */
+            justify-content: center;
+            /* 텍스트 가로 가운데 정렬 */
+            border: 2px solid rgba(255, 255, 255); /*흐린테두리는 ,0.1추가*/
+            box-shadow: 0 4px 10px rgba(167, 167, 167, 0.1);
+            width: 150px;
+            height: 150px;
+            border-radius: 300px;
+            margin-bottom: 13px;
+            
+            
+
+
+            overflow: hidden;
+            background-image: url(images/pepe.jpeg);
+            background-size: cover;
+            background-position: center;
+
+
+        }
+
+        .attendance-title{
+            margin-top: 22px;
+            margin-left: 26px;
+            
+        }
+
+        .attendance-systime {
+            /* border: 1px solid red; */
+            width: 80%;
+            background-color: white;
+            margin-left: 25px;    
+            margin-top: 5px; 
+
+            font-family: "Sunflower", sans-serif;
+            font-weight: 300;
+            font-style: normal;
+
+
+        }
+
+        
+
+        .time-btn-container,
+        .time-office-container {
+            /* border: 1px solid black; */
+            display: flex;
+            /* flex-direction: column; */
+            /* justify-content: space-between; */
+            justify-content: space-around;
+            width: 100%;
+            background-color: white;
+            margin-top: 3px;
+            /* margin: 10px; */
+        }
+
+        .time-office-container{
+            height: 80px;
+            margin: 28px;
+            margin-left: 18px;
+            width: 88%;
+            border: 1px solid rgb(179, 179, 179);
+
+        }
+    
+        .time {
+            text-align: center;
+            /* margin: 9px; */
+
+        }
+
+        .time-title{
+            margin: 15px;
+            margin-bottom: 8px;
+            font-size: 70%;
+            color: #7f7f7f;
+        }
+
+        .time-info{
+            font-size: 15px;
+            font-family: "Sunflower", sans-serif;
+         
+        }
+
+        .attn-btn, .attn-btn-go {
+            width: 110px;
+            height: 40px;
+            color: white;
+            border: none;
+            background-color: rgb(17, 173, 17);
+            border-radius: 7px;
+            border-color: white;
+            box-shadow: 0 .125rem .25rem 0 rgba(105, 255, 180, 0.4);
+            text-align: center;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .attn-btn-go {
+            width: 90%;
+            margin-top: 13px;
+        }
+
+        .attn-btn:hover, .attn-btn-go:hover {
+            background-color: #137c13; /* 호버 시 배경색 변경 */
+        }
+
+        .attn-btn:active, .attn-btn-go:active {
+            background-color: #3e8e41; /* 클릭 시 배경색 변경 */
+            box-shadow: 0 1px #ffffff; /* 클릭 시 그림자 */
+            transform: translateX(1px); /* 클릭 시 아래로 이동 */
+        }
+
+        .todo-info-container{
+            display: flex;
+            justify-content: space-around;
+            height: 85%;
+        }
+
+        .todo-title{
+            margin: 20px;
+            font-size: 25px;
+            border-bottom: 1px solid rgba(22, 77, 36, 0.3);
+            padding: 5px;
+            border-radius: 0%;
+            color: rgba(12, 143, 36, 0.5);
+            font-family: "sunflower";
+        }
+
+        .todo-info{
+            margin: 30px;
+            border: 1px solid red;
+            width: 45%;
+
+            height: 75%;
+            background-color: white;
+            display: flex;
+            gap: 20px; /* ul 요소들 간의 간격 설정 */
+        }
+
+        
+        .aprv-mail {
+            /* border: 1px solid red; */
+            width: 90%;
+            height: 70%;
+            background-color: white;
+            display: flex;
+            gap: 20px; /* ul 요소들 간의 간격 설정 */
+            margin: 30px;
+            
+        }
+
+     
+
+        .aprv-mail ul {
+            list-style-type: none; /* ul 요소의 기본 목록 마커 제거 */
+            padding: 0;
+            /* margin: 0; */
+            /* border: 1px solid #ccc; 테두리 스타일링 (옵션) */
+            /* width: calc(100% / 3 - 20px); 세로로 3열로 배치하기 위한 너비 설정 */
+            padding: 10px; /* 내부 여백 설정 */
+        }
+
+        .aprv-mail ul li {
+            margin-bottom: 5px; /* 각 li 요소 사이의 간격 설정 */
+            /* background-color: rgb(208, 214, 216); li 요소 배경색 (옵션) */
+            padding: 7px; /* 내부 여백 설정 */
+        }
+
+
+        .time-btn-go {
+            /* border: 1px solid red; */
+            text-align: center;
+            background-color: white;
+        }
+
+        .myaprv-container {
+            display: flex;
+            /* flex-direction: column; */
+            justify-content: space-between;
+            margin-inline: 50px;
+            margin-top: 30px;
+            margin-left: 55px;
+        }
+
+        .myaprv {
+            /* border: 1px solid red; */
+        }
+
+        .mymailtitle-container{
+            /* width: 100%;
+            margin-bottom: 5px;
+            border-bottom: 1px solid red; */
+        }
+
+        .mymail-container {
+            display: flex;
+            /* flex-direction: column; */
+            justify-content: space-around;
+            margin-inline: 93px;
+            margin-top: 30px;
+            gap: 100px;
+            margin-left: 160px;
+        }
+
+        .mymail {
+            /* border: 1px solid red; */
+        }
+
+
+/* .test1{
 	color: red;
 }
 
@@ -17,7 +475,7 @@
 
 .mail-info .label {
     font-weight: bold;
-    width: 100px; /* 라벨의 너비 조정 */
+    width: 100px; 라벨의 너비 조정
 }
 
 .mail-info .value {
@@ -30,4 +488,4 @@
   border-color: rgba(249, 249, 255, 0.54);
   outline: 0;
   box-shadow: 0 0 0.25rem 0.05rem rgba(105, 108, 255, 0.1);
-}
+} */
