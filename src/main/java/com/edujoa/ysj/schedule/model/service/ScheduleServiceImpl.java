@@ -1,54 +1,68 @@
 package com.edujoa.ysj.schedule.model.service;
+
 import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.edujoa.with.employee.model.dto.Employee;
 import com.edujoa.ysj.schedule.model.dao.ScheduleDao;
 import com.edujoa.ysj.schedule.model.dto.Schedule;
 import com.edujoa.ysj.schedule.model.dto.ScheduleSharer;
+
 import lombok.RequiredArgsConstructor;
+
 @Service
 @RequiredArgsConstructor
 public class ScheduleServiceImpl implements ScheduleService {
-    private final ScheduleDao scheduleDao;
+    private final ScheduleDao dao;
+    private final SqlSession session;
+
+    // 전체 일정 가져오기
     @Override
-    public List getAllSchedules() {
-        return scheduleDao.selectAllSchedules();
+    public List<Schedule> getAllSchedules() {
+        return dao.selectAllSchedules(session);
     }
+
+    // 특정 캘린더에 대한 일정 가져오기
     @Override
-    public List getSchedulesByCalendars(List calendars) {
-        return scheduleDao.selectSchedulesByCalendars(calendars);
+    public List<Schedule> getSchedulesByCalendars(List<String> calendars) {
+        return dao.selectSchedulesByCalendars(session, calendars);
     }
-    @Override
+
+    // 일정 등록
     @Transactional
+    @Override
     public int insertSchedule(Schedule schedule) {
-        // Schedule을 먼저 삽입
-        int result = scheduleDao.insertSchedule(schedule);
-        
-        // Schedule의 ID를 가져와서 ScheduleSharer에 설정 후 삽입
-        if (schedule.getSharers() != null) {
-            for (ScheduleSharer sharer : schedule.getSharers()) {
-                sharer.setSchId(schedule.getSchId());
-                scheduleDao.insertScheduleSharer(sharer);
-            }
-        }
-        
-        return result;
+        return dao.insertSchedule(session, schedule);
     }
+    
+
+
+    // 일정 상세 조회
     @Override
     public Schedule getEventDetail(String eventId) {
-        return scheduleDao.getEventDetail(eventId);
+        return dao.getEventDetail(session, eventId);
     }
+
+    // 일정 수정
+    @Transactional
     @Override
     public int updateSchedule(Schedule schedule) {
-        return scheduleDao.updateSchedule(schedule);
+        return dao.updateSchedule(session, schedule);
     }
+
+    // 일정 삭제
+    @Transactional
     @Override
     public int deleteSchedule(String eventId) {
-        return scheduleDao.deleteSchedule(eventId);
+        return dao.deleteSchedule(session, eventId);
     }
+
+    // 일정에 대한 전체 직원 가져오기
     @Override
-    public List getAllEmployeesForSchedule() {
-        return scheduleDao.selectAllEmployeesForSchedule();
+    public List<Employee> getAllEmployeesForSchedule() {
+        return dao.selectAllEmployeesForSchedule(session);
     }
 }

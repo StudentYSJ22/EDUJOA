@@ -1,99 +1,103 @@
 package com.edujoa.ysj.schedule.model.dao;
 
-
 import java.util.List;
-import java.util.UUID;
 
-import org.mybatis.spring.SqlSessionTemplate;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.edujoa.with.employee.model.dto.Employee;
 import com.edujoa.ysj.schedule.model.dto.Schedule;
 import com.edujoa.ysj.schedule.model.dto.ScheduleSharer;
 
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Repository
-@RequiredArgsConstructor
 public class ScheduleDaoImpl implements ScheduleDao {
-    private final SqlSessionTemplate sqlSession;
 
+    // 전체 일정 조회
     @Override
-    public List<Schedule> selectAllSchedules() {
-        return sqlSession.selectList("schedule.selectAllSchedules");
+    public List<Schedule> selectAllSchedules(SqlSession session) {
+        return session.selectList("schedule.selectAllSchedules");
     }
 
+    // 특정 캘린더에 대한 일정 조회
     @Override
-    public List<Schedule> selectSchedulesByCalendars(List<String> calendars) {
-        return sqlSession.selectList("schedule.selectSchedulesByCalendars", calendars);
+    public List<Schedule> selectSchedulesByCalendars(SqlSession session, List<String> calendars) {
+        return session.selectList("schedule.selectSchedulesByCalendars", calendars);
     }
 
+    // 일정 추가
+    @Transactional
     @Override
-    public int insertSchedule(Schedule schedule) {
-        if (schedule.getSchId() == null || schedule.getSchId().isEmpty()) {
-            schedule.setSchId(UUID.randomUUID().toString());
-        }
-        int result = sqlSession.insert("schedule.insertSchedule", schedule);
+    public int insertSchedule(SqlSession session, Schedule schedule) { 
+        int result = session.insert("schedule.insertSchedule", schedule);
+        String schId = schedule.getSchId(); //selectKey 가져온걸 변수  
+        
         if (schedule.getSharers() != null) {
             for (ScheduleSharer sharer : schedule.getSharers()) {
-                sharer.setSchId(schedule.getSchId());
-                sqlSession.insert("schedule.insertScheduleSharer", sharer);
+            	sharer.setSchId(schId); //setter 가져오기  
+            	insertScheduleSharer(session, sharer);
+                log.debug("{}",sharer);
             }
         }
+        log.debug(schId);
+
         return result;
     }
 
+    // 일정 상세 조회
     @Override
-    public Schedule getEventDetail(String eventId) {
-        return sqlSession.selectOne("schedule.selectScheduleById", eventId);
+    public Schedule getEventDetail(SqlSession session, String eventId) {
+        return session.selectOne("schedule.selectScheduleById", eventId);
     }
 
+    // 일정 수정
     @Override
-    public int updateSchedule(Schedule schedule) {
-        return sqlSession.update("schedule.updateSchedule", schedule);
+    public int updateSchedule(SqlSession session, Schedule schedule) {
+        return session.update("schedule.updateSchedule", schedule);
     }
 
+    // 일정 삭제
     @Override
-    public int deleteSchedule(String eventId) {
-        return sqlSession.delete("schedule.deleteSchedule", eventId);
+    public int deleteSchedule(SqlSession session, String eventId) {
+        return session.delete("schedule.deleteSchedule", eventId);
     }
 
+    // 일정 참석자 조회
     @Override
-    public List<ScheduleSharer> selectScheduleSharers(String eventId) {
-        return sqlSession.selectList("schedule.selectScheduleSharers", eventId);
+    public List<ScheduleSharer> selectScheduleSharers(SqlSession session, String eventId) {
+        return session.selectList("schedule.selectScheduleSharers", eventId);
     }
 
-//    @Override
-//    public void insertScheduleSharer(ScheduleSharer scheduleSharer) {
-//        sqlSession.insert("schedule.insertScheduleSharer", scheduleSharer);
-//    }
-
-
+    // 일정 참석자 추가
     @Override
-    public int insertScheduleSharer(ScheduleSharer scheduleSharer) {
-        Integer count = sqlSession.selectOne("schedule.checkDuplicateSharer", scheduleSharer);
+    public int insertScheduleSharer(SqlSession session, ScheduleSharer scheduleSharer) {
+        Integer count = session.selectOne("schedule.checkDuplicateSharer", scheduleSharer);
         if (count != null && count > 0) {
-            // 중복 항목 검사 
+            // 중복 항목 검사
             System.out.println("Duplicate entry detected: " + scheduleSharer);
-            return 0; // 중복된 경우 0 반환 
+            return 0; // 중복된 경우 0 반환
         }
         try {
-            return sqlSession.insert("schedule.insertScheduleSharer", scheduleSharer);
+            return session.insert("schedule.insertScheduleSharer", scheduleSharer);
         } catch (Exception e) {
-            
             throw e;
         }
     }
 
-    
+ 
+
+    // 일정 참석자 삭제
     @Override
-    public int deleteScheduleSharers(String schId) {
-        return sqlSession.delete("schedule.deleteScheduleSharers", schId);
+    public int deleteScheduleSharers(SqlSession session, String schId) {
+        return session.delete("schedule.deleteScheduleSharers", schId);
     }
 
+    // 전체 직원 목록 조회
     @Override
-    public List<Employee> selectAllEmployeesForSchedule() {
-        return sqlSession.selectList("schedule.selectAllEmployeesForSchedule");
+    public List<Employee> selectAllEmployeesForSchedule(SqlSession session) {
+        return session.selectList("schedule.selectAllEmployeesForSchedule");
     }
 }
-
