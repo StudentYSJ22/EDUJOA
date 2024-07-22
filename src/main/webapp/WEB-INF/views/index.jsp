@@ -12,10 +12,10 @@
                 <div class="mini-container">
                     <div class="mini-first-container">
                         <div class="emp-info-container">
-                            <div class="emp-pic"></div>
-                            <div class="emp-info" style="color: rgb(145, 145, 145); font-size: 15px;">(DB)교육운영팀</div>
-                            <div class="emp-info" style="color: rgb(145, 145, 145); font-size: 12px;">(DB)매니저</div>
-                            <div class="emp-info" style="font-size: 20px; color: black;"><b>(DB)유병승</b></div>
+                            <div class="emp-pic" style="background-image: url(${pageContext.request.contextPath}/resources/images/bs.png");></div>
+                            <div class="emp-info" style="color: rgb(145, 145, 145); font-size: 15px;">교육운영팀</div>
+                            <div class="emp-info" style="color: rgb(145, 145, 145); font-size: 12px;">매니저</div>
+                            <div class="emp-info2" style="font-size: 20px; color: black;"><b>유병승</b></div>
                         </div>
                     </div>
                     <div class="mini-second-container">
@@ -43,23 +43,28 @@
                 <div class="mini2-container">
                     <div class="mini2-first-container">
                         <div class="five-container">
-                            <div class="circle" style="background-image: url(images/chat-icon.png);"></div>
-                            <div class="circle-info">전자우편</div>
+                            <a href="test.html"><div class="circle-su";>5</div></a>
+                            <a href="test.html"><div class="circle" style="background-image: url(${pageContext.request.contextPath}/resources/images/mail-icon.png");></div></a>
+                            <div class="circle-info">우편</div>
                         </div>
                         <div class="five-container">
-                            <div class="circle" style="background-image: url(images/chat-icon.png);"></div>
-                            <div class="circle-info">전자결재</div>
+                      		<a href="test.html"><div class="circle-su";>12</div></a>
+                            <a href="test.html"><div class="circle" style="background-image: url(${pageContext.request.contextPath}/resources/images/approval-icon.png");></div></a>
+                            <div class="circle-info">결재</div>
+                            </div>
+                        <div class="five-container">                        
+                      		<a href="test.html"><div class="circle-su" style="background-color:gray";>0</div></a>
+                            <a href="test.html"><div class="circle" style="background-image: url(${pageContext.request.contextPath}/resources/images/docu-icon.png");></div></a>
+                            <div class="circle-info">문서</div>
                             </div>
                         <div class="five-container">
-                            <div class="circle" style="background-image: url(images/chat-icon.png);"></div>
-                            <div class="circle-info">문서함</div>
+                      		<a href="test.html"><div class="circle-su";>102</div></a>
+                            <a href="test.html"><div class="circle" style="background-image: url(${pageContext.request.contextPath}/resources/images/calendar-icon.png");></div></a>
+                            <div class="circle-info">일정</div>
                             </div>
                         <div class="five-container">
-                            <div class="circle" style="background-image: url(images/chat-icon.png);"></div>
-                            <div class="circle-info">오늘의 일정</div>
-                            </div>
-                        <div class="five-container">
-                            <div class="circle" style="background-image: url(images/chat-icon.png);"></div>
+                      		<a href="test.html"><div class="circle-su";>51</div></a>
+                            <a href="test.html"><div class="circle" style="background-image: url(${pageContext.request.contextPath}/resources/images/chat-icon.png");></div></a>
                             <div class="circle-info">메신저</div>
                         </div>
                     </div>
