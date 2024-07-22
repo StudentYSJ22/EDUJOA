@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
     // 사용자 선택 및 선택 해제 토글
     $('body').on('click', '.user-bottom, .select-user', function() {
@@ -24,14 +25,14 @@ $(document).ready(function() {
         moveItems('.select-refer .selected', '.content-right');
     });
 
-	//옮기는 로직
+    // 요소를 다른 목록으로 이동
     function moveItems(fromSelector, toSelector) {
         $(fromSelector).each(function() {
             const itemText = $(this).text();
             const empId = $(this).data('empid');
             // 중복 검사
             if ($(toSelector).find(`p:contains(${itemText})`).length === 0) {
-                const newItem = $('<p>').text(itemText).addClass('select-user').data('empid',empId);
+                const newItem = $('<p>').text(itemText).addClass('select-user').data('empid', empId);
                 $(this).removeClass('selected');
                 $(this).remove();
                 $(toSelector).append(newItem);
@@ -46,99 +47,64 @@ $(document).ready(function() {
         applyApprovalLine();
         saveToForm();
     });
-	
-	//확인 버튼을 누를 때 폼으로 넘겨지는 로직
+
+    // 확인 버튼을 누를 때 폼으로 넘겨지는 로직
     function applyApprovalLine() {
-        const approvalPrincipal = $('#approval-principal');
-        const approvalTeamLeader = $('#approval-team-leader');
-        const referTeamLeader = $('#refer-team-leader');
-        const referManager = $('#refer-manager');
-
-        const approvalPrincipalSign = $('#approval-principal-sign');
-        const approvalTeamLeaderSign = $('#approval-team-leader-sign');
-        const referTeamLeaderSign = $('#refer-team-leader-sign');
-        const referManagerSign = $('#refer-manager-sign');
-
+        const approvalPrincipal = $('#approval-principal'); // 결재자 원장
+        const approvalTeamLeader = $('#approval-team-leader'); // 결재자 팀장
+        const referTitle1 = $('#refer-title1');
+        const referTitle2 = $('#refer-title2');
+        
+        const referFirst = $('#refer-first'); // 참조자 컨테이너
+        const referLast = $('#refer-last'); // 참조자 컨테이너
+        // 결재자와 참조자 칸 초기화
         approvalPrincipal.empty();
         approvalTeamLeader.empty();
-        referTeamLeader.empty();
-        referManager.empty();
+        referTitle1.empty(); 
+		referTitle2.empty();
+		referFirst.empty();
+		referLast.empty();
+        let hasPrincipal = false;
+        let hasTeamLeader = false;
 
-        approvalPrincipalSign.empty();
-        approvalTeamLeaderSign.empty();
-        referTeamLeaderSign.empty();
-        referManagerSign.empty();
-        
-		// 결재 목록에서 결재자 정보 가져오기
-	    let hasPrincipal = false;
-   		let hasTeamLeader = false;
-    
-	    $('.select-approval p').each(function() {
-	        const text = $(this).text();
-	        console.log("Selected approval:", text);
-	        const signImage = '<img src="/path/to/signature.png" alt="Signature" width="50">';
-	        if (text.includes('(원장)')) {
-	            approvalPrincipal.text(text);
-	            approvalPrincipalSign.html(signImage);
-	            hasPrincipal = true;
-	        } else if (text.includes('(팀장)')) {
-	            approvalTeamLeader.text(text);
-	            approvalTeamLeaderSign.html(signImage);
-	            hasTeamLeader = true;
-	        }
-	    });
-	
-	    // 결재에 원장과 팀장이 없으면 경고 메시지 표시
-	    if (!hasPrincipal || !hasTeamLeader) {
-	        alert('결재에는 원장과 팀장이 들어가야 합니다.');
-	        return;
-	    }
-	        // 결재 목록에서 결재자 정보 가져오기
-	        $('.select-approval p').each(function() {
-	            const text = $(this).text();
-	            const empId = $(this).data('empid');
-	            console.log("Selected approval:", text);
-	            const signImage = '<img src="/path/to/signature.png" alt="Signature" width="50">';
-	            if (text.includes('(원장)')) {
-	                approvalPrincipal.text(text);
-	                approvalPrincipalSign.html(signImage);
-	            } else if (text.includes('(팀장)')) {
-	                approvalTeamLeader.text(text);
-	                approvalTeamLeaderSign.html(signImage);
-	            }
-	        });
-		//실행 안돼
+        // 결재 목록에서 결재자 정보 가져오기
+        $('.select-approval p').each(function() {
+            const text = $(this).text();
+            const empId = $(this).data('empid');
+            const title = getTitleFromText(text); // 직급 정보 추출
+            if (title === '원장') {
+                approvalPrincipal.text(text);
+                hasPrincipal = true;
+            } else if (title === '팀장') {
+                approvalTeamLeader.text(text);
+                hasTeamLeader = true;
+            }
+        });
+
+        if (!hasPrincipal || !hasTeamLeader) {
+            alert('결재에는 원장과 팀장이 들어가야 합니다.');
+            return;
+        }
+
         // 참조 목록에서 참조자 정보 가져오기
         $('.select-refer p').each(function() {
             const text = $(this).text();
             const empId = $(this).data('empid');
-            console.log("Selected refer:", text);
-            const signImage = '<img src="/path/to/signature.png" alt="Signature" width="50">';
-            if (text.includes('(팀장)') && referTeamLeader.text() === "") {
-                referTeamLeader.text(text);
-                referTeamLeaderSign.html(signImage);
-            } else if (text.includes('(매니저)') && referManager.text() === "") {
-                referManager.text(text);
-                referManagerSign.html(signImage);
-            }
+            const title = getTitleFromText(text); // 직급 정보 추출
+            
+            if(referTitle1.text()==''){
+				referTitle1.text(title);
+				referFirst.text(text);
+			}else if(referTitle2.text()==''){
+				referTitle2.text(title);
+				referLast.text(text);
+			}
         });
 
-        // 빈 셀 행 숨기기
-        if (approvalPrincipal.text() === "" && approvalTeamLeader.text() === "") {
-            $('#approval-principal').closest('tr').hide();
-        } else {
-            $('#approval-principal').closest('tr').show();
-        }
-
-        if (referTeamLeader.text() === "" && referManager.text() === "") {
-            $('#refer-team-leader').closest('tr').hide();
-        } else {
-            $('#refer-team-leader').closest('tr').show();
-        }
-
-        modal_close();
+        modal_close(); // 모달 닫기
     }
-
+	
+    // 폼에 결재자와 참조자 정보 저장
     function saveToForm() {
         console.log("Saving to form");
         const approvalList = [];
@@ -146,34 +112,43 @@ $(document).ready(function() {
 
         // 결재 목록에서 결재자 정보 가져오기
         $('.select-approval p').each(function() {
-			//해당 태그에 있는 이름과 data(empId) 갖고오기
-			const empId = $(this).data('empid');
-			const text = $(this).text();
-			console.log(empId);
-            approvalList.push({text:text,empId:empId});
+            const empId = $(this).data('empid');
+            const text = $(this).text();
+            const title = getTitleFromText(text);
+            const order = (title === '원장') ? 0 : 1; // 결재 순번 설정
+            approvalList.push({ empId: empId, order: order });
         });
 
         // 참조 목록에서 참조자 정보 가져오기
         $('.select-refer p').each(function() {
-			const empId = $(this).data('empid');
-			const text = $(this).text();
-            referList.push({text:text,empId:empId});
+            const empId = $(this).data('empid');
+            const text = $(this).text();
+            referList.push(empId);
         });
 
         console.log("Approval list:", approvalList);
         console.log("Refer list:", referList);
 
         // 숨겨진 필드에 저장 (JSON 형태로 저장)
-    	$('#approval-field').val(JSON.stringify(approvalList));
-   		$('#refer-field').val(JSON.stringify(referList));
+        $('#approval-field').val(JSON.stringify(approvalList));
+        $('#refer-field').val(JSON.stringify(referList));
+    }
 
-        // 폼 제출 (필요시 사용)
-        // $('#approval-form').submit();
+    // 텍스트에서 직급 정보 추출
+    function getTitleFromText(text) {
+        if (text.includes('원장')) {
+            return '원장';
+        } else if (text.includes('팀장')) {
+            return '팀장';
+        } else if (text.includes('매니저')) {
+            return '매니저';
+        }
+        return '';
     }
 });
-// 모달 열기 및 데이터 로딩
+
+// 모달 열기
 function modal_on() {
-    // 결재선 불러오기 전에 select 요소 초기화
     const select = document.querySelector('.search-approval-line select');
     select.innerHTML = '<option value="" disabled selected>자주쓰는 결재라인</option>';
 
@@ -195,8 +170,8 @@ function modal_on() {
 
             let userTop = $('.user-top');
             userTop.off('click').on('click', function() {
-				userTop.removeClass('selected');
-				$(this).addClass('selected');
+                userTop.removeClass('selected');
+                $(this).addClass('selected');
                 let text = this.innerText;
                 let contentRight = $('.content-right');
                 contentRight.empty(); // 클릭할 때마다 내용을 초기화
@@ -228,8 +203,7 @@ function modal_on() {
             console.error('Error:', textStatus, errorThrown);
         }
     });
-	
-	//자주쓰는 결제 불러오기
+
     $.ajax({
         url: `${path}/rest/approval/${empId}`,
         dataType: 'json',
@@ -239,7 +213,6 @@ function modal_on() {
             });
 
             select.addEventListener('change', function() {
-                console.log("Selected frequent line:", this.value);
                 $('.select-approval').text('');
                 $('.select-refer').text('');
                 const frqId = this.value;
@@ -259,9 +232,9 @@ function modal_on() {
                                     break;
                             }
                             if (fp.feqType === '0') {
-                                $('.select-approval').append($('<p>').text(fp.employee.empName + '(' + title + ')').addClass('select-user').data('empid',fp.employee.empId));
+                                $('.select-approval').append($('<p>').text(fp.employee.empName + '(' + title + ')').addClass('select-user').data('empid', fp.employee.empId));
                             } else {
-                                $('.select-refer').append($('<p>').text(fp.employee.empName + '(' + title + ')').addClass('select-user').data('empid',fp.employee.empId));
+                                $('.select-refer').append($('<p>').text(fp.employee.empName + '(' + title + ')').addClass('select-user').data('empid', fp.employee.empId));
                             }
                         });
                     }
@@ -273,14 +246,80 @@ function modal_on() {
         }
     });
 
-    // 모달 열기
     $('.hs-modal-container').css({
         display: 'block',
         "background-color": "rgba(0,0,0,0.6)"
     });
 }
+ // 모달 열기
+		    const openApprovalLineModal = function() {
+		        document.getElementById('approval-line-modal').style.display = 'flex';
+		    }
 
+		    // 모달 닫기
+		    const closeApprovalLineModal = function() {
+		        document.getElementById('approval-line-modal').style.display = 'none';
+		    }
+
+		    // 자주쓰는 결재라인 추가하기
+		    const addApprovalLine = function() {
+		        openApprovalLineModal();
+		    }
+
+		    // 결재라인 추가하기 함수
+		    const saveApprovalLine = function() {
+		        const frequentperson = [];
+		        const checkPerson = [];
+		        const favoriteName = document.getElementById('favorite-name').value;
+				console.log($('#approval-list .selected'));
+		        // 결재 목록에서 결재자 정보 가져오기
+		        $('.select-approval p').each(function() {
+		            const empId = $(this).data('empid');
+		            frequentperson.push({empId:empId,feqType:'0'});
+		            checkPerson.push('1');
+		        });
+
+		          // 참조 목록에서 참조자 정보 가져오기
+		        $('.select-refer p').each(function() {
+		            const empId = $(this).data('empid');
+		            frequentperson.push({empId:empId,feqType:'1'});
+		        });
+
+		        // 결재자와 참조자가 선택되었는지 확인
+		        if (checkPerson.length < 2) {
+		            alert('결재자는 최소 2명이 있어야 합니다.');
+		            console.log(approvalLine);
+		            return;
+		        }
+		        if (!favoriteName) {
+		            alert('즐겨찾기 이름을 입력해주세요.');
+		            return;
+		        }
+
+		        // AJAX로 서버에 데이터 전송
+		        $.ajax({
+		            url: `${path}/rest/approval/addApprovalLine`,
+		            type: 'POST',
+		            contentType: 'application/json',
+		            data: JSON.stringify({
+		                feqName: favoriteName,
+		                empId:empId,
+		                frequentperson: frequentperson,
+		            }),
+		            success: function(response) {
+		                alert('결재라인이 성공적으로 추가되었습니다.\n새로고침 후 이용하세요.');
+		                closeApprovalLineModal();
+		                // 추가 작업
+		            },
+		            error: function(xhr, status, error) {
+		                alert('결재라인 추가 중 오류가 발생했습니다.');
+		                console.error(error);
+		            }
+		        });
+		    };
+		
 // 모달 닫기
 const modal_close = () => {
     $('.hs-modal-container').css('display', 'none');
 };
+

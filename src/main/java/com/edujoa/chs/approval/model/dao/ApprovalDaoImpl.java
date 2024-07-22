@@ -15,6 +15,7 @@ import com.edujoa.chs.approval.model.dto.ApvTag;
 import com.edujoa.chs.approval.model.dto.CarbonCopy;
 import com.edujoa.chs.approval.model.dto.FrequentLine;
 import com.edujoa.chs.approval.model.dto.FrequentPerson;
+import com.edujoa.chs.approval.model.dto.PaymentList;
 import com.edujoa.chs.approval.model.dto.PrePayment;
 import com.edujoa.chs.approval.model.dto.Vacay;
 import com.edujoa.with.employee.model.dto.Employee;
@@ -83,6 +84,11 @@ public class ApprovalDaoImpl implements ApprovalDao {
 	@Override
 	public int updateAfterPayment(SqlSession session, AfterPayment afterPayment) {
 		return session.update("approval.updateAfterPayment",afterPayment);
+	}
+	//지출 리스트 등록하기
+	@Override
+	public int insertPaymentList(SqlSession session, PaymentList paymentList) {
+		return session.insert("approval.insertPaymentList",paymentList);
 	}
 	//참조인 등록하기
 	@Override
@@ -156,7 +162,7 @@ public class ApprovalDaoImpl implements ApprovalDao {
 	}
 	//자주쓰는 결재라인 인원 등록하기
 	@Override
-	public int insertFrequentPerson(SqlSession session, FrequentPerson frequentPerson) {
+	public int insertFrequentPerson(SqlSession session,FrequentPerson frequentPerson) {
 		return session.insert("approval.insertFrequentPerson",frequentPerson);
 	}
 	//자주쓰는 결재라인 인원 수정하기
@@ -173,6 +179,11 @@ public class ApprovalDaoImpl implements ApprovalDao {
 	@Override
 	public List<Employee> selectAllApprovalLine(SqlSession session, String empId) {
 		return session.selectList("approval.selectAllApprovalLine", empId);
+	}
+	//결재 사인 생성하기
+	@Override
+	public int updateSignatureUrl(SqlSession session, Map<String, String> param) {
+		return session.update("approval.updateSignature",param);
 	}
 
 }

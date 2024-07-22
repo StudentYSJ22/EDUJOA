@@ -1,9 +1,4 @@
 
-
-
-//07.17코드
-
-
  
 // 날짜 및 시간 형식 변환 함수 (ISO-8601 형식)
 function formatLocalDateTime(date) {

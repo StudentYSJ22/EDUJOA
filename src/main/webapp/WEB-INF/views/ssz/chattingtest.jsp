@@ -227,6 +227,8 @@ body {
 		let chatTime = document.getElementById('chatTime').value;
 
 		//console.log(employees);
+		
+		
 	</script>
 
 	<script src="${path }/resources/js/chatting.js"></script>

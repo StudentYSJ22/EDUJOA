@@ -12,15 +12,18 @@ import com.edujoa.chs.approval.model.dto.AfterPayment;
 import com.edujoa.chs.approval.model.dto.Approval;
 import com.edujoa.chs.approval.model.dto.ApprovalLine;
 import com.edujoa.chs.approval.model.dto.ApvAttachment;
+import com.edujoa.chs.approval.model.dto.ApvTag;
 import com.edujoa.chs.approval.model.dto.CarbonCopy;
 import com.edujoa.chs.approval.model.dto.FrequentLine;
 import com.edujoa.chs.approval.model.dto.FrequentPerson;
+import com.edujoa.chs.approval.model.dto.PaymentList;
 import com.edujoa.chs.approval.model.dto.PrePayment;
 import com.edujoa.chs.approval.model.dto.Vacay;
 import com.edujoa.with.employee.model.dto.Employee;
 
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ApprovalServiceImpl implements ApprovalService{
@@ -52,29 +55,40 @@ public class ApprovalServiceImpl implements ApprovalService{
 		int result = dao.insertApproval(session, approval);
 		//mybatis에서 <selectKey>태그를 이용해 시퀀스 값을 불러와 변수에 저장
 		String apvId = approval.getApvId();
-		if(approvalMap.get("apvattachment") != null) {
-			ApvAttachment apvAttachment = (ApvAttachment) approvalMap.get("apvattachment");
+		ApvAttachment apvattachment = (ApvAttachment)approvalMap.get("apvAttachment");
+		if(apvattachment.getFileOriname() != null) {
+			ApvAttachment apvAttachment = (ApvAttachment) approvalMap.get("apvAttachment");
 			apvAttachment.setApvId(apvId); // 시퀀스 값을 설정
 			result = dao.insertApvAttachment(session, apvAttachment);
 		}
-		switch ((String) approvalMap.get("apvtype")) {
-		case "vacay":
+		switch ((String) approvalMap.get("apvType")) {
+		case "0":
 			Vacay vacay = (Vacay) approvalMap.get("vacay");
 			vacay.setApvId(apvId); // 시퀀스 값을 설정
 			result = dao.insertVacay(session, vacay); break;
-		case "prepayment":
+		case "1":
 			PrePayment prePayment = (PrePayment) approvalMap.get("prepayment");
 			prePayment.setApvId(apvId); // 시퀀스 값을 설정
 			result = dao.insertPrePayment(session, prePayment); break;
-		case "afterpayment":
+		case "2":
 			AfterPayment afterPayment = (AfterPayment) approvalMap.get("afterpayment");
+			log.debug("{}",afterPayment);
 			afterPayment.setApvId(apvId); // 시퀀스 값을 설정
 			result = dao.insertAfterPayment(session, afterPayment); break;
 		}
+		if (approvalMap.get("paymentList") != null) {
+		    List<PaymentList> paymentList = (List<PaymentList>) approvalMap.get("paymentList");
+		    for (PaymentList payment : paymentList) {
+		        payment.setApvId(apvId); // 시퀀스 값을 설정
+		        result = dao.insertPaymentList(session, payment);
+		    }
+		}
 		if(approvalMap.get("carboncopy") != null) {
-			CarbonCopy carbonCopy = (CarbonCopy) approvalMap.get("carboncopy");
-			carbonCopy.setApvId(apvId); // 시퀀스 값을 설정
-			result = dao.insertCarbonCopy(session, carbonCopy);
+			List<CarbonCopy> carbonCopy = (List<CarbonCopy>)approvalMap.get("carboncopy");
+			for(CarbonCopy c : carbonCopy) {
+				c.setApvId(apvId); // 시퀀스 값을 설정
+				result = dao.insertCarbonCopy(session, c);
+			}
 		}
 		//결재 라인은 여러 명이 올 수 있으니 List로 받아 for문을 돌림
 		List<ApprovalLine> approvalLine = (List<ApprovalLine>) approvalMap.get("approvalline");
@@ -126,38 +140,37 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return dao.selectAllFrequenLine(session,empId);
 	}
 	//자주쓰는 결재라인 등록하기
+	@Transactional
 	@Override
 	public int insertFrequentLine(FrequentLine frequentLine) {
-		return dao.insertFrequentLine(session, frequentLine);
-	}
-	//자주쓰는 결재라인 수정하기
-	@Override
-	public int updateFrequentLine(FrequentLine frequentLine) {
-		return dao.updateFrequentLine(session, frequentLine);
+		
+		int result =dao.insertFrequentLine(session, frequentLine);
+		String feqId = frequentLine.getFeqId();
+		for(FrequentPerson fp : frequentLine.getFrequentperson()) {
+			fp.setFeqId(feqId);
+			result = dao.insertFrequentPerson(session, fp);
+		}
+		return result;
 	}
 	//자주쓰는 결재라인 삭제하기
 	@Override
 	public int deleteFrequentLine(String feqId) {
 		return dao.deleteFrequentLine(session, feqId);
 	}
-	//자주쓰는 결재라인 인원 등록하기
-	@Override
-	public int insertFrequentPerson(FrequentPerson frequentPerson) {
-		return dao.insertFrequentPerson(session, frequentPerson);
-	}
-	//자주쓰는 결재라인 인원 수정하기
-	@Override
-	public int updateFrequentPerson(FrequentPerson frequentPerson) {
-		return dao.updateFrequentPerson(session, frequentPerson);
-	}
-	//자주쓰는 결재라인 인원 삭제하기
-	@Override
-	public int deleteFrequentPerson(String feqpId) {
-		return dao.deleteFrequentPerson(session, feqpId);
-	}
 	//결재선 조회하기
 	@Override
 	public List<Employee> selectAllApprvoalLine(String empId) {
 		return dao.selectAllApprovalLine(session, empId);
 	}
+	//결재 사인 생성하기
+	@Override
+	public int updateSignatureUrl(Map<String, String> param) {
+		return dao.updateSignatureUrl(session, param);
+	}
+	//태그 불러오기
+	@Override
+	public ApvTag selectApvTag(String apvType) {
+		return dao.selectApvTag(session, apvType);
+	}
+	
 }
