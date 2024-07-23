@@ -31,12 +31,14 @@ $(document).ready(function() {
     // 선택된 이벤트 정보와 참여자 목록을 저장할 변수
     let clickedEventInfo;
     let selectedSharers = [];
+    
+    
 
-    // FullCalendar 요소를 초기화
+    // FullCalendar 요소 초기화
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth', // 초기 뷰 설정
-        headerToolbar: { // 캘린더 헤더 설정
+        headerToolbar: { 			 // 캘린더 헤더 설정
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
@@ -90,11 +92,11 @@ $(document).ready(function() {
             });
         },
 
-        height: 'auto', // 높이 자동 조정
-        aspectRatio: 1.35, // 화면 비율 설정
+        height: 'auto', 		  // 높이 자동 조정
+        aspectRatio: 1.35, 		  // 화면 비율 설정
         handleWindowResize: true, // 창 크기 조정 시 캘린더 크기 조정
 
-        // 이벤트 클릭 시 호출되는 함수
+        // 이벤트 클릭 시 호출되는 함수(상세정보)
         eventClick: function(info) {
             clickedEventInfo = info;
 

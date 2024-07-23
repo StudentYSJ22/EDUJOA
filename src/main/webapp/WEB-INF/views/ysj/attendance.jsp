@@ -1,30 +1,79 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
 
-<link rel="stylesheet" href="${path}/resources/css/ysj/attendance.css">
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-<!-- FullCalendar CSS -->
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/main.min.css' rel='stylesheet' />
-<!-- FullCalendar JS -->
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
-<!-- Custom JS -->
-<script src="<%=request.getContextPath()%>/resources/js/ysj/attendance.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ysj/attendance.css">
 
-<div id='calendar'></div>
+<!-- 근태 메뉴 박스  -->
+<div class="summary-container">
+    <h2>출퇴근 Summary</h2>
+    <div class="summary-grid">
+        <div class="summary-item active">
+            <div class="icon">&#128188;</div>
+            <div class="text">전체</div>
+        </div>
+        <div class="summary-item">
+            <div class="icon purple">&#128188;</div>
+            <div class="text">정상근로일<br><span>17건</span></div>
+        </div>
+        <div class="summary-item">
+            <div class="icon grey">&#8722;</div>
+            <div class="text">미처리<br><span>6건</span></div>
+        </div>
+        <div class="summary-item">
+            <div class="icon blue">&#128188;</div>
+            <div class="text">실제 출퇴근등록일<br><span>20건</span></div>
+        </div>
+    </div>
+    ss
+</div>
+
+<!-- 근태기록  -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-9">
+            <h2>근태 기록</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>일자</th>
+                        <th>출근시간</th>
+                        <th>퇴근시간</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="attendance" items="${attendances}">
+                        <tr>
+                            <td>${attendance.atnIn}</td>
+                            <td>${attendance.atnIn}</td>
+                            <td>${attendance.atnOut}</td>
+                            <td>${attendance.atnStatus}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <div id="page-bar" style="height:60px;">
+                ${pagebar}
+            </div>
+        </div>
+    </div>
+</div>
 
 
+<!-- <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+...
 
-<script>
-  const path = '${pageContext.request.contextPath}';
-  console.log(path);
-</script>
+<td><fmt:formatDate value="${attendance.atnIn}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+<td><fmt:formatDate value="${attendance.atnOut}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+...
 
-
-
-
+ -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />
