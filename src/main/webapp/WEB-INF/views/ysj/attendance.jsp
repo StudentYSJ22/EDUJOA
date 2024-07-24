@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -17,26 +18,28 @@
         </div>
         <div class="summary-item">
             <div class="icon purple">&#128188;</div>
-            <div class="text">정상근로일<br><span>17건</span></div>
+            <div class="text">출근<br><span>17건</span></div>
         </div>
         <div class="summary-item">
-            <div class="icon grey">&#8722;</div>
-            <div class="text">미처리<br><span>6건</span></div>
+            <div class="icon grey">&#128188;</div>
+            <div class="text">지각<br><span>6건</span></div>
         </div>
         <div class="summary-item">
             <div class="icon blue">&#128188;</div>
-            <div class="text">실제 출퇴근등록일<br><span>20건</span></div>
+            <div class="text">결근<br><span>20건</span></div>
         </div>
+        <div class="summary-item">
+            <div class="icon blue">&#128188;</div>
+            <div class="text">미처리<br><span>2</span></div>
+        </div>
+       
     </div>
-    ss
 </div>
 
 <!-- 근태기록  -->
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
-        </div>
-        <div class="col-md-9">
+        <div class="col-md-12">
             <h2>근태 기록</h2>
             <table class="table table-bordered">
                 <thead>
@@ -47,15 +50,7 @@
                         <th>상태</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <c:forEach var="attendance" items="${attendances}">
-                        <tr>
-                            <td>${attendance.atnIn}</td>
-                            <td>${attendance.atnIn}</td>
-                            <td>${attendance.atnOut}</td>
-                            <td>${attendance.atnStatus}</td>
-                        </tr>
-                    </c:forEach>
+                <tbody id="attendance-list">
                 </tbody>
             </table>
             <div id="page-bar" style="height:60px;">
@@ -65,15 +60,10 @@
     </div>
 </div>
 
-
-<!-- <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-...
-
-<td><fmt:formatDate value="${attendance.atnIn}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-<td><fmt:formatDate value="${attendance.atnOut}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-
-...
-
- -->
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    var path = "${pageContext.request.contextPath}";
+</script>
+<script src="${pageContext.request.contextPath}/resources/js/ysj/attendance.js"></script>
