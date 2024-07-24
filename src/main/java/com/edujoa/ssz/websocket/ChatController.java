@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,11 +49,13 @@ public class ChatController {
 	@GetMapping("/chatting/chattestview")
 	public String chattestview(String empId, Model m, Principal principal) {
 		// 메신저상에서 사내에 모든 인원과 채팅하기 위해 정보 가져옴
+		String name=principal.getName();
+		System.out.println("principal의 이름은:"+name);
 		log.debug("{}", principal);
-		List<Employee> employees = service.selectAllEmp(empId);
+		List<Employee> employees = service.selectAllEmp(name);
 		m.addAttribute("employees", employees);
 		// 로그인된 id와 일치하는 컬럼값을 가진 채팅방목록 조회
-		List<ChatRoom> chatrooms = chatService.getRooms(empId);
+		List<ChatRoom> chatrooms = chatService.getRooms(name);
 		m.addAttribute("chatrooms", chatrooms);
 		return "ssz/chattingtest";
 	}
@@ -60,16 +63,16 @@ public class ChatController {
 	// 채팅방있는지 체크
 	@ResponseBody
 	@GetMapping("/chatting/checkChatRoom")
-	public String checkChatRoom(@RequestBody Map<String, Object> param) {
+	public String checkChatRoom(@RequestBody Map<String, String> param) {
 		return chatService.checkChatRoomExists(param);
 	}
 
-	// 채팅방 생성
-	@ResponseBody
-	@PostMapping("/chatting/makeChatRoom")
-	public int makeChatRoom(@RequestBody Map<String, Object> param) {
-		return chatService.insertChatRecord(param);
-	}
+//	// 채팅내역 저장
+//	@ResponseBody
+//	@PostMapping("/chatting/makeChatRoom")
+//	public int makeChatRoom(@RequestBody Map<String, Object> param) {
+//		return chatService.insertChatRecord(param);
+//	}
 
 	// 내가속한 채팅방목록 가져오기
 	@ResponseBody
@@ -82,12 +85,21 @@ public class ChatController {
 	// roomId넣으면 해당 채팅방 채팅내역 가져오기
 	@ResponseBody
 	@PostMapping("/chatting/getMyChatRecords")
-	public List<ChatRecord> getMyChatRecords(@RequestBody Map<String, Object> param) {
-		String roomId = chatService.getRoomId(param);
-		System.out.println("roomId는 몇번인가요"+roomId);
-//		Employee emp= chatService.getReceiverInfo(param);
-		System.out.println(chatService.getMyChatRecords(roomId));
-		return chatService.getMyChatRecords(roomId);
+	public List<ChatRecord> getMyChatRecords(@RequestBody Map<String, String> param) {
+//		String roomId = chatService.getRoomId(param);
+//		System.out.println("roomId는 몇번인가요"+roomId);
+////		Employee emp= chatService.getReceiverInfo(param);
+//		System.out.println(chatService.getMyChatRecords(roomId));
+		return chatService.getMyChatRecords(param);
+	}
+	
+	//채팅방 생성
+	@ResponseBody
+	@PostMapping("/chatting/createChatRoom")
+	public ResponseEntity<List<ChatRecord>> createChatRoom(@RequestBody Map<String,String>param) {
+//		System.out.println("컨트롤러 파람:"+param.get("sender"));
+		List<ChatRecord> records =chatService.createChatRoom(param);
+		return ResponseEntity.ok(records);
 	}
 
 //    @MessageMapping("/chat.sendMessage")
