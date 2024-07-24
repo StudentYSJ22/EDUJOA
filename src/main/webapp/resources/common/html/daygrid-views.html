@@ -1,22 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-
-<%@page import="java.util.List"%>
-<%-- <%@page import="com.edujoa.khj.main.dto.Calendar"%> --%>
-
-
-<%@ taglib  prefix="c" uri="jakarta.tags.core"%>
-<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
-<%-- <jsp:include page="/WEB-INF/views/common/header.jsp" /> --%>
-<script src="${path }/resources/js/jquery-3.7.1.min.js"></script>
-<script src="${path }/resources/js/khj/index.global.js"></script>
-<script src="${path }/resources/js/khj/index.global.min.js"></script>
-
-
-<!-- <link href='fullcalendar/core/main.css' rel='stylesheet' />
-<link href='fullcalendar/daygrid/main.css' rel='stylesheet' /> -->
-
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<script src='../dist/index.global.js'></script>
 <script>
 
   document.addEventListener('DOMContentLoaded', function() {
