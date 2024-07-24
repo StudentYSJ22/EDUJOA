@@ -4,5 +4,6 @@ import com.edujoa.ysj.attendance.model.dto.Attendance;
 import java.util.List;
 
 public interface AttendanceDao {
-	  List<Attendance> selectAllAttendance();
+    List<Attendance> getRecordsByEmpId(String empId);
 }
+ 

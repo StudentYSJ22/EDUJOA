@@ -21,8 +21,8 @@ public class ScheduleController {
     private final ScheduleService service;
 
     // 전체 일정 조회
-    @GetMapping("/events")
-    @ResponseBody
+    @GetMapping("/events") //restAPI 엔드포인트 정의 
+    @ResponseBody //restController 사용시 명시할 필요없음 
     public ResponseEntity<List<Schedule>> getEvents(@RequestParam(required = false, name = "calendars") List<String> calendars) {
         if (calendars == null || calendars.isEmpty()) {
             return ResponseEntity.ok(service.getAllSchedules());
