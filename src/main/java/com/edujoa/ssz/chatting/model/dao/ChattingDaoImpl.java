@@ -23,9 +23,9 @@ public class ChattingDaoImpl implements ChattingDao {
 	}
 
 	@Override
-	public int insertChatRoom(SqlSession session, Map<String, Object> param) {
+	public int insertChatRoom(SqlSession session, ChatRoom chatroom) {
 		// TODO Auto-generated method stub
-		return session.insert("chatroom.putRoom", param);
+		return session.insert("chatroom.insertChatRoom", chatroom);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class ChattingDaoImpl implements ChattingDao {
 	}
 
 	@Override
-	public int insertChatAttendee(SqlSession session, Map<String, Object> param) {
+	public int insertChatAttendee(SqlSession session, Map<String, String> param) {
 		// TODO Auto-generated method stub
 		return session.insert("chatroom.insertChatAttendee", param);
 	}
@@ -77,7 +77,7 @@ public class ChattingDaoImpl implements ChattingDao {
 	}
 
 	@Override
-	public String checkChatRoomExists(SqlSession session, Map<String, Object> param) {
+	public String checkChatRoomExists(SqlSession session, Map<String, String> param) {
 		// TODO Auto-generated method stub
 		return session.selectOne("chatroom.checkChatRoomExists", param);
 	}
@@ -85,12 +85,16 @@ public class ChattingDaoImpl implements ChattingDao {
 	@Override
 	public List<ChatRecord> getChatRecord(SqlSession session, String roomId) {
 		// TODO Auto-generated method stub
+		System.out.println("dao에서 받은 roomId:"+roomId);
 		return session.selectList("chatroom.getMyChatRecords", roomId);
 	}
 
 	@Override
-	public String getRoomId(SqlSession session, Map<String, Object> param) {
+	public String getRoomId(SqlSession session, Map<String, String> param) {
 		// TODO Auto-generated method stub
+		System.out.println("dao의 파람:"+param);
+		System.out.println("dao의 파람:"+param.get("sender"));
+		System.out.println("dao의 파람:"+param.get("receiver"));
 		return session.selectOne("chatroom.getRoomId", param);
 	}
 
@@ -107,16 +111,30 @@ public class ChattingDaoImpl implements ChattingDao {
 	}
 
 	@Override
-	public List<ChatRecord> getMyChatRecords(SqlSession session, String roomId) {
+	public List<ChatRecord> getMyChatRecords(SqlSession session, Map<String, String> param) {
 		// TODO Auto-generated method stub
-		return session.selectList("chatroom.getMyChatRecords", roomId);
+		return session.selectList("chatroom.getMyChatRecords", param);
 	}
 
 	@Override
-	public Employee getReceiverInfo(SqlSession session, Map<String, Object> param) {
+	public Employee getReceiverInfo(SqlSession session, Map<String, String> param) {
 		// TODO Auto-generated method stub
 		return session.selectOne("chatroom.getReceiverInfo", param);
 	}
+
+	@Override
+	public String putRoom(SqlSession session, Map<String, String> param) {
+		session.insert("chatroom.putRoom", param);
+        return param.get("roomId");
+	}
+
+	@Override
+	public void insertChatAttendee2(SqlSession session, Map<String, String> param) {
+		session.insert("chatroom.insertChatAttendee", param);
+		
+	}
+
+
 	
 	
 }

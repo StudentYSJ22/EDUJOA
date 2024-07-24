@@ -6,12 +6,6 @@ import java.util.Map;
 import com.edujoa.ssz.noticeboard.model.dto.NoticeBoard;
 
 public interface NoticeBoardService {
-	//게시글 전체조회
-	List<NoticeBoard> getAllBoards(Map<String,String>param);
-	//게시글 작성
-	int insertBoard(NoticeBoard noticeBoard);
-	//게시글 삭제
-	int deleteBoard(String boardId);
-	//게시글 수정
-	int updateBoard(String boardId);
+	//공지사항 게시글 전체 조회해서 가져오기
+	List<NoticeBoard> getAllBoardList();
 }
