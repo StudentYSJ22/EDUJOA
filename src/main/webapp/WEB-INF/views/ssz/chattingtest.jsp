@@ -193,14 +193,15 @@ body {
 		<!-- 채팅 창 -->
 		<div class="chat-window">
 			<h5>채팅</h5>
-			<div class="receiver-info" id="receiver-info"></div>
+			<div class="receiver-name" id="receiver-name"></div>
+			<div class="receiver-id" id="receiver-id"></div>
+			<div id="room-id" style="display:none;"></div>
 			<div class="chat-messages" id="chattingcontent">
 				<!-- 메시지들이 여기에 동적으로 추가됩니다 -->
 			</div>
 			<div class="chat-input">
-				<input type="text" id="msg" class="form-control"
-					placeholder="메시지를 입력하세요"> <input type="datetime-local"
-					name="chatTime" id="chatTime" style="display: none;">
+				<input type="text" id="msg" class="form-control" placeholder="메시지를 입력하세요"> 
+					<input type="datetime-local" name="chatTime" id="chatTime" style="display: none;">
 				<button class="btn btn-primary" onclick="sendMessage();">전송</button>
 			</div>
 			<!--    <div class="chat-input">

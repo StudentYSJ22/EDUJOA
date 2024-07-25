@@ -13,10 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RequestMessage {
 	private String chatType;
+	private String roomId;
 	private String sender;
-	private String senderName;
-	private String receiver;
-	private String roomName;
+	private String receiverId;
 	private String chatContent;
 	private LocalDateTime chatTime;
 }
