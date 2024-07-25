@@ -9,9 +9,11 @@ import com.edujoa.ysj.attendance.model.dto.Attendance;
 public interface MainAttendanceDao {
 	
 	//출근기록 삽입
-	int insertAttendance(SqlSession session, Attendance attn);
+	int insertAttendance(SqlSession session, Attendance attendance);
 	
 	//퇴근기록 삽입과 동시에 출퇴근기록 업데이트
-//	int updateAttendance(SqlSession session, String empId, Date atnIn, Date atnOut);
+	int updateAttendance(SqlSession session, Attendance attendance);
 
+	
+	Attendance selectAttendance(SqlSession session, String empId);
 }

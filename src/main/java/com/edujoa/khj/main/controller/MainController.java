@@ -1,5 +1,8 @@
 package com.edujoa.khj.main.controller;
 
+import java.time.LocalDateTime;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -8,18 +11,38 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.edujoa.chs.approval.model.service.ApprovalService;
 import com.edujoa.khj.main.service.MailMainService;
+import com.edujoa.khj.main.service.MainAttendanceService;
 import com.edujoa.ssz.webmail.model.dto.Mail;
 import com.edujoa.with.employee.model.dto.Employee;
+import com.edujoa.ysj.schedule.model.service.ScheduleService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
 	
-	@GetMapping("/home")
+	private final ApprovalService approvalService;
+	private final ScheduleService scheduleService;
+	private final MainAttendanceService attendanceService;
+	
+	@GetMapping("/")
 	public String index(Model model, @AuthenticationPrincipal Employee employee) {
 		model.addAttribute("loginMember",employee);
+		
+		model.addAttribute("approvalCount",approvalService.selectMyApprovalCount(Map.of("empId",employee.getEmpId(),"apvStatus","0")));
+		
+		model.addAttribute("attendance",attendanceService.selectAttendance(employee.getEmpId()));
+		
+		
+//		approvalService.selectMyApproval(null, null);
+//		
+//		scheduleService.
+		
+		
 		return "index";
 	}
 	@GetMapping("/logout.do")
