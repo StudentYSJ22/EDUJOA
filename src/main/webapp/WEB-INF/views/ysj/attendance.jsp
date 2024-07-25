@@ -82,6 +82,13 @@
                                 </tr>
                             </thead>
                             <tbody id="attendance-list">
+                                <c:forEach var="record" items="${records}">
+                                    <tr>
+                                        <td>${record.atnIn}</td>
+                                        <td>${record.atnOut}</td>
+                                        <td>${record.atnStatus}</td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>
