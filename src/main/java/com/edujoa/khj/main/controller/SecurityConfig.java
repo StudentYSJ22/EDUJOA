@@ -58,6 +58,7 @@ public class SecurityConfig {
 				.formLogin(form -> form
 						// 로그인 인증 처리를 위한 URL
 						.loginProcessingUrl("/member/loginpage")
+						.successForwardUrl("/")
 						// 사용자 정의 로그인 페이지 설정
 						.loginPage("/login.do").permitAll()
 						.defaultSuccessUrl("/home")

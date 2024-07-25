@@ -1,6 +1,7 @@
 // 날짜 및 시간 형식 변환 함수 (ISO-8601 형식)
 function formatLocalDateTime(date) {
     return date.toISOString().slice(0, 19); // "2024-06-29T15:00:00"
+    // toISOString:문자열은 항상 UTC 시간을 기반 형식은 YYYY-MM-DDTHH:mm:ss.sssZ
 }
 
 // 이벤트 색상 업데이트 함수

@@ -1,7 +1,10 @@
 package com.edujoa.ysj.attendance.model.dto;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,4 +26,11 @@ public class Attendance {
 
     
     private String atnStatus;
+    
+    public Timestamp atnInConvertToDate() {
+    	return Timestamp.valueOf(this.atnIn);
+    }
+    public Timestamp atnOutConvertToDate() {
+    	return Timestamp.valueOf(this.atnOut);
+    }
 }
