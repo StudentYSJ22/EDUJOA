@@ -16,6 +16,6 @@ public class RequestMessage {
 	private String roomId;
 	private String sender;
 	private String receiverId;
-	private String chatContent;
+	private String content;
 	private LocalDateTime chatTime;
 }

@@ -125,10 +125,12 @@ tr:hover {
 		</table>
 		<button class="btn">글쓰기</button>
 	</div>
+	<input type="hidden" id="contextPath" value="${path}">
 </body>
 <script>
 	const empId = "${loginMember.empId}";
 	console.log(empId);
+	var contextPath = document.getElementById('contextPath').value;
 </script>
 <script src="${path }/resources/js/noticeboard.js"></script>
 <div class="container-xxl flex-grow-1 container-p-y"></div>

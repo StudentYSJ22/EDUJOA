@@ -1,6 +1,7 @@
 package com.edujoa.ssz.websocket;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +79,7 @@ public class ChatController {
 	@ResponseBody
 	@GetMapping("/chatting/getMyChatRooms")
 	public List<ChatRoom> getMyChatRooms(@RequestParam String empId) {
-		System.out.println(chatService.getMyChatRooms(empId));
+		System.out.println("getMyChatRooms는?"+chatService.getMyChatRooms(empId));
 		return chatService.getMyChatRooms(empId);
 	}
 
@@ -90,16 +91,27 @@ public class ChatController {
 //		System.out.println("roomId는 몇번인가요"+roomId);
 ////		Employee emp= chatService.getReceiverInfo(param);
 //		System.out.println(chatService.getMyChatRecords(roomId));
-		return chatService.getMyChatRecords(param);
+		String roomId=param.get("roomId");
+		System.out.println("getMyChatRecords의 roomId는:"+roomId);
+		List<ChatRecord> records=chatService.getMyChatRecords(param);
+		if(records!=null) {
+			return records;
+		}else {
+			return null;
+		}
 	}
 	
 	//채팅방 생성
 	@ResponseBody
 	@PostMapping("/chatting/createChatRoom")
-	public ResponseEntity<List<ChatRecord>> createChatRoom(@RequestBody Map<String,String>param) {
-//		System.out.println("컨트롤러 파람:"+param.get("sender"));
+	public ResponseEntity<Map<String, Object>> createChatRoom(@RequestBody Map<String,String>param) {
 		List<ChatRecord> records =chatService.createChatRoom(param);
-		return ResponseEntity.ok(records);
+		System.out.println("createChatRoom의 records:"+records);
+		String roomId=param.get("roomId");
+		Map<String,Object> response = new HashMap<>();
+		response.put("roomId",roomId);
+		response.put("records", records);
+		return ResponseEntity.ok(response);
 	}
 
 //    @MessageMapping("/chat.sendMessage")

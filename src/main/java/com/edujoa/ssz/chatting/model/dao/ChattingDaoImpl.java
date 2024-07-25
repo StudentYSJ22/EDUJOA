@@ -113,6 +113,9 @@ public class ChattingDaoImpl implements ChattingDao {
 	@Override
 	public List<ChatRecord> getMyChatRecords(SqlSession session, Map<String, String> param) {
 		// TODO Auto-generated method stub
+		System.out.println("getMyChatRecords의 매개변수 param:"+param);
+		//roomId가 있어야하는데 map에 receiverId밖에 없음
+		System.out.println("getMyChatRecords로직 실행결과물: "+session.selectList("chatroom.getMyChatRecords", param));
 		return session.selectList("chatroom.getMyChatRecords", param);
 	}
 
