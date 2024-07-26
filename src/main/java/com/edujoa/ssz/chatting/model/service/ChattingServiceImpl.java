@@ -168,7 +168,7 @@ public class ChattingServiceImpl implements ChattingService {
 	        // 받은 map에서 sender와 receiver Id를 가지고 roomId가 있는지 먼저 체크
 	        String roomId = dao.getRoomId(session, param);
 	        System.out.println("서비스1번 roomId: " + roomId);
-
+	        param.put("roomId", roomId);
 	        // 기존 생성된 방이 있고, null이 아니며, "null" 문자열이 아닌 경우
 	        if (roomId != null && !roomId.equals("null")) {
 	            // 해당 방 번호 가지고 채팅기록 가져오기

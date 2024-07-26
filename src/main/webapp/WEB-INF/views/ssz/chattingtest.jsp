@@ -47,7 +47,6 @@ body {
 	border: 1px solid #ddd;
 	border-radius: 5px;
 }
-
 .sidebar .chats, .sidebar .contacts {
 	flex: 1;
 	overflow-y: auto;
@@ -253,6 +252,13 @@ body {
     min-width: 20px;
     text-align: center;
 }
+#employeeList{
+	flex:1;
+	overflow-y: auto; 
+}
+.sidebar .contacts{
+	height: 100%;
+}
 </style>
 </head>
 <body>
@@ -265,7 +271,11 @@ body {
 					<img src="${path }/resources/upload/${loginmember.empProfile}"
 						alt="User" style="border-radius: 100%; width: 40px; height: 40px;">
 					${loginmember.empName} 
-					${loginmember.empTitle }
+					<c:choose>
+                        <c:when test="${loginmember.empTitle == 'J1'}">원장</c:when>
+                        <c:when test="${loginmember.empTitle == 'J2'}">팀장</c:when>
+                        <c:when test="${loginmember.empTitle == 'J3'}">매니저</c:when>
+                    </c:choose>
 					<div class="details"></div>
 				</div>
 			</div>

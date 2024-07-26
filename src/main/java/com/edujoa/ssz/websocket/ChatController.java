@@ -108,6 +108,7 @@ public class ChatController {
 		List<ChatRecord> records =chatService.createChatRoom(param);
 		System.out.println("createChatRoom의 records:"+records);
 		String roomId=param.get("roomId");
+		System.out.println("컨트롤러에서 roomId 제대로 가져옴?:"+roomId);
 		Map<String,Object> response = new HashMap<>();
 		response.put("roomId",roomId);
 		response.put("records", records);

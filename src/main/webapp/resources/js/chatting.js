@@ -146,12 +146,15 @@ function createChatRoom(targetId, empName, empTitle, empProfile) {
 
 			let roomId = response.roomId || (Array.isArray(response) && response.length > 0 ? response[0].roomId : "");
 
-			if (roomId) {
-				if (!isChatRoomExist(roomId)) { //1:1대화하기 버튼 누른 직후에 채팅방목록에 방금 만든 채팅방번호가 없다면
-					addChatRoomToList(roomId, targetId, empName, empTitle, empProfile); //그 채팅방을 추가하고
+			if (roomId > 0) {
+				//1:1대화하기 버튼 누른 직후에 채팅방목록에 방금 만든 채팅방번호가 없다면
+				if (!isChatRoomExist(roomId)) { 
+					//그 채팅방을 추가하고
+					addChatRoomToList(roomId, targetId, empName, empTitle, empProfile); 
 					console.log("채팅방 목록에 추가 완료.");
-					//$("#chattingcontent").html("대화내용이 없습니다. 메시지를 입력하세요.");
-				} else { //대화하기 버튼 눌렀을 때 return받은 채팅방 번호가 채팅방목록에 있다면,
+					
+					//대화하기 버튼 눌렀을 때 return받은 채팅방 번호가 채팅방목록에 있다면,
+				} else { 
 					displayChatHistory(response.content, targetId);
 				}
 
