@@ -263,6 +263,10 @@
             margin-top: 10%;
             text-align: center;
             
+                display: flex;
+    flex-direction: column;
+     
+            
 
         }
 
@@ -285,19 +289,18 @@
         font-family: "Sunflower", sans-serif;
         text-align: center;
         }
-
         .emp-pic {
-            align-items: center;
+                	
+            /* align-items: center; */
             /* 텍스트 세로 가운데 정렬 */
             justify-content: center;
             /* 텍스트 가로 가운데 정렬 */
             border: 2px solid rgba(255, 255, 255); /*흐린테두리는 ,0.1추가*/
             box-shadow: 0 4px 10px rgba(167, 167, 167, 0.1);
-            width: 150px;
-            height: 150px;
+            width: 50%;
+            height: 50%;
             border-radius: 50%;
             margin-bottom: 13px;
-            margin-left:63px;
             
             
 
@@ -309,6 +312,15 @@
 
 
         }
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
         .attendance-title{
             margin-top: 22px;
@@ -421,16 +433,15 @@
             
         }
 
-        .todo-info{
+	       .todo-info{
             margin: 30px;
-            /* border: 1px solid red; */
+            border: 1px solid red;
             width: 45%;
-
             height: 75%;
             background-color: white;
             display: flex;
             gap: 20px; /* ul 요소들 간의 간격 설정 */
-        }
+        } 
 
         
         .aprv-mail {
@@ -507,6 +518,23 @@
 		    color: #a9a9a9; /* 회색 텍스트 색상 */
 		    cursor: not-allowed; /* 커서 변경 */
 		}
+		
+		.mainCalendar{
+		  margin: 30px;
+            /* border: 1px solid red; */
+            width: 45%;
+            height: 90%;
+            background-color: white;
+            display: flex;
+            gap: 20px; /* ul 요소들 간의 간격 설정 */
+            
+            
+             max-width: 1000px;
+             margin: 0 auto;
+             max-height: 1000px;
+		}
+		
+	
 
 
 /* .test1{
