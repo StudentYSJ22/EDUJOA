@@ -95,6 +95,8 @@ public class ChattingDaoImpl implements ChattingDao {
 		System.out.println("dao의 파람:"+param);
 		System.out.println("dao의 파람:"+param.get("sender"));
 		System.out.println("dao의 파람:"+param.get("receiver"));
+		String roomId=session.selectOne("chatroom.getRoomId", param);
+		System.out.println("getRoomId:"+roomId);
 		return session.selectOne("chatroom.getRoomId", param);
 	}
 

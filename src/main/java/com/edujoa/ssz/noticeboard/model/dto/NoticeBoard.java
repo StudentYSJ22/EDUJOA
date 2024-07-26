@@ -1,13 +1,19 @@
 package com.edujoa.ssz.noticeboard.model.dto;
 
 import java.sql.Date;
-import java.util.List;
+import com.edujoa.with.employee.model.dto.Employee;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 //import lombok.Setter;
 
 
-@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 public class NoticeBoard {
 	private String boardId;
 	private String empId;//작성자
@@ -15,7 +21,7 @@ public class NoticeBoard {
 	private String boardContent;
 	private Date boardDate;
 	private int boardCount;
+	private Employee employee;
 //	private List<NoticeBoardAttachment> attachments;
-	//dto는 데이터접근해서 가져오는 용도, requestresponse를 따로 만들어서 출력용도로 request는 받는 용도
 }
 

@@ -9,4 +9,12 @@ import com.edujoa.ssz.noticeboard.model.dto.NoticeBoard;
 
 public interface NoticeBoardDao {
 	List<NoticeBoard> getAllBoardList(SqlSession session);
+	
+	NoticeBoard getBoardDetail(SqlSession session,Map<String,String>param);
+	
+	void increaseViewCount(SqlSession session, String boardId) throws Exception;
+	
+	List<NoticeBoard> findAllByOrderByBoardId(SqlSession session);
+	
+    List<NoticeBoard> findAllByOrderByBoardCountDesc(SqlSession session);
 }

@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addViewController("/sendmail").setViewName("ssz/sendmail");
 		registry.addViewController("/mailbox").setViewName("ssz/mailbox");
 		registry.addViewController("/findempid").setViewName("khj/findempid");
-		registry.addViewController("/noticeboarddetail").setViewName("ssz/notiecboarddetail");
+		registry.addViewController("/noticeboard/detail").setViewName("ssz/notiecboarddetail");
 		registry.addViewController("/chatting").setViewName("ssz/chattingtest");
 //									url에 입력될 주소				jsp파일 위치
 	}
