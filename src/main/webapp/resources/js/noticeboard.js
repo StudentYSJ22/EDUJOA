@@ -1,4 +1,4 @@
-var contextPath = "${path}";
+
 $(document).ready(function() {
 	getBoardList();
 function getBoardList() {
@@ -14,7 +14,7 @@ function getBoardList() {
                 $.each(boardList, function(index, board) {
                     var row = $("<tr>");
                     row.append($("<td>").text(board.boardId));
-                    row.append($("<td>").html('<a href="' + contextPath + '/noticeboard/detail/' + board.boardId + '">' + board.boardTitle + '</a>'));
+                    row.append($("<td>").html('<a href="' + contextPath + '/noticeboarddetail/' + '">' + board.boardTitle + '</a>'));
                     row.append($("<td>").text(board.empId));
                     row.append($("<td>").text(formatDate(board.boardDate)));
                     row.append($("<td>").text(board.boardCount));

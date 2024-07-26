@@ -32,7 +32,8 @@ public class ChattingServiceImpl implements ChattingService {
 	@Override
 	public int insertChatRoom(Map<String, String> param) {
 		// TODO Auto-generated method stub
-		return dao.insertChatRoom(session, ChatRoom.builder().senderId(param.get("sender")).receiverId(param.get("receiver")).build());
+		return dao.insertChatRoom(session,
+				ChatRoom.builder().senderId(param.get("sender")).receiverId(param.get("receiver")).build());
 	}
 
 	@Override
@@ -82,7 +83,8 @@ public class ChattingServiceImpl implements ChattingService {
 		int result = 0;
 		try {
 			// log.info("발신자 정보 저장 시도: " + msg);
-			result = dao.insertChatRoom(session, ChatRoom.builder().senderId(param.get("sender")).receiverId(param.get("receiver")).build());
+			result = dao.insertChatRoom(session,
+					ChatRoom.builder().senderId(param.get("sender")).receiverId(param.get("receiver")).build());
 			// log.info("발신자 정보 저장 결과: " + result);
 			if (result > 0) {
 				// log.info("수신자 정보 저장 시도: " + msg);
@@ -143,42 +145,46 @@ public class ChattingServiceImpl implements ChattingService {
 		// TODO Auto-generated method stub
 		return dao.getReceiverInfo(session, param);
 	}
-	
+
 	@Transactional
 	@Override
 	public List<ChatRecord> createChatRoom(Map<String, String> param) {
-	    // param 맵의 내용 로깅
-	    System.out.println("param: " + param);
+		// param 맵의 내용 로깅
+		System.out.println("createChatRoom서비스로직의 param: " + param);
 
-	    try {
-	        // 받은 map에서 sender와 receiver Id를 가지고 roomId가 있는지 먼저 체크
-	        String roomId = dao.getRoomId(session, param);
-	        System.out.println("서비스1번 roomId: " + roomId);
+		try {
+			// 받은 map에서 sender와 receiver Id를 가지고 roomId가 있는지 먼저 체크
+			String roomId = dao.getRoomId(session, param);
+			System.out.println("서비스1번 roomId: " + roomId);
 
-	        // 기존 생성된 방이 있고, null이 아니며, "null" 문자열이 아닌 경우
-	        if (roomId != null) {
-	            // 해당 방 번호 가지고 채팅기록 가져오기
-	            return dao.getChatRecord(session, roomId);
-	        } else {
-	            // 방이 없거나 "null" 문자열인 경우
-	        	ChatRoom chatroom=ChatRoom.builder().senderId(param.get("sender")).receiverId(param.get("receiver")).build();
-	            dao.insertChatRoom(session, chatroom); // 받은 map에서 sender, receiver 정보 가지고 채팅방 생성
-	            String roomId2=chatroom.getRoomId(); // 방금 생성한 그 방 번호 가져오기
-	            System.out.println("서비스2번 roomId: " + roomId2);
-	       
-	            if (roomId2 != null) {
-	                param.put("roomId", roomId2);
-	                dao.insertChatAttendee(session, param);
-	                return dao.getChatRecord(session, roomId2);
-	            } else {
-	                throw new RuntimeException("채팅방 생성 후 roomId를 가져올 수 없습니다.");
-	            }
-	        }
-	    } catch (Exception e) {
-	        System.err.println("채팅방 생성 중 오류 발생: " + e.getMessage());
-	        e.printStackTrace();
-	        throw new RuntimeException("채팅방 생성 중 오류가 발생했습니다.", e);
-	    }
+			// 기존 생성된 방이 있고, null이 아니며, "null" 문자열이 아닌 경우
+			if (roomId != null&& !roomId.equals("null")) {
+				// 해당 방 번호 가지고 채팅기록 가져오기
+				return dao.getChatRecord(session, roomId);
+			} else {
+				// 방이 없거나 "null" 문자열인 경우
+				ChatRoom chatroom = ChatRoom.builder().senderId(param.get("sender")).receiverId(param.get("receiver"))
+						.build();
+				dao.insertChatRoom(session, chatroom); // 받은 map에서 sender, receiver 정보 가지고 채팅방 생성
+				String roomId2 = chatroom.getRoomId(); // 방금 생성한 그 방 번호 가져오기
+				System.out.println("서비스2번 roomId: " + roomId2);
+
+				if (roomId2 != null) {
+					param.put("roomId", roomId2);
+					int result = dao.insertChatAttendee(session, param);
+					if(result>0) {
+					return dao.getChatRecord(session, roomId2);
+					}else {
+						throw new Exception("채팅인원 저장 실패");
+					}
+				} else {
+					throw new RuntimeException("채팅방 생성 후 roomId를 가져올 수 없습니다.");
+				}
+			}
+		} catch (Exception e) {
+			System.err.println("채팅방 생성 중 오류 발생: " + e.getMessage());
+			e.printStackTrace();
+			throw new RuntimeException("채팅방 생성 중 오류가 발생했습니다.", e);
+		}
 	}
 }
-

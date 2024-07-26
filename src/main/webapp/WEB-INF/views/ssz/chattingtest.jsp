@@ -18,6 +18,7 @@ body {
 .messenger-container {
 	height: 100vh;
 	display: flex;
+	margin-top:30px;
 }
 
 .employee-list, .chat-rooms, .chat-window {
@@ -202,7 +203,7 @@ body {
 			<div class="chat-input">
 				<input type="text" id="msg" class="form-control" placeholder="메시지를 입력하세요"> 
 					<input type="datetime-local" name="chatTime" id="chatTime" style="display: none;">
-				<button class="btn btn-primary" onclick="sendMessage();">전송</button>
+				<button class="btn btn-primary" onclick="sendMessage();" style="width:70px;">전송</button>
 			</div>
 			<!--    <div class="chat-input">
                 <input type="file" id="fileInput" class="form-control-file">
