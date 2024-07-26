@@ -17,4 +17,8 @@ public interface NoticeBoardDao {
 	List<NoticeBoard> findAllByOrderByBoardId(SqlSession session);
 	
     List<NoticeBoard> findAllByOrderByBoardCountDesc(SqlSession session);
+    
+    int insertBoard(SqlSession session, NoticeBoard noticeBoard);
+    
+    int deleteBoard(SqlSession session, Map<String,String>param);
 }

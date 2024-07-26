@@ -38,5 +38,15 @@ public class NoticeBoardDaoImpl implements NoticeBoardDao {
 	public List<NoticeBoard> findAllByOrderByBoardCountDesc(SqlSession session) {
 		return session.selectList("noticeboard.findAllByOrderByBoardCountDesc");
 	}
+
+	@Override
+	public int insertBoard(SqlSession session, NoticeBoard noticeBoard) {
+		return session.insert("noticeboard.insertBoard", noticeBoard);
+	}
+
+	@Override
+	public int deleteBoard(SqlSession session, Map<String, String> param) {
+		return session.delete("noticeboard.deleteBoard", param);
+	}
 	
 }

@@ -43,5 +43,15 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
     public List<NoticeBoard> getBoardListSortedByBoardCount() {
         return dao.findAllByOrderByBoardCountDesc(session);
     }
+
+	@Override
+	public int insertBoard(NoticeBoard noticeBoard) {
+		return dao.insertBoard(session, noticeBoard);
+	}
+
+	@Override
+	public int deleteBoard(Map<String, String> param) {
+		return dao.deleteBoard(session,param);
+	}
 	
 }
