@@ -53,5 +53,10 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 	public int deleteBoard(Map<String, String> param) {
 		return dao.deleteBoard(session,param);
 	}
+
+	@Override
+	public int updateBoard(Map<String, String> param) {
+		return dao.updateBoard(session, param);
+	}
 	
 }

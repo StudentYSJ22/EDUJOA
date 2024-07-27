@@ -10,13 +10,11 @@ $(document).ready(function() {
 			url: "/noticeboard/getboardlist",
 			contentType: "application/json",
 			dataType: "json",
-			success: function(boardList) {
-				console.log("Board list loaded successfully", boardList);
-				updateTable(boardList);
+			success: function(response) {
+				console.log("Board list loaded successfully", response);
+				updateTable(response);
 			},
-			error: function() {
-				alert("불러오기 실패!");
-			}
+			fail: console.log("왜 안되는건데")
 		});
 	}
 
@@ -31,7 +29,7 @@ $(document).ready(function() {
 			});
 			row.append($("<td>").text(board.boardId));
 			row.append($("<td>").text(board.boardTitle));
-			row.append($("<td>").text(board.empId));
+			row.append($("<td>").text(board.employee.empName));
 			row.append($("<td>").text(formatDate(board.boardDate)));
 			row.append($("<td>").text(board.boardCount));
 
@@ -105,38 +103,6 @@ $(document).ready(function() {
 
 	$(document).on('click', '.write-btn', function() {
 		window.location.href = contextPath + '/noticeboard/boardwrite';
-	});
-
-	// 목록으로 버튼 클릭 이벤트
-	$('.btn-gotolist').click(function() {
-		history.back();  // 이전 페이지로 돌아갑니다.
-	});
-
-
-	// 삭제 버튼 클릭 이벤트
-	$('.btn-delete').click(function() {
-		if (confirm("해당 게시글을 삭제하시겠습니까?")) {
-			// 사용자가 '예'를 선택한 경우
-			// 여기에 게시글 삭제 로직을 추가합니다.
-			// 예: AJAX를 사용하여 서버에 삭제 요청을 보냅니다.
-			$.ajax({
-				type: "POST",
-				url: "/noticeboard/deleteBoard",
-				contentType: "application/json",
-				dataType: "json",
-				data: JSON.stringify({
-					boardId: boardId
-				}),
-				success: function(response) {
-					if (response > 0) {
-						alert("게시글이 삭제되었습니다.");
-						window.location.href = contextPath+'/noticeboard/board';  // 게시글 목록 페이지로 이동
-					} else if (response <= 0) {
-						alert("게시글 삭제 실패!");
-					}
-				}
-			});
-		}
 	});
 
 });

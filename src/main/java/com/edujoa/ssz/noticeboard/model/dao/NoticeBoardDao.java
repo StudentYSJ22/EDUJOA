@@ -21,4 +21,6 @@ public interface NoticeBoardDao {
     int insertBoard(SqlSession session, NoticeBoard noticeBoard);
     
     int deleteBoard(SqlSession session, Map<String,String>param);
+    
+    int updateBoard(SqlSession session, Map<String,String>param);
 }

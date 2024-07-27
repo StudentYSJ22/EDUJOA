@@ -61,7 +61,7 @@ public class SecurityConfig {
 						.successForwardUrl("/")
 						// 사용자 정의 로그인 페이지 설정
 						.loginPage("/login.do").permitAll()
-						.defaultSuccessUrl("/home")
+						.defaultSuccessUrl("/")
 						)
 				.build(); // 설정을 바탕으로 SecurityFilterChain을 빌드하여 반환
 	}	

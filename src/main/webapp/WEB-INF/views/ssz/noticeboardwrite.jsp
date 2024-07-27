@@ -103,7 +103,7 @@ textarea {
 	<form id="noticeForm" action="${path}/noticeboard/writeNotice" method="post">
 		<div class="form-group">
 			<label for="title">게시글 제목</label> 
-			<input type="text" id="title" name="boardTitle" placeholder="제목을 입력하세요" required>
+			<input type="text" id="boardTitle" name="boardTitle" placeholder="제목을 입력하세요" required>
 			<input type="text" id="username" name="empId" value="${loginMember.empId }" style="display: none;">
 			<input type="date" id="date" name="boardDate" value="" style="display: none;">
 			<input type="number" id="count" name="boardCount" value="0" style="display: none;">
@@ -126,5 +126,6 @@ textarea {
     document.getElementById("date").value = today;
     var contextPath = document.getElementById('contextPath').value;
 </script>
+<script src="${path }/resources/js/boardwrite.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

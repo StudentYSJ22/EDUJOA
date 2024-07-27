@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<c:set var="loginMember"
-	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
+<c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<c:set var="path" value="${pageContext.request.contextPath }" />
+
 <title>공지사항</title>
 <style>
 :root {
@@ -157,15 +157,20 @@ tr:hover {
 				<!-- 여기에 JSTL이나 AJAX로 데이터를 추가할 수 있습니다 -->
 			</tbody>
 		</table>
+		<input type="hidden" id="contextPath" value="${path}">
 	</div>
 
-	<input type="hidden" id="contextPath" value="${path}">
 </body>
+
 <script>
 	const empId = "${loginMember.empId}";
 	console.log(empId);
-	var contextPath = document.getElementById('contextPath').value;
+	//var contextPath = document.getElementById("contextPath").value;
+	var contextPath = "${path}";
+	console.log(contextPath);  
+	
 </script>
 <script src="${path }/resources/js/noticeboard.js"></script>
+
 <div class="container-xxl flex-grow-1 container-p-y"></div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

@@ -3,9 +3,10 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <c:set var="loginMember"
 	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
+	<c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<c:set var="path" value="${pageContext.request.contextPath }" />
+
 <title>게시판 상세보기</title>
 
 <style>
@@ -56,7 +57,7 @@ body {
 	text-align: right;
 }
 
-.btn-gotolist, .btn-delete {
+.btn-gotolist, .btn-delete, .btn-edit, .btn-save {
 	padding: 5px 10px;
 	border: none;
 	border-radius: 4px;
@@ -67,6 +68,11 @@ body {
 
 .btn-gotolist {
 	background-color: #4CAF50;
+	color: white;
+}
+
+.btn-edit, .btn-save {
+	background-color: #2196F3;
 	color: white;
 }
 
@@ -81,7 +87,7 @@ body {
 		<div class="post-header">
 			<h1 class="post-title">${board.boardTitle }</h1>
 			<div class="post-info">
-				<span class="author">작성자 ${board.employee.empName }</span><br>
+				<span class="author">작성자 ${board.employee.empName } </span><br>
 				<span class="date">작성일 ${board.boardDate }</span> <span
 					class="views">조회수 ${board.boardCount }</span>
 			</div>
@@ -89,16 +95,20 @@ body {
 		<div class="post-content">${board.boardContent }</div>
 		<div class="post-footer">
 			<button class="btn-gotolist">목록으로</button>
+			<button class="btn-edit">수정</button>
+			<button class="btn-save" style="display: none;">저장</button>
 			<button class="btn-delete">삭제</button>
 		</div>
 		<input type="hidden" id="contextPath" value="${path}">
 	</div>
 </body>
 <script>
-	const MboardId = "";
-	const boardId = "${board.boardId}";
-	var contextPath = document.getElementById('contextPath').value;
+const MboardId = "";
+const loginId = "${loginMember.empId}";
+const boardId = "${board.boardId}";
+const boardWriter = "${board.employee.empId}";
+var contextPath = document.getElementById('contextPath').value;
 </script>
-<script src="${path }/resources/js/noticeboard.js"></script>
+<script src="${path }/resources/js/boardwrite.js"></script>
 <div class="container-xxl flex-grow-1 container-p-y"></div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

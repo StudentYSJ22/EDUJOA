@@ -48,5 +48,10 @@ public class NoticeBoardDaoImpl implements NoticeBoardDao {
 	public int deleteBoard(SqlSession session, Map<String, String> param) {
 		return session.delete("noticeboard.deleteBoard", param);
 	}
+
+	@Override
+	public int updateBoard(SqlSession session, Map<String, String> param) {
+		return session.update("noticeboard.updateBoard", param);
+	}
 	
 }

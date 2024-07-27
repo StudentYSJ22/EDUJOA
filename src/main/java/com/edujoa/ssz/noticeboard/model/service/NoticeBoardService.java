@@ -20,4 +20,6 @@ public interface NoticeBoardService {
     int insertBoard(NoticeBoard noticeBoard);
     
     int deleteBoard(Map<String,String>param);
+    
+    int updateBoard(Map<String,String> param);
 }
