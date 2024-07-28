@@ -88,7 +88,7 @@
 			</div>
 			<div>
 				<button onclick="modal_on();">결재선 목록</button>
-				<button>임시 저장</button>
+				<button id='insertApprovalStrg'>임시 저장</button>
 				<c:if test="${loginMember.oriname != null }">
 					<button onclick="openSignatureModal()">사인 수정하기</button>
 				</c:if>
@@ -193,7 +193,7 @@
             </tr>
         </table>
         <div class="footer">위 금액을 청구하오니 결재 바랍니다.</div>
-        <div class="footer">
+         <div class="footer">
             <span id="current-date"></span>
             <input type="hidden" name="apvDate" id="apvDate">
         </div>
@@ -212,7 +212,6 @@
 	</div>
 	<script src="${path }/resources/js/chs/insert_approval.js"></script>
 	<script>
-	$(document).ready(function() {
 		const empId2 = "${loginMember.empId}";
 		const apvTag = function(apvType) {
 			switch(apvType){
@@ -221,10 +220,6 @@
 				case '2' : location.assign(`${path}/approval/insert`); break;
 			}
 		}
-		
-		 document.addEventListener('DOMContentLoaded', (event) => {
-		        updateCurrentDate();
-		});
 		 function updateCurrentDate() {
              const today = new Date();
              const year = today.getFullYear();
@@ -232,8 +227,11 @@
              const day = ('0' + today.getDate()).slice(-2);
              document.getElementById('current-date').innerText = year+"년 "+month+"월 "+day+"일";
          }
+		 document.addEventListener('DOMContentLoaded', (event) => {
+		        updateCurrentDate();
+		});
 		 
-		 
+	$(document).ready(function() {
 
 		// 폼 제출 할 때 
 		    const insertApproval = function(e) {
@@ -242,7 +240,8 @@
 		        const approval = $('#approval-principal');
 		        const empRvacation = ${loginMember.empRvacation}; // 남은 휴가 일수
 		        const startDate = new Date(document.getElementById('vacayStart').value);
-		        const endDate = new Date(document.getElementById('vacayEnd').value);				
+		        const endDate = new Date(document.getElementById('vacayEnd').value);	
+		       
 		        if (approval.text() == '') {
 		            alert('결재자를 선택해주세요.');
 		            return false;
@@ -290,7 +289,7 @@
 		            processData: false, // FormData를 사용할 때는 false로 설정
 		            success: function(response) {
 		                alert('결재가 성공적으로 제출되었습니다.');
-		                location.assign(`${path}/approval/flagginging.do?empId=${empId2}`);
+		                location.assign("${path}/approval/flagginging.do?empId=${loginMember.empId}");
 		                // 성공 시 추가 작업;
 		            },
 		            error: function(xhr, status, error) {
@@ -299,7 +298,13 @@
 		            }
 		        });
 		    }     
+			 // 임시 저장 함수 정의
+		    $('#insertApprovalStrg').click(e=>{
+		        $('input[name="apvStrg"]').val('1');
+		        insertApproval(event);  // event 객체를 전달하여 폼 제출 방지
+		    });
 		    $('form.container').on('submit', insertApproval);  
+			
 	});
 	</script>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />

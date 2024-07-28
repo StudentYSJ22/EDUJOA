@@ -109,11 +109,13 @@
         formData.append('apvDate', currentDate);
 
         // 결재자, 참조자 정보 추가
-		formData.append('carbonCopy',$('#refer-field').val());
+        const carbonCopy = JSON.parse($('#refer-field').val());
 		const approvalLine = JSON.parse($('#approval-field').val());
+	    formData.append('carbonCopy', JSON.stringify(carbonCopy));
 	    formData.append('approvalLine', JSON.stringify(approvalLine));
         // 기타 폼 데이터 추가
         formData.append('empId', $('input[name="empId"]').val());
+        formData.append('apvId', $('input[name="apvId"]').val());
         formData.append('apvType', $('input[name="apvType"]').val());
         formData.append('apvStatus', $('input[name="apvStatus"]').val());
         formData.append('apvStrg', $('input[name="apvStrg"]').val());
@@ -147,6 +149,11 @@
                 console.error(error);
             }
         });
-    };       
+    };
+     // 임시 저장 함수 정의
+		    $('#insertApprovalStrg').click(e=>{
+		        $('input[name="apvStrg"]').val('1');
+		        insertApproval(event);  // event 객체를 전달하여 폼 제출 방지
+		    });       
     
  $('form.container').on('submit', insertApproval);  

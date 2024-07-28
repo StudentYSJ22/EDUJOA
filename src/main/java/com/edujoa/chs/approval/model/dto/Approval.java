@@ -28,6 +28,8 @@ public class Approval {
 	private ApvAttachment apvAttachment;
 	private List<CarbonCopy> carbonCopy;
 	private List<ApprovalLine> approvalLine;
-	private ApvTag apvTag;
+	private PrePayment prePayment;
+	private AfterPayment afterPayment;
+	private Vacay vacay;
 	private Employee employee;
 }
