@@ -1,5 +1,6 @@
 
 $(document).ready(function() {
+	 saveToForm();
     // 사용자 선택 및 선택 해제 토글
     $('body').on('click', '.user-bottom, .select-user', function() {
         $(this).toggleClass('selected');
@@ -115,15 +116,16 @@ $(document).ready(function() {
             const empId = $(this).data('empid');
             const text = $(this).text();
             const title = getTitleFromText(text);
+            const apvLineId=$(this).data('apvlineid');
             const order = (title === '원장') ? 0 : 1; // 결재 순번 설정
-            approvalList.push({ empId: empId, order: order });
+            approvalList.push({ empId: empId, order: order,apvLineId:apvLineId });
         });
 
         // 참조 목록에서 참조자 정보 가져오기
         $('.select-refer p').each(function() {
             const empId = $(this).data('empid');
-            const text = $(this).text();
-             referList.push({empId:empId});
+            const ccId = $(this).data('ccid');
+            referList.push({empId:empId,ccId:ccId});
         });
 
         console.log("Approval list:", approvalList);
@@ -265,7 +267,6 @@ function modal_on() {
 		    const addApprovalLine = function() {
 		        openApprovalLineModal();
 		    }
-
 		    // 결재라인 추가하기 함수
 		    const saveApprovalLine = function() {
 		        const frequentperson = [];
@@ -275,14 +276,16 @@ function modal_on() {
 		        // 결재 목록에서 결재자 정보 가져오기
 		        $('.select-approval p').each(function() {
 		            const empId = $(this).data('empid');
-		            frequentperson.push({empId:empId,feqType:'0'});
+		            const apvLineId = $(this).data('apvlineid');
+		            frequentperson.push({empId:empId,feqType:'0',apvLineId:apvLineId});
 		            checkPerson.push('1');
 		        });
 
 		          // 참조 목록에서 참조자 정보 가져오기
 		        $('.select-refer p').each(function() {
 		            const empId = $(this).data('empid');
-		            frequentperson.push({empId:empId,feqType:'1'});
+		            const ccId = $(this).data('ccid');
+		            frequentperson.push({empId:empId,feqType:'1',ccId:ccId});
 		        });
 
 		        // 결재자와 참조자가 선택되었는지 확인
@@ -322,4 +325,32 @@ function modal_on() {
 const modal_close = () => {
     $('.hs-modal-container').css('display', 'none');
 };
+
+
+//결재 버튼 누를 때
+const approvalend = function(oriname, apvId, apvLineId, apvSequence, type){
+			if(oriname == null || oriname== ''){
+				alert("사인을 해주세요.");
+				return false;
+			}else{
+				const param = JSON.stringify({
+					apvId:apvId,
+					apvLineId:apvLineId,
+					apvSequence:apvSequence,
+					type:type
+				});
+				$.ajax({
+					url:`${path}/rest/approval/updateApprovalLineSuccess`,
+					type:"POST",
+					data:param,
+					contentType: "application/json",
+					success: function(response){
+						alert(response);
+						location.reload();
+					},error: function(){
+						alert("결재 중 오류 발생");
+					}
+				});
+			}
+}
 

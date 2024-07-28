@@ -1,5 +1,7 @@
 /**
  * 
+ *//**
+ * 
  */
  document.addEventListener('DOMContentLoaded', (event) => {
         updateCurrentDate();
@@ -81,7 +83,7 @@
         const payList = $('input[name="payList"]'); // 모든 payList 요소를 선택
         const payAmount = $('input[name="payAmount"]'); // 모든 payAmount 요소를 선택
         const reference = $('input[name="reference"]'); // 모든 reference 요소를 선택
-
+	
         if (approval.text() == '') {
             alert('결재자를 선택해주세요.');
             return false;
@@ -103,6 +105,10 @@
                 formData.append('reference[]', element.value);
             });
         }
+        if(loginMemberSign == null || loginMemberSign == ''){
+			alert("사인을 입력하세요.");
+			return false;
+		}
 
         // 숨겨진 필드에 현재 날짜 값을 설정
         const currentDate = $('#current-date').text();
@@ -134,7 +140,7 @@
             console.log(pair[0] + ': ' + pair[1]); 
         }
         $.ajax({
-            url: `${path}/rest/approval/insert`,
+            url: `${path}/rest/approval/update`,
             type: 'POST',
             data: formData,
             contentType: false, // FormData를 사용할 때는 false로 설정

@@ -40,10 +40,20 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public List<Approval> selectMyApproval(Map<String, Integer> rowbounds, Map<String, String> param) {
 		return dao.selectMyApproval(session, rowbounds, param);
 	}
+	//결재함 결재 문서 전체 수 조회
+	@Override
+	public int selectApprovalCount(Map<String, String> param) {
+		return dao.selectApprovalCount(session, param);
+	}
+	//결재함 결재 문서 조회
+	@Override
+	public List<Approval> selectApproval(Map<String, Integer> rowbounds, Map<String, String> param) {
+		return dao.selectApproval(session, rowbounds,param);
+	}
 	//결재 문서 상세 조회
 	@Override
-	public Approval selectOneApproval(String apvId) {
-		return dao.selectOneApproval(session, apvId);
+	public Approval selectOneApproval(Map<String,String> param) {
+		return dao.selectOneApproval(session, param);
 	}
 
 	//결재 등록하기      approval에는 결재 기본 정보, 결재 첨부 파일, 결재 양식, 참조인, 결재선이 들어감
@@ -107,7 +117,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 			ApvAttachment apvAttachment = (ApvAttachment) approvalMap.get("apvattachment");
 			result = dao.updateApvAttachment(session, apvAttachment);
 		}
-		switch ((String) approvalMap.get("apvtype")) {
+		switch ((String) approvalMap.get("apvType")) {
 		case "vacay":
 			Vacay vacay = (Vacay) approvalMap.get("vacay");
 			result = dao.updateVacay(session, vacay); break;
@@ -118,14 +128,24 @@ public class ApprovalServiceImpl implements ApprovalService{
 			AfterPayment afterPayment = (AfterPayment) approvalMap.get("afterpayment");
 			result = dao.updateAfterPayment(session, afterPayment); break;
 		}
+		if (approvalMap.get("paymentList") != null) {
+		    List<PaymentList> paymentList = (List<PaymentList>) approvalMap.get("paymentList");
+		    for (PaymentList payment : paymentList) {
+		        result = dao.updatePaymentList(session, payment);
+		    }
+		}
 		if(approvalMap.get("carboncopy") != null) {
-			CarbonCopy carbonCopy = (CarbonCopy) approvalMap.get("carboncopy");
-			result = dao.updateCarbonCopy(session, carbonCopy);
+			List<CarbonCopy> carbonCopy = (List<CarbonCopy>)approvalMap.get("carboncopy");
+			result = dao.deleteCarbonCopy(session, carbonCopy.get(0).getApvId());
+			for(CarbonCopy c : carbonCopy) {
+				result = dao.insertCarbonCopy(session, c);
+			}
 		}
 		//결재 라인은 여러 명이 올 수 있으니 List로 받아 for문을 돌림
 		List<ApprovalLine> approvalLine = (List<ApprovalLine>) approvalMap.get("approvalline");
+		dao.deleteApprovalLine(session, approvalLine.get(0).getApvId());
 		for(ApprovalLine al : approvalLine) {
-			dao.updateApprovalLine(session, al);
+			dao.insertApprovalLine(session, al);
 		}
 		return result;
 	}
@@ -173,4 +193,34 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return dao.selectApvTag(session, apvType);
 	}
 	
+	//결재라인 업데이트하기
+	@Transactional
+	@Override
+	public int updateApprvoalLine(Map<String, String> param) {
+		int result = 0;
+		try {
+			result = dao.updateApprovalLineStatus(session,param);
+			result = dao.updateApprovalStatus(session,param);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	//파일 다운로드 로직
+	@Override
+	public ApvAttachment selectFileById(String apvId) {
+		return dao.selectFileById(session, apvId);
+	}
+	
+	//결재 대기에 대한 카운트
+	@Override
+	public int approvalWaitCount(String empId) {
+		return dao.approvalWaitCount(session, empId);
+	}
+	//결재 요청에 대한 카운트
+	@Override
+	public int myApprovalWaitCount(String empId) {
+		return dao.myApprovalWaitCount(session, empId);
+	}
 }

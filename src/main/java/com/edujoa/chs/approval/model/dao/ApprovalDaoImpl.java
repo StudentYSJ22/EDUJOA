@@ -34,10 +34,22 @@ public class ApprovalDaoImpl implements ApprovalDao {
 		RowBounds rb= new RowBounds((rowbounds.get("cPage")-1)*rowbounds.get("numPerpage"),rowbounds.get("numPerpage"));
 		return session.selectList("approval.selectMyApproval",param,rb);
 	}
+	//결재함 문서 수 조회
+	@Override
+	public int selectApprovalCount(SqlSession session, Map<String, String> param) {
+		return session.selectOne("approval.selectApprovalCount",param);
+	}
+	//결재함 문서 조회
+	@Override
+	public List<Approval> selectApproval(SqlSession session, Map<String, Integer> rowbounds,
+			Map<String, String> param) {
+		RowBounds rb= new RowBounds((rowbounds.get("cPage")-1)*rowbounds.get("numPerpage"),rowbounds.get("numPerpage"));
+		return session.selectList("approval.selectApproval",param,rb);
+	}
 	//문서 상세 조회
 	@Override
-	public Approval selectOneApproval(SqlSession session, String apvId) {
-		return session.selectOne("approval.selectOneApproval",apvId);
+	public Approval selectOneApproval(SqlSession session, Map<String,String> param) {
+		return session.selectOne("approval.selectOneApproval",param);
 	}
 	
 	//문서 등록
@@ -89,6 +101,11 @@ public class ApprovalDaoImpl implements ApprovalDao {
 	@Override
 	public int insertPaymentList(SqlSession session, PaymentList paymentList) {
 		return session.insert("approval.insertPaymentList",paymentList);
+	}
+	//지출리스트 수정하기
+	@Override
+	public int updatePaymentList(SqlSession session, PaymentList paymentList) {
+		return session.update("approval.updatePaymentList",paymentList);
 	}
 	//참조인 등록하기
 	@Override
@@ -186,4 +203,32 @@ public class ApprovalDaoImpl implements ApprovalDao {
 		return session.update("approval.updateSignature",param);
 	}
 
+	
+	//결재라인 업데이ㅡ하기
+	@Override
+	public int updateApprovalLineStatus(SqlSession session, Map<String, String> param) {
+		return session.update("approval.updateApprovalLineStatus", param);
+	}
+	//결재 문서 업데이트하기 
+	@Override
+	public int updateApprovalStatus(SqlSession session, Map<String, String> param) {
+		return session.update("approval.updateApprovalStatus",param);
+	}
+	
+	//파일 다운로드 로직
+	@Override
+	public ApvAttachment selectFileById(SqlSession session,String apvId) {
+		return session.selectOne("approval.selectFileById",apvId);
+	}
+	
+	//결재 대기에 대한 카운트
+	@Override
+	public int approvalWaitCount(SqlSession session, String apvId) {
+		return session.selectOne("approval.approvalWaitCount",apvId);
+	}
+	//결재 요청에 대한 카운트
+	@Override
+	public int myApprovalWaitCount(SqlSession session, String apvId) {
+		return session.selectOne("approval.myApprovalWaitCount",apvId);
+	}
 }

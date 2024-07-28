@@ -1,0 +1,10 @@
+SqlSessionTemplate는 SqlSession 인터페이스를 구현한 클래스이다.
+SqlSession 
+ - MyBatis의 핵심 인터페이스
+ - 직접 트랜잭션을 관리하고 SQL을 실행하는 메서드를 제공
+ - Spring과의 통합 기능은 없음
+
+SqlSessionTemplate
+ - SqlSession을 구현한 클래스
+ - Spring의 트랜잭션 관리 및 예외 처리 기능을 활용
+ - 쓰레드 안전, DI(의존성 주입)를 통해 쉽게 주입 가능

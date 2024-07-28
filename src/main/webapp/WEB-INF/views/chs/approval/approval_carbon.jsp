@@ -8,7 +8,7 @@
 		<jsp:include page="/WEB-INF/views/chs/approval/left_approval.jsp"/>
 		<div class="chs-table">
 			<div class="chs-thead">
-				<p>진행 중</p>
+				<p>열람/공람</p>
 			</div>
 			<div class="chs-thead-2">
 				<div>
@@ -67,13 +67,15 @@
 	    const cPage = 1; // 초기 페이지 번호 (필요에 따라 변경 가능)
 	
 	    $.ajax({
-	        url: "${path}/rest/approval/flagginging",
+	        url: "${path}/rest/approval/approvaling.do",
 	        method: 'GET',
 	        data: {
 	            numPerpage: rowBounds,
 	            cPage: cPage,
 	            empId: empId,
-	            date: dateOrder
+	            date: dateOrder,
+	            approvalLine:'1',
+	            apvStatus:'0'
 	        },
 	        success: function(response) {
 	            // 응답 데이터 처리
@@ -124,7 +126,7 @@
 	            '<li style="width:30%"><a href="${path }/approval/selectone?apvId=' + a.apvId + "&apvType="+a.apvType+'">'+a.apvTitle+"</a></li>" +
 	            '<li style="width:10%">' + a.employee.empName + '</li>' +
 	            '<li style="width:20%">' + a.apvDate + '</li>' +
-	            '<li style="width:10%">진행 중</li>' +
+	            '<li style="width:10%">미결</li>' +
 	            '<li style="width:20%">' + (a.apvDone != null ? a.apvDone : '') + '</li>' +
 	            '</ul>';
 	

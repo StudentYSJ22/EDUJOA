@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!-- 시큐리티에서 가져온 세션값 담기 -->
 <%@ taglib  prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <link rel="stylesheet" href="${path }/resources/css/chs/approval/insert_approval.css">
@@ -68,10 +69,18 @@
 						<p class="select-approval-p">결재</p>
 						<div class="select-approval" id="approval-list">
 							<!-- 결재 리스트 -->
+							<c:if test="${approval.approvalLine != null }">
+								<c:forEach var="al" items="${approval.approvalLine }">
+									<p class="select-user" data-apvlineid="${al.apvLineId }" data-empid="${al.employee.empId }">${al.employee.empName }(${al.employee.empTitle == 'J1' ? '원장' : '팀장'})</p>
+								</c:forEach>
+							</c:if>
 						</div>
 						<p class="select-refer-p">참조</p>
 						<div class="select-refer" id="refer-list">
 							<!-- 참조 리스트 -->
+							<c:forEach var="cc" items="${approval.carbonCopy }">
+								<p class="select-user" data-ccid="${cc.ccId }" data-empid="${cc.employee.empId }">${cc.employee.empName }(${cc.employee.empTitle == 'J2' ? '팀장' : '매니저'})</p>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
@@ -87,14 +96,24 @@
 				<p>기안서 작성</p>
 			</div>
 			<div>
-				<button onclick="modal_on();">결재선 목록</button>
-				<button id='insertApprovalStrg'>임시 저장</button>
+				<c:if test="${loginMember.empId == approval.empId }">
+					<button onclick="modal_on();">결재선 목록</button>
+				</c:if>
+				<c:forEach var="al" items="">
+				
+				</c:forEach>
 				<c:if test="${loginMember.oriname != null }">
 					<button onclick="openSignatureModal()">사인 수정하기</button>
 				</c:if>
 				<c:if test="${loginMember.oriname == null }">
 					<button onclick="openSignatureModal()">사인 생성하기</button>
 				</c:if>
+				<c:forEach var="al" items="${approval.approvalLine }">
+					<c:if test="${al.empId == loginMember.empId && al.apvStatus == 0}">
+						<button onclick="approvalend('${loginMember.oriname}','${al.apvId }','${al.apvLineId }','${al.apvSequence }','0');">결재</button>
+						<button onclick="approvalend('${loginMember.oriname}','${al.apvId }','${al.apvLineId }','${al.apvSequence }','1');">반려</button>
+					</c:if>
+				</c:forEach>
 			</div>
 		</div>
 		<div class="right-container-body">
@@ -108,6 +127,7 @@
 				<form class="container" onsubmit="" enctype="multipart/form-data">
         <!-- 폼 필드 추가 -->
         <input type="hidden" name="empId" value="${loginMember.empId}">
+        <input type="hidden" name="apvId" value="${approval.apvId}">
         <input type="hidden" name="apvType" value="0">
         <input type="hidden" name="apvStatus" value="0">
         <input type="hidden" name="apvStrg" value="0">
@@ -127,14 +147,30 @@
                 <th id="refer-title2">매니저</th>
             </tr>
             <tr>
-                <td class="approval-td" id="approval-principal"></td>
-                <td class="approval-td" id="approval-team-leader"></td>
-                <td class="approval-td" id="refer-first"></td>
-                <td class="approval-td" id="refer-last"></td>
+                <td class="approval-td" id="approval-principal" data-empid="${approval.approvalLine[0].employee.empId }">
+	            		${approval.approvalLine[0].employee.empName }
+	            </td>
+	            <td class="approval-td" id="approval-team-leader" data-empid="${approval.approvalLine[1].employee.empId }">
+	            		${approval.approvalLine[1].employee.empName }
+	            </td>
+                <td class="approval-td" id="refer-first" data-empid="${approval.carbonCopy[0].employee.empId}">
+                	${approval.carbonCopy[0].employee.empName==null?'':approval.carbonCopy[0].employee.empName}
+                </td>
+                <td class="approval-td" id="refer-last" data-empid="${approval.carbonCopy[1].employee.empId}">
+                	${approval.carbonCopy[1].employee.empName==null?'':approval.carbonCopy[1].employee.empName}
+                </td>
             </tr>
             <tr>
-                <td id=""></td>
-                <td id=""></td>
+                <td style="padding:0;"id="" >
+                	<c:if test="${approval.approvalLine[0].apvStatus != null && approval.approvalLine[0].apvStatus == 1}">
+                		<img style="width:80px; height:50px;"src="${path }/resources/upload/employee_signatures/${approval.approvalLine[0].employee.oriname }">
+                	</c:if>
+                </td>
+               <td style="padding:0;"id="" >
+                	<c:if test="${approval.approvalLine[1].apvStatus != null && approval.approvalLine[1].apvStatus == 1}">
+                		<img style="width:80px; height:50px;"src="${path }/resources/upload/employee_signatures/${approval.approvalLine[1].employee.oriname }">
+                	</c:if>
+                </td>
                 <td id=""></td>
                 <td id=""></td>
             </tr>
@@ -156,13 +192,13 @@
                     </c:if>
                 </td>
             </tr>
-            <tr>
+             <tr>
                 <th>제목</th>
-                <td id="input-td" colspan="5"><input type="text" name="apvTitle" required></td>
+                <td id="input-td" colspan="5"><input type="text" name="apvTitle" value="${approval.apvTitle }" required></td>
             </tr>
             <tr>
                 <th>내용</th>
-                <td id="input-td" colspan="5"><input type="text" name="apvContent" required></td>
+                <td id="input-td" colspan="5"><input type="text" name="apvContent" value="${approval.apvContent }" required></td>
             </tr>
             <tr>
                 <th>총 휴가 일</th>
@@ -174,27 +210,37 @@
                 <th>휴가 종류</th>
                 <td  id="input-td" colspan="5" >
 	                <select name="vacayType" id="vacayType">
-	                	<option value="0">연차</option>
-	                	<option value="1">반차</option>
+	                	<option value="0" ${approval.vacay.vacayType == 0 ? 'selected':'' }>연차</option>
+	                	<option value="1" ${approval.vacay.vacayType == 1 ? 'selected':'' }>반차</option>
 	                </select>
 	            </td>
             </tr>
             <tr>
           		<th>휴가 시작일</th>
-	            <td id="input-td" colspan="5"><input type="date" id="vacayStart" name="vacayStart" required></td>
+	            <td id="input-td" colspan="5"><input type="date" id="vacayStart" name="vacayStart" value="${approval.vacay.vacayStart }" required></td>
 	        </tr>
 	        <tr>
 	            <th>휴가 종료일</th>
-	            <td id="input-td" colspan="5"><input type="date" id="vacayEnd" name="vacayEnd" required></td>
+	            <td id="input-td" colspan="5"><input type="date" id="vacayEnd" name="vacayEnd" value="${approval.vacay.vacayEnd }" required></td>
 	        </tr>
             <tr>
                 <th>첨부파일</th>
-                <td id="input-td" colspan="5"><input type="file" name="apvAttachment"></td>
+               <td id="input-td" colspan="5">
+				    <input type="file" name="apvAttachment">
+				    <c:if test="${approval.apvAttachment != null}">
+				        <p><a href="${path}/rest/approval/download/${approval.apvAttachment.apvId}">첨부 파일 다운로드</a></p>
+				    </c:if>
+				</td>
             </tr>
         </table>
         <div class="footer">위 금액을 청구하오니 결재 바랍니다.</div>
          <div class="footer">
-            <span id="current-date"></span>
+         	<c:if test="${approval.apvDate != null }">
+	         	<fmt:formatDate value="${approval.apvDate}" pattern="yyyy년 MM월 dd일" />
+         	</c:if>
+         	<c:if test="${approval.apvDate == null }">
+	            <span id="current-date"></span>
+         	</c:if>
             <input type="hidden" name="apvDate" id="apvDate">
         </div>
         <div class="signature">
@@ -205,12 +251,14 @@
                 </c:if>
             </div>
         </div>
-        <input type="submit" value="전송">
+       <c:if test="${approval.empId == loginMember.empId && approval.apvStrg == 1 ||   approval.approvalLine[0].apvStatus==0}">
+	        <input type="submit" value="상신">
+        </c:if>
     </form>
     <script src="${path}/resources/js/chs/canvas.js"></script>
 		</div>
 	</div>
-	<script src="${path }/resources/js/chs/insert_approval.js"></script>
+	<script src="${path }/resources/js/chs/update_approval.js"></script>
 	<script>
 		const empId2 = "${loginMember.empId}";
 		const apvTag = function(apvType) {
@@ -258,13 +306,15 @@
 		        formData.append('apvDate', currentDate);
 
 		        // 결재자, 참조자 정보 추가
-				formData.append('carbonCopy',$('#refer-field').val());
+				const carbonCopy = JSON.parse($('#refer-field').val());
 				const approvalLine = JSON.parse($('#approval-field').val());
+			    formData.append('carbonCopy', JSON.stringify(carbonCopy));
 			    formData.append('approvalLine', JSON.stringify(approvalLine));
 		        // 기타 폼 데이터 추가
 		        formData.append('empId', $('input[name="empId"]').val());
 		        formData.append('apvType', $('input[name="apvType"]').val());
 		        formData.append('apvStatus', $('input[name="apvStatus"]').val());
+		        formData.append('apvId', $('input[name="apvId"]').val());
 		        formData.append('apvStrg', $('input[name="apvStrg"]').val());
 		        formData.append('apvTitle', $('input[name="apvTitle"]').val());
 		        formData.append('apvContent', $('input[name="apvContent"]').val());
@@ -282,7 +332,7 @@
 		            console.log(pair[0] + ': ' + pair[1]); 
 		        }
 		        $.ajax({
-		            url: `${path}/rest/approval/insert`,
+		            url: `${path}/rest/approval/update`,
 		            type: 'POST',
 		            data: formData,
 		            contentType: false, // FormData를 사용할 때는 false로 설정
