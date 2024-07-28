@@ -64,6 +64,7 @@
             height: 600px;
             margin-top: 30px;            
             margin-right: 20px;
+            margin-bottom: 10px;
         }
 
         .mini-container {
@@ -194,18 +195,51 @@
             /* border-radius: 100px;             */
             
             /* background-image: url(images/1.jpg);             */
-            margin-top: 25px;
+            margin-top: 0px;
             margin-bottom: 10px;
-            margin-left: 57px;
-            text-align: center;
+            margin-left: 39px;
            
             overflow: hidden;
             background-size: cover;
             background-position: center;
-
-
-
+            justify-content: center; /* 수평 중앙 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
         }
+        
+        
+        .circle-su, .circle-su2{
+        	width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: red;
+            margin-left:75%;
+            margin-top:10%;
+            text-align:center;
+            color:white;
+            font-size:12px;
+            opacity:0.4;
+            justify-content: center; /* 수평 중앙 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
+        
+        }
+        
+        
+          .circle-su:hover{
+        	width: 21px;
+            height: 21px;
+            border-radius: 50%;
+            background-color: red;
+            margin-left:75%;
+            margin-top:10%;
+            text-align:center;
+            color:white;
+            font-size:13px;
+            opacity:0.6;
+            justify-content: center; /* 수평 중앙 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
+        
+        }
+        
         .circle-info{
             /* border: 1px solid yellow; */
             text-align: center;
@@ -213,19 +247,21 @@
             font-weight: bold;
             font-size: 13px;
             color: black;
+           font-family: "Sunflower", sans-serif;
             
         }
 
         .circle:hover{
-            width: 70px;
-            height: 70px;
-            margin-left: 52px;
+           /*  width: 63px;
+            height: 63px;
+            margin-left: 38px; */
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .emp-info-container {
-            margin-left: 65px;
+            margin-left: 0px;
             margin-top: 10%;
+            text-align: center;
             
 
         }
@@ -237,10 +273,17 @@
             justify-content: center;
             /* 텍스트 가로 가운데 정렬 */
             /* border: 1px solid red; */
-            width: 60%;
+            width: 100%;
             height: 25px;
-            margin-left: 10px;
+            margin-left: 0px;
+            font-family: "Sunflower", sans-serif;
             
+        }
+        
+        
+        .emp-info2{
+        font-family: "Sunflower", sans-serif;
+        text-align: center;
         }
 
         .emp-pic {
@@ -252,8 +295,9 @@
             box-shadow: 0 4px 10px rgba(167, 167, 167, 0.1);
             width: 150px;
             height: 150px;
-            border-radius: 300px;
+            border-radius: 50%;
             margin-bottom: 13px;
+            margin-left:63px;
             
             
 
@@ -374,12 +418,12 @@
             padding: 5px;
             border-radius: 0%;
             color: rgba(12, 143, 36, 0.5);
-            font-family: "sunflower";
+            
         }
 
         .todo-info{
             margin: 30px;
-            border: 1px solid red;
+            /* border: 1px solid red; */
             width: 45%;
 
             height: 75%;
@@ -392,7 +436,7 @@
         .aprv-mail {
             /* border: 1px solid red; */
             width: 90%;
-            height: 70%;
+            height: 50%;
             background-color: white;
             display: flex;
             gap: 20px; /* ul 요소들 간의 간격 설정 */
@@ -456,6 +500,13 @@
         .mymail {
             /* border: 1px solid red; */
         }
+        
+        /* 비활성화된 버튼 스타일 */
+		.attn-btn.disabled {
+		    background-color: #d3d3d3; /* 회색 배경색 */
+		    color: #a9a9a9; /* 회색 텍스트 색상 */
+		    cursor: not-allowed; /* 커서 변경 */
+		}
 
 
 /* .test1{

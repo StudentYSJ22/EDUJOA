@@ -1,37 +1,35 @@
 package com.edujoa.ysj.attendance.model.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.edujoa.ysj.attendance.model.dao.AttendanceDao;
 import com.edujoa.ysj.attendance.model.dto.Attendance;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class AttendanceServiceImpl implements AttendanceService {
 
-    @Autowired
-    private AttendanceDao dao;
+    private final AttendanceDao attendanceDao;
 
+    //직원 ID로 출퇴근 기록 조회
     @Override
-    public List<Attendance> getAttendanceByEmpId(String empId) {
-        return dao.selectAttendanceByEmpId(empId);
+    public List<Attendance> getRecordsByEmpId(String empId) {
+        return attendanceDao.getRecordsByEmpId(empId);
     }
 
+    //직원 ID로 페이징 처리된 출퇴근 기록 조회
     @Override
-    public List<Attendance> getAttendanceByEmpIdAndEmployees(String empId) {
-        return dao.selectAttendanceByEmpIdAndEmployees(empId);
+    public List<Attendance> getRecordsByEmpId(String empId, int cPage, int numPerpage) {
+        Map<String, Integer> rowBounds = Map.of("cPage", cPage, "numPerpage", numPerpage);
+        return attendanceDao.getRecordsByEmpIdWithPaging(empId, rowBounds);
     }
 
+    //직원 ID로 출퇴근 기록 총 개수 조회
     @Override
-    public List<Attendance> getAttendanceByEmpIdAndAllEmployees(String empId) {
-        return dao.selectAttendanceByEmpIdAndAllEmployees(empId);
-    }
-
-    @Override
-    public int getTotalVacationByEmpId(String empId) {
-        return dao.selectTotalVacationByEmpId(empId);
+    public int getRecordsCountByEmpId(String empId) {
+        return attendanceDao.getRecordsCountByEmpId(empId);
     }
 }
-

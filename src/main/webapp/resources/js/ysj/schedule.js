@@ -1,13 +1,7 @@
-
-
-
-//07.17코드
-
-
- 
 // 날짜 및 시간 형식 변환 함수 (ISO-8601 형식)
 function formatLocalDateTime(date) {
     return date.toISOString().slice(0, 19); // "2024-06-29T15:00:00"
+    // toISOString:문자열은 항상 UTC 시간을 기반 형식은 YYYY-MM-DDTHH:mm:ss.sssZ
 }
 
 // 이벤트 색상 업데이트 함수
@@ -17,17 +11,35 @@ function updateEventColor() {
     $('#schColor').val(color);
 }
 
-// FullCalendar 초기화 및 설정
+// 선택된 캘린더 타입을 저장할 배열
+let selectedCalendars = [];
+
 $(document).ready(function() {
+    // 체크박스 변경 이벤트 핸들러
+    $('.calendar-item input[type="checkbox"]').on('change', function() {
+        const calendarId = $(this).attr('id');
+        const calendarLabel = $(`label[for="${calendarId}"]`).text().trim();
+        if ($(this).is(':checked')) {
+            selectedCalendars.push(calendarLabel);
+        } else {
+            selectedCalendars = selectedCalendars.filter(label => label !== calendarLabel);
+        }
+        console.log('Selected calendars:', selectedCalendars); // 디버깅용 로그
+        // 이벤트 새로고침
+        calendar.refetchEvents();
+    });
+
     // 선택된 이벤트 정보와 참여자 목록을 저장할 변수
     let clickedEventInfo;
     let selectedSharers = [];
+    
+    
 
-    // FullCalendar 요소를 초기화
+    // FullCalendar 요소 초기화
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth', // 초기 뷰 설정
-        headerToolbar: { // 캘린더 헤더 설정
+        headerToolbar: { 			 // 캘린더 헤더 설정
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
@@ -43,10 +55,16 @@ $(document).ready(function() {
 
         // 이벤트 로드 함수
         events: function(fetchInfo, successCallback, failureCallback) {
+            if (selectedCalendars.length === 0) {
+                successCallback([]); // 선택된 캘린더가 없으면 빈 이벤트 리스트 반환
+                return;
+            }
+
             $.ajax({
                 url: `${path}/schedule/events`,
                 type: 'GET',
                 dataType: 'json',
+                data: { calendars: selectedCalendars }, // 선택된 캘린더 타입을 서버로 보냄
                 success: function(response) {
                     var events = response.map(function(event) {
                         return {
@@ -66,19 +84,20 @@ $(document).ready(function() {
                             }
                         };
                     });
-                    successCallback(events); // 성공! 
+                    successCallback(events); // 성공!
                 },
-                error: function() {
+                error: function(xhr, status, error) {
+                    console.error('Error loading events:', error); // 디버깅용 로그
                     alert('일정을 불러오는데 실패했습니다.');
                 }
             });
         },
 
-        height: 'auto', // 높이 자동 조정
-        aspectRatio: 1.35, // 화면 비율 설정
+        height: 'auto', 		  // 높이 자동 조정
+        aspectRatio: 1.35, 		  // 화면 비율 설정
         handleWindowResize: true, // 창 크기 조정 시 캘린더 크기 조정
 
-        // 이벤트 클릭 시 호출되는 함수
+        // 이벤트 클릭 시 호출되는 함수(상세정보)
         eventClick: function(info) {
             clickedEventInfo = info;
 
@@ -137,7 +156,6 @@ $(document).ready(function() {
             calendarType: $('#calendarType').val(),
             schColor: $('#schColor').val(),
             sharers: selectedSharers.map(emp => ({ empId: emp.empId }))
-            //sharers: selectedSharers.map(sharer => sharer.empId)
         };
 
         // 시작 날짜가 종료 날짜보다 이후인 경우 경고

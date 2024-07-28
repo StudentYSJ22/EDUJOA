@@ -8,7 +8,6 @@
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <!-- Bootstrap CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
 <!-- Bootstrap JS -->
@@ -33,7 +32,7 @@
           <h6>내 캘린더</h6>
           <div class="calendar-item">
             <input type="checkbox" id="myCalendar1" data-color="#FFADAD" checked>
-            <label for="myCalendar1">내 일정(기본)</label>
+            <label for="myCalendar1">내 일정</label>
           </div>
           <div class="calendar-item">
             <input type="checkbox" id="myCalendar2" data-color="#FDFFB6">
@@ -107,9 +106,9 @@
           <div class="form-group">
             <label for="calendarType">캘린더</label>
             <select class="form-control" id="calendarType" name="calendarType" onchange="updateEventColor()">
-              <option value="내 일정" data-color="#FFADAD">내 일정(기본)</option>
+              <option value="내 일정" data-color="#FFADAD">내 일정</option>
               <option value="개인 일정" data-color="#FDFFB6">개인 일정</option>
-              <option value="운영팀 일정" data-color="#CAFFBF">운영팀 일정</option>
+              <option value="운영팀 일정," data-color="#CAFFBF">운영팀 일정</option>
               <option value="강사 일정" data-color="#A0C4FF">강사 일정</option>
               <option value="공지 일정" data-color="#FFC6FF">공지 일정</option>
             </select>

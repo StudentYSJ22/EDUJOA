@@ -1,176 +1,524 @@
+// WebSocket 서버 설정
+let server;
+let isConnected = false;
+const reconnectInterval = 5000; // 5초마다 재연결 시도
 
-	/**
- * 채팅서버 기능
- */
-//ws:http
-//wss:https
-const server=new WebSocket("ws://localhost:9090/chattest");
-//servlet-context에서 설정한 mapping주소로 맨뒤에 서버주소 설정함.
-let reconnectInterval = 5000;
+const titleMap = {
+	'J1': '원장',
+	'J2': '팀장',
+	'J3': '매니저'
+};
 
-/*$(document).ready(function() {
-	$.ajax({
-		url:"/chatting/chatresult.do",
-		type:"GET",
-		data:"text",
-		success:(data =>{
-			console.log(data);
-			data.forEach(e=>{
-				console.log(e.empName);
-			})
-		})
-	});
-})*/
-class Message{
-	constructor(chatType="",sender="",senderName="",receiver="",roomName="",chatContent="",chatTime=""){
-		this.chatType=chatType;
-		this.sender=sender; //발신자ID
-		this.senderName=senderName;//발신자이름
-		this.receiver=receiver; //수신자ID
-		this.roomName=roomName; //수신자이름
-		this.chatContent=chatContent;
-		this.chatTime=chatTime;
+function getKoreanTitle(empTitle) {
+	return titleMap[empTitle] || empTitle;
+}
+
+function connectWebSocket() {
+	server = new WebSocket("ws://localhost:9090/chattest");
+
+	server.onopen = () => {
+		console.log("서버 연결됨");
+		isConnected = true;
+		const msg = new Message("open", "", loginId, "", "", new Date().toISOString());
+		console.log(msg);
+		server.send(msg.convert());
+	};
+
+	server.onmessage = response => {
+		console.log("메시지 수신:", response.data);
+		const receiveMsg = Message.deconvert(response.data);
+		switch (receiveMsg.chatType) {
+			case "send":
+				handleIncomingMessage(receiveMsg);
+				break;
+			case "newRoom":
+				handleNewChatRoom(receiveMsg);
+				break;
+			default:
+				console.log("알 수 없는 메시지 타입:", receiveMsg.chatType);
+		}
+	};
+
+	server.onclose = event => {
+		console.log("서버 연결 종료", event);
+		isConnected = false;
+		setTimeout(connectWebSocket, reconnectInterval);
+	};
+
+	server.onerror = error => {
+		console.error("WebSocket 오류 발생:", error);
+		isConnected = false;
+	};
+}
+function handleNewChatRoom(message) {
+	if (!isChatRoomExist(message.roomId)) {
+		addChatRoomToList(message.roomId, message.sender, message.senderName, message.senderTitle, message.senderProfile);
+		console.log("새로운 채팅방이 생성되었습니다:", message.roomId);
+		getMyChatRooms(); // 채팅방 목록 갱신
 	}
-	convert(){
+}
+
+const $chatRoomList = $('#chatList');
+const $chats = $('#chats');
+const $chattingcontent = $('#chattingcontent');
+const $roomId = $('#room-id');
+const $receiverName = $('#receiver-name');
+const $receiverId = $('#receiver-id');
+
+
+$(document).ready(function() {
+	connectWebSocket();
+	getMyChatRooms();
+	console.log("getMyChatRoom() 실행했음!");
+
+	// 직원 클릭 이벤트
+	$(document).on('click', '.employee-item, .receiver-name', function() {
+		//receiver-name 클릭했을 때 필요한 정보 다 담아두고 거기서 뽑아와야함
+
+		const empName = $(this).data('emp-name');
+		const empTitle = $(this).data('emp-title');
+		const empId = $(this).data('emp-id');
+		const empProfile = $(this).find('img').attr('src');
+		const empEmail = $(this).data('emp-email');
+		const koreanTitle = getKoreanTitle(empTitle);
+
+		const infoHtml = `
+			<img src="${empProfile}" alt="${empName}" style="width:100px; height:100px; border-radius:50%;">
+            <p><strong>이름:</strong> ${empName}</p>
+            <p><strong>직급:</strong> ${koreanTitle}</p>
+            <p><strong>직원 ID:</strong> ${empId}</p>
+            <p><strong>이메일:</strong> ${empEmail}</p>
+            
+            <input id="targetId" type="hidden" value="${empId}"/>
+            <input id="targetName" type="hidden" value="${empName}"/>
+            <input id="targetTitle" type="hidden" value="${koreanTitle}"/>
+            <input id="targetProfile" type="hidden" value="${empProfile}"/>
+        `;
+
+		$('#employeeInfo').html(infoHtml);
+		$('#employeeModal').show();
+
+	});
+
+	// 모달 닫기 버튼 이벤트
+	$('#closeModal').on('click', function() {
+		$('#employeeModal').hide();
+	});
+
+	// 1:1 대화하기 버튼 이벤트
+	$('#chatButton').on('click', function() {
+		const targetId = $('#targetId').val();
+		const targetName = $('#targetName').val();
+		const targetTitle = $('#targetTitle').val();
+		const targetProfile = $('#targetProfile').val();
+
+		$('#receiver-id').text(targetId);
+		$('#receiver-name').text(`${targetName} ${targetTitle}`);
+		//여기에 사진 넣어줘야함
+		$("#receiver-profile").attr("src",targetProfile).show();
+
+		const empProfile = $('#employeeInfo').find('img').attr('src');
+		createChatRoom(targetId, targetName, targetTitle, empProfile);
+		$('#employeeModal').hide();
+	});
+
+	// 모달 외부 클릭 시 닫기
+	$(window).on('click', function(event) {
+		if (event.target == $('#employeeModal')[0]) {
+			$('#employeeModal').hide();
+		}
+	});
+});
+
+function createChatRoom(targetId, empName, empTitle, empProfile) {
+	$.ajax({
+		type: "POST",
+		url: "/chatting/createChatRoom",
+		contentType: "application/json",
+		data: JSON.stringify({
+			sender: loginId,
+			receiver: targetId
+		}),
+		dataType: "json",
+		success: function(response) {
+			clearChatWindow();
+			console.log("Raw response:", response);
+
+			let roomId = response.roomId || (Array.isArray(response) && response.length > 0 ? response[0].roomId : "");
+
+			if (roomId > 0) {
+				//1:1대화하기 버튼 누른 직후에 채팅방목록에 방금 만든 채팅방번호가 없다면
+				if (!isChatRoomExist(roomId)) { 
+					//그 채팅방을 추가하고
+					addChatRoomToList(roomId, targetId, empName, empTitle, empProfile); 
+					console.log("채팅방 목록에 추가 완료.");
+					
+					//대화하기 버튼 눌렀을 때 return받은 채팅방 번호가 채팅방목록에 있다면,
+				} else { 
+					displayChatHistory(response.content, targetId);
+				}
+
+				selectChatRoom(roomId, targetId);
+				$roomId.text(roomId);
+				$receiverId.text(targetId);
+				$receiverName.text(`${empName} ${getKoreanTitle(empTitle)}`);
+				// 프로필 이미지 설정 및 표시
+           		$("#receiver-profile").attr("src", empProfile).show();
+			} else {
+				console.error("유효하지 않은 roomId:", roomId);
+				$("#chattingcontent").html("채팅방 생성 중 오류가 발생했습니다.");
+			}
+
+			getMyChatRooms();
+		},
+		error: handleAjaxError
+	});
+}
+// 새로운 함수: 채팅방 선택
+function selectChatRoom(roomId, empId) {
+    $roomId.text(roomId);
+    $receiverId.text(empId);
+
+    // 채팅방 아이템에서 프로필 이미지 URL 가져오기
+    const chatRoomItem = $(`.chat-room-item[data-room-id="${roomId}"]`);
+    const empProfile = chatRoomItem.data('room-emp-profile');
+    
+    // 프로필 이미지 설정 및 표시
+    $("#receiver-profile").attr("src", empProfile).show();
+
+    getMyChatRecords(roomId, empId);
+}
+
+function isChatRoomExist(roomId) {
+	return $chatRoomList.find(`[data-room-id="${roomId}"]`).length > 0;
+}
+
+function addChatRoomToList(roomId, empId, empName, empTitle, empProfile) {
+
+	const position = getKoreanTitle(empTitle);
+	const newChatRoomHtml = `
+        <div class="chat chat-room-item" 
+             data-room-id="${roomId}" 
+             data-room-emp-id="${empId}"
+             data-room-emp-name="${empName}"
+             data-room-emp-title="${empTitle}"
+             data-room-emp-profile="${empProfile}">
+            <img src="${empProfile}" style="width: 30px; height: 30px; border-radius: 100%;">
+            <div class="details">
+            <div class="name">${escapeHTML(empName)}</div> 
+            <div class="message">${position}</div>
+            </div>
+        </div>
+    `;
+
+	$chats.prepend(newChatRoomHtml);
+	attachChatRoomClickEvent();
+}
+
+function escapeHTML(str) {
+	const entityMap = {
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		"'": '&#39;',
+		'/': '&#x2F;',
+		'`': '&#x60;',
+		'=': '&#x3D;'
+	};
+	return String(str).replace(/[&<>"'`=\/]/g, function(s) {
+		return entityMap[s];
+	});
+}
+
+function getMyChatRooms(empId) {
+	$.ajax({
+		type: "GET",
+		url: "/chatting/getMyChatRooms",
+		//메소드 실행되면 empName, empProfile, empTitle, roomId, empId나옴
+		data: { empId: loginId },
+		dataType: "json",
+		success: function(chatrooms) {
+			let html = '';
+			if (chatrooms && chatrooms.length > 0) {
+				html = chatrooms.map(room => `
+                    <div class="chat-room-item chat" 
+                         data-room-id="${room.roomId}" 
+                         data-room-emp-id="${room.empId}"
+                         data-room-emp-name="${room.empName}"
+                         data-room-emp-title="${room.empTitle}"
+                         data-room-emp-profile="${room.empProfile}">
+                        <img src="${path}/resources/upload/${room.empProfile}" 
+                             style="width: 30px; height: 30px; border-radius: 100%;">
+                        ${escapeHTML(room.empName)} ${getKoreanTitle(room.empTitle)}<br>
+                    </div>
+                `).join('');
+			} else {
+				html = '<p>채팅방이 없습니다.</p>';
+			}
+			$chats.html(html);
+			attachChatRoomClickEvent();
+		},
+		error: handleAjaxError
+	});
+}
+
+function attachChatRoomClickEvent() {
+	$('.chat-room-item').on('click', function() {
+		const roomId = $(this).data('room-id');
+		const empId = $(this).data('room-emp-id');
+		const empName = $(this).data('room-emp-name');
+		const empTitle = $(this).data('room-emp-title');
+		const empProfile = $(this).data('room-emp-profile');
+		$roomId.text(roomId);
+		$receiverId.text(empId);
+		$receiverName.text(empName + " " + getKoreanTitle(empTitle));
+
+		// 새 메시지 배지 제거
+		$(this).find('.new-message-badge').remove();
+
+		clearChatWindow();
+		getMyChatRecords(roomId, empId);
+	});
+}
+
+function getMyChatRecords(roomId, empId) {
+	$.ajax({
+		type: "POST",
+		url: "/chatting/getMyChatRecords",
+		//ROOM_ID, EMP_ID, CONTENT, CHAT_TIME
+		contentType: "application/json",
+		data: JSON.stringify({
+			roomId: roomId,
+			receiver: empId
+		}),
+		dataType: "json",
+		success: function(chatHistory) {
+			console.log("chatHistory");
+			console.log(chatHistory);
+			if (chatHistory.length === 0) {
+				$("#chattingcontent").html("대화내용이 없습니다. 메시지를 입력하세요.");
+				if($chattingcontent.length>0){
+					$chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
+				}
+			} else {
+				displayChatHistory(chatHistory, chatHistory.empId);
+			}
+			$chattingcontent.scrollTop($chattingcontent[0].scrollHeight);
+		}
+	});
+}
+
+// 채팅 기록을 표시하는 함수
+function displayChatHistory(content, empId) {
+	$chattingcontent.empty();
+
+	if (content && content.length > 0) {
+		let lastDate = null;
+		content.forEach(function(cont) {
+			const messageDate = new Date(cont.chatTime);
+			const kstDate = new Date(messageDate.getTime() + (9 * 60 * 60 * 1000)); // KST로 변환
+
+			if (!lastDate || !isSameDay(lastDate, kstDate)) {
+				const dateString = formatDate(kstDate);
+				$chattingcontent.append(`<div class="date-divider" data-date="${kstDate.toISOString()}">---------${dateString}--------</div>`);
+				lastDate = kstDate;
+			}
+
+			createMessageHtml(cont);
+		});
+	} else {
+		$chattingcontent.append('<p>대화 내역이 없습니다. 메세지를 입력하세요.</p>');
+	}
+
+	$chattingcontent.scrollTop($chattingcontent[0].scrollHeight);
+}
+
+// 메시지 HTML을 생성하는 함수
+function createMessageHtml(message) {
+    if (!message || !message.content) {
+        console.error("Invalid message object:", message);
+        return;
+    }
+    
+    const sender = message.sender || message.empId;
+    const messageClass = sender === loginId ? 'sent' : 'received';
+    const messageAlignment = sender === loginId ? 'right' : 'left';
+    const content = message.content;
+    const chatTime = formatDateTime(message.chatTime);
+    
+    const msg = `
+        <div class="message ${messageClass}">
+            <div class="message-container">
+                <div class="message-content content">${escapeHTML(content)}</div>
+                <div class="message-time">${chatTime}</div>
+            </div>
+        </div>
+    `;
+    
+    // 기존 "대화내용이 없습니다" 메시지 제거
+    $chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
+    
+    $chattingcontent.append(msg);
+}
+
+// 타임스탬프를 KST로 변환하여 포맷팅하는 함수
+function formatDateTime(timestamp) {
+	const date = new Date(timestamp);
+	const koreaTime = new Date(date.getTime() + (9 * 60 * 60 * 1000)); // UTC to KST (UTC+9)
+	return koreaTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+}
+
+// 날짜를 포맷팅하는 함수
+function formatDate(date) {
+	const days = ['일', '월', '화', '수', '목', '금', '토'];
+	return `${date.getMonth() + 1}월 ${date.getDate()}일 ${days[date.getDay()]}요일`;
+}
+
+// 두 날짜가 같은 날인지 확인하는 함수
+function isSameDay(date1, date2) {
+	return date1.getFullYear() === date2.getFullYear() &&
+		date1.getMonth() === date2.getMonth() &&
+		date1.getDate() === date2.getDate();
+}
+
+// 수신 메시지를 처리하는 함수
+function handleIncomingMessage(message) {
+    console.log("Handling incoming message:", message);
+    const currentRoomId = $roomId.text();
+    if (message.chatType === "send") {
+        if (message.roomId === currentRoomId) {
+            appendMessageWithDateCheck(message);
+        } else {
+            addNewMessageBadge(message.roomId);
+        }
+
+        // 새로운 채팅방 생성 확인 및 추가
+        if (!isChatRoomExist(message.roomId)) {
+            addChatRoomToList(message.roomId, message.sender, message.senderName, message.senderTitle, message.senderProfile);
+            getMyChatRooms(); // 채팅방 목록 갱신
+        }
+    }
+}
+
+// 메시지를 추가하는 함수 (날짜 구분선 추가 여부 체크)
+function appendMessageWithDateCheck(message) {
+    if (!message || !message.chatTime) {
+        console.error("Invalid message object:", message);
+        return;
+    }
+
+    const newMessageDate = new Date(message.chatTime);
+    const kstDate = new Date(newMessageDate.getTime() + (9 * 60 * 60 * 1000)); // KST로 변환
+
+    if (shouldAddDateDivider(kstDate)) {
+        const dateString = formatDate(kstDate);
+        $chattingcontent.append(`<div class="date-divider" data-date="${kstDate.toISOString()}">---------${dateString}--------</div>`);
+    }
+    // 기존 "대화내용이 없습니다" 메시지 제거
+    $chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
+
+    createMessageHtml(message);
+    $chattingcontent.scrollTop($chattingcontent[0].scrollHeight);
+}
+
+// 날짜 구분선 추가 여부를 결정하는 함수
+function shouldAddDateDivider(newMessageDate) {
+	const lastDivider = $chattingcontent.find('.date-divider').last();
+	if (lastDivider.length === 0) {
+		return true; // 첫 번째 메시지이므로 구분선 추가
+	}
+
+	const lastDate = new Date(lastDivider.data('date'));
+	return !isSameDay(lastDate, newMessageDate);
+}
+
+function addNewMessageBadge(roomId) {
+  const chatRoomItem = $(`.chat-room-item[data-room-id="${roomId}"]`);
+  let badge = chatRoomItem.find('.new-message-badge');
+  if (badge.length === 0) {
+    chatRoomItem.append('<span class="new-message-badge">1</span>');
+  } else {
+    let count = parseInt(badge.text()) + 1;
+    badge.text(count);
+  }
+  // 채팅방 목록의 맨 위로 이동
+    chatRoomItem.prependTo(chatRoomItem.parent());
+}
+
+const sendMessage = () => {
+	if (!isConnected) {
+		alert("서버와의 연결이 끊어졌습니다. 페이지를 새로고침해 주세요.");
+		return;
+	}
+
+	const inputData = $("#msg").val().trim();
+	const receiverId = $("#receiver-id").text();
+	const selectedRoomId = $roomId.text();
+	const chatTime = new Date().toISOString();
+
+	if (inputData.length > 0 && selectedRoomId) {
+		const msgObj = {
+			chatType: "send",
+			roomId: selectedRoomId,
+			sender: loginId,
+			receiverId: receiverId,
+			content: inputData,
+			chatTime: chatTime,
+		};
+		try {
+			server.send(JSON.stringify(msgObj));
+			console.log("메시지 전송:", msgObj);
+			appendMessageWithDateCheck(msgObj);
+			$("#msg").val("");
+		} catch (error) {
+			console.error("메시지 전송 중 오류 발생:", error);
+			alert("메시지 전송에 실패했습니다. 다시 시도해 주세요.");
+		}
+	} else {
+		console.error("메시지를 보낼 수 없습니다. 입력 데이터나 채팅방 ID가 없습니다.");
+	}
+}
+
+class Message {
+	constructor(chatType = "", roomId = "", sender = "", receiverId = "", chatContent = "", chatTime = "") {
+		this.chatType = chatType;
+		this.roomId = roomId;
+		this.sender = sender;
+		this.receiverId = receiverId;
+		this.chatContent = chatContent;
+		this.chatTime = chatTime;
+	}
+
+	convert() {
 		return JSON.stringify(this);
 	}
-	static deconvert(data){ //static으로 써서 객체생성 필요 없이 씀
+	static deconvert(data) {
 		return JSON.parse(data);
 	}
-	
 }
-server.onopen=()=>{ //서버 열렸을 때 실행
-	console.log("서버 열림");
-	/*console.log(employeeName);*/
-	const msg=new Message("open",loginId,loginName,"","","",chatTime);
-	console.log(msg);
-	server.send(msg.convert());
-	//여기서 웹소켓 열렸을 때는 서버에 메세지는 전달 되지만 db에는 저장안해도 됨
-	//아직 receiver를 지정하지 않았기 때문에.
-}
-server.onmessage=response=>{ //메세지 수신했을 때 실행
-	const receiveMsg=Message.deconvert(response.data); //서버로부터 받은 데이터 json방식으로 변환
-	switch(receiveMsg.chatType){
-		//이벤트 종류에 따라서 switch문으로 분기처리
-		//case "open" : alertMessage(receiveMsg); break; //새로운 손놈 왔을 때
-		case "send" : messagePrint(receiveMsg); break; //메세지가 왔을 때, 채팅방 생성
-		case "load" : messagePrint(receiveMsg); break; //참가자가 새로 왔을 때
-		case "close" : alertMessage(receiveMsg); break; //참가자가 나갔을 때
-		case "make" : break;
-	}
-};
 
-server.onclose = (event) => { // 연결이 닫혔을 때 실행
-    console.log("서버 연결 종료", event);
-	console.log(`서버 연결 재시도 중... ${reconnectInterval / 1000}초 후 재연결 시도`);
-    setTimeout(connectWebSocket, reconnectInterval); // 일정 시간 후에 다시 연결 시도
-};
-
-const closeMessage=()=>{
-	server.close(1000,"서버와의 연결이 종료되었습니다.");
-	window.close();
+function clearChatWindow() {
+	$chattingcontent.empty();
 }
-//직원 목록 더블클릭 했을 때
-$(document).on("dblclick", ".employee-item", function() {
-    let empId = $(this).data("emp-id");
-    let empName = $(this).data("emp-name");
-    let empTitle = $(this).data("emp-title");
-    $("#idstorage").html(empId);
-    $("#namestorage").html(empName);
-	$("#receiver-info").html(empName);
-	if(empTitle==='J1'){
-		empTitle=' 원장';
-	}else if(empTitle==='J2'){
-		empTitle=' 팀장';
-	}else if(empTitle==='J3'){
-		empTitle=' 매니저';
-	}
-	$("#receiver-info").append(empTitle);
-	//직원목록 더블클릭 했으니 방 있는지 없는지 체크 필요함.
-	const msgObj=new Message("check",loginId,loginName,empId,empName,"",chatTime);
-	console.log(msgObj);
-	server.send(msgObj.convert());
-	
+
+function handleAjaxError(xhr, status, error) {
+	console.error("Ajax 요청 실패:", status, error);
+	alert("요청 처리 중 오류가 발생했습니다. 다시 시도해 주세요");
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const btnEmployeeList = document.getElementById('btnEmployeeList');
+    const btnChatList = document.getElementById('btnChatList');
+    const employeeList = document.getElementById('employeeList');
+    const chatList = document.getElementById('chatList');
+
+    btnEmployeeList.addEventListener('click', function() {
+        employeeList.style.display = 'block';
+        chatList.style.display = 'none';
+    });
+
+    btnChatList.addEventListener('click', function() {
+        employeeList.style.display = 'none';
+        chatList.style.display = 'block';
+    });
 });
-//채팅방목록 더블클릭 했을 때
-$(document).on("dbclick",".chat-room-item", function(){
-	let empId = $(this).data("receiver-id");
-	$("#idstorage").html(empId);
-	const msgObj=new Message("load",loginId,loginName,empId,"","","").convert();
-	server.send(msgObj.convert());
-	//이미 채팅방이 있는 상태이기 때문에 db에 저장된 데이터 가져와서 출력해야함
-});
-//javascript 사용해서 구현
-const sendMessage=()=>{
-	//전송버튼 눌렀을 때 수신자, 발신자 정보 가지고 서버에 정보 보내서 db에 저장
-	const inputData=document.querySelector("#msg").value;
-	const timeData=document.getElementById("chatTime").value;
-	let receiver=document.getElementById("idstorage").textContent;
-	let receiverName=document.getElementById("namestorage").textContent;
-	chatTime = new Date().toISOString().slice(0, -8);
-	
-	if(inputData.length>0){
-		const msgObj=new Message("send",loginId,loginName,receiver,receiverName,inputData,chatTime).convert();
-		//                        타입 ,   발신자,   수신자,    방이름,   메세지내용
-		server.send(msgObj);
-		console.log(msgObj);
-	}else{
-		alert("메세지를 입력하세요");
-		document.querySelector("#msg").focus();
-	}
-};
-
-/*const addAttend=(msg)=>{
-	console.log(msg);
-	const clients=JSON.parse(msg.chatContent);
-	const $attendContainer=document.querySelector("#attendContainer");
-	//$attendContainer.innerHTML="";
-	const $ul=document.createElement("ul");
-	$ul.classList.add("listcontainer");
-	clients.map(e=>{
-		const $li=document.createElement("li");
-		//$li.innerText=e;
-		$li.classList.add("listfont");
-		return $li;
-	}).forEach(e=>{
-		//$ul.appendChild(e);
-	});
-	$attendContainer.appendChild($ul);
-}*/
-const messagePrint=(msg)=>{
-	const $div=document.createElement("div");
-	const $profile=document.createElement("img");
-	$profile.setAttribute("src",`${path}/resources/upload/IU.jpeg`);
-	$profile.style.width="50px";
-	$profile.style.height="50px";
-	$profile.style.borderRadius="100px";
-	$div.appendChild($profile);
-	const $sender=document.createElement("sup");
-	$sender.innerText=msg.sender;
-	//메세지 출력태그
-	const $content=document.createElement("span");
-	$content.innerText=msg.deconvert(chatContent);
-	
-	$div.appendChild($sender);
-	$div.appendChild($content);
-	
-	//메세지컨테이너 디자인하기
-	$div.classList.add("msgcontainer");
-	if(msg.loginId==loginId){
-		$div.classList.add("right");
-	}else{
-		$div.classList.add("left");
-	}
-	document.querySelector("#chattingcontent").appendChild($div);
-}
-
-//여기는 jquery사용해서 구현
-/*const alertMessage=(msg)=>{
-	const $container=$("<div>").addClass("alertContainer");
-	const status=msg.chatType=="open"?"접속":"퇴장";
-	const room=msg.room;
-	const $content=$("<h4>").text(`${msg.sender}님이 ${status}하셨습니다.`);
-	$container.append($content);
-	$("#chattingcontent").append($container);
-	$("#roomName").append(room);
-}*/
