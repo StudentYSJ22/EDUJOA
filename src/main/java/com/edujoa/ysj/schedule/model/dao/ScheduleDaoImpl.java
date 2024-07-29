@@ -65,17 +65,44 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     // 일정 상세 조회
+//    @Override
+//    public Schedule getEventDetail(SqlSession session, String eventId) {
+//        return session.selectOne("schedule.selectScheduleById", eventId);
+//    }
+
     @Override
     public Schedule getEventDetail(SqlSession session, String eventId) {
-        return session.selectOne("schedule.selectScheduleById", eventId);
+        Schedule schedule = session.selectOne("schedule.selectScheduleById", eventId);
+        List<ScheduleSharer> sharers = selectScheduleSharers(session, eventId);
+        schedule.setSharers(sharers);
+        return schedule;
     }
-
+    
+    
     // 일정 수정
+//    @Override
+//    public int updateSchedule(SqlSession session, Schedule schedule) {
+//        return session.update("schedule.updateSchedule", schedule);
+//    }
+
     @Override
     public int updateSchedule(SqlSession session, Schedule schedule) {
-        return session.update("schedule.updateSchedule", schedule);
+        int result = session.update("schedule.updateSchedule", schedule);
+
+        if (schedule.getSharers() != null) {
+            deleteScheduleSharers(session, schedule.getSchId());
+            for (ScheduleSharer sharer : schedule.getSharers()) {
+                sharer.setSchId(schedule.getSchId());
+                insertScheduleSharer(session, sharer);
+                log.debug("{}", sharer);
+            }
+        }
+
+        return result;
     }
 
+    	
+    
     // 일정 삭제
     @Transactional
     @Override

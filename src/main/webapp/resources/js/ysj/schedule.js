@@ -1,4 +1,4 @@
-// 날짜 및 시간 형식 변환 함수 (ISO-8601 형식)원본 
+// 날짜 및 시간 형식 변환 함수 (ISO-8601 형식) 찐찐본 
 function formatLocalDateTimeToUTC(date) {
     var date = new Date(date);
     return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 19);
@@ -118,10 +118,14 @@ $(document).ready(function () {
                     $('#detailSchColor').val(event.schColor);
 
                     // 참여자 목록 로드
-                    selectedSharers = event.sharers || [];
+                    selectedSharers = event.sharers[0].employee || [];
                     const sharersNames = selectedSharers.map(sharer => sharer.empName).join(', ');
                     $('#detailSharers').val(sharersNames);
-
+					$('#editDetailSharers').val(sharersNames);
+									
+					
+						
+						
                     // 폼 필드 비활성화
                     $('#eventDetailForm input, #eventDetailForm textarea, #eventDetailForm select').prop('readonly', true);
                     $('#detailSchType, #detailCalendarType').prop('disabled', true); // 추가된 부분
@@ -300,11 +304,14 @@ $(document).ready(function () {
             url: `${path}/schedule/employees`,
             method: 'GET',
             success: function (employees) {
+				console.log(selectedSharers);
                 const empList = $('#empList').empty();
                 employees.forEach(emp => {
                     if (!selectedSharers.find(e => e.empId === emp.empId)) {
                         empList.append(`<li data-id="${emp.empId}" data-name="${emp.empName}">${emp.empName} (${emp.empTitle})</li>`);
-                    }
+                    }else{
+						$('#selectedEmpList').append(`<li data-id="${emp.empId}" data-name="${emp.empName}">${emp.empName}</li>`);
+					}
                 });
             },
             error: function (xhr, status, error) {
@@ -331,15 +338,40 @@ $(document).ready(function () {
         loadEmployees();
     });
 
-    // 참여자 확인 버튼 클릭 
-    $('#confirmParticipants').click(function () {
+
+    // 참여자 확인 버튼 클릭
+    // 참여자 선택 후 확인 버튼을 눌렀을 때, 선택된 참여자 목록이 #detailSharers 필드에 EMP_NAME으로 출력 
+    /*$('#confirmParticipants').click(function () {
         const empNames = selectedSharers.map(emp => emp.empName).join(', ');
         $('#detailSharers').val(empNames);
         $('#participantPanel').removeClass('open');
-    });
+    });*/
+    // 참여자 확인 버튼 클릭
+$('#confirmParticipants').click(function () {
+    const empNames = selectedSharers.map(emp => emp.empName).join(', ');
+    // 추가 모달에서 열려있는지 확인
+    if ($('#addEventModal').hasClass('show')) {
+        $('#detailSharers').val(empNames);
+    } else if ($('#eventDetailModal').hasClass('show')) { // 수정 모달에서 열려있는지 확인
+        $('#editDetailSharers').val(empNames);
+    }
+    $('#participantPanel').removeClass('open');
+});
+
 
     // 참여자 취소 버튼 클릭 시
     $('#cancelParticipants').click(function () {
         $('#participantPanel').removeClass('open');
+    });
+    
+    
+    
+    // 모달 닫기 버튼과 취소 버튼 누르면 모달창 닫기~ 
+    $('#addEventModal .close, #addEventModal .btn-secondary').click(function () {
+        $('#addEventModal').modal('hide');
+    });
+
+    $('#eventDetailModal .close, #eventDetailModal .btn-secondary').click(function () {
+        $('#eventDetailModal').modal('hide');
     });
 });
