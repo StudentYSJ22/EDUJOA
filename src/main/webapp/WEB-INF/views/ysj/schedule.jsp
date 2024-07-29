@@ -179,6 +179,29 @@
               <option value="강사 일정" data-color="#A0C4FF">강사 일정</option>
               <option value="공지 일정" data-color="#FFC6FF">공지 일정</option>
             </select>
+            
+            
+            <!-- 참여자 선택  -->
+			<!-- <div class="form-group">
+			    <label for="detailSharers">참여자</label>
+			    <div class="input-group">
+			        <input type="text" class="form-control" id="detailSharers" name="detailSharers" placeholder="참여자 선택" readonly>
+			        <div class="input-group-append">
+			            <button class="btn btn-outline-secondary" type="button" id="selectParticipants">선택</button>
+			        </div>
+			    </div>
+			</div>
+             -->
+                <div class="form-group">
+            <label for="detailSharers">참여자</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="detailSharers" name="detailSharers" placeholder="참여자 선택" readonly>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="selectParticipants">선택</button>
+              </div>
+            </div>
+          </div>
+            
           </div>
           <input type="hidden" id="detailSchColor" name="detailSchColor" value="#FFADAD">
           <button type="button" id="editEventBtn" class="btn btn-secondary">수정</button>
