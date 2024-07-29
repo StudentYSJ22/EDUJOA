@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.edujoa.with.employee.model.dto.Alarm;
 import com.edujoa.with.employee.model.dto.Employee;
 
 public interface ChsEmployeeDao {
@@ -20,4 +21,8 @@ public interface ChsEmployeeDao {
 		int updateEmployee(SqlSession session, Employee employee);
 		//사원 삭제
 		int deleteEmployee(SqlSession session, String empId);
+		//알람 생성
+		int insertAlarm(SqlSession session, Alarm alarm);
+		//알람 삭제
+		int deletetAlarm(SqlSession session, String alarmId);
 }

@@ -3,7 +3,7 @@ package com.edujoa.chs.employee.model.service;
 import java.util.List;
 import java.util.Map;
 
-
+import com.edujoa.with.employee.model.dto.Alarm;
 import com.edujoa.with.employee.model.dto.Employee;
 
 public interface ChsEmployeeService {
@@ -19,4 +19,9 @@ public interface ChsEmployeeService {
 	int updateEmployee(Employee employee);
 	//사원 삭제
 	int deleteEmployee(String empId);
+	//알람 생성
+	int insertAlarm(Alarm alarm);
+	//알람 삭제
+	int deletetAlarm(String alarmId);
+	
 }

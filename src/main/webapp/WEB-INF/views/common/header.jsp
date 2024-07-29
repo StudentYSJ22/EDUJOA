@@ -38,6 +38,40 @@
   <!-- Helpers -->
   <script src="${path}/resources/common/assets/vendor/js/helpers.js"></script>
   <script src="${path}/resources/common/assets/js/config.js"></script>
+  <style>
+  	.alarm-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    position: relative; /* Position relative for delete button */
+    padding-right: 35px; /* Make space for delete button */
+}
+.alarm-item:last-child {
+    border-bottom: none;
+}
+.alarm-item:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+.alarm-list {
+    max-height: 300px; /* 고정된 높이 */
+    overflow-y: auto; /* 높이를 초과하면 스크롤 */
+}
+.delete-btn {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    display: none;
+    background: transparent;
+    border: none;
+    font-size: 12px;
+    color: #888;
+    cursor: pointer;
+}
+.alarm-item:hover .delete-btn {
+    display: block;
+}
+  </style>
 </head>
 <body>
   <div class="layout-wrapper layout-content-navbar">
@@ -45,7 +79,7 @@
       <!-- Menu -->
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo" style="margin-top: 20px;"> <!-- 로고 아래로 이동 -->
-          <a href="${path }/login" class="app-brand-link">
+          <a href="${path }/" class="app-brand-link">
             <span class="app-brand-logo demo">
               <img src="${path}/resources/common/assets/img/edulogo.png" alt="Logo" width="170" height="70">
             </span>
@@ -62,7 +96,7 @@
           <!-- Dashboard -->
           <li class="menu-item active">
             <!-- <a href="/WEB-INF/views/index.jsp" class="menu-link">  -->
-            <a href="${path }/edujoa" class="menu-link">
+            <a href="${path }/" class="menu-link">
               <i class="menu-icon tf-icons bx bx-home-circle"></i>
               <div data-i18n="Analytics">홈</div>
             </a>
@@ -73,12 +107,6 @@
             <a href="${path }/approval/insert" class="menu-link">
               <i class="menu-icon tf-icons bx bx-bar-chart-alt"></i>
               <div data-i18n="Layouts">전자결재</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-folder"></i>
-              <div data-i18n="Layouts">문서함</div>
             </a>
           </li>
           <li class="menu-item">
@@ -163,36 +191,18 @@
               <li class="nav-item navbar-dropdown dropdown-notifications dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <i class="bx bx-bell bx-sm"></i>
-                  <span class="badge bg-danger rounded-pill badge-notifications">5</span>
+                  <span class="badge bg-danger rounded-pill badge-notifications">${loginMember.alarm.size() }</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                 
-                  <li>
-                    <a class="dropdown-item" href="#">
-                     
-                    </a>
-                  </li>
-                  <li>
-                    <div class="dropdown-divider"></div>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <i class="bx bx-cog me-2"></i>
-                      <span class="align-middle">알람 구현해쥬</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <span class="d-flex align-items-center align-middle">
-                        <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                        <span class="flex-grow-1 align-middle">알람 구구 </span>
-                        <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <div class="dropdown-divider"></div>
-                  </li>
+                  <!-- 알람 출력 -->
+                  <c:forEach var="a" items="${loginMember.alarm }">
+                  	<li>
+                  		 <div class="alarm-item">
+	                        <span>${a.alarmContent}</span>
+	                         <button class="btn btn-sm  delete-btn" onclick="deleteAlarm(${a.alarmId})">X</button>
+            			</div>
+                  	</li>
+                  </c:forEach>
                   
                 </ul>
               </li>
@@ -200,6 +210,63 @@
             </ul>
           </div>
         </nav>
+         <script>
+         if (typeof(EventSource) !== "undefined") {
+        	 let loginEmpId = "${loginMember.empId}";
+             const eventSource = new EventSource('/stream?userId=' + loginEmpId);  // SSE 연결 설정
+             eventSource.onopen = function(event) {
+            	    console.log("SSE connection opened", event);
+            	};
+             eventSource.onmessage = function(event) {
+            	 console.log(event);
+                 const alarmCount = document.querySelector('.badge-notifications');
+                 const alarmList = document.getElementById('alarmList');
+                 const newEvent = document.createElement('li');
+                 const alarmId = Date.now();  // You can replace this with the actual ID from the event data
+                 newEvent.id = `alarm-${alarmId}`;
+                 newEvent.innerHTML = `
+                     <div class="alarm-item">
+                         <span>${event.data}</span>
+                         <button class="btn btn-sm delete-btn" onclick="deleteAlarm(${alarmId})">X</button>
+                     </div>`;
+                 alarmList.appendChild(newEvent);
+                 alarmCount.textContent = (parseInt(alarmCount.textContent) || 0) + 1;
+             };
+             eventSource.onerror = function(event) {
+            	    console.error("SSE error:", event);
+            	};
+             eventSource.addEventListener("ALERT", function(event) {
+                 const alarmCount = document.querySelector('.badge-notifications');
+                 const alarmList = document.getElementById('alarmList');
+                 const newEvent = document.createElement('li');
+                 const alarmId = Date.now();  // You can replace this with the actual ID from the event data
+                 newEvent.id = `alarm-${alarmId}`;
+                 newEvent.innerHTML = `
+                     <div class="alarm-item">
+                         <span>${event.data}</span>
+                         <button class="btn btn-sm delete-btn" onclick="deleteAlarm(${alarmId})">X</button>
+                     </div>`;
+                 alarmList.appendChild(newEvent);
+                 alarmCount.textContent = (parseInt(alarmCount.textContent) || 0) + 1;
+             });
+         } else {
+             console.log("Your browser does not support SSE.");
+         }
+
+         function deleteAlarm(alarmId) {
+             const alarmElement = document.getElementById(`alarm-${alarmId}`);
+             if (alarmElement) {
+                 alarmElement.remove();
+                 const alarmCount = document.querySelector('.badge-notifications');
+                 alarmCount.textContent = (parseInt(alarmCount.textContent) || 0) - 1;
+                 
+                 // 서버에서 알람 삭제
+                 fetch('/alarms/delete/' + alarmId, {
+                     method: 'DELETE'
+                 });
+             }
+         }
+     </script>
         <!-- / Navbar -->
 
         <!-- Content wrapper -->
