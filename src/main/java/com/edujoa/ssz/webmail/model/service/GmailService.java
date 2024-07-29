@@ -1,4 +1,4 @@
-package com.edujoa.ssz.webmail.model.service;
+/*package com.edujoa.ssz.webmail.model.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -126,4 +126,4 @@ public class GmailService {
         return bodyBuilder.toString();
     }
     
-}
+}*/
