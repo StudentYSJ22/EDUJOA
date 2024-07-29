@@ -40,16 +40,21 @@ public class MainController {
 		
 //		approvalService.selectMyApproval(null, null);
 //		
-//		scheduleService.
-		
+//		scheduleService.		
 		
 		return "index";
 	}
+	
+	
+	
 	@GetMapping("/logout.do")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/login.do";
 	}
+	
+	
+	
 	 @Autowired
 	    private MailMainService mailMainService;
 

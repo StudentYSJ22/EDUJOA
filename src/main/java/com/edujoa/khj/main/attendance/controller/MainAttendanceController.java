@@ -35,7 +35,7 @@ public class MainAttendanceController {
                 .empId(empId)
                 .atnIn(inputTime)
                 .build();
-        try {
+		/* try { */
             int result = attendanceService.goToWork(attendance);
             if (result > 0) {
                 logger.info("출근 시간 저장 성공");
@@ -44,13 +44,15 @@ public class MainAttendanceController {
                 logger.error("출근 시간 저장 실패");
                 return ResponseEntity.badRequest().body("{\"message\": \"출근 시간 저장에 실패했습니다.\"}");
             }
-        } catch (Exception e) {
-            logger.error("출근 시간 처리 중 오류 발생", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"서버 오류가 발생했습니다.\"}");
-        }
+			/*
+			 * } catch (Exception e) { logger.error("출근 시간 처리 중 오류 발생", e);
+			 */
+			/*
+			 * return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
+			 * body("{\"message\": \"서버 오류가 발생했습니다.\"}"); }
+			 */
+    
     }
-    
-    
 
     @PostMapping("/submitOutputTime")
     @ResponseBody
