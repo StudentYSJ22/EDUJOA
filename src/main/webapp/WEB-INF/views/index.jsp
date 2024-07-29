@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <c:set var="loginMember"
 	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <link rel="stylesheet" href="${path }/resources/css/khj/index_hj.css">
@@ -39,8 +40,8 @@
 					<div class="emp-info-container">
 						<div class="emp-pic"
 							style="background-image: <%-- url(${pageContext.request.contextPath}/resources/images/bs.png");> --%>
-							url(${path}/resources/upload/chs/employee/"+emp.empProfile");>
-							
+							<%-- url(${path}/resources/upload/chs/employee/"+emp.empProfile);>	 --%>
+							url(${pageContext.request.contextPath}/resources/upload/chs/employee/"+emp.empProfile);>									
 							</div>
 						<div class="emp-info"
 							style="color: rgb(145, 145, 145); font-size: 15px;">${loginMember.empId}</div>
@@ -145,13 +146,13 @@
 								style="background-image: url(${pageContext.request.contextPath}/resources/images/approval-icon.png");></div></a>
 						<div class="circle-info">결재</div>
 					</div>
-					<div class="five-container">
+					<%-- <div class="five-container">
 						<a href="test.html"><div class="circle-su"
 								style="background-color: gray";>0</div></a> <a href="test.html"><div
 								class="circle"
 								style="background-image: url(${pageContext.request.contextPath}/resources/images/docu-icon.png");></div></a>
 						<div class="circle-info">문서</div>
-					</div>
+					</div> --%>
 					<div class="five-container">
 						<a href="test.html"><div class="circle-su";>102</div></a> <a
 							href="test.html"><div class="circle"
