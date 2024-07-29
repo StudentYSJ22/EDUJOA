@@ -44,7 +44,7 @@
     <div class="layout-container">
       <!-- Menu -->
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-        <div class="app-brand demo" style="margin-top: 20px;"> <!-- 로고 아래로 이동 -->
+        <div class="app-brand demo" style="margin-top: 20px; height:100px;"> <!-- 로고 아래로 이동 -->
           <a href="${path }/login" class="app-brand-link">
             <span class="app-brand-logo demo">
               <img src="${path}/resources/common/assets/img/edulogo.png" alt="Logo" width="170" height="70">
@@ -118,7 +118,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="${path }/mailbox" class="menu-link">
               <i class="menu-icon tf-icons bx bx-envelope"></i>
               <div data-i18n="Layouts">메일</div>
             </a>
