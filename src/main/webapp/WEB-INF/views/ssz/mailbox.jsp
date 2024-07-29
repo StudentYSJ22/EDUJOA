@@ -1,164 +1,203 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<c:set var="loginMember"
+	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
+<c:set var="path" value="${pageContext.request.contextPath }" />
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <!-- 모든 내용은 밑에있는 div안에만 설정해야함. -->
-<head>
-    <meta charset="UTF-8">
-    <title>받은 편지함</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-        #container-wrapper {
-            width: 80%;
-            margin: auto;
-        }
-        #sidebar {
-            float: left;
-            width: 20%;
-            margin-right: 10px;
-            margin-top: 50px;
-            margin-left: -150px;
-        }
-        #container {
-            float: left;
-            width: 75%;
-            padding-left: -10px; /* Adjust this value to align the table correctly */
-            margin-top: 50px;
-        }
-        table {
-            width: calc(100% - 30px); /* Adjust this value to match the padding and margin */
-            border-collapse: collapse;
-            margin: 0 auto; /* Center the table */
-        }
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .pagination {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .pagination a {
-            margin: 0 5px;
-            text-decoration: none;
-        }
-        .search {
-            display: inline-block;
-            margin-left: 20px;
-            vertical-align: top;
-        }
-        .search input[type="text"] {
-            padding: 5px;
-            margin-right: 5px;
-        }
-        .search input[type="submit"] {
-            padding: 5px 10px;
-        }
-        #table td{
-        	background-color: white;
-        }
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        #table{
-        	margin-top:15px;
-        	margin-right: 1000px;
-        }
-    </style>
+
+<title>이메일 레이아웃</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f9f9f9;
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	display: flex;
+	width: 100%;
+	height: 100vh; /* 전체 화면을 채우도록 설정 */
+	
+}
+
+.menubar {
+	width: 240px;
+	background-color: #15d471;
+	color: #ecf0f1;
+	padding: 20px;
+	box-sizing: border-box;
+	border: 1px solid black;
+}
+
+.logo {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.compose-btn {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	background-color: #3498db;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+.compose-btn:hover {
+	background-color: #2980b9;
+}
+
+.menulist {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.menulist li {
+	margin: 15px 0;
+}
+
+.menulist a {
+	color: #ecf0f1;
+	text-decoration: none;
+	display: block;
+	padding: 10px;
+	border-radius: 4px;
+}
+
+.menulist a:hover {
+	background-color: #2e856e;
+}
+
+.content {
+	flex-grow: 1;
+	padding: 20px;
+	box-sizing: border-box;
+	overflow-y: auto;
+	background-color: #ffffff;
+	border: 1px solid black;
+}
+
+.toolbar {
+	display: flex;
+	justify-content: flex-start;
+	margin-bottom: 20px;
+}
+
+.toolbar button {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	background-color: #15d471;
+	color: #ffffff;
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+.toolbar button:hover {
+	background-color: #2e856e;
+}
+
+.email-list {
+	display: flex;
+	flex-direction: column;
+}
+
+.email-item {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+.email-item:hover {
+	background-color: #f5f5f5;
+}
+
+.email-checkbox {
+	margin-right: 10px;
+}
+
+.sender, .subject, .date {
+	flex: 1;
+}
+
+.subject {
+	flex: 2;
+}
+</style>
 </head>
 <body>
-    <div id="container-wrapper" class="clearfix">
-        <div id="sidebar">
-            <div class="profile">
-                <img src="profile.jpg" alt="Profile Picture" style="width: 100%;">
-                <p></p>
-                <p>명지대 정보통신공학과</p>
-                <p>1,768/2,686</p>
-            </div>
-            <ul>
-                <li><a href="#">받은 편지함 (1)</a></li>
-                <li><a href="#">보낸 편지함 (19)</a></li>
-                <li><a href="#">내게 쓴 편지 (0)</a></li>
-                <li><a href="#">임시 보관함 (0)</a></li>
-                <li><a href="#">내 메일함</a></li>
-                <li><a href="#">휴지통</a></li>
-                <li><a href="#">스팸 편지함</a></li>
-                <li><a href="#">자료함</a></li>
-                <li><a href="#">환경 설정</a></li>
-            </ul>
-        </div>
-        <div id="container">
-            <div class="header-container">
-                <h4>받은 편지함</h4>
-                <div class="search">
-                    <form action="searchMail.jsp" method="get">
-                        <label for="search">메일 검색:</label>
-                        <input type="text" id="search" name="search">
-                        <input type="submit" value="찾기">
-                    </form>
-                </div>
-            </div>
-            <table id="table">
-                <thead>
-                    <tr>
-                        <th style="width:50px;">선택</th>
-                        <th>보낸이</th>
-                        <th>제목</th>
-                        <th>수신 날짜</th>
-                        <th>크기</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>도토리</td>
-                        <td>최종 결재자 의견 추가 됨</td>
-                        <td>2006.01.04 14:59</td>
-                        <td>4 KB</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>정현정</td>
-                        <td>[답장] BF GW 6.7.3.1 Patch ...</td>
-                        <td>2004.12.16 11:28</td>
-                        <td>4 KB</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>토토로</td>
-                        <td>[답장] 2004년 12월 셋째 주 주간 업무 보고</td>
-                        <td>2004.12.16 10:56</td>
-                        <td>4 KB</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="pagination" style="margin-left: 400px;">
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-            </div>
-        </div>
-    </div>
+	<div class="container" style="margin-top:30px;">
+		<!-- 사이드바 -->
+		<aside class="menubar">
+			<div class="logo">
+				<button class="compose-btn">새 메일 쓰기</button>
+			</div>
+			<ul class="menulist">
+				<li><a href="#">받은메일함</a></li>
+				<li><a href="#">보낸메일함</a></li>
+				<li><a href="#">스팸메일함</a></li>
+				<li><a href="#">임시저장함</a></li>
+				<li><a href="#">즐겨찾기</a></li>
+				<li><a href="#">삭제메일함</a></li>
+			</ul>
+		</aside>
+		<main class="content">
+			<!-- 메일리스트 위 버튼 -->
+			<div class="toolbar">
+				<button>삭제</button>
+				<button>스팸 신고</button>
+			</div>
+			<!-- 메일 리스트 -->
+			<div class="email-list">
+				<!-- 메일 아이템 -->
+				<div class="email-item">
+					<input type="checkbox" class="email-checkbox"> <span
+						class="sender">보낸 사람</span> <span class="subject">메일 제목</span> <span
+						class="date">날짜</span>
+				</div>
+				<!-- 추가 메일 아이템 -->
+				<div class="email-item">
+					<input type="checkbox" class="email-checkbox"> 
+					<span class="sender">hy80274@naver.com</span> 
+					<span class="subject">에듀조아 팀에게</span>
+					<span class="date">2024-07-28</span>
+				</div>
+			<input type="hidden" id="contextPath" value="${path}">
+			</div>
+		</main>
+	</div>
+	<script src="${path }/resources/js/mail.js"></script>
+	
 </body>
-<div class="container-xxl flex-grow-1 container-p-y">
-</div>
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+<script>
+	const empId = "${loginMember.empId}";
+	console.log(empId);
+	//var contextPath = document.getElementById("contextPath").value;
+	var contextPath = "${path}";
+	console.log(contextPath);  
+	
+</script>
+<!-- background-color: #28a745;  -->
+<div class="container-xxl flex-grow-1 container-p-y"></div>
+	<!--  style="border-top: 3px solid black; margin-top: 20px;">
+	<div class="footer" style="width: 100%; height: 150px;">
+		<div style="display:flex;">
+			<img src="${path }/resources/upload/edulogo.png" style="height: 80px; margin-top: 15px; margin-left: 30px;"> 
+				<div style="color: black;">
+					<span style="color: black;"> 상호명: (주)에듀조아 대표자: 유선정 서울특별시 금천구 가산2로 77 </span><br>
+					<strong>사업자등록번호:</strong><span>&nbsp;17-760-11776</span><strong>&nbsp;&nbsp;&nbsp;통신판매번호:</strong><span>&nbsp;17-76011776</span>
+					<span>학원설립-운영등록번호: 제10242호 에듀조아학원&nbsp;<button style="width:100px; height:30px;">&nbsp;정보조회▶</button>&nbsp;신고기관명 : 서울특별시 금천교육지원청</span>
+					<p>학습지원센터 : 1599-1010  개인정보보호책임자 : 정보보안(별정)실 최헌수 (edujoaOfficial@gmail.com)</p>
+					<p>copyrightⓒ2014 EduJoa.co.,Ltd. All rights reserved.</p>
+				</div>
+		</div>
+	</div>
+</div>-->
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

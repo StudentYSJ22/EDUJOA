@@ -1,7 +1,9 @@
 package com.edujoa.ysj.attendance.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -11,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.edujoa.chs.common.PageFactory;
 import com.edujoa.ysj.attendance.model.dto.Attendance;
 import com.edujoa.ysj.attendance.model.service.AttendanceService;
-import com.edujoa.chs.common.PageFactory;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,51 +25,52 @@ import lombok.RequiredArgsConstructor;
 public class AttendanceController {
 
     private final AttendanceService attendanceService;
-    private final PageFactory pageFactory; // PageFactory 주입
+    private final PageFactory pageFactory; 
+    
 
-    /**
-     * 출퇴근 기록 페이지를 렌더링하는 메소드
-     * @param numPerpage 페이지당 항목 수
-     * @param cPage 현재 페이지 번호
-     * @param model 뷰에 데이터를 전달하기 위한 모델 객체
-     * @return JSP 페이지 경로
-     */
+    
+    // 출퇴근 관리 페이지를 반환 
     @GetMapping("/attendance.do")
     public String attendancePage(@RequestParam(defaultValue = "10") int numPerpage,
                                  @RequestParam(defaultValue = "1") int cPage,
+                                 @RequestParam(required = false) String status,
                                  Model model) {
-        // 현재 인증된 사용자의 ID 가져오기
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String empId = auth.getName();
-
-        // 총 출근기록 수 가져오기
-        int count = attendanceService.getRecordsCountByEmpId(empId);
-
-        // 페이징된 출근기록 가져오기
-        List<Attendance> records = attendanceService.getRecordsByEmpId(empId, cPage, numPerpage);
-
-        // 페이지바 생성
+        if (empId == null || empId.isEmpty()) {
+            return "error";
+        }
+        
+        int count = attendanceService.getRecordsCountByEmpId(empId, status);
+        List<Attendance> records = attendanceService.getRecordsByEmpId(empId, cPage, numPerpage, status);
+        
         String pagebar = pageFactory.getPage(cPage, numPerpage, count, "/attendance/attendance.do?");
-
-        // 모델에 데이터 추가
+        
         model.addAttribute("records", records);
         model.addAttribute("pagebar", pagebar);
         model.addAttribute("numPerpage", numPerpage);
         model.addAttribute("count", count);
-
-        return "/ysj/attendance";  // JSP 페이지 경로
+        model.addAttribute("status", status);
+        
+        return "/ysj/attendance";
     }
 
-    /*
-       현재 사용자의 출퇴근 기록을 JSON 형식으로 반환하는 메소드
-       @return 출퇴근 기록 리스트
-     */
-    @GetMapping("/records")
+    //출퇴근 요약 정보를 반환
+    @GetMapping("/summary")
     @ResponseBody
-    public List<Attendance> getOwnRecords() {
-        // 현재 인증된 사용자의 ID 가져오기
+    public ResponseEntity<?> getAttendanceSummary() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String empId = auth.getName();
-        return attendanceService.getRecordsByEmpId(empId);
+        Map<String, Integer> summary = attendanceService.getAttendanceSummary(empId);
+        return ResponseEntity.ok(summary);
+    }
+
+    //특정 상태의 출퇴근 기록을 반환
+    @GetMapping("/records")
+    @ResponseBody
+    public List<Attendance> getAttendanceRecords(@RequestParam(required = false) String status) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String empId = auth.getName();
+        return attendanceService.getRecordsByEmpId(empId, 1, 100, status);
     }
 }

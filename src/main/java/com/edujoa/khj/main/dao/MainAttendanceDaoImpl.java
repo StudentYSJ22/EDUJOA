@@ -16,7 +16,9 @@ public class MainAttendanceDaoImpl implements MainAttendanceDao {
 	//출근기록 삽입
 	@Override
 	public int insertAttendance(SqlSession session, Attendance attendance) {
+		System.out.println(attendance);
 		return session.insert("mainAttendance.insertAttendance", attendance);
+		
 	}
 
 	//퇴근기록삽입+출퇴근기록 업데이트

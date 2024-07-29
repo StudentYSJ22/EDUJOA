@@ -30,15 +30,40 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<Schedule> getSchedulesByCalendars(List<String> calendars) {
         return dao.selectSchedulesByCalendars(session, calendars);
     }
+    
+    // 사용자별 일정 가져오기
+    @Override
+    public List<Schedule> getSchedulesByEmpId(String empId) {
+        return dao.selectSchedulesByEmpId(session, empId);
+    }
+    
+    // 사용자별 특정 캘린더에 대한 일정 가져오기
+    @Override
+    public List<Schedule> getSchedulesByEmpIdAndCalendars(String empId, List<String> calendars) {
+        return dao.selectSchedulesByEmpIdAndCalendars(session, empId, calendars);
+    }
 
     // 일정 등록
+//    @Transactional
+//    @Override
+//    public int insertSchedule(Schedule schedule) {
+//        return dao.insertSchedule(session, schedule);
+//    }
     @Transactional
     @Override
     public int insertSchedule(Schedule schedule) {
-        return dao.insertSchedule(session, schedule);
-    }
-    
+        int result = dao.insertSchedule(session, schedule);
+        String schId = schedule.getSchId(); 
 
+        if (schedule.getSharers() != null) {
+            for (ScheduleSharer sharer : schedule.getSharers()) {
+                sharer.setSchId(schId); 
+                dao.insertScheduleSharer(session, sharer);
+            }
+        }
+
+        return result;
+    }
 
     // 일정 상세 조회
     @Override
@@ -46,17 +71,41 @@ public class ScheduleServiceImpl implements ScheduleService {
         return dao.getEventDetail(session, eventId);
     }
 
-    // 일정 수정
-    @Transactional
+    // 일정 참석자 조회
     @Override
-    public int updateSchedule(Schedule schedule) {
-        return dao.updateSchedule(session, schedule);
+    public List<ScheduleSharer> getScheduleSharers(String eventId) {
+        return dao.selectScheduleSharers(session, eventId);
     }
+
+    // 일정 수정
+//    @Transactional
+//    @Override
+//    public int updateSchedule(Schedule schedule) {
+//        return dao.updateSchedule(session, schedule);
+//    }
+
+@Transactional
+@Override
+public int updateSchedule(Schedule schedule) {
+    int result = dao.updateSchedule(session, schedule);
+    String schId = schedule.getSchId(); 
+
+    if (schedule.getSharers() != null) {
+        dao.deleteScheduleSharersByScheduleId(session, schId); 
+        for (ScheduleSharer sharer : schedule.getSharers()) {
+            sharer.setSchId(schId); 
+            dao.insertScheduleSharer(session, sharer);
+        }
+    }
+
+    return result;
+}
 
     // 일정 삭제
     @Transactional
     @Override
     public int deleteSchedule(String eventId) {
+        dao.deleteScheduleSharersByScheduleId(session, eventId);
         return dao.deleteSchedule(session, eventId);
     }
 
