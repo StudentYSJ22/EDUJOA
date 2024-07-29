@@ -69,8 +69,9 @@
   <div class="card mb-4">
     <div class="card-header">
       <h3>급여 명세서</h3>
+      <button id="printSalaryDetails" class="btn btn-primary float-right">인쇄</button>
     </div>
-    <div class="card-body">
+    <div class="card-body" id="salaryDetailsSection">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -100,3 +101,20 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// 인쇄하기 기능 
+$(document).ready(function() {
+    $('#printSalaryDetails').click(function() {
+        var printContents = document.getElementById('salaryDetailsSection').innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = '<html><head><title>급여 명세서</title></head><body>' + printContents + '</body>';
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+        location.reload();
+    });
+});
+</script>
