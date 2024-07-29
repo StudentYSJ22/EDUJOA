@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.edujoa.chs.employee.model.dao.ChsEmployeeDao;
+import com.edujoa.with.employee.model.dto.Alarm;
 import com.edujoa.with.employee.model.dto.Employee;
 
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,15 @@ public class ChsEmployeeServiceImpl implements ChsEmployeeService{
 	public int deleteEmployee(String empId) {
 		return dao.deleteEmployee(session, empId);
 	}
+	//알람 생성
+	@Override
+	public int insertAlarm(Alarm alarm) {
+		return dao.insertAlarm(session, alarm);
+	}
 	
-	
+	//알람 삭제
+	@Override
+	public int deletetAlarm(String alarmId) {
+		return dao.deletetAlarm(session, alarmId);
+	}
 }

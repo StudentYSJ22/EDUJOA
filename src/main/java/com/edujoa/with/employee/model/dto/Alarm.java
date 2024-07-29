@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Alarm {
 	private String alarmId;
 	private String empId;
-	private String alarmRead;
+	private int alarmRead;
 	private Date alarmDate;
 	private String alarmType;
 	private String alarmContent;

@@ -15,8 +15,9 @@ import lombok.NoArgsConstructor;
 //메일 보낼 때
 public class Mail {
 	private String senderEmail;//발신자
-	private List<String> receiverEmails;//수신자
-	private List<String> mailCarboncopies;//참조
+	private List<String> sendto;//수신자
+	private List<String> ccto;//참조
+	private List<String> Bccto;//숨은참조
 	private String mailTitle;
 	private String mailContent;
 	private Date mailDate;

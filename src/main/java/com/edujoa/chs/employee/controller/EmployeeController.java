@@ -3,6 +3,7 @@ package com.edujoa.chs.employee.controller;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.edujoa.chs.common.PageFactory;
 import com.edujoa.chs.employee.model.service.ChsEmployeeService;
+import com.edujoa.with.employee.model.dto.Alarm;
 import com.edujoa.with.employee.model.dto.Employee;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +35,7 @@ public class EmployeeController {
 	private final PasswordEncoder passwordEncoder;
 	//메일을 처리하기 위한 Service 의존성 주입
 	private final ChsMailService mailService;
-
+	private final SseController sseController;  // SseController 주입
 	@GetMapping("/selectall")
 	public String selectAllEmployee(
 			@RequestParam(defaultValue = "10") int numPerpage,
@@ -193,4 +195,27 @@ public class EmployeeController {
 	    redirectAttributes.addFlashAttribute("msg", msg);
 	    return "redirect:/employee/updateemployee?empId=" + empId; // 수정 후 수정 페이지로 리다이렉트
 	}
+    
+    
+    public void createAlarm(String empId, String content, String alarmType) {
+        Alarm alarm = new Alarm();
+        alarm.setEmpId(empId);  // 사용자 ID 설정
+        alarm.setAlarmContent(content);  // 알람 메시지 설정
+        alarm.setAlarmType(alarmType);  // 알람 메시지 설정
+        service.insertAlarm(alarm);  // 알람 삽입
+        String msg = "";
+        switch(alarmType){
+        case "0" : msg = "(일정) "; break;
+        case "1" : msg = "(메신저) "; break;
+        case "2" : msg = "(결재) "; break;
+        }
+        msg += content;
+        // 알림 전송
+        sseController.sendEvent(empId, "새로운 알림: " + msg);
+    }
+    
+    public void deleteAlarm(String alarmId) {
+        service.deletetAlarm(alarmId);  // 알람 삭제
+    }
+    
 }

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <c:set var="loginMember"
 	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <link rel="stylesheet" href="${path }/resources/css/khj/index_hj.css">
@@ -285,6 +286,7 @@
 
 <script>
 	const empId = `${loginMember.empId}`;
+	const path = `${path}`;
 	console.log('loginId', empId);
 </script>
 

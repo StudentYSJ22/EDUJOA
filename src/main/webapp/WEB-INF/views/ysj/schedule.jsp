@@ -2,6 +2,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 
 <link rel="stylesheet" href="${path}/resources/css/ysj/schedule.css">

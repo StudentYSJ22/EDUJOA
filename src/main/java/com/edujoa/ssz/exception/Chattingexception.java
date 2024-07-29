@@ -11,6 +11,7 @@ public class Chattingexception extends RuntimeException implements Serializable{
 	
 	public Chattingexception(String errorMsg) {
 		super(errorMsg);	
+		
 	}
 	
 }

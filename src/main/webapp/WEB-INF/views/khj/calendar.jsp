@@ -7,6 +7,7 @@
 
 
 <%@ taglib  prefix="c" uri="jakarta.tags.core"%>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <%-- <jsp:include page="/WEB-INF/views/common/header.jsp" /> --%>
 <script src="${path }/resources/js/jquery-3.7.1.min.js"></script>

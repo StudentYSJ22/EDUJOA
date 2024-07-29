@@ -1,6 +1,7 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <link rel="stylesheet" href="${path }/resources/css/chs/approval/left_approval.css">
 		<div class="left-container">
@@ -35,7 +36,6 @@
     // JSTL 변수를 JavaScript 변수에 할당
     const path = '${path}';
     const empId = '${loginMember.empId}';
-    
     
     document.addEventListener("DOMContentLoaded", function() {
         const approval = document.getElementById('approvalWaitCount');
