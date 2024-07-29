@@ -44,10 +44,10 @@
     <div class="layout-container">
       <!-- Menu -->
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-        <div class="app-brand demo" style="margin-top: 20px;"> <!-- 로고 아래로 이동 -->
+        <div class="app-brand demo" style="margin-top: 20px; height:100px;"> <!-- 로고 아래로 이동 -->
           <a href="${path }/" class="app-brand-link"> <!-- 로고 누르면 링크이동  -->
             <span class="app-brand-logo demo">
-              <img src="${path}/resources/common/assets/img/edulogo.png" alt="Logo" width="170px" height="70px">
+              <img src="${path}/resources/common/assets/img/edulogo.png" alt="Logo" width="170" height="70">
             </span>
             <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">에듀조아</span> -->
           </a>

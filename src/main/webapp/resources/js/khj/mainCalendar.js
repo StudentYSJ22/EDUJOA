@@ -2,12 +2,10 @@ var thisMonthSchedules = [];
 
 $(document).ready(function() {
 	var calendarEl = document.getElementById('calendar');
-
     var dateObject = new Date();
     var thisMonth = dateObject.getMonth() + 1;
-    var apiPath = 'http://localhost:9090';
 	$.ajax({
-                url: apiPath + '/schedule/events',
+                url: path + '/schedule/events',
                 type: 'GET',
                 dataType: 'json',
                 data: { calendars: [] }, // 선택된 캘린더 타입을 서버로 보냄
