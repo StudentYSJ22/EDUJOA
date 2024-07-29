@@ -10,11 +10,11 @@
 			<div class="request-container">
 				<div>
 					<p>결재 대기</p>
-					<span>0</span>
+					<span id='approvalWaitCount'>0</span>
 				</div>
 				<div>
 					<p>결재 요청</p>
-					<span>0</span>
+					<span id='myApprovalWaitCount'>0</span>
 				</div>
 			</div>
 			<div class="flagging-container">
@@ -26,14 +26,30 @@
 			</div>
 			<div class="approval-container">
 				<p>결재함</p>
-				<a href="#">미결</a>
-				<a href="#">종결</a>
-				<a href="#">열람/공람</a>
+				<a href="${path }/approval/approvaling.do?empId=${loginMember.empId}&approvalLine=1&apvStatus=0">미결</a>
+				<a href="${path }/approval/approvalend.do?empId=${loginMember.empId}&approvalLine=1&apvStatus=1">종결</a>
+				<a href="${path }/approval/approvalCarbon.do?empId=${loginMember.empId}&carbonCopy=1">열람/공람</a>
 			</div>
 		</div>
 <script>
     // JSTL 변수를 JavaScript 변수에 할당
     const path = '${path}';
     const empId = '${loginMember.empId}';
+    
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const approval = document.getElementById('approvalWaitCount');
+        const myApproval = document.getElementById('myApprovalWaitCount');
+
+        fetch(path+"/rest/approval/selectcount?empId="+empId)
+            .then(response => response.json())
+            .then(data => {
+            	console.log(data);
+                approval.textContent = data.approvalCount;
+                myApproval.textContent = data.myCount;
+            })
+            .catch(error => console.error('Error:', error));
+    });
 </script>
+
 		

@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<c:set var="loginMember"
-	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
+<c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<c:set var="path" value="${pageContext.request.contextPath }" />
+
 <title>공지사항</title>
 <style>
 :root {
@@ -76,6 +76,33 @@ tr:hover {
 	background-color: var(--secondary-color);
 }
 
+.top-bar {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.write-btn {
+	background-color: #4CAF50;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.write-btn:hover {
+	background-color: #45a049;
+}
+
+#sortSelect {
+	padding: 5px;
+	border-radius: 4px;
+	border: 1px solid #ddd;
+	margin-right: 10px;
+}
+
 @media ( max-width : 768px) {
 	table, thead, tbody, th, td, tr {
 		display: block;
@@ -109,7 +136,14 @@ tr:hover {
 <body>
 	<div class="container">
 		<h1>공지사항</h1>
-		<table>
+		<div class="top-bar">
+			<select id="sortSelect">
+				<option value="default">번호순 정렬</option>
+				<option value="boardCount">조회수순 정렬</option>
+			</select>
+			<button class="btn write-btn">글쓰기</button>
+		</div>
+		<table id="noticeTable">
 			<thead>
 				<tr>
 					<th>번호</th>
@@ -123,15 +157,20 @@ tr:hover {
 				<!-- 여기에 JSTL이나 AJAX로 데이터를 추가할 수 있습니다 -->
 			</tbody>
 		</table>
-		<button class="btn">글쓰기</button>
+		<input type="hidden" id="contextPath" value="${path}">
 	</div>
-	<input type="hidden" id="contextPath" value="${path}">
+
 </body>
+
 <script>
 	const empId = "${loginMember.empId}";
 	console.log(empId);
-	var contextPath = document.getElementById('contextPath').value;
+	//var contextPath = document.getElementById("contextPath").value;
+	var contextPath = "${path}";
+	console.log(contextPath);  
+	
 </script>
 <script src="${path }/resources/js/noticeboard.js"></script>
+
 <div class="container-xxl flex-grow-1 container-p-y"></div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

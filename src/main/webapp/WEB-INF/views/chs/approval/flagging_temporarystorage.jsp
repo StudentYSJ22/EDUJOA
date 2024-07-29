@@ -34,7 +34,7 @@
                     <li style="width:10%">기안자</li>
                     <li style="width:20%">기안일</li>
                     <li style="width:10%">상태</li>
-                    <li style="width:20%">최근 결재일</li>
+                    <li style="width:20%">최종 결재일</li>
                 </ul>
                 <c:forEach var="a" items="${approvals}">
                     <ul class="chs-tbody-body">
@@ -44,7 +44,7 @@
                             <c:if test="${a.apvType == 1}">품의서</c:if>
                             <c:if test="${a.apvType == 2}">지출결의서</c:if>
                         </li>
-                        <li style="width:30%">${a.apvTitle}</li>
+                        <li style="width:30%"><a href="${path }/approval/selectone?apvId=${a.apvId}&apvType=${a.apvType}">${a.apvTitle}</a></li>
                         <li style="width:10%">${a.employee.empName}</li>
                         <li style="width:20%">${a.apvDate}</li>
                         <li style="width:10%">임시 저장</li>
@@ -102,7 +102,7 @@ $(document).ready(function() {
 
     // 페이지 로드 시 승인 목록 불러오기
     function loadApprovals() {
-        const empId = "${sessionScope.loginMember.empId}"; // 현재 로그인한 사용자의 ID
+        const empId = "${loginMember.empId}"; // 현재 로그인한 사용자의 ID
         const dateOrder = $('#new-old').val();
         const rowBounds = $('#rowbounds').val();
         const cPage = 1; // 초기 페이지 번호 (필요에 따라 변경 가능)
@@ -163,7 +163,7 @@ $(document).ready(function() {
             const ul = '<ul class="chs-tbody-body">' +
                 '<li style="width:5%"><input type="checkbox" class="select-row" data-id="' + a.apvId + '"></li>' +
                 '<li style="width:10%; font-weight:bold">' + approvalType + '</li>' +
-                '<li style="width:30%">' + a.apvTitle + '</li>' +
+                '<li style="width:30%"><a href="${path }/approval/selectone?apvId=' + a.apvId + "&apvType="+a.apvType+'">'+a.apvTitle+"</a></li>"+
                 '<li style="width:10%">' + a.employee.empName + '</li>' +
                 '<li style="width:20%">' + a.apvDate + '</li>' +
                 '<li style="width:10%">임시 저장</li>' +

@@ -20,6 +20,7 @@ function connectWebSocket() {
 		console.log("서버 연결됨");
 		isConnected = true;
 		const msg = new Message("open", "", loginId, "", "", new Date().toISOString());
+		console.log(msg);
 		server.send(msg.convert());
 	};
 
@@ -57,7 +58,8 @@ function handleNewChatRoom(message) {
 	}
 }
 
-const $chatRoomList = $('#chatRoomList');
+const $chatRoomList = $('#chatList');
+const $chats = $('#chats');
 const $chattingcontent = $('#chattingcontent');
 const $roomId = $('#room-id');
 const $receiverName = $('#receiver-name');
@@ -67,6 +69,7 @@ const $receiverId = $('#receiver-id');
 $(document).ready(function() {
 	connectWebSocket();
 	getMyChatRooms();
+	console.log("getMyChatRoom() 실행했음!");
 
 	// 직원 클릭 이벤트
 	$(document).on('click', '.employee-item, .receiver-name', function() {
@@ -80,14 +83,16 @@ $(document).ready(function() {
 		const koreanTitle = getKoreanTitle(empTitle);
 
 		const infoHtml = `
+			<img src="${empProfile}" alt="${empName}" style="width:100px; height:100px; border-radius:50%;">
             <p><strong>이름:</strong> ${empName}</p>
             <p><strong>직급:</strong> ${koreanTitle}</p>
             <p><strong>직원 ID:</strong> ${empId}</p>
             <p><strong>이메일:</strong> ${empEmail}</p>
-            <img src="${empProfile}" alt="${empName}" style="width:100px; height:100px; border-radius:50%;">
+            
             <input id="targetId" type="hidden" value="${empId}"/>
             <input id="targetName" type="hidden" value="${empName}"/>
             <input id="targetTitle" type="hidden" value="${koreanTitle}"/>
+            <input id="targetProfile" type="hidden" value="${empProfile}"/>
         `;
 
 		$('#employeeInfo').html(infoHtml);
@@ -105,9 +110,12 @@ $(document).ready(function() {
 		const targetId = $('#targetId').val();
 		const targetName = $('#targetName').val();
 		const targetTitle = $('#targetTitle').val();
+		const targetProfile = $('#targetProfile').val();
 
 		$('#receiver-id').text(targetId);
 		$('#receiver-name').text(`${targetName} ${targetTitle}`);
+		//여기에 사진 넣어줘야함
+		$("#receiver-profile").attr("src",targetProfile).show();
 
 		const empProfile = $('#employeeInfo').find('img').attr('src');
 		createChatRoom(targetId, targetName, targetTitle, empProfile);
@@ -138,12 +146,15 @@ function createChatRoom(targetId, empName, empTitle, empProfile) {
 
 			let roomId = response.roomId || (Array.isArray(response) && response.length > 0 ? response[0].roomId : "");
 
-			if (roomId) {
-				if (!isChatRoomExist(roomId)) { //1:1대화하기 버튼 누른 직후에 채팅방목록에 방금 만든 채팅방번호가 없다면
-					addChatRoomToList(roomId, targetId, empName, empTitle, empProfile); //그 채팅방을 추가하고
+			if (roomId > 0) {
+				//1:1대화하기 버튼 누른 직후에 채팅방목록에 방금 만든 채팅방번호가 없다면
+				if (!isChatRoomExist(roomId)) { 
+					//그 채팅방을 추가하고
+					addChatRoomToList(roomId, targetId, empName, empTitle, empProfile); 
 					console.log("채팅방 목록에 추가 완료.");
-					//$("#chattingcontent").html("대화내용이 없습니다. 메시지를 입력하세요.");
-				} else { //대화하기 버튼 눌렀을 때 return받은 채팅방 번호가 채팅방목록에 있다면,
+					
+					//대화하기 버튼 눌렀을 때 return받은 채팅방 번호가 채팅방목록에 있다면,
+				} else { 
 					displayChatHistory(response.content, targetId);
 				}
 
@@ -151,6 +162,8 @@ function createChatRoom(targetId, empName, empTitle, empProfile) {
 				$roomId.text(roomId);
 				$receiverId.text(targetId);
 				$receiverName.text(`${empName} ${getKoreanTitle(empTitle)}`);
+				// 프로필 이미지 설정 및 표시
+           		$("#receiver-profile").attr("src", empProfile).show();
 			} else {
 				console.error("유효하지 않은 roomId:", roomId);
 				$("#chattingcontent").html("채팅방 생성 중 오류가 발생했습니다.");
@@ -163,10 +176,17 @@ function createChatRoom(targetId, empName, empTitle, empProfile) {
 }
 // 새로운 함수: 채팅방 선택
 function selectChatRoom(roomId, empId) {
-	$roomId.text(roomId);
-	$receiverId.text(empId);
+    $roomId.text(roomId);
+    $receiverId.text(empId);
 
-	getMyChatRecords(roomId, empId);
+    // 채팅방 아이템에서 프로필 이미지 URL 가져오기
+    const chatRoomItem = $(`.chat-room-item[data-room-id="${roomId}"]`);
+    const empProfile = chatRoomItem.data('room-emp-profile');
+    
+    // 프로필 이미지 설정 및 표시
+    $("#receiver-profile").attr("src", empProfile).show();
+
+    getMyChatRecords(roomId, empId);
 }
 
 function isChatRoomExist(roomId) {
@@ -177,19 +197,21 @@ function addChatRoomToList(roomId, empId, empName, empTitle, empProfile) {
 
 	const position = getKoreanTitle(empTitle);
 	const newChatRoomHtml = `
-        <div class="chat-room-item" 
+        <div class="chat chat-room-item" 
              data-room-id="${roomId}" 
              data-room-emp-id="${empId}"
              data-room-emp-name="${empName}"
              data-room-emp-title="${empTitle}"
              data-room-emp-profile="${empProfile}">
-            <img src="${empProfile}" 
-                 style="width: 30px; height: 30px; border-radius: 100%;">
-            ${escapeHTML(empName)} ${position}<br>
+            <img src="${empProfile}" style="width: 30px; height: 30px; border-radius: 100%;">
+            <div class="details">
+            <div class="name">${escapeHTML(empName)}</div> 
+            <div class="message">${position}</div>
+            </div>
         </div>
     `;
 
-	$chatRoomList.prepend(newChatRoomHtml);
+	$chats.prepend(newChatRoomHtml);
 	attachChatRoomClickEvent();
 }
 
@@ -220,7 +242,7 @@ function getMyChatRooms(empId) {
 			let html = '';
 			if (chatrooms && chatrooms.length > 0) {
 				html = chatrooms.map(room => `
-                    <div class="chat-room-item" 
+                    <div class="chat-room-item chat" 
                          data-room-id="${room.roomId}" 
                          data-room-emp-id="${room.empId}"
                          data-room-emp-name="${room.empName}"
@@ -234,7 +256,7 @@ function getMyChatRooms(empId) {
 			} else {
 				html = '<p>채팅방이 없습니다.</p>';
 			}
-			$chatRoomList.html(html);
+			$chats.html(html);
 			attachChatRoomClickEvent();
 		},
 		error: handleAjaxError
@@ -253,7 +275,6 @@ function attachChatRoomClickEvent() {
 		$receiverName.text(empName + " " + getKoreanTitle(empTitle));
 
 		// 새 메시지 배지 제거
-		$(this).removeClass('new-message');
 		$(this).find('.new-message-badge').remove();
 
 		clearChatWindow();
@@ -277,6 +298,9 @@ function getMyChatRecords(roomId, empId) {
 			console.log(chatHistory);
 			if (chatHistory.length === 0) {
 				$("#chattingcontent").html("대화내용이 없습니다. 메시지를 입력하세요.");
+				if($chattingcontent.length>0){
+					$chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
+				}
 			} else {
 				displayChatHistory(chatHistory, chatHistory.empId);
 			}
@@ -312,23 +336,30 @@ function displayChatHistory(content, empId) {
 
 // 메시지 HTML을 생성하는 함수
 function createMessageHtml(message) {
-	if (!message || !message.content) {
-		console.error("Invalid message object:", message);
-		return;
-	}
-
-	const messageClass = message.sender === loginId ? 'sent' : 'received';
-	const messageAlignment = message.sender === loginId ? 'right' : 'left';
-	const content = message.content || message.content; // chatContent도 확인
-	const msg = `
-        <div class="message-container ${messageClass}" style="text-align: ${messageAlignment};">
-            <div class="message">
-                <div class="message-content">${escapeHTML(content)}</div>
-                <div class="message-time" data-time="${message.chatTime}">${formatDateTime(message.chatTime)}</div>
+    if (!message || !message.content) {
+        console.error("Invalid message object:", message);
+        return;
+    }
+    
+    const sender = message.sender || message.empId;
+    const messageClass = sender === loginId ? 'sent' : 'received';
+    const messageAlignment = sender === loginId ? 'right' : 'left';
+    const content = message.content;
+    const chatTime = formatDateTime(message.chatTime);
+    
+    const msg = `
+        <div class="message ${messageClass}">
+            <div class="message-container">
+                <div class="message-content content">${escapeHTML(content)}</div>
+                <div class="message-time">${chatTime}</div>
             </div>
         </div>
     `;
-	$chattingcontent.append(msg);
+    
+    // 기존 "대화내용이 없습니다" 메시지 제거
+    $chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
+    
+    $chattingcontent.append(msg);
 }
 
 // 타임스탬프를 KST로 변환하여 포맷팅하는 함수
@@ -353,21 +384,21 @@ function isSameDay(date1, date2) {
 
 // 수신 메시지를 처리하는 함수
 function handleIncomingMessage(message) {
-	console.log("Handling incoming message:", message);
-	const currentRoomId = $roomId.text();
-	if (message.chatType === "send") {
-		if (message.roomId === currentRoomId) {
-			appendMessageWithDateCheck(message);
-		} else {
-			addNewMessageBadge(message.roomId);
-		}
+    console.log("Handling incoming message:", message);
+    const currentRoomId = $roomId.text();
+    if (message.chatType === "send") {
+        if (message.roomId === currentRoomId) {
+            appendMessageWithDateCheck(message);
+        } else {
+            addNewMessageBadge(message.roomId);
+        }
 
-		// 새로운 채팅방 생성 확인 및 추가
-		if (!isChatRoomExist(message.roomId)) {
-			addChatRoomToList(message.roomId, message.sender, message.senderName, message.senderTitle, message.senderProfile);
-			getMyChatRooms(); // 채팅방 목록 갱신
-		}
-	}
+        // 새로운 채팅방 생성 확인 및 추가
+        if (!isChatRoomExist(message.roomId)) {
+            addChatRoomToList(message.roomId, message.sender, message.senderName, message.senderTitle, message.senderProfile);
+            getMyChatRooms(); // 채팅방 목록 갱신
+        }
+    }
 }
 
 // 메시지를 추가하는 함수 (날짜 구분선 추가 여부 체크)
@@ -384,6 +415,8 @@ function appendMessageWithDateCheck(message) {
         const dateString = formatDate(kstDate);
         $chattingcontent.append(`<div class="date-divider" data-date="${kstDate.toISOString()}">---------${dateString}--------</div>`);
     }
+    // 기존 "대화내용이 없습니다" 메시지 제거
+    $chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
 
     createMessageHtml(message);
     $chattingcontent.scrollTop($chattingcontent[0].scrollHeight);
@@ -401,12 +434,16 @@ function shouldAddDateDivider(newMessageDate) {
 }
 
 function addNewMessageBadge(roomId) {
-	const chatRoomItem = $(`.chat-room-item[data-room-id="${roomId}"]`);
-	chatRoomItem.addClass('new-message');
-	let badge = chatRoomItem.find('.new-message-badge');
-	if (badge.length === 0) {
-		chatRoomItem.append('<span class="new-message-badge">새로운 메시지</span>');
-	}
+  const chatRoomItem = $(`.chat-room-item[data-room-id="${roomId}"]`);
+  let badge = chatRoomItem.find('.new-message-badge');
+  if (badge.length === 0) {
+    chatRoomItem.append('<span class="new-message-badge">1</span>');
+  } else {
+    let count = parseInt(badge.text()) + 1;
+    badge.text(count);
+  }
+  // 채팅방 목록의 맨 위로 이동
+    chatRoomItem.prependTo(chatRoomItem.parent());
 }
 
 const sendMessage = () => {
@@ -469,3 +506,19 @@ function handleAjaxError(xhr, status, error) {
 	console.error("Ajax 요청 실패:", status, error);
 	alert("요청 처리 중 오류가 발생했습니다. 다시 시도해 주세요");
 }
+document.addEventListener('DOMContentLoaded', function() {
+    const btnEmployeeList = document.getElementById('btnEmployeeList');
+    const btnChatList = document.getElementById('btnChatList');
+    const employeeList = document.getElementById('employeeList');
+    const chatList = document.getElementById('chatList');
+
+    btnEmployeeList.addEventListener('click', function() {
+        employeeList.style.display = 'block';
+        chatList.style.display = 'none';
+    });
+
+    btnChatList.addEventListener('click', function() {
+        employeeList.style.display = 'none';
+        chatList.style.display = 'block';
+    });
+});
