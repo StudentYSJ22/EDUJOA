@@ -7,8 +7,28 @@
 <link rel="stylesheet" href="${path }/resources/css/khj/index_hj.css">
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script src="${path }/resources/js/jquery-3.7.1.min.js"></script>
-<c:set var="atnIn" value="${attendance!=null&&attendance.atnIn!=null?attendance.atnIn:''}"/>
-<c:set var="atnOut" value="${attendance!=null&&attendance.atnOut!=null?attendance.atnOut:'' }"/>
+
+<!-- FullCalendar CSS -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/main.min.css' rel='stylesheet' />
+<!-- FullCalendar JS -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
+
+
+
+<c:set var="atnIn"
+	value="${attendance!=null&&attendance.atnIn!=null?attendance.atnIn:''}" />
+<c:set var="atnOut"
+	value="${attendance!=null&&attendance.atnOut!=null?attendance.atnOut:'' }" />
+
+
+
+  <style>
+    #calendar {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+  </style>
+
 
 <!-- <body>안내용만. 모든 내용은 밑에있는 div안에만 설정해야함. -->
 <div class="main">
@@ -18,7 +38,10 @@
 				<div class="mini-first-container">
 					<div class="emp-info-container">
 						<div class="emp-pic"
-							style="background-image: url(${pageContext.request.contextPath}/resources/images/bs.png");></div>
+							style="background-image: <%-- url(${pageContext.request.contextPath}/resources/images/bs.png");> --%>
+							url(${path}/resources/upload/chs/employee/"+emp.empProfile");>
+							
+							</div>
 						<div class="emp-info"
 							style="color: rgb(145, 145, 145); font-size: 15px;">${loginMember.empId}</div>
 						<div class="emp-info"
@@ -27,6 +50,9 @@
 						<div class="emp-name" style="">${loginMember.empId}</div>
 					</div>
 				</div>
+				
+				
+				
 
 
 				<div class="mini-second-container">
@@ -40,25 +66,29 @@
 						<div class="time">
 							<div class="time-title">출근시간</div>
 							<div class="time-info" id="inputTime">
-								<b><fmt:formatDate type="time" value="${attendance!=null&&attendance.atnIn!=null?attendance.atnInConvertToDate():''}"
-								/></b>
+								<b><fmt:formatDate type="time"
+										value="${attendance!=null&&attendance.atnIn!=null?attendance.atnInConvertToDate():''}" /></b>
 							</div>
 						</div>
 						<div class="time">
 							<div class="time-title">퇴근시간</div>
 							<div class="time-info" id="outputTime">
-								<b><fmt:formatDate type="time" value="${attendance!=null&&attendance.atnOut!=null?attendance.atnOutConvertToDate():'' }"/></b>
+								<b><fmt:formatDate type="time"
+										value="${attendance!=null&&attendance.atnOut!=null?attendance.atnOutConvertToDate():'' }" /></b>
 							</div>
 						</div>
 					</div>
 					<!-- 출근 폼 -->
 					<form id="inputForm" action="/submitInputTime" method="post">
 						<input type="hidden" name="inputTime" id="inputTimeField">
-						<input type="hidden" name="empId" value='${loginMember.empId}'>
+						<input type="hidden" name="empId" id="empIdField" value='${loginMember.empId}'>
 						<!-- empId를 동적으로 설정할 숨겨진 입력 필드 -->
 						<div class="time-btn-container">
 							<div>
-								<button type="button" class="attn-btn ${attendance!=null&&attendance.atnIn!=null?'disabled':'' }" id="input" ${attendance!=null&&attendance.atnIn!=null?"disabled":"" }>
+								<button type="button"
+									class="attn-btn ${attendance!=null&&attendance.atnIn!=null?'disabled':'' }"
+									id="input"
+									${attendance!=null&&attendance.atnIn!=null?"disabled":"" }>
 									<b>출근하기</b>
 								</button>
 							</div>
@@ -72,14 +102,18 @@
 						<!-- 퇴근 폼용 empId 필드 -->
 						<div class="time-btn-container">
 							<div>
-								<button type="button" class="attn-btn ${attendance!=null&&attendance.atnOut!=null?'disabled':''}" id="output" ${attendance!=null&&attendance.atnOut!=null?"disabled":""}>
+								<button type="button"
+									class="attn-btn ${attendance!=null&&attendance.atnOut!=null?'disabled':''}"
+									id="output"
+									${attendance!=null&&attendance.atnOut!=null?"disabled":""}>
 									<b>퇴근하기</b>
 								</button>
 							</div>
 						</div>
 					</form>
 					<div class="time-btn-go">
-						<button type="button" class="attn-btn-go">
+						<!-- <button type="button" class="attn-btn-go"> -->
+						<a href="${pageContext.request.contextPath}/attendance/attendance.do?empId=${loginMember.empId}">
 							<b>+ 근태관리 바로가기</b>
 						</button>
 					</div>
@@ -103,9 +137,11 @@
 								style="background-image: url(${pageContext.request.contextPath}/resources/images/mail-icon.png");></div></a>
 						<div class="circle-info">우편</div>
 					</div>
-					<div class="five-container">
-						<a href="test.html"><div class="circle-su";>${approvalCount }</div></a> <a
-							href="test.html"><div class="circle"
+					<div class="five-container">						
+						<a href="${pageContext.request.contextPath}/approval/flagginging.do?empId=${loginMember.empId}">
+						<div class="circle-su";>${approvalCount }</div></a>
+						<a href="${pageContext.request.contextPath}/approval/flagginging.do?empId=${loginMember.empId}">
+						<div class="circle"
 								style="background-image: url(${pageContext.request.contextPath}/resources/images/approval-icon.png");></div></a>
 						<div class="circle-info">결재</div>
 					</div>
@@ -134,8 +170,19 @@
 						<b>${loginMember.empName} 님의 Monthly Schedule</b>
 					</div>
 					<div class="todo-info-container">
-						<div class="todo-info"></div>
-						<div class="todo-info"></div>
+						<!-- <div class="todo-info"> -->
+						
+						
+						<!-- 선정캘린더 -->
+							
+								<!-- <div id='calendar-container'> -->
+									<div id="calendar" class="mainCalendar"></div>
+								<!-- </div> -->
+							
+												<!-- </div> --> 
+						<div id="thisMonthSchedules" class="todo-info"></div>
+						
+						
 					</div>
 				</div>
 			</div>
@@ -238,13 +285,13 @@
 
 <script>
 	const empId = `${loginMember.empId}`;
-	console.log(empId);
-	
-	
-	
+	console.log('loginId', empId);
 </script>
 
 
 
+
+
 <script src="${path }/resources/js/khj/attendance.js"></script>
+<script src="${path }/resources/js/khj/mainCalendar.js"></script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

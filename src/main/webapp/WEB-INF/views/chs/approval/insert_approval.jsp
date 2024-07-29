@@ -75,7 +75,7 @@
 			</div>
 			<div>
 				<button onclick="modal_on();">결재선 목록</button>
-				<button>임시 저장</button>
+				<button id='insertApprovalStrg'>임시 저장</button>
 				<c:if test="${loginMember.oriname != null }">
 					<button onclick="openSignatureModal()">사인 수정하기</button>
 				</c:if>

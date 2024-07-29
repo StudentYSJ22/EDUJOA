@@ -86,7 +86,12 @@
           title: 'Click for Google',
           url: 'http://google.com/',
           start: '2023-01-28'
-        }
+        },
+        {
+            title: 'Happy Hour',
+            allDay: true,
+            start: '2024-07-29'
+          },
       ]
     });
 

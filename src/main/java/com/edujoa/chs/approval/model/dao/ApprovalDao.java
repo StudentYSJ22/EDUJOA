@@ -23,8 +23,12 @@ public interface ApprovalDao {
 		int selectMyApprovalCount(SqlSession session, Map<String,String> param);
 		//기안함 결재 문서 조회하기     결재상태, 문서 종류로 조건 검색 가능
 		List<Approval> selectMyApproval(SqlSession session, Map<String,Integer> rowbounds, Map<String,String> param);
+		//결재함 결재 갯수 조회하기     
+		int selectApprovalCount(SqlSession session, Map<String,String> param);
+		//결재함 결재 문서 조회하기
+		List<Approval> selectApproval(SqlSession session, Map<String,Integer> rowbounds,Map<String,String> param);
 		//한 개의 결재 문서 조회하기    문서 번호로 조회 가능
-		Approval selectOneApproval(SqlSession session, String apvId);
+		Approval selectOneApproval(SqlSession session, Map<String,String> param);
 		//결재 문서 등록하기    
 		int insertApproval(SqlSession session, Approval approval);
 		//결재 문서 수정하기
@@ -43,6 +47,8 @@ public interface ApprovalDao {
 		int insertAfterPayment(SqlSession session, AfterPayment afterPayment);
 		//지출 리스트 등록하기
 		int insertPaymentList(SqlSession session, PaymentList paymentList);
+		//지출 리스트 수정하기
+		int updatePaymentList(SqlSession session, PaymentList paymentList);
 		//지출결의서 수정하기
 		int updateAfterPayment(SqlSession session, AfterPayment afterPayment);
 		//참조인 등록하기
@@ -83,4 +89,15 @@ public interface ApprovalDao {
 		List<Employee> selectAllApprovalLine(SqlSession session, String empId);
 		//결재 사인 생성하기
 		int updateSignatureUrl(SqlSession session, Map<String,String> param);
+		
+		//결재라인 업데이트하기
+		int updateApprovalLineStatus(SqlSession session, Map<String,String> param);
+		//결재 문서 업데이틓가ㅣ
+		int updateApprovalStatus(SqlSession session, Map<String,String> param);
+		//파일 다운로드 로직
+		ApvAttachment selectFileById(SqlSession session, String apvId);
+		//결재 대기에 대한 카운트
+		int approvalWaitCount(SqlSession session, String apvId);
+		//결재 요청에 대한 카운트
+		int myApprovalWaitCount(SqlSession session, String apvId);
 }

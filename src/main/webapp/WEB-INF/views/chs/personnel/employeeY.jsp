@@ -123,206 +123,206 @@
 	</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script>
+		
+		//전체 선택 체크박스 클릭 이벤트
+		$('#select-all').click(function() {
+		    $('.select-row').prop('checked', this.checked);
+		});
+		
+		// 개별 체크박스 클릭 시 전체 선택 체크박스 상태 변경
+		$('.select-row').click(function() {
+		    $('#select-all').prop('checked', $('.select-row:checked').length === $('.select-row').length);
+		});
+		function loadEmployee() {
+		    const rowBounds = $('#rowbounds').val();
+		    const cPage = 1; // 초기 페이지 번호 (필요에 따라 변경 가능)
+		
+		    $.ajax({
+		        url: "${path}/rest/employee/selectall",
+		        method: 'GET',
+		        data: {
+		            numPerpage: rowBounds,
+		            cPage: cPage,
+		            empYn:'0',
+		        },
+		        success: function(response) {
+		            // 응답 데이터 처리
+		            const employees = response.employees;
+		            const pagebar = response.pagebar;
+		            console.log(employees);
+		            console.log(pagebar);
+		
+		            // 승인 목록과 페이지 바 업데이트
+		            updateEmployeeList(employees);
+		            updatePageBar(pagebar);
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) {
+		            console.error('Error: ' + textStatus, errorThrown);
+		        }
+		    });
+		}
+		
+		
+		// 드롭다운 변경 시 직원 목록 다시 불러오기
+		$('#rowbounds').change(loadEmployee);
+		
+		function updateEmployeeList(employees) {
+		    const employeeList = document.getElementById('employee-list');
+		    
+		    // chs-tbody-header는 유지하고, 그 이후의 모든 요소를 제거합니다.
+		    const children = employeeList.children;
+		    for (let i = children.length - 1; i >= 1; i--) {
+		    	employeeList.removeChild(children[i]);
+		    }
+		
+		    employees.forEach(function(e) {
+		    	let empTitle = function(title){
+		    		switch(title){
+			    		case 'J1' : return "원장";
+			            case 'J2' : return "팀장";
+			            case 'J3' : return "매니저";
+		    		}
+		    	}
+		    	const ul = "<ul class=\"chs-tbody-body\">" +
+		        "<li style=\"width:5%\"><input type=\"checkbox\" class=\"select-row\" data-id=\"" + e.empId + "\"></li>" +
+		        `<li style=width:15%; font-weight:bold data-empid`+ e.empId + `class=employee-link><a href=#>` + e.empName + `</a></li> `+
+		        "<li style=\"width:15%\">" + empTitle(e.empTitle) + "</li>" +
+		        "<li style=\"width:20%\">" + e.empHireDate + "</li>" +
+		        "<li style=\"width:20%\">" + e.empEmail + "</li>" +
+		        "<li style=\"width:20%\">" + e.empAddress + "</li>" +
+		        `<li style=width:10%><button class=btn btn-sm btn-outline-primary onclick=updateEmployee(`+"'"+e.empId+"'"+`,'${loginMember.empTitle}')>수정</button></li>` +
+		    	"</ul>";
 	
-	//전체 선택 체크박스 클릭 이벤트
-	$('#select-all').click(function() {
-	    $('.select-row').prop('checked', this.checked);
-	});
-	
-	// 개별 체크박스 클릭 시 전체 선택 체크박스 상태 변경
-	$('.select-row').click(function() {
-	    $('#select-all').prop('checked', $('.select-row:checked').length === $('.select-row').length);
-	});
-	function loadEmployee() {
-	    const rowBounds = $('#rowbounds').val();
-	    const cPage = 1; // 초기 페이지 번호 (필요에 따라 변경 가능)
-	
-	    $.ajax({
-	        url: "${path}/rest/employee/selectall",
-	        method: 'GET',
-	        data: {
-	            numPerpage: rowBounds,
-	            cPage: cPage,
-	            empYn:'0',
-	        },
-	        success: function(response) {
-	            // 응답 데이터 처리
-	            const employees = response.employees;
-	            const pagebar = response.pagebar;
-	            console.log(employees);
-	            console.log(pagebar);
-	
-	            // 승인 목록과 페이지 바 업데이트
-	            updateEmployeeList(employees);
-	            updatePageBar(pagebar);
-	        },
-	        error: function(jqXHR, textStatus, errorThrown) {
-	            console.error('Error: ' + textStatus, errorThrown);
-	        }
-	    });
-	}
-	
-	
-	// 드롭다운 변경 시 직원 목록 다시 불러오기
-	$('#rowbounds').change(loadEmployee);
-	
-	function updateEmployeeList(employees) {
-	    const employeeList = document.getElementById('employee-list');
-	    
-	    // chs-tbody-header는 유지하고, 그 이후의 모든 요소를 제거합니다.
-	    const children = employeeList.children;
-	    for (let i = children.length - 1; i >= 1; i--) {
-	    	employeeList.removeChild(children[i]);
-	    }
-	
-	    employees.forEach(function(e) {
-	    	let empTitle = function(title){
-	    		switch(title){
-		    		case 'J1' : return "원장";
-		            case 'J2' : return "팀장";
-		            case 'J3' : return "매니저";
-	    		}
+		        employeeList.innerHTML += ul;
+		    });
+		}
+		
+		
+		// 페이지 바 업데이트 함수
+		function updatePageBar(pagebar) {
+		    $('#page-bar').html(pagebar);
+		}
+		
+		//alert창 띄울 때
+		function alertMsg(msg){
+			alert(msg);
+		}
+		//수정 버튼 눌렀을 때
+		function updateEmployee(empId,empTitle){
+			if(empTitle != 'J1'){
+				return alertMsg("권한이 부족합니다.");
+			}else{
+				location.assign("${path}/employee/updateemployee?empId="+empId);
+			}
+		}
+		
+		// 삭제 버튼 클릭 이벤트
+		const deleteEmployee = function(empTitle){
+	    	if(empTitle != 'J1'){
+	    		return alertMsg("권한이 부족합니다.");
 	    	}
-	    	const ul = "<ul class=\"chs-tbody-body\">" +
-	        "<li style=\"width:5%\"><input type=\"checkbox\" class=\"select-row\" data-id=\"" + e.empId + "\"></li>" +
-	        "<li style=\"width:15%; font-weight:bold\" data-empid=" + e.empId + " class='employee-link'><a href='#'>" + e.empName + "</a></li>" +
-	        "<li style=\"width:15%\">" + empTitle(e.empTitle) + "</li>" +
-	        "<li style=\"width:20%\">" + e.empHireDate + "</li>" +
-	        "<li style=\"width:20%\">" + e.empEmail + "</li>" +
-	        "<li style=\"width:20%\">" + e.empAddress + "</li>" +
-	        "<li style=\"width:10%\"><button class=\"btn btn-sm btn-outline-primary\">수정</button></li>" +
-	    	"</ul>";
-
-	        employeeList.innerHTML += ul;
-	    });
-	}
-	
-	
-	// 페이지 바 업데이트 함수
-	function updatePageBar(pagebar) {
-	    $('#page-bar').html(pagebar);
-	}
-	
-	//alert창 띄울 때
-	function alertMsg(msg){
-		alert(msg);
-	}
-	//수정 버튼 눌렀을 때
-	function updateEmployee(empId,empTitle){
-		if(empTitle != 'J1'){
-			return alertMsg("권한이 부족합니다.");
-		}else{
-			location.assign("${path}/employee/updateemployee?empId="+empId);
-		}
-	}
-	
-	// 삭제 버튼 클릭 이벤트
-	const deleteEmployee = function(empTitle){
-    	if(empTitle != 'J1'){
-    		return alertMsg("권한이 부족합니다.");
-    	}
-        const selectedIds = $('.select-row:checked').map(function() {
-            return $(this).data('id');
-        }).get();
-		console.log(selectedIds);
-        if (selectedIds.length > 0) {
-            $.ajax({
-                url: "${path}/rest/employee/delete",
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify(selectedIds),
-                success: function(response) {
-                    alert(response);
-                    location.reload();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error('Error: ' + textStatus, errorThrown);
-                }
-            });
-        } else {
-            alert('삭제할 항목을 선택하세요.');
-        }
-    }
-	
-	//검색 창에 key가 눌릴 때
-	const selectEmployee = function(){
-		const type = $('#type').val();
-		const content = $('#content').val();
-		// 필요한 변수를 미리 정의
-		var requestData = {
-		    empYn: '0'
-		};
-
-		// 조건에 따라 데이터를 추가
-		if (type == 'empTitle') {
-		    requestData.empTitle = content;
-		} else {
-		    requestData.empName = content;
-		}
-		$.ajax({
-			url:"${path}/rest/employee/selectall",
-			method:'GET',
-			data: requestData,
-	        success: function(response) {
-	            // 응답 데이터 처리
-	            const employees = response.employees;
-	            const pagebar = response.pagebar;
-	            console.log(employees);
-	            console.log(pagebar);
-	
-	            // 승인 목록과 페이지 바 업데이트
-	            updateEmployeeList(employees);
-	            updatePageBar(pagebar);
-	        },
-	        error: function(jqXHR, textStatus, errorThrown) {
-	            console.error('Error: ' + textStatus, errorThrown);
+	        const selectedIds = $('.select-row:checked').map(function() {
+	            return $(this).data('id');
+	        }).get();
+			console.log(selectedIds);
+	        if (selectedIds.length > 0) {
+	            $.ajax({
+	                url: "${path}/rest/employee/delete",
+	                method: 'PUT',
+	                contentType: 'application/json',
+	                data: JSON.stringify(selectedIds),
+	                success: function(response) {
+	                    alert(response);
+	                    location.reload();
+	                },
+	                error: function(jqXHR, textStatus, errorThrown) {
+	                    console.error('Error: ' + textStatus, errorThrown);
+	                }
+	            });
+	        } else {
+	            alert('삭제할 항목을 선택하세요.');
 	        }
-		});
-	}
+	    }
+		
+		//검색 창에 key가 눌릴 때
+		const selectEmployee = function(){
+			const type = $('#type').val();
+			const content = $('#content').val();
+			// 필요한 변수를 미리 정의
+			var requestData = {
+			    empYn: '0'
+			};
 	
-	$('.employee-link').on('click', function(e){
-	    e.preventDefault();
-		 // 기존 값 비우기
-	    $('#empId').text('');
-	    $('#empHireDate').text('');
-	    $('#empStatus').text('');
-	    $('#empTitle').text('');
-	    $('#empAddress').text('');
-	    $('#empName').text('');
-	    $('#empEmail').text('');
-	    $('.img-fluid').attr('src', ''); // 이미지 src 초기화
-	    var empId = $(this).data('empid');
-	    $.ajax({
-			url:"${path}/rest/employee/selectone",
-			method:'GET',
-			data: {empId, empId},
-	        success: function(response) {
-	            // 응답 데이터 처리
-	            const emp = response;
-	            let title;
-	            switch(emp.empTitle){
-	            case "J1" : title="원장"; break;
-	            case "J2" : title="팀장"; break;
-	            case "J3" : title="매니저"; break;
-	            }
-	            console.log(emp);
-				 $('#empId').text(emp.empId);
-                 $('#empHireDate').text(emp.empHireDate);
-                 $('#empStatus').text(emp.empYn=='0'?'재직':'퇴직');
-                 $('#empTitle').text(title);
-                 $('#empAddress').text(emp.empAddress);
-                 $('#empName').text(emp.empName);
-                 $('#empEmail').text(emp.empEmail);
-                 if(emp.empProfile!=''){
-	                 $('.img-fluid').attr('src', "${path}/resources/upload/chs/employee/"+emp.empProfile);
-                 }else{
-	                 $('.img-fluid').attr('src', path+"/resources/upload/chs/employee/user.png");
-                 }
-	        },
-	        error: function(jqXHR, textStatus, errorThrown) {
-	            console.error('Error: ' + textStatus, errorThrown);
-	        }
+			// 조건에 따라 데이터를 추가
+			if (type == 'empTitle') {
+			    requestData.empTitle = content;
+			} else {
+			    requestData.empName = content;
+			}
+			$.ajax({
+				url:"${path}/rest/employee/selectall",
+				method:'GET',
+				data: requestData,
+		        success: function(response) {
+		            // 응답 데이터 처리
+		            const employees = response.employees;
+		            const pagebar = response.pagebar;
+		            console.log(employees);
+		            console.log(pagebar);
+		
+		            // 승인 목록과 페이지 바 업데이트
+		            updateEmployeeList(employees);
+		            updatePageBar(pagebar);
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) {
+		            console.error('Error: ' + textStatus, errorThrown);
+		        }
+			});
+		}
+		
+		$('.employee-link').on('click', function(e){
+		    e.preventDefault();
+			 // 기존 값 비우기
+		    $('#empId').text('');
+		    $('#empHireDate').text('');
+		    $('#empStatus').text('');
+		    $('#empTitle').text('');
+		    $('#empAddress').text('');
+		    $('#empName').text('');
+		    $('#empEmail').text('');
+		    $('.img-fluid').attr('src', ''); // 이미지 src 초기화
+		    var empId = $(this).data('empid');
+		    $.ajax({
+				url:"${path}/rest/employee/selectone",
+				method:'GET',
+				data: {empId, empId},
+		        success: function(response) {
+		            // 응답 데이터 처리
+		            const emp = response;
+		            let title;
+		            switch(emp.empTitle){
+		            case "J1" : title="원장"; break;
+		            case "J2" : title="팀장"; break;
+		            case "J3" : title="매니저"; break;
+		            }
+		            console.log(emp);
+					 $('#empId').text(emp.empId);
+	                 $('#empHireDate').text(emp.empHireDate);
+	                 $('#empStatus').text(emp.empYn=='0'?'재직':'퇴직');
+	                 $('#empTitle').text(title);
+	                 $('#empAddress').text(emp.empAddress);
+	                 $('#empName').text(emp.empName);
+	                 $('#empEmail').text(emp.empEmail);
+	                 if(emp.empProfile!=''){
+		                 $('.img-fluid').attr('src', "${path}/resources/upload/chs/employee/"+emp.empProfile);
+	                 }else{
+		                 $('.img-fluid').attr('src', path+"/resources/upload/chs/employee/user.png");
+	                 }
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) {
+		            console.error('Error: ' + textStatus, errorThrown);
+		        }
+			});
+		   $('#employeeModal').modal('show');
 		});
-	   $('#employeeModal').modal('show');
-	});
 </script>

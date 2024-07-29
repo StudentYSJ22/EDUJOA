@@ -13,6 +13,12 @@ public interface ScheduleDao {
     // 특정 캘린더에 대한 일정 조회
     List<Schedule> selectSchedulesByCalendars(SqlSession session, List<String> calendars);
     
+    // 사용자별 일정 조회
+    List<Schedule> selectSchedulesByEmpId(SqlSession session, String empId);
+    
+    // 사용자별 특정 캘린더에 대한 일정 조회
+    List<Schedule> selectSchedulesByEmpIdAndCalendars(SqlSession session, String empId, List<String> calendars);
+    
     // 일정 추가
     int insertSchedule(SqlSession session, Schedule schedule);
     
@@ -33,6 +39,9 @@ public interface ScheduleDao {
     
     // 일정 참석자 삭제
     int deleteScheduleSharers(SqlSession session, String schId);
+    
+    // 일정 참석자 삭제 (스케줄 ID로)
+    int deleteScheduleSharersByScheduleId(SqlSession session, String eventId);
     
     // 전체 직원 목록 조회
     List<Employee> selectAllEmployeesForSchedule(SqlSession session);

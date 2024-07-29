@@ -123,7 +123,7 @@ $(document).ready(function() {
         $('.select-refer p').each(function() {
             const empId = $(this).data('empid');
             const text = $(this).text();
-            referList.push(empId);
+             referList.push({empId:empId});
         });
 
         console.log("Approval list:", approvalList);
