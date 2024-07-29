@@ -1,9 +1,8 @@
 package com.edujoa.ysj.attendance.model.dao;
 
-import com.edujoa.ysj.attendance.model.dto.Attendance;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import com.edujoa.ysj.attendance.model.dto.Attendance;
 
 import java.util.List;
 import java.util.Map;
@@ -11,29 +10,37 @@ import java.util.Map;
 @Repository
 public class AttendanceDaoImpl implements AttendanceDao {
 
-    private final SqlSession sqlSession;
-
-    public AttendanceDaoImpl(SqlSession sqlSession) {
-        this.sqlSession = sqlSession;
+    // 특정 직원의 출퇴근 기록을 조회 (페이징 및 상태 필터링)
+    @Override
+    public List<Attendance> getRecordsByEmpIdWithPagingAndStatus(SqlSession session, Map<String, Object> params) {
+        return session.selectList("getRecordsByEmpIdWithStatus", params);
     }
 
-    //직원 ID로 출퇴근 기록 조회
+    //특정 직원의 출퇴근 기록 총 개수를 조회 (상태 필터링)
     @Override
-    public List<Attendance> getRecordsByEmpId(String empId) {
-        return sqlSession.selectList("getRecordsByEmpId", empId);
+    public int getRecordsCountByEmpIdAndStatus(SqlSession session, Map<String, Object> params) {
+        return session.selectOne("getRecordsCountByEmpIdAndStatus", params);
     }
 
-    //직원 ID로 페이징 처리된 출퇴근 기록 조회
+    
+    //출퇴근 기록 저장
     @Override
-    public List<Attendance> getRecordsByEmpIdWithPaging(String empId, Map<String, Integer> rowBounds) {
-        // RowBounds 객체를 생성하여 페이징 처리
-        RowBounds rb = new RowBounds((rowBounds.get("cPage") - 1) * rowBounds.get("numPerpage"), rowBounds.get("numPerpage"));
-        return sqlSession.selectList("getRecordsByEmpId", empId, rb);
+    public void saveAttendance(SqlSession session, Attendance attendance) {
+        session.insert("saveAttendance", attendance);
     }
 
-    //직원 ID로 출퇴근 기록 총 개수 조회
+    //특정 날짜의 출퇴근 기록을 조회
     @Override
-    public int getRecordsCountByEmpId(String empId) {
-        return sqlSession.selectOne("getRecordsCountByEmpId", empId);
+    public Attendance getAttendanceByEmpIdAndDate(SqlSession session, Map<String, Object> params) {
+        return session.selectOne("getAttendanceByEmpIdAndDate", params);
+    }
+
+    //출퇴근 요약 정보를 조회
+    @Override
+    public Map<String, Integer> getAttendanceSummary(SqlSession session, String empId) {
+        System.out.println("Executing getAttendanceSummary for empId: " + empId);
+        Map<String, Integer> summary = session.selectOne("getAttendanceSummary", empId);
+        System.out.println("Result from DB: " + summary);
+        return summary;
     }
 }
