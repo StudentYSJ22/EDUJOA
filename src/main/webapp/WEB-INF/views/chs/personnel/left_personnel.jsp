@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <link rel="stylesheet" href="${path }/resources/css/chs/personnel/left_personnel.css">
 <div class="left-container">
 	<p class="tag-top">직원</p>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
 
@@ -10,29 +10,28 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
 
 <div class="container mt-5">
-  <div class="summary-container">
-    <h2>휴가 Summary</h2>
-    <div class="summary-grid">
-      <div class="summary-item active" onclick=>
-        <div class="icon">&#x2708;</div>
-        <div class="text">전체 휴가 <br><span id="">0건</span></div>
-      </div>
-      <div class="summary-item" onclick=>
-        <div class="icon purple">&#x2708;</div>
-        <div class="text">사용 휴가<br><span id="">0건</span></div>
-      </div>
-      <div class="summary-item" onclick=>
-        <div class="icon grey">&#x2708;</div>
-        <div class="text">잔여 휴가<br><span id="">0건</span></div>
-      </div>
+  <!-- 휴가 Summary -->
+ <div class="container mt-5">
+    <div class="summary-container">
+        <h2>휴가 Summary</h2>
+        <div class="summary-grid">
+            <div class="summary-item active">
+                <div class="icon">&#x2708;</div>
+                <div class="text">전체 휴가 <br><span id="totalVacation">${employee.empTvacation}건</span></div>
+            </div>
+            <div class="summary-item">
+                <div class="icon purple">&#x2708;</div>
+                <div class="text">사용 휴가<br><span id="usedVacation">${employee.empTvacation - employee.empRvacation}건</span></div>
+            </div>
+            <div class="summary-item">
+                <div class="icon grey">&#x2708;</div>
+                <div class="text">잔여 휴가<br><span id="remainingVacation">${employee.empRvacation}건</span></div>
+            </div>
+        </div>
     </div>
-  </div>
-  </div>
+</div>
 
-
-
-
-<div class="container mt-4">
+  <!-- 출퇴근 Summary -->
   <div class="summary-container">
     <h2>출퇴근 Summary</h2>
     <div class="summary-grid">
@@ -59,6 +58,7 @@
     </div>
   </div>
 
+  <!-- 근태 기록 -->
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -77,6 +77,7 @@
               <tbody id="attendance-list">
                 <c:forEach var="record" items="${records}">
                   <tr>
+           
                     <td>${record.atnIn}</td>
                     <td>${record.atnOut}</td>
                     <td>${record.atnStatus}</td>

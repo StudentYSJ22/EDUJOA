@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,11 +18,9 @@ import java.util.Map;
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,6 +45,7 @@ import com.edujoa.chs.approval.model.dto.PrePayment;
 import com.edujoa.chs.approval.model.dto.Vacay;
 import com.edujoa.chs.approval.model.service.ApprovalService;
 import com.edujoa.chs.common.PageFactory;
+import com.edujoa.chs.employee.controller.EmployeeController;
 import com.edujoa.with.employee.model.dto.Employee;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,7 +61,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ApprovalRestController {
 	private final ApprovalService service;
 	private final PageFactory pageFactory;
-
+	private final EmployeeController employeeController;
 	// 진행 중에 대한 결과 조회
 	@GetMapping("/flagginging")
 	public ResponseEntity<Map<String, Object>> flaggingIng(@RequestParam(defaultValue = "10") int numPerpage,
@@ -587,7 +584,8 @@ public class ApprovalRestController {
 				@RequestParam(defaultValue = "1") int cPage,
 				String date, String empId, String approvalLine,String apvStatus,Model model) {
 			Map<String,String> param = new HashMap<>();
-			if(date!=null){
+			log.debug(date);
+			if(date.equals("old")){
 				param.put("old", "old");
 			}
 			param.put("empId", empId);

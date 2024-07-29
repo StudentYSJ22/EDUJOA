@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.edujoa.with.employee.model.dto.Alarm;
 import com.edujoa.with.employee.model.dto.Employee;
 
 @Repository
@@ -46,6 +47,17 @@ public class ChsEmployeeDaoImpl implements ChsEmployeeDao{
 	@Override
 	public int deleteEmployee(SqlSession session, String empId) {
 		return session.update("employee.deleteEmployee",empId);
+	}
+	//알람 생성
+	@Override
+	public int insertAlarm(SqlSession session, Alarm alarm) {
+		return session.insert("employee.insertAlarm",alarm);
+	}
+	
+	//알람 삭제
+	@Override
+	public int deletetAlarm(SqlSession session, String alarmId) {
+		return session.delete("employee.deleteAlarm",alarmId);
 	}
 	
 }

@@ -14,7 +14,7 @@ function getKoreanTitle(empTitle) {
 }
 
 function connectWebSocket() {
-	server = new WebSocket("ws://localhost:9090/chattest");
+	server = new WebSocket("ws://14.36.141.71:15555/GDJ79_EDUJOA_final/chattest");
 
 	server.onopen = () => {
 		console.log("서버 연결됨");

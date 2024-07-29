@@ -4,6 +4,7 @@
 <%@ taglib  prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <link rel="stylesheet" href="${path }/resources/css/chs/approval/insert_approval.css">
 <script src="${path }/resources/js/jquery-3.7.1.min.js"></script>

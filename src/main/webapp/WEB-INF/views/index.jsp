@@ -286,6 +286,7 @@
 
 <script>
 	const empId = `${loginMember.empId}`;
+	const path = `${path}`;
 	console.log('loginId', empId);
 </script>
 

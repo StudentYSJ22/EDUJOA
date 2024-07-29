@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <c:set var ="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <link rel="stylesheet" href="${path }/resources/css/chs/personnel/personnel.css">
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="chs-custom">
