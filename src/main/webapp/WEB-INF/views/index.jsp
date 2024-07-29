@@ -38,7 +38,10 @@
 				<div class="mini-first-container">
 					<div class="emp-info-container">
 						<div class="emp-pic"
-							style="background-image: url(${pageContext.request.contextPath}/resources/images/bs.png");></div>
+							style="background-image: <%-- url(${pageContext.request.contextPath}/resources/images/bs.png");> --%>
+							url(${path}/resources/upload/chs/employee/"+emp.empProfile");>
+							
+							</div>
 						<div class="emp-info"
 							style="color: rgb(145, 145, 145); font-size: 15px;">${loginMember.empId}</div>
 						<div class="emp-info"
@@ -78,7 +81,7 @@
 					<!-- 출근 폼 -->
 					<form id="inputForm" action="/submitInputTime" method="post">
 						<input type="hidden" name="inputTime" id="inputTimeField">
-						<input type="hidden" name="empId" value='${loginMember.empId}'>
+						<input type="hidden" name="empId" id="empIdField" value='${loginMember.empId}'>
 						<!-- empId를 동적으로 설정할 숨겨진 입력 필드 -->
 						<div class="time-btn-container">
 							<div>
@@ -109,7 +112,8 @@
 						</div>
 					</form>
 					<div class="time-btn-go">
-						<button type="button" class="attn-btn-go">
+						<!-- <button type="button" class="attn-btn-go"> -->
+						<a href="${pageContext.request.contextPath}/attendance/attendance.do?empId=${loginMember.empId}">
 							<b>+ 근태관리 바로가기</b>
 						</button>
 					</div>
@@ -133,9 +137,11 @@
 								style="background-image: url(${pageContext.request.contextPath}/resources/images/mail-icon.png");></div></a>
 						<div class="circle-info">우편</div>
 					</div>
-					<div class="five-container">
-						<a href="test.html"><div class="circle-su";>${approvalCount }</div></a>
-						<a href="test.html"><div class="circle"
+					<div class="five-container">						
+						<a href="${pageContext.request.contextPath}/approval/flagginging.do?empId=${loginMember.empId}">
+						<div class="circle-su";>${approvalCount }</div></a>
+						<a href="${pageContext.request.contextPath}/approval/flagginging.do?empId=${loginMember.empId}">
+						<div class="circle"
 								style="background-image: url(${pageContext.request.contextPath}/resources/images/approval-icon.png");></div></a>
 						<div class="circle-info">결재</div>
 					</div>
@@ -174,7 +180,7 @@
 								<!-- </div> -->
 							
 												<!-- </div> --> 
-						<div class="todo-info"></div>
+						<div id="thisMonthSchedules" class="todo-info"></div>
 						
 						
 					</div>
@@ -279,27 +285,13 @@
 
 <script>
 	const empId = `${loginMember.empId}`;
-	console.log(empId);
+	console.log('loginId', empId);
 </script>
-
-
- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      
-      // FullCalendar 인스턴스 생성
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth'
-      });
-
-      // 달력 렌더링
-      calendar.render();
-    });
-  </script>
 
 
 
 
 
 <script src="${path }/resources/js/khj/attendance.js"></script>
+<script src="${path }/resources/js/khj/mainCalendar.js"></script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

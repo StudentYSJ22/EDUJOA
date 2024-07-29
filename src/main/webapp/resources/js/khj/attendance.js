@@ -1,21 +1,6 @@
 let inputTime = null;
 let outputTime = null;
 
-window.onload = function() {
-	
-            document.getElementById('empIdField').value = empId;
-            console.log(document.getElementById('empIdField').value);
-            document.getElementById('empIdFieldOutput').value = empId; // 퇴근 폼에도 empId 값을 설정
-
-            document.getElementById('input').addEventListener('click', function(event) {
-                setInputTime(event);
-            });
-
-            document.getElementById('output').addEventListener('click', function(event) {
-                setOutputTime(event);
-            });
-        };
-
 // 시간을 '오전 09:10:12' 또는 '오후 03:22:45' 형식으로 반환하는 함수
 //view단 에서 쓰는 함수
 function formatTime(date) {
@@ -67,7 +52,7 @@ function submitForm(formId) {
 }
 
 // 출근 버튼 클릭 이벤트
-document.getElementById('input').addEventListener('click', function(event) {
+/*document.getElementById('input').addEventListener('click', function(event) {
     event.preventDefault();
     if (!inputTime) {
         const now = new Date();
@@ -78,12 +63,12 @@ document.getElementById('input').addEventListener('click', function(event) {
         this.classList.add('disabled');
         this.disabled = true;
     }
-});
+});*/
 
 
 
 // 퇴근 버튼 클릭 이벤트
-document.getElementById('output').addEventListener('click', function(event) {
+/*document.getElementById('output').addEventListener('click', function(event) {
     event.preventDefault();
     if (!outputTime) {
         const now = new Date();
@@ -95,12 +80,42 @@ document.getElementById('output').addEventListener('click', function(event) {
         this.disabled = true;
     }
 });
+*/
 
 
-    // 폼 데이터 설정
-    document.getElementById('inputTimeField').value = formatTimeForServer(now);
-    // 폼 제출
-    document.getElementById('inputForm').submit();
+// 출근 버튼 클릭 이벤트
+document.getElementById('input').addEventListener('click', function(event) {
+    event.preventDefault();
+    if (!inputTime) {
+        // 확인 알림창 표시
+        if (confirm("정말 출근하시겠습니까?")) {
+            const now = new Date();
+            inputTime = formatTime(now);
+            document.getElementById('inputTime').querySelector('b').innerText = inputTime;
+            document.getElementById('inputTimeField').value = formatTimeForServer(now);
+            submitForm('inputForm');
+            this.classList.add('disabled');
+            this.disabled = true;
+        }
+    }
+});
+
+// 퇴근 버튼 클릭 이벤트 (필요한 경우)
+document.getElementById('output').addEventListener('click', function(event) {
+    event.preventDefault();
+    if (!outputTime) {
+        // 확인 알림창 표시
+        if (confirm("정말 퇴근하시겠습니까?")) {
+            const now = new Date();
+            outputTime = formatTime(now);
+            document.getElementById('outputTime').querySelector('b').innerText = outputTime;
+            document.getElementById('outputTimeField').value = formatTimeForServer(now);
+            submitForm('outputForm');
+            this.classList.add('disabled');
+            this.disabled = true;
+        }
+    }
+});
 
 
 
@@ -131,6 +146,12 @@ window.onload = function() {
 
     document.getElementById('empIdField').value = empId;
     document.getElementById('empIdFieldOutput').value = empId; // 퇴근 폼에도 empId 값을 설정
+
+const now = new Date();
+// 폼 데이터 설정
+document.getElementById('inputTimeField').value = formatTimeForServer(now);
+// 폼 제출
+/*document.getElementById('inputForm').submit();*/
 
     document.getElementById('input').addEventListener('click', function(event) {
         setInputTime(event);
