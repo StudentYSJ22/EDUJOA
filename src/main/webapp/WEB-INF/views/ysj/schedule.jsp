@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <!-- 원본  -->
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
@@ -17,7 +17,7 @@
 <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/main.min.css' rel='stylesheet' />
 <!-- FullCalendar JS -->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
-
+ 
 <!-- Custom JS -->
 <script src="<%=request.getContextPath()%>/resources/js/ysj/schedule.js"></script>
 
@@ -88,6 +88,8 @@
             <label for="schContent">내용</label>
             <textarea class="form-control" id="schContent" name="schContent" rows="3"></textarea>
           </div>
+       
+          
           <div class="form-group">
             <label for="schStart">시작</label>
             <input type="datetime-local" class="form-control" id="schStart" name="schStart" required>

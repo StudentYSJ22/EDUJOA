@@ -9,6 +9,29 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ysj/attendance.css">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
 
+<div class="container mt-5">
+  <div class="summary-container">
+    <h2>휴가 Summary</h2>
+    <div class="summary-grid">
+      <div class="summary-item active" onclick=>
+        <div class="icon">&#x2708;</div>
+        <div class="text">전체 휴가 <br><span id="">0건</span></div>
+      </div>
+      <div class="summary-item" onclick=>
+        <div class="icon purple">&#x2708;</div>
+        <div class="text">사용 휴가<br><span id="">0건</span></div>
+      </div>
+      <div class="summary-item" onclick=>
+        <div class="icon grey">&#x2708;</div>
+        <div class="text">잔여 휴가<br><span id="">0건</span></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+
 <div class="container mt-4">
   <div class="summary-container">
     <h2>출퇴근 Summary</h2>

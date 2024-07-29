@@ -166,7 +166,11 @@ $(document).ready(function () {
         selectedSharers = []; // 참여자 배열 초기화
         $('#detailSharers').val(''); // 참여자 필드 초기화
     });
-
+	
+	
+	//종일 
+	
+	
     // 일정 추가 폼 제출 시 이벤트 데이터 처리
     $('#eventForm').on('submit', function (e) {
         e.preventDefault();
