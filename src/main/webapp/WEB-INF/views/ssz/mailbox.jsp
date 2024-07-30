@@ -5,7 +5,7 @@
 	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <!-- 모든 내용은 밑에있는 div안에만 설정해야함. -->
 
@@ -137,44 +137,48 @@ body {
 		<!-- 사이드바 -->
 		<aside class="menubar">
 			<div class="logo">
-				<button class="compose-btn">새 메일 쓰기</button>
+				<button class="compose-btn">메일 쓰기</button>
 			</div>
 			<ul class="menulist">
-				<li><a href="#">받은메일함</a></li>
+				<li><a href="#" id="inbox">받은메일함</a></li>
 				<li><a href="#">보낸메일함</a></li>
 				<li><a href="#">스팸메일함</a></li>
 				<li><a href="#">임시저장함</a></li>
 				<li><a href="#">즐겨찾기</a></li>
-				<li><a href="#">삭제메일함</a></li>
+				<li><a href="#" id="trash">삭제메일함</a></li>
 			</ul>
 		</aside>
 		<main class="content">
 			<!-- 메일리스트 위 버튼 -->
 			<div class="toolbar">
-				<button>삭제</button>
+				<button id="actionBtn">삭제</button>
 				<button>스팸 신고</button>
 			</div>
 			<!-- 메일 리스트 -->
 			<div class="email-list">
 				<!-- 메일 아이템 -->
 				<div class="email-item">
-					<input type="checkbox" class="email-checkbox"> <span
-						class="sender">보낸 사람</span> <span class="subject">메일 제목</span> <span
-						class="date">날짜</span>
+					<input type="checkbox" class="email-checkbox"> 
+					<span class="sender">보낸 사람</span> 
+					<span class="subject">메일 제목</span> 
+					<span class="date">날짜</span>
 				</div>
 				<!-- 추가 메일 아이템 -->
-				<div class="email-item">
-					<input type="checkbox" class="email-checkbox"> 
-					<span class="sender">hy80274@naver.com</span> 
-					<span class="subject">에듀조아 팀에게</span>
-					<span class="date">2024-07-28</span>
-				</div>
+				<c:forEach items="${emails }" var="email">
+					<div class="email-item inbox">
+						<input type="checkbox" class="email-checkbox"> 
+						<span class="sender">${email.rcvMailSender }</span> 
+						<span class="subject">${email.rcvMailTitle }</span>
+						<span class="date">${email.rcvMailDate}</span>
+					</div>
+				</c:forEach>
 			<input type="hidden" id="contextPath" value="${path}">
 			</div>
 		</main>
 	</div>
-	<script src="${path }/resources/js/mail.js"></script>
 	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="${path }/resources/js/mail.js"></script>
 </body>
 <script>
 	const empId = "${loginMember.empId}";
