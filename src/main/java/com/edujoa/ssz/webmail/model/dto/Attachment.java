@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MailAttachment {
+public class Attachment {
 	private String fileName;
-    private String contentType;
-    private byte[] content;
-	
+    private long fileSize;
 }

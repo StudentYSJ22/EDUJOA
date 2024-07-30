@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.edujoa.ssz.webmail.model.dao.MailDao;
-import com.edujoa.ssz.webmail.model.dto.Mail;
+import com.edujoa.ssz.webmail.model.dto.ReceivedMail;
 
 import lombok.RequiredArgsConstructor;
 @Service
@@ -16,9 +16,9 @@ public class MailServiceImpl implements MailService{
 	private final MailDao dao;
 	private final SqlSession session;
 	@Override
-	public List<Mail> getAllMails(Map<String, String> param) {
-		// TODO Auto-generated method stub
-		return null;
+	public int insertReceivedMail(List<ReceivedMail> rcvMails) {
+		System.out.println("dao들어가기전 service쪽 매개변수 :"+rcvMails);
+		return dao.insertReceivedMail(session, rcvMails);
 	}
 
 	@Override
@@ -27,10 +27,14 @@ public class MailServiceImpl implements MailService{
 	}
 
 	@Override
-	public int deleteMail(String mailId) {
+	public List<ReceivedMail> selectReceivedMails() {
 		// TODO Auto-generated method stub
-		return 0;
+		return dao.selectReceivedMails(session);
 	}
+
+	
+
+	
 
 
 

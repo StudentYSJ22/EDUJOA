@@ -7,14 +7,18 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.edujoa.ssz.webmail.model.dto.Mail;
+import com.edujoa.ssz.webmail.model.dto.ReceivedMail;
 
 @Repository
 public class MailDaoImpl implements MailDao{
 
+	
+
 	@Override
-	public List<Mail> getAllMails(SqlSession session, Map<String, String> param) {
+	public int insertReceivedMail(SqlSession session, List<ReceivedMail> rcvMails) {
 		// TODO Auto-generated method stub
-		return null;
+		System.out.println("dao매개변수: "+rcvMails);	
+		return session.insert("receivedmail.mergeReceivedMails", rcvMails);
 	}
 
 	@Override
@@ -24,10 +28,11 @@ public class MailDaoImpl implements MailDao{
 	}
 
 	@Override
-	public int deleteMail(SqlSession session, String mailId) {
+	public List<ReceivedMail> selectReceivedMails(SqlSession session) {
 		// TODO Auto-generated method stub
-		return 0;
+		return session.selectList("receivedmail.selectReceivedMails", session);
 	}
+
 
 
 	

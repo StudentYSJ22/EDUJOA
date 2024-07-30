@@ -120,38 +120,22 @@
 			<version>1.16</version>
 		</dependency>
 		<!-- 2024-07-21 gson 추가 최헌수-->
+		<!--7/29 유승주 gmail 의존성 추가-->
 		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-mail</artifactId>
+	    </dependency>
+
+	    <!--<dependency>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>javax.mail</artifactId>
+		    <version>1.6.2</version>
 		</dependency>
-
-		
-		<!--2024-07-29 엑셀변환 --><!-- -->
-	<!--	<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-ooxml</artifactId>
-		    <version>5.0.0</version>
+		<dependency>
+		    <groupId>javax.activation</groupId>
+		    <artifactId>activation</artifactId>
+		    <version>1.1.1</version>
 		</dependency>-->
-
-		
-		<!--2024-07-29 gmail 추가 유승주-->
-		    <dependency>
-		        <groupId>com.google.api-client</groupId>
-		        <artifactId>google-api-client</artifactId>
-		        <version>2.0.0</version>
-		    </dependency>
-		    <dependency>
-		        <groupId>com.google.oauth-client</groupId>
-		        <artifactId>google-oauth-client-jetty</artifactId>
-		        <version>1.34.1</version>
-		    </dependency>
-		    <dependency>
-		        <groupId>com.google.apis</groupId>
-		        <artifactId>google-api-services-gmail</artifactId>
-		        <version>v1-rev20220404-2.0.0</version>
-		    </dependency>
-
-
 	</dependencies>
 
 	<build>
