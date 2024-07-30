@@ -108,13 +108,7 @@ div {
 	justify-content: space-between;
 }
 
-.mini2-first-container {
-	/* color: red; */
-	/* border: 1px solid orange; */
-	width: 100%;
-	height: 20%;
-	/* 높이를 %로 설정하여 부모인 .mini-container의 높이를 따라갈 수 있도록 합니다. */
-}
+
 
 .mini2-second-container {
 	background-color: white;
@@ -173,7 +167,15 @@ div {
 	display: flex;
 	/* flex-direction: column; */
 	justify-content: space-between;
+	
+	
+	/* color: red; */
+	/* border: 1px solid orange; */
+	width: 100%;
+	height: 20%;
+	/* 높이를 %로 설정하여 부모인 .mini-container의 높이를 따라갈 수 있도록 합니다. */
 }
+
 
 .five-container {
 	background-color: white;
