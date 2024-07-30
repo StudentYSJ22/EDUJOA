@@ -203,7 +203,7 @@
                 <td id="input-td" colspan="5">
 				    <input type="file" name="apvAttachment">
 				    <c:if test="${approval.apvAttachment != null}">
-				        <p><a href="${path}/rest/approval/download/${approval.apvAttachment.apvId}">첨부 파일 다운로드</a></p>
+				        <p><a href="${path}/rest/approval/download/${approval.apvAttachment.apvId}">${approval.apvAttachment.fileOriname}</a></p>
 				    </c:if>
 				</td>
             </tr>
@@ -241,13 +241,13 @@
         </div>
         <div class="signature">
             <div>
-                청구인 : 김동현 (인)
+                기안자 : ${approval.employee.empName } (인)
                 <c:if test="${approval.employee.oriname != null}">
                     <img id="oriname" src="${path}/resources/upload/employee_signatures/${approval.employee.oriname}">
                 </c:if>
             </div>
         </div>
-        <c:if test="${approval.empId == loginMember.empId && approval.apvStrg == 1 ||   approval.approvalLine[0].apvStatus==0}">
+        <c:if test="${approval.empId == loginMember.empId && (approval.apvStrg == 1 || approval.approvalLine[0].apvStatus == 0)}">
 	        <input type="submit" value="상신">
         </c:if>
     </form>
