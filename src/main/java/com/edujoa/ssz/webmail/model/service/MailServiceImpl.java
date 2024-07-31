@@ -32,6 +32,16 @@ public class MailServiceImpl implements MailService{
 		return dao.selectReceivedMails(session);
 	}
 
+	@Override
+	public int delete(Map<String, String> param) {
+		return dao.delete(session, param);
+	}
+
+	@Override
+	public ReceivedMail getSelectedMail(String emailId) {
+		return dao.getSelectedMail(session, emailId);
+	}
+
 	
 
 	

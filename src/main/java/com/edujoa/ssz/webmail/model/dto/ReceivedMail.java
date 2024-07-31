@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ReceivedMail {
-	private int rcvMailId;
+	private String rcvMailId;
 	private String rcvMailSender;
 	private List<String> rcvMailReceiver;
 	private List<String> rcvMailCc;
@@ -20,7 +20,9 @@ public class ReceivedMail {
 	private String rcvMailTitle;
 	private String rcvMailContent;
 	private String rcvMailDate;
-	private List<MailAttachment> rcvMailAttachment;
+	private String rcvMailFileName;
+	private String rcvMailContentType;
+	private String rcvMailFileUrl;
 	private String rcvMailType;
 	private String rcvMailRead;
 }

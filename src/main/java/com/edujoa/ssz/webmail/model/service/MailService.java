@@ -16,6 +16,8 @@ public interface MailService {
 	//수신메일 전체 조회
 	List<ReceivedMail> selectReceivedMails();
 	
-	//gamil api로 메일 가져오기
+	//메일 삭제 라벨
+	int delete(Map<String,String>param);
 	
+	ReceivedMail getSelectedMail(String emailId);
 }

@@ -16,4 +16,9 @@ public interface MailDao {
 	int createSendMail(SqlSession session, Map<String, String>param);
 	
 	List<ReceivedMail> selectReceivedMails(SqlSession session);
+	
+	//메일 삭제
+	int delete(SqlSession session, Map<String,String>param);
+	
+	ReceivedMail getSelectedMail(SqlSession session, String emailId);
 }

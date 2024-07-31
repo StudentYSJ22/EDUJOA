@@ -17,7 +17,7 @@ public class MailDaoImpl implements MailDao{
 	@Override
 	public int insertReceivedMail(SqlSession session, List<ReceivedMail> rcvMails) {
 		// TODO Auto-generated method stub
-		System.out.println("dao매개변수: "+rcvMails);	
+		System.out.println("dao매개변수: "+rcvMails.get(0));	
 		return session.insert("receivedmail.mergeReceivedMails", rcvMails);
 	}
 
@@ -30,10 +30,24 @@ public class MailDaoImpl implements MailDao{
 	@Override
 	public List<ReceivedMail> selectReceivedMails(SqlSession session) {
 		// TODO Auto-generated method stub
-		return session.selectList("receivedmail.selectReceivedMails", session);
+		return session.selectList("receivedmail.selectReceivedMails");
 	}
 
+	@Override
+	public int delete(SqlSession session, Map<String, String> param) {
+		return session.update("receivedmail.updatelabeldelete", param);
+	}
 
+	@Override
+	public ReceivedMail getSelectedMail(SqlSession session, String emailId) {
+		ReceivedMail mail=session.selectOne("receivedmail.getSelectedMail", emailId);
+		if(mail!=null) {
+			session.update("receivedmail.updateMailRead", emailId);
+		}
+		return session.selectOne("receivedmail.getSelectedMail", emailId);
+	}
+	
+	
 
 	
 }

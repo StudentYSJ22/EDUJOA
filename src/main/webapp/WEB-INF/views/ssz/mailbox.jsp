@@ -130,6 +130,9 @@ body {
 .subject {
 	flex: 2;
 }
+#refresh{
+	align-self: flex-end;
+}
 </style>
 </head>
 <body>
@@ -151,8 +154,9 @@ body {
 		<main class="content">
 			<!-- 메일리스트 위 버튼 -->
 			<div class="toolbar">
-				<button id="actionBtn">삭제</button>
+				<button id="delete">삭제</button>
 				<button>스팸 신고</button>
+				<button id="refresh">새로고침</button>
 			</div>
 			<!-- 메일 리스트 -->
 			<div class="email-list">
@@ -165,12 +169,14 @@ body {
 				</div>
 				<!-- 추가 메일 아이템 -->
 				<c:forEach items="${emails }" var="email">
-					<div class="email-item inbox">
-						<input type="checkbox" class="email-checkbox"> 
-						<span class="sender">${email.rcvMailSender }</span> 
-						<span class="subject">${email.rcvMailTitle }</span>
-						<span class="date">${email.rcvMailDate}</span>
-					</div>
+					<a href="${path}/mailbox/maildetail?emailId=${email.rcvMailId}" class="email-link" style="color: black;">
+						<div class="email-item inbox" data-email-id="${email.rcvMailId}">
+							<input type="checkbox" class="email-checkbox"> 
+							<span class="sender">${email.rcvMailSender }</span> 
+							<span class="subject">${email.rcvMailTitle }</span>
+							<span class="date">${email.rcvMailDate}</span>
+						</div>
+					</a>
 				</c:forEach>
 			<input type="hidden" id="contextPath" value="${path}">
 			</div>
@@ -181,9 +187,9 @@ body {
 	<script src="${path }/resources/js/mail.js"></script>
 </body>
 <script>
+
 	const empId = "${loginMember.empId}";
 	console.log(empId);
-	//var contextPath = document.getElementById("contextPath").value;
 	var contextPath = "${path}";
 	console.log(contextPath);  
 	
