@@ -34,8 +34,9 @@ public class MainController {
 		model.addAttribute("loginMember",employee);
 		
 		model.addAttribute("approvalCount",approvalService.selectMyApprovalCount(Map.of("empId",employee.getEmpId(),"apvStatus","0")));
-		
+		model.addAttribute("approval",approvalService.selectMyApproval(Map.of("cPage",1,"numPerpage",5), Map.of("empId",employee.getEmpId(),"apvStatus","0")));
 		model.addAttribute("attendance",attendanceService.selectAttendance(employee.getEmpId()));
+		
 		
 	
 //		approvalService.selectMyApproval(null, null);

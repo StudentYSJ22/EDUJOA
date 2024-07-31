@@ -46,7 +46,7 @@ public class SecurityConfig {
 				// 다른 도메인에서 접근할 때 Security가 PreFlightRequest를 허용하도록 설정
 				.requestMatchers(req -> CorsUtils.isPreFlightRequest(req)).permitAll()
 				// 로그인 페이지에 대한 접근을 허용
-				.requestMatchers("/login.do","/member/loginpage").permitAll()
+				.requestMatchers("/login.do","/member/loginpage","/find-password","/findempid").permitAll()
 				// 루트와 특정 경로에 대한 접근을 허용
 				.requestMatchers("/resources/**","/WEB-INF/**").permitAll()
 				.requestMatchers("/employee/**","/approval/**","/chatting/**","/noticeboard/**","/webmail/**","/schedule/**").hasAnyAuthority(MyAuthority.ADMIN.name(), MyAuthority.TEAMLEADER.name(), MyAuthority.MANAGER.name())

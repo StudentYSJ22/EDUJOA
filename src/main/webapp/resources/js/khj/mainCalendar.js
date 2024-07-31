@@ -1,9 +1,13 @@
 var thisMonthSchedules = [];
+var thisDaySchedules = [];
 
 $(document).ready(function() {
 	var calendarEl = document.getElementById('calendar');
     var dateObject = new Date();
     var thisMonth = dateObject.getMonth() + 1;
+    var thisDay = dateObject.getDate();
+    
+    let empId = '${loginMember.empId}';
 	$.ajax({
                 url: path + '/schedule/events',
                 type: 'GET',
@@ -13,6 +17,9 @@ $(document).ready(function() {
                     var responseEvents = response.map(function(event) {
 						if (parseInt(event.schStart.substring(5, 7)) === thisMonth || parseInt(event.schEnd.substring(5, 7)) === thisMonth) {
 							thisMonthSchedules.push(event);
+						}
+						if(parseInt(event.schStart.substring(8, 10)) == thisDay){
+							thisDaySchedules.push(event);
 						}
                         return {
                             id: event.schId,
@@ -54,10 +61,13 @@ $(document).ready(function() {
         
         calendar.render();
         
+        //메인페이지에서 현재 날짜 출력하는 로직
         const thisMonthSchedulesElement = document.getElementById('thisMonthSchedules');
-        thisMonthSchedules.forEach(schedule => {
+        thisDaySchedules.forEach(schedule => {
 			const scheduleElement = document.createElement('div');
-			scheduleElement.append(schedule.schTitle);
+			const time = schedule.schStart.split('T')[1].substring(0, 5);
+			const formattedTime = time.replace(':', '시') + '분';
+			scheduleElement.append(formattedTime + " " + schedule.schTitle);
 			thisMonthSchedulesElement.appendChild(scheduleElement);
 		});
                 },
