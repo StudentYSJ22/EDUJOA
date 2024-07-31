@@ -1,6 +1,5 @@
 package com.edujoa.khj.main.controller;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import com.edujoa.chs.approval.model.service.ApprovalService;
 import com.edujoa.khj.main.service.MailMainService;
 import com.edujoa.khj.main.service.MainAttendanceService;
 import com.edujoa.ssz.webmail.model.dto.Mail;
+import com.edujoa.ssz.webmail.model.service.MailService;
 import com.edujoa.with.employee.model.dto.Employee;
 import com.edujoa.ysj.schedule.model.service.ScheduleService;
 
@@ -28,21 +28,19 @@ public class MainController {
 	private final ApprovalService approvalService;
 	private final ScheduleService scheduleService;
 	private final MainAttendanceService attendanceService;
+	private final MailService webmailService;
 	
 	@GetMapping("/")
 	public String index(Model model, @AuthenticationPrincipal Employee employee) {
-		model.addAttribute("loginMember",employee);
 		
+		model.addAttribute("loginMember",employee);		
 		model.addAttribute("approvalCount",approvalService.selectMyApprovalCount(Map.of("empId",employee.getEmpId(),"apvStatus","0")));
 		model.addAttribute("approval",approvalService.selectMyApproval(Map.of("cPage",1,"numPerpage",5), Map.of("empId",employee.getEmpId(),"apvStatus","0")));
 		model.addAttribute("attendance",attendanceService.selectAttendance(employee.getEmpId()));
+		model.addAttribute("mail",webmailService.selectReceivedMails());
 		
 		
-	
-//		approvalService.selectMyApproval(null, null);
-//		
-//		scheduleService.		
-		
+
 		return "index";
 	}
 	

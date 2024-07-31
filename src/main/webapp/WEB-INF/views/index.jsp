@@ -265,11 +265,11 @@
 				</div>
 			</div>
 			<div class="aprv-mail">
-				<c:forEach var="a" items="${approval }">
+				<c:forEach var="a" items="${mail }">
 					<ul class="aprv-ul">
-						<li>${a.apvTitle }</li>
-						<li>${a.apvTitle }</li>						
-						<li>${a.apvDate }</li>
+						<li>${mail.rcvMailTitle}</li>
+						<li>${mail.rcvMailSender }</li>						
+						<li>${mail.rcvMailDate}</li>
 					</ul>
 				</c:forEach>
 		
