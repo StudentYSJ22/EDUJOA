@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class MailAttachment {
 	private String fileName;
     private String contentType;
-    private byte[] content;
+    private String fileUrl;
 	
 }
