@@ -1,13 +1,15 @@
 package com.edujoa.ysj.attendance.model.service;
 
-import com.edujoa.ysj.attendance.model.dto.Attendance;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import com.edujoa.ysj.attendance.model.dto.Attendance;
+
 public interface AttendanceService {
 
-	// 특정 직원의 출퇴근 기록을 조회 (페이징 및 상태 필터링)
+    // 특정 직원의 출퇴근 기록을 조회 (페이징 및 상태 필터링)
     List<Attendance> getRecordsByEmpId(String empId, int cPage, int numPerpage, String status);
     
     // 특정 직원의 출퇴근 기록 총 개수를 조회 (상태 필터링)
@@ -21,4 +23,8 @@ public interface AttendanceService {
     
     // 출퇴근 요약 정보를 조회
     Map<String, Integer> getAttendanceSummary(String empId);
+    
+    // 기간별 검색
+//    List<Attendance> searchByDate(String empId, String startDate, String endDate);
+    List<Attendance> searchByDate(String empId, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }
