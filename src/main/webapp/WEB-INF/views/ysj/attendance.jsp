@@ -11,7 +11,7 @@
 
 <div class="container mt-5">
   <!-- 휴가 Summary -->
- <div class="container mt-5">
+  <div class="container mt-5">
     <div class="summary-container">
         <h2>휴가 Summary</h2>
         <div class="summary-grid">
@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-</div>
+  </div>
 
   <!-- 출퇴근 Summary -->
   <div class="summary-container">
@@ -57,12 +57,22 @@
       </div>
     </div>
   </div>
-
+  
   <!-- 근태 기록 -->
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h2>근태 기록</h2>
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>근태 기록</h2>
+          <!-- 검색 폼 추가 -->
+          <form id="searchForm" class="form-inline" onsubmit="return searchAttendance();">
+            <label for="startDate">시작일:</label>
+            <input type="date" id="startDate" name="startDate" class="form-control mx-sm-2">
+            <label for="endDate">종료일:</label>
+            <input type="date" id="endDate" name="endDate" class="form-control mx-sm-2">
+            <button type="submit" class="btn btn-primary">검색</button>
+          </form>
+        </div>
         <div class="card">
           <div class="table-responsive text-nowrap">
             <table class="table table-hover">
@@ -77,7 +87,7 @@
               <tbody id="attendance-list">
                 <c:forEach var="record" items="${records}">
                   <tr>
-           
+                    <td>${record.atnDate}</td>
                     <td>${record.atnIn}</td>
                     <td>${record.atnOut}</td>
                     <td>${record.atnStatus}</td>
