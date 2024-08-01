@@ -303,7 +303,7 @@ function getMyChatRecords(roomId, empId) {
 			if (chatHistory.length === 0) {
 				$("#chattingcontent").html("대화내용이 없습니다. 메시지를 입력하세요.");
 				if ($chattingcontent.length > 0) {
-					$chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
+					clearChatWindow();
 				}
 			} else {
 				displayChatHistory(chatHistory, chatHistory.empId);
@@ -417,7 +417,7 @@ function appendMessageWithDateCheck(message) {
         $chattingcontent.append(`<div class="date-divider" data-date="${newMessageDate.toISOString()}">---------${dateString}--------</div>`);
     }
 
-    $chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
+    
 
     createMessageHtml(message);
     $chattingcontent.scrollTop($chattingcontent[0].scrollHeight);

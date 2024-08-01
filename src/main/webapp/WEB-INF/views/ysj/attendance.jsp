@@ -1,3 +1,4 @@
+<!-- attendance.jsp  -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
@@ -58,21 +59,27 @@
     </div>
   </div>
   
+  <!-- 검색 폼 추가 -->
+  <form id="searchForm" class="form-inline" onsubmit="return searchAttendance();">
+    <label for="startDate">시작일:</label>
+    <input type="date" id="startDate" name="startDate" class="form-control mx-sm-2">
+    <label for="endDate">종료일:</label>
+    <input type="date" id="endDate" name="endDate" class="form-control mx-sm-2">
+    <button type="submit" class="btn btn-primary">검색</button>
+  </form>
+
+  <!-- 직원 근태 확인 버튼 추가 -->
+  <!-- 분기처리  -->
+  <c:if test="${loginMember.empTitle == 'J1'}">
+    <button onclick="location.href='${path}/staffAttendancePage'">직원 근태 확인</button>
+    
+  </c:if>
+
   <!-- 근태 기록 -->
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="d-flex justify-content-between align-items-center">
-          <h2>근태 기록</h2>
-          <!-- 검색 폼 추가 -->
-          <form id="searchForm" class="form-inline" onsubmit="return searchAttendance();">
-            <label for="startDate">시작일:</label>
-            <input type="date" id="startDate" name="startDate" class="form-control mx-sm-2">
-            <label for="endDate">종료일:</label>
-            <input type="date" id="endDate" name="endDate" class="form-control mx-sm-2">
-            <button type="submit" class="btn btn-primary">검색</button>
-          </form>
-        </div>
+        <h2>근태 기록</h2>
         <div class="card">
           <div class="table-responsive text-nowrap">
             <table class="table table-hover">
@@ -112,3 +119,4 @@
     var path = "${pageContext.request.contextPath}";
 </script>
 <script src="${pageContext.request.contextPath}/resources/js/ysj/attendance.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/ysj/staffAttendance.js"></script>
