@@ -108,7 +108,14 @@ public class AttendanceServiceImpl implements AttendanceService {
                 // 결근 처리 로그 출력
                 System.out.println("Employee ID: " + employee.getEmpId() + " - 결근 처리됨");
             }
+//            else {
+//                // 출근 기록이 있는 경우 상태 업데이트
+//                attendance.determineAttendanceStatus();
+//                attendanceDao.updateAttendance(session, attendance);
+//                System.out.println("Employee ID: " + employee.getEmpId() + " - 상태 업데이트됨: " + attendance.getAtnStatus());
+//            }
         }
     }
+    
 
 }
