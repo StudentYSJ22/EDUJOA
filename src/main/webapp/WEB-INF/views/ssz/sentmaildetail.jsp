@@ -105,22 +105,22 @@
         <button class="btn-delete" onclick="deleteEmail()">삭제</button>
     </div>
         <div class="email-header">
-            <h2 id="emailTitle">${email.rcvMailTitle}</h2>
-            <p class="email-metadata" id="emailSender">보낸사람: ${email.rcvMailSender}</p>
-            <p class="email-metadata">받는사람: ${email.rcvMailReceiver}</p>
-            <p class="email-metadata">참조: ${email.rcvMailCc}</p>
-            <p class="email-metadata">날짜: ${email.rcvMailDate}</p>
+            <h2 id="emailTitle">${email.mailTitle}</h2>
+            <p class="email-metadata" id="emailSender">발신인: ${email.senderEmail}</p>
+            <p class="email-metadata">수신인: ${email.sendto}</p>
+            <p class="email-metadata">참조: ${email.ccto}</p>
+            <p class="email-metadata">날짜: ${email.mailDate}</p>
             <p class="email-metadata">첨부파일: 
                 <c:choose>
-                    <c:when test="${email.rcvMailFileName != null}">
-                        <a href="${path}/resources/attachments/${email.rcvMailFileName}" target="_blank">${email.rcvMailFileName}</a>
+                    <c:when test="${email.mailContent != null}">
+                        <a href="${path}/resources/attachments/${email.mailContent}" target="_blank">${email.mailContent}</a>
                     </c:when>
                     <c:otherwise>없음</c:otherwise>
                 </c:choose>
             </p>
         </div>
         <div class="email-body"id="emailContent">
-            ${email.rcvMailContent}
+            ${email.mailContent}
         </div>
     </main>
 </div>
@@ -133,7 +133,7 @@
     var emailTitle=document.getElementById("emailTitle").textContent;
     var emailSenderRaw = document.getElementById("emailSender").textContent;
     var emailContent=document.getElementById("emailContent").textContent;
-    var emailSender = emailSenderRaw.replace("보낸사람: ", "").trim();
+    var emailSender = emailSenderRaw.replace("발신인: ", "").trim();
 </script>
 
 <div class="container-xxl flex-grow-1 container-p-y"></div>

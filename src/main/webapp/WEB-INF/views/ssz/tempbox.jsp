@@ -148,7 +148,7 @@ body {
 				<li><a href="/mailbox" id="inbox">받은메일함</a></li>
 				<li><a href="/mailbox/sentbox">보낸메일함</a></li>
 				<li><a href="#">스팸메일함</a></li>
-				<li><a href="#">임시저장함</a></li>
+				<li><a href="/mailbox/tempbox">임시저장함</a></li>
 				<li><a href="#">즐겨찾기</a></li>
 				<li><a href="/mailbox/deletebox" id="trash">삭제메일함</a></li>
 			</ul>
@@ -165,12 +165,13 @@ body {
 				<!-- 메일 아이템 -->
 				<div class="email-item">
 					<input type="checkbox" id="select-all" class="email-checkbox">
-					<span class="sender">받는 주소</span> 
+					<span class="sender">보내는 주소</span> 
 					<span class="subject">메일 제목</span> 
 					<span class="date">날짜</span>
 				</div>
 				<!-- 추가 메일 아이템 -->
 				<c:forEach items="${TempMail}" var="email">
+				<a href="/mailbox/sendtempmail?emailId=${email.mailId}" style="color: black;">
 					<div class="email-item" data-email-id="${email.mailId}">
 						<input type="checkbox" class="email-checkbox"> 
 						<span class="sender">${email.sendto}</span> 

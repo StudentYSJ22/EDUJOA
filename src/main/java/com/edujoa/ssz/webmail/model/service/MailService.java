@@ -31,4 +31,6 @@ public interface MailService {
 	List<Mail> getTempMail();
 	
 	List<Mail> getSentMail();
+	
+	Mail getSelectedSentMail(String emailId);
 }

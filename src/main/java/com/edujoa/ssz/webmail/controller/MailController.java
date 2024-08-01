@@ -86,6 +86,23 @@ public class MailController {
 	    model.addAttribute("email", email);
 	    return "/ssz/maildetail";
 	}
+	@GetMapping("/mailbox/sentmaildetail")
+	public String getSentMailDetail(@RequestParam String emailId, Model model) {
+		// emailId를 사용하여 데이터베이스에서 해당 메일 정보를 조회
+		Mail email = service.getSelectedSentMail(emailId);
+		System.out.println(email);
+		model.addAttribute("email", email);
+		return "/ssz/sentmaildetail";
+	}
+	@GetMapping("/mailbox/sendtempmail")
+	public String getSendTempMail(@RequestParam String emailId, Model model) {
+		// emailId를 사용하여 데이터베이스에서 해당 메일 정보를 조회
+		System.out.println("매개변수: "+emailId);
+		Mail email = service.getSelectedSentMail(emailId);
+		System.out.println("임시저장된 거 꺼내와야해: "+email);
+		model.addAttribute("email", email);
+		return "/ssz/sendtempmail";
+	}
 	@GetMapping("/mailbox/deletebox")
 	public String getDeletedMail(Model model) {
 		List<ReceivedMail> deletedMail = service.getDeletedMail();

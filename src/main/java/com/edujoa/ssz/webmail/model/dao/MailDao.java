@@ -33,4 +33,6 @@ public interface MailDao {
 	List<Mail> getTempMail(SqlSession session);
 	
 	List<Mail> getSentMail(SqlSession session);
+	
+	Mail getSelectedSentMail(SqlSession session, String emailId);
 }
