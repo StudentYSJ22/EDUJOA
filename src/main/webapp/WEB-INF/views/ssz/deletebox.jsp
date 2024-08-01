@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page isELIgnored="false"%>
+	<%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<c:set var="loginMember"
-	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -24,6 +23,7 @@ body {
 	display: flex;
 	width: 100%;
 	height: 100vh; /* 전체 화면을 채우도록 설정 */
+	
 }
 
 .menubar {
@@ -131,77 +131,84 @@ body {
 .subject {
 	flex: 2;
 }
-
-#refresh {
+#refresh{
 	align-self: flex-end;
 }
 </style>
 
 <body>
-	<div class="container" style="margin-top: 30px;">
+	<div class="container" style="margin-top:30px;">
 		<!-- 사이드바 -->
 		<aside class="menubar">
 			<div class="logo">
 				<button class="compose-btn">메일 쓰기</button>
 			</div>
 			<ul class="menulist">
-				<li><a href="#" id="inbox">받은메일함</a></li>
+				<li><a href="/mailbox" id="inbox">받은메일함</a></li>
 				<li><a href="/mailbox/sentbox">보낸메일함</a></li>
 				<li><a href="#">스팸메일함</a></li>
 				<li><a href="/mailbox/tempbox">임시저장함</a></li>
 				<li><a href="#">즐겨찾기</a></li>
-				<li><a href="/mailbox/deletebox" id="trash">삭제메일함</a></li>
+				<li><a href="#" id="trash">삭제메일함</a></li>
 			</ul>
 		</aside>
 		<main class="content">
 			<!-- 메일리스트 위 버튼 -->
 			<div class="toolbar">
 				<button id="delete">삭제</button>
-				<button>스팸 신고</button>
+				<button id="restore">복구</button>
 				<button id="refresh">새로고침</button>
 			</div>
 			<!-- 메일 리스트 -->
 			<div class="email-list">
 				<!-- 메일 아이템 -->
 				<div class="email-item">
-					<input type="checkbox" id="select-all" class="email-checkbox">
-					<span class="sender">보낸 사람</span> <span class="subject">메일
-						제목</span> <span class="date">날짜</span>
-				</div>
+					<input type="checkbox" id="select-all" class="email-checkbox"> 
+					<span class="sender">보낸 사람</span> 
+					<span class="subject">메일 제목</span> 
+					<span class="date">날짜</span>
+				</div>				
 				<!-- 추가 메일 아이템 -->
-				<c:forEach items="${emails}" var="email">
-					<div class="email-item ${email.rcvMailType}"
-						data-email-id="${email.rcvMailId}">
-						<input type="checkbox" class="email-checkbox"> <span
-							class="sender">${email.rcvMailSender}</span> <span
-							class="subject"> <c:choose>
-								<c:when test="${email.rcvMailRead == 0}">
-									<strong>${email.rcvMailTitle}</strong>
-								</c:when>
-								<c:otherwise>
-									${email.rcvMailTitle}
-								</c:otherwise>
-							</c:choose>
-						</span> <span class="date">${email.rcvMailDate}</span>
-					</div>
-				</c:forEach>
+				<c:forEach items="${deletedMail}" var="email">
+                    <c:if test="${email.rcvMailType == 'delete'}">
+                    <a href="${path }/mailbox/maildetail?emailId=${email.rcvMailId}" class="email-link" style="color: black;">
+                        <div class="email-item ${email.rcvMailType}" data-email-id="${email.rcvMailId}">
+                            <input type="checkbox" class="email-checkbox"> 
+                            <span class="sender">${email.rcvMailSender}</span> 
+                            <span class="subject">
+                                <c:choose>
+                                    <c:when test="${email.rcvMailRead == 0}">
+                                        <strong>${email.rcvMailTitle}</strong>
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${email.rcvMailTitle}
+                                    </c:otherwise>
+                                </c:choose>
+                            </span>
+                            <span class="date">${email.rcvMailDate}</span>
+                        </div>
+                        </a>
+                    </c:if>
+                </c:forEach>
 				<input type="hidden" id="contextPath" value="${path}">
 			</div>
 		</main>
 	</div>
-
+	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="${path }/resources/js/mail.js"></script>
+	<script src="${path }/resources/js/maildelete.js"></script>
+	<script src="${path }/resources/js/maildetail.js"></script>
 </body>
 <script>
+
 	const empId = "${loginMember.empId}";
 	console.log(empId);
-	var contextPath = "${path}";
+	var contextPath= "${path}";
 	console.log(contextPath);
 </script>
 <!-- background-color: #28a745;  -->
 <div class="container-xxl flex-grow-1 container-p-y"></div>
-<!--  style="border-top: 3px solid black; margin-top: 20px;">
+	<!--  style="border-top: 3px solid black; margin-top: 20px;">
 	<div class="footer" style="width: 100%; height: 150px;">
 		<div style="display:flex;">
 			<img src="${path }/resources/upload/edulogo.png" style="height: 80px; margin-top: 15px; margin-left: 30px;"> 

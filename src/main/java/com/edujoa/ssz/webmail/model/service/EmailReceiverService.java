@@ -135,57 +135,50 @@ public class EmailReceiverService {
 	}
 
 	private String getTextFromMessage(Message message) throws Exception {
-		Object content = message.getContent();
-
-		if (content instanceof String) {
-			return (String) content;
-		} else if (content instanceof Multipart) {
-			return getTextFromMultipart((Multipart) content);
-		} else {
-			return "Unsupported content type";
-		}
-	}
+		if (message.isMimeType("text/plain")) {
+            return message.getContent().toString();
+        } else if (message.isMimeType("multipart/*")) {
+            return getTextFromMultipart((Multipart) message.getContent());
+        }
+        return "";
+    }
 
 	private String getTextFromMultipart(Multipart multipart) throws Exception {
-		StringBuilder result = new StringBuilder();
-		int count = multipart.getCount();
-
-		for (int i = 0; i < count; i++) {
-			Part part = multipart.getBodyPart(i);
-
-			if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
-				// Handle attachment
-				result.append("[Attachment: ").append(part.getFileName()).append("]\n");
-			} else if (part.isMimeType("text/plain")) {
-				result.append(part.getContent().toString());
-			} else if (part.isMimeType("text/html")) {
-				result.append(part.getContent().toString());
-			} else if (part.isMimeType("multipart/*")) {
-				result.append(getTextFromMultipart((Multipart) part.getContent()));
-			}
-		}
-
-		return result.toString();
-	}
+		for (int i = 0; i < multipart.getCount(); i++) {
+            Part part = multipart.getBodyPart(i);
+            if (part.isMimeType("text/plain")) {
+                return part.getContent().toString();
+            } else if (part.isMimeType("multipart/*")) {
+                String result = getTextFromMultipart((Multipart) part.getContent());
+                if (!result.isEmpty()) {
+                    return result;
+                }
+            }
+        }
+        return "";
+    }
 
 	private List<MailAttachment> getAttachmentsFromMultipart(Multipart multipart) throws Exception {
 		List<MailAttachment> attachments = new ArrayList<>();
-		int count = multipart.getCount();
+        int count = multipart.getCount();
 
-		for (int i = 0; i < count; i++) {
-			Part part = multipart.getBodyPart(i);
+        for (int i = 0; i < count; i++) {
+            Part part = multipart.getBodyPart(i);
 
-			if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
-				MailAttachment attachment = MailAttachment.builder().fileName(part.getFileName())
-						.contentType(part.getContentType()).fileUrl(generateFileUrl(part.getFileName())).build();
-				attachments.add(attachment);
-			} else if (part.isMimeType("multipart/*")) {
-				attachments.addAll(getAttachmentsFromMultipart((Multipart) part.getContent()));
-			}
-		}
+            if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
+                MailAttachment attachment = MailAttachment.builder()
+                        .fileName(part.getFileName())
+                        .contentType(part.getContentType())
+                        .fileUrl(generateFileUrl(part.getFileName()))
+                        .build();
+                attachments.add(attachment);
+            } else if (part.isMimeType("multipart/*")) {
+                attachments.addAll(getAttachmentsFromMultipart((Multipart) part.getContent()));
+            }
+        }
 
-		return attachments;
-	}
+        return attachments;
+    }
 
 	private String convertFlagsToString(Flags flags) {
 		StringBuilder flagString = new StringBuilder();

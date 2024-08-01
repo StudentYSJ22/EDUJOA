@@ -3,6 +3,7 @@
 <c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <title>메일 열람</title>
 <style>
@@ -72,40 +73,67 @@
     .email-body {
         line-height: 1.6;
     }
+    .btn-group button{
+    	background-color: #4CAF50;
+    	color: white;
+    }
+    .btn-reply, .btn-delete {
+	padding: 5px 10px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 12px;
+	}.btn-delete {
+		margin-left: 10px;
+	}
 </style>
 
 <div class="container">
     <aside class="menubar">
-        <h3>메일 메뉴</h3>
         <ul class="menulist">
-            <li><a href="#">받은메일함</a></li>
+            <li><a href="/mailbox">받은메일함</a></li>
             <li><a href="#">보낸메일함</a></li>
             <li><a href="#">스팸메일함</a></li>
             <li><a href="#">임시저장함</a></li>
             <li><a href="#">즐겨찾기</a></li>
-            <li><a href="#">삭제메일함</a></li>
+            <li><a href="/mailbox/deletebox" id="trash">삭제메일함</a></li>
         </ul>
     </aside>
     <main class="email-content">
+    <div class="btn-group" style="margin-bottom:15px; width:100%;">
+    	<button class="btn-reply" onclick="replyEmail()">답장</button>
+        <button class="btn-delete" onclick="deleteEmail()">삭제</button>
+    </div>
         <div class="email-header">
-            <h2>${email.rcvMailTitle}</h2>
-            <p class="email-metadata">보낸사람: ${email.rcvMailSender}</p>
+            <h2 id="emailTitle">${email.rcvMailTitle}</h2>
+            <p class="email-metadata" id="emailSender">보낸사람: ${email.rcvMailSender}</p>
             <p class="email-metadata">받는사람: ${email.rcvMailReceiver}</p>
             <p class="email-metadata">참조: ${email.rcvMailCc}</p>
             <p class="email-metadata">날짜: ${email.rcvMailDate}</p>
-            <p class="email-metadata">첨부파일: ${email.rcvMailFileName}</p>
+            <p class="email-metadata">첨부파일: 
+                <c:choose>
+                    <c:when test="${email.rcvMailFileName != null}">
+                        <a href="${path}/resources/attachments/${email.rcvMailFileName}" target="_blank">${email.rcvMailFileName}</a>
+                    </c:when>
+                    <c:otherwise>없음</c:otherwise>
+                </c:choose>
+            </p>
         </div>
-        <div class="email-body">
+        <div class="email-body"id="emailContent">
             ${email.rcvMailContent}
         </div>
     </main>
 </div>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script src="${path}/resources/js/mail.js"></script>
+<script src="${path}/resources/js/maildetail.js"></script>
 <script>
     const empName = "${loginMember.empName}";
     const empTitle = "${loginMember.empTitle}";
+    var emailTitle=document.getElementById("emailTitle").textContent;
+    var emailSenderRaw = document.getElementById("emailSender").textContent;
+    var emailContent=document.getElementById("emailContent").textContent;
+    var emailSender = emailSenderRaw.replace("보낸사람: ", "").trim();
 </script>
 
 <div class="container-xxl flex-grow-1 container-p-y"></div>

@@ -100,6 +100,7 @@ body {
 			<button class="btn-delete">삭제</button>
 		</div>
 		<input type="hidden" id="contextPath" value="${path}">
+		<input type="hidden" id="loginId" value="${loginMember.empId }">
 	</div>
 </body>
 <script>

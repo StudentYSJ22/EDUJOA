@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.edujoa.ssz.webmail.model.dto.Mail;
 import com.edujoa.ssz.webmail.model.dto.ReceivedMail;
 
 
@@ -18,7 +19,18 @@ public interface MailDao {
 	List<ReceivedMail> selectReceivedMails(SqlSession session);
 	
 	//메일 삭제
-	int delete(SqlSession session, Map<String,String>param);
+	int delete(SqlSession session, List<Long>param);
+
+	//메일 복구
+	int restore(SqlSession session, List<Long>param);
 	
 	ReceivedMail getSelectedMail(SqlSession session, String emailId);
+	
+	List<ReceivedMail> getDeletedMail(SqlSession session);
+	
+	int saveDraft(SqlSession session, Map<String, String>param);
+	
+	List<Mail> getTempMail(SqlSession session);
+	
+	List<Mail> getSentMail(SqlSession session);
 }
