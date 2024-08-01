@@ -243,31 +243,36 @@ div {
 	align-items: center; /* 수직 중앙 정렬 */
 }
 
+.four-container:nth-child(3) .circle {
+	width: 87px;
+	height: 67px;
+}
+
 .circle-su{
-	width: 25px;
-	height: 25px;
+	width: 24px;
+	height: 24px;
 	border-radius: 50%;
 	background-color: red;
-	margin-left: 60%;
+	margin-left: 59%;
 	margin-top: 10%;
 	text-align: center;
 	color: white;
-	font-size: 17px;
-	opacity: 0.5;
+	font-size: 16px;
+	opacity: 0.8;
 	justify-content: center; /* 수평 중앙 정렬 */
 	align-items: center; /* 수직 중앙 정렬 */
 }
 
 .circle-su:hover {
-	width: 25px;
-	height: 25px;
+	width: 24px;
+	height: 24px;
 	border-radius: 50%;
 	background-color: red;
-	margin-left: 60%;
+	margin-left: 59%;
 	margin-top: 10%;
 	text-align: center;
 	color: white;
-	font-size: 17px;
+	font-size: 16px;
 	opacity: 0.8;
 	justify-content: center; /* 수평 중앙 정렬 */
 	align-items: center; /* 수직 중앙 정렬 */
@@ -288,6 +293,10 @@ div {
             height: 63px;
             margin-left: 38px; */
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.four-container:hover {
+	background: #e7eaed;
 }
 
 .emp-info-container {
