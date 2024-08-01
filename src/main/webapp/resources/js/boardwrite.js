@@ -19,14 +19,15 @@ $(document).ready(function() {
 				contentType: "application/json",
 				dataType: "json",
 				data: JSON.stringify({
-					boardId: boardId
+					boardId: boardId,
+					loginId: loginId
 				}),
 				success: function(response) {
 					if (response > 0) {
 						alert("게시글이 삭제되었습니다.");
 						window.location.href = contextPath + '/noticeboard/board';  // 게시글 목록 페이지로 이동
 					} else if (response <= 0) {
-						alert("게시글 삭제 실패!");
+						alert("게시글 삭제 권한이 없습니다. 관리자에게 문의하세요.");
 					}
 				}
 			});
