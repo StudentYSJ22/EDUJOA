@@ -302,9 +302,9 @@ function getMyChatRecords(roomId, empId) {
 			console.log(chatHistory);
 			if (chatHistory.length === 0) {
 				$("#chattingcontent").html("대화내용이 없습니다. 메시지를 입력하세요.");
-				if ($chattingcontent.length > 0) {
-					$chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
-				}
+				//if ($chattingcontent.length > 0) {
+					//$chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
+				//}
 			} else {
 				displayChatHistory(chatHistory, chatHistory.empId);
 			}
@@ -339,6 +339,7 @@ function displayChatHistory(content, empId) {
 
 // 메시지 HTML을 생성하는 함수
 function createMessageHtml(message) {
+	clearChatWindow();
     if (!message || !message.content) {
         console.error("Invalid message object:", message);
         return;
@@ -358,7 +359,7 @@ function createMessageHtml(message) {
         </div>
     `;
 
-    $chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
+    
     $chattingcontent.append(msg);
 }
 
@@ -470,6 +471,7 @@ const sendMessage = () => {
         try {
             server.send(JSON.stringify(msgObj));
             console.log("메시지 전송:", msgObj);
+            $chattingcontent.find('p:contains("대화내용이 없습니다")').remove();
             appendMessageWithDateCheck(msgObj);
             $("#msg").val("");
         } catch (error) {

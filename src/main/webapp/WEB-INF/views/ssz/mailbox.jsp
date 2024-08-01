@@ -170,20 +170,23 @@ body {
 				</div>
 				<!-- 추가 메일 아이템 -->
 				<c:forEach items="${emails}" var="email">
-					<div class="email-item ${email.rcvMailType}"
-						data-email-id="${email.rcvMailId}">
-						<input type="checkbox" class="email-checkbox"> <span
-							class="sender">${email.rcvMailSender}</span> <span
-							class="subject"> <c:choose>
-								<c:when test="${email.rcvMailRead == 0}">
-									<strong>${email.rcvMailTitle}</strong>
-								</c:when>
-								<c:otherwise>
-									${email.rcvMailTitle}
-								</c:otherwise>
-							</c:choose>
-						</span> <span class="date">${email.rcvMailDate}</span>
+				<a href="/mailbox/maildetail?emailId=${email.rcvMailId}" style="color: black;">
+					<div class="email-item ${email.rcvMailType}" data-email-id="${email.rcvMailId}">
+						<input type="checkbox" class="email-checkbox"> 
+						<span class="sender">${email.rcvMailSender}</span> 
+						<span class="subject"> 
+						<c:choose>
+							<c:when test="${email.rcvMailRead == 0}">
+								<strong>${email.rcvMailTitle}</strong>
+							</c:when>
+							<c:otherwise>
+								${email.rcvMailTitle}
+							</c:otherwise>
+						</c:choose>
+						</span> 
+						<span class="date">${email.rcvMailDate}</span>
 					</div>
+				</a>
 				</c:forEach>
 				<input type="hidden" id="contextPath" value="${path}">
 			</div>
