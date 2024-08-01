@@ -3,6 +3,8 @@ package com.edujoa.ssz.webmail.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.edujoa.ssz.webmail.model.dto.Mail;
 import com.edujoa.ssz.webmail.model.dto.ReceivedMail;
 import com.edujoa.ssz.webmail.model.service.EmailReceiverService;
 import com.edujoa.ssz.webmail.model.service.MailService;
@@ -46,11 +49,15 @@ public class MailController {
 		 return mails;
 	 }
 	 @PostMapping("/mailbox/delete")
-	 @ResponseBody
-	 public int delete(Map<String,String> param) {
-		 int result=service.delete(param);
-		 return result;
-	 }
+	    public ResponseEntity<?> deleteEmails(@RequestBody List<Long> mailIds) {
+	        System.out.println("삭제할 이메일 IDs: " + mailIds);
+	        int result = service.delete(mailIds);
+	        if (result > 0) {
+	            return ResponseEntity.ok(result);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이메일 삭제에 실패했습니다.");
+	        }
+	    }
 	
 	//페이지 이동용 메소드
 	@GetMapping("/mailbox/mailsend")
@@ -78,5 +85,45 @@ public class MailController {
 	    System.out.println(email);
 	    model.addAttribute("email", email);
 	    return "/ssz/maildetail";
+	}
+	@GetMapping("/mailbox/deletebox")
+	public String getDeletedMail(Model model) {
+		List<ReceivedMail> deletedMail = service.getDeletedMail();
+		model.addAttribute("deletedMail", deletedMail);
+		return "/ssz/deletebox";
+	}
+	@GetMapping("/mailbox/tempbox")
+	public String getTempMail(Model model) {
+		List<Mail> TempMail = service.getTempMail();
+		System.out.println("임시저장된 메일: "+TempMail);
+		model.addAttribute("TempMail", TempMail);
+		return "/ssz/tempbox";
+	}
+	@GetMapping("/mailbox/sentbox")
+	public String getSentMail(Model model) {
+		List<Mail> SentMail = service.getSentMail();
+		System.out.println("임시저장된 메일: "+SentMail);
+		model.addAttribute("SentMail", SentMail);
+		return "/ssz/sentbox";
+	}
+	@PostMapping("/mailbox/restore")
+    public ResponseEntity<?> restoreEmails(@RequestBody List<Long> mailIds) {
+        System.out.println("복구할 이메일 IDs: " + mailIds);
+        int result = service.restore(mailIds);
+        if (result > 0) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이메일 복구에 실패했습니다.");
+        }
+    }
+	@PostMapping("/mailbox/saveDraft")
+	@ResponseBody
+	public int saveDraft(@RequestBody Map<String,String> param) {
+		int result = service.saveDraft(param);
+		if(result>0) {
+			return result;
+		}else {
+			return 0;
+		}
 	}
 }

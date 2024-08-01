@@ -145,10 +145,10 @@ body {
 				<button class="compose-btn">메일 쓰기</button>
 			</div>
 			<ul class="menulist">
-				<li><a href="#" id="inbox">받은메일함</a></li>
+				<li><a href="/mailbox" id="inbox">받은메일함</a></li>
 				<li><a href="/mailbox/sentbox">보낸메일함</a></li>
 				<li><a href="#">스팸메일함</a></li>
-				<li><a href="/mailbox/tempbox">임시저장함</a></li>
+				<li><a href="#">임시저장함</a></li>
 				<li><a href="#">즐겨찾기</a></li>
 				<li><a href="/mailbox/deletebox" id="trash">삭제메일함</a></li>
 			</ul>
@@ -165,24 +165,17 @@ body {
 				<!-- 메일 아이템 -->
 				<div class="email-item">
 					<input type="checkbox" id="select-all" class="email-checkbox">
-					<span class="sender">보낸 사람</span> <span class="subject">메일
-						제목</span> <span class="date">날짜</span>
+					<span class="sender">받는 주소</span> 
+					<span class="subject">메일 제목</span> 
+					<span class="date">날짜</span>
 				</div>
 				<!-- 추가 메일 아이템 -->
-				<c:forEach items="${emails}" var="email">
-					<div class="email-item ${email.rcvMailType}"
-						data-email-id="${email.rcvMailId}">
-						<input type="checkbox" class="email-checkbox"> <span
-							class="sender">${email.rcvMailSender}</span> <span
-							class="subject"> <c:choose>
-								<c:when test="${email.rcvMailRead == 0}">
-									<strong>${email.rcvMailTitle}</strong>
-								</c:when>
-								<c:otherwise>
-									${email.rcvMailTitle}
-								</c:otherwise>
-							</c:choose>
-						</span> <span class="date">${email.rcvMailDate}</span>
+				<c:forEach items="${TempMail}" var="email">
+					<div class="email-item" data-email-id="${email.mailId}">
+						<input type="checkbox" class="email-checkbox"> 
+						<span class="sender">${email.sendto}</span> 
+						<span class="subject">${email.mailTitle}</span> 
+						<span class="date">${email.mailDate}</span>
 					</div>
 				</c:forEach>
 				<input type="hidden" id="contextPath" value="${path}">
@@ -191,7 +184,7 @@ body {
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="${path }/resources/js/mail.js"></script>
+	<!--  <script src="${path }/resources/js/mail.js"></script>-->
 </body>
 <script>
 	const empId = "${loginMember.empId}";

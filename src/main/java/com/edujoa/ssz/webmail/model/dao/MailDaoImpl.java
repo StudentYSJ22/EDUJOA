@@ -34,7 +34,7 @@ public class MailDaoImpl implements MailDao{
 	}
 
 	@Override
-	public int delete(SqlSession session, Map<String, String> param) {
+	public int delete(SqlSession session, List<Long> param) {
 		return session.update("receivedmail.updatelabeldelete", param);
 	}
 
@@ -46,8 +46,31 @@ public class MailDaoImpl implements MailDao{
 		}
 		return session.selectOne("receivedmail.getSelectedMail", emailId);
 	}
-	
-	
 
+	@Override
+	public List<ReceivedMail> getDeletedMail(SqlSession session) {
+		return session.selectList("receivedmail.getDeletedMail");
+	}
+
+	@Override
+	public int restore(SqlSession session, List<Long> param) {
+		// TODO Auto-generated method stub
+		return session.update("receivedmail.updatelabelinbox", param);
+	}
+
+	@Override
+	public int saveDraft(SqlSession session, Map<String, String> param) {
+		return session.insert("mail.insertTempMail", param);
+	}
+
+	@Override
+	public List<Mail> getTempMail(SqlSession session) {
+		return session.selectList("mail.getTempMail");
+	}
+
+	@Override
+	public List<Mail> getSentMail(SqlSession session) {
+		return session.selectList("mail.getSentMail");
+	}
 	
 }

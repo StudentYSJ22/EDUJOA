@@ -17,7 +17,18 @@ public interface MailService {
 	List<ReceivedMail> selectReceivedMails();
 	
 	//메일 삭제 라벨
-	int delete(Map<String,String>param);
+	int delete(List<Long> param);
+
+	//메일 복구 라벨
+	int restore(List<Long> param);
 	
 	ReceivedMail getSelectedMail(String emailId);
+	
+	List<ReceivedMail> getDeletedMail();
+	
+	int saveDraft(Map<String, String>param);
+	
+	List<Mail> getTempMail();
+	
+	List<Mail> getSentMail();
 }
