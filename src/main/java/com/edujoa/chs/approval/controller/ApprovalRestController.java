@@ -376,7 +376,7 @@ public class ApprovalRestController {
 			if(result<0) { 
 				File delFile=new File(path + rename); if(delFile.exists())
 				delFile.delete(); 
-				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				throw new Exception();
 			}
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
