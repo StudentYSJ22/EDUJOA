@@ -166,8 +166,8 @@
 			<div class="hj">
 				<div class="mini2-first-container">
 					<div class="four-container">
-						<a href="test.html"><div class="circle-su";>5</div></a> <a
-							href="test.html"><div class="circle"
+						<a href="${pageContext.request.contextPath}/mailbox"><div class="circle-su";>5</div></a> <a
+							href="${pageContext.request.contextPath}/mailbox"><div class="circle"
 								style="background-image: url(${pageContext.request.contextPath}/resources/images/mail.png");></div></a>
 						<div class="circle-info"></div>
 					</div>
@@ -238,13 +238,14 @@
 				<div class="myaprv">상태</div>
 				<div class="myaprv">기안일</div>
 			</div>
+			<div class="approval-border-line"></div>
 			<div class="aprv-mail">
 				<c:forEach var="a" items="${approval }">
-					<ul class="aprv-ul">
+					<ul class="aprv-ul2">
 						<li><c:if test="${a.apvType == 0 }">휴가신청서</c:if> <c:if
 								test="${a.apvType == 1 }">품의서</c:if> <c:if
 								test="${a.apvType == 2 }">지출결의서</c:if></li>
-						<li class="apv-title-short">${a.apvTitle}</li>
+						<li class="aprv-ul-title">${a.apvTitle}</li>
 						<li><c:if test="${a.apvStatus == 0 }">진행 중</c:if> <c:if
 								test="${a.apvStatus == 1 }">반려</c:if> <c:if
 								test="${a.apvStatus == 2 }">결재완료</c:if></li>
@@ -258,21 +259,21 @@
 				<b>받은메일함</b>
 			</div>
 			<div class="mymailtitle-container">
-				<div class="mymail-container">
-					<div class="mymail">제 목</div>
-					<div class="mymail">송신인</div>
-					<div class="mymail">수신일</div>
-				</div>
+				<ul class="aprv-ul">
+					<li class="mymail">제 목</li>
+					<li class="mymail">송신인</li>
+					<li class="mymail">수신일</li>
+				</ul>
 			</div>
+			<div class="border-line"></div>
 			<div class="aprv-mail">
-				<c:forEach var="a" items="${mail }">
+				<c:forEach var="m" items="${mails }">					
 					<ul class="aprv-ul">
-						<li>${mail.rcvMailTitle}</li>
-						<li>${mail.rcvMailSender }</li>						
-						<li>${mail.rcvMailDate}</li>
+						<li class="aprv-ul-title">${m.rcvMailTitle}</li>
+						<li>${m.rcvMailSender }</li>						
+						<li>${m.rcvMailDate}</li>
 					</ul>
 				</c:forEach>
-		
 
 			</div>
 		</div>

@@ -65,9 +65,15 @@ $(document).ready(function() {
         const thisMonthSchedulesElement = document.getElementById('thisMonthSchedules');
         thisDaySchedules.forEach(schedule => {
 			const scheduleElement = document.createElement('div');
+			scheduleElement.classList.add('schedule-list');
+			const $p = document.createElement('p');
+			const $p2 = document.createElement('p');
 			const time = schedule.schStart.split('T')[1].substring(0, 5);
 			const formattedTime = time.replace(':', '시') + '분';
-			scheduleElement.append(formattedTime + " " + schedule.schTitle);
+			$p.append(formattedTime);
+			$p2.append(schedule.schTitle);
+			scheduleElement.appendChild($p);
+			scheduleElement.appendChild($p2);
 			thisMonthSchedulesElement.appendChild(scheduleElement);
 		});
                 },

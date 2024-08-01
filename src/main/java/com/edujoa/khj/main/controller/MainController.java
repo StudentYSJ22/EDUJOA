@@ -1,5 +1,6 @@
 package com.edujoa.khj.main.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.edujoa.chs.approval.model.service.ApprovalService;
 import com.edujoa.khj.main.service.MailMainService;
 import com.edujoa.khj.main.service.MainAttendanceService;
 import com.edujoa.ssz.webmail.model.dto.Mail;
+import com.edujoa.ssz.webmail.model.dto.ReceivedMail;
 import com.edujoa.ssz.webmail.model.service.MailService;
 import com.edujoa.with.employee.model.dto.Employee;
 import com.edujoa.ysj.schedule.model.service.ScheduleService;
@@ -37,7 +39,9 @@ public class MainController {
 		model.addAttribute("approvalCount",approvalService.selectMyApprovalCount(Map.of("empId",employee.getEmpId(),"apvStatus","0")));
 		model.addAttribute("approval",approvalService.selectMyApproval(Map.of("cPage",1,"numPerpage",5), Map.of("empId",employee.getEmpId(),"apvStatus","0")));
 		model.addAttribute("attendance",attendanceService.selectAttendance(employee.getEmpId()));
-		model.addAttribute("mail",webmailService.selectReceivedMails());
+		List<ReceivedMail> mails = webmailService.selectReceivedMails();
+		
+		model.addAttribute("mails",mails);
 		
 		
 
