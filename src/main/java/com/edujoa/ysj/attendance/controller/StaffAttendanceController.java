@@ -1,8 +1,8 @@
 package com.edujoa.ysj.attendance.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,16 +32,27 @@ public class StaffAttendanceController {
         // 오늘 날짜의 전체 직원 근태 현황
         List<StaffAttendance> staffAttendanceRecords = staffService.getTodayStaffAttendance();
 
-        // 오늘 날짜의 직원 근태 요약 정보
-        Map<String, Integer> summary = staffService.getTodayStaffAttendanceSummary();
+        // 응답 데이터를 Map에 추가
+        Map<String, Object> response = new HashMap<>();
+        response.put("records", staffAttendanceRecords);
+
+        System.out.println("Response Data: " + response);
+
+        return ResponseEntity.ok(response); // JSON 응답
+    }
+
+    @GetMapping("/api/allStaffAttendance")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getAllStaffAttendanceData() {
+        // 전체 직원 근태 현황
+        List<StaffAttendance> staffAttendanceRecords = staffService.getAllStaffAttendance();
 
         // 응답 데이터를 Map에 추가
         Map<String, Object> response = new HashMap<>();
         response.put("records", staffAttendanceRecords);
-        response.put("summary", summary);
-        
+
         System.out.println("Response Data: " + response);
 
-        return ResponseEntity.ok(response); // JSON 응답 
+        return ResponseEntity.ok(response); // JSON 응답
     }
 }

@@ -13,25 +13,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class StaffAttendance {
-	 private String empId;
-	    private String empName;
-	    private LocalDate atnDate;
-	    private LocalTime atnIn;
-	    private LocalTime atnOut;
-	    private String atnStatus;
+    private String empId;
+    private String empName;
+    private LocalDate atnDate;
+    private LocalTime atnIn;
+    private LocalTime atnOut;
+    private String atnStatus;
 
-	    public void calculateStatus() {
-	        if (atnIn == null && atnOut == null) {
-	            this.atnStatus = "결근";
-	        } else if (atnIn.isBefore(LocalTime.of(9, 0))) {
-	            this.atnStatus = "출근";
-	        } else if (atnIn.isAfter(LocalTime.of(9, 0))) {
-	            this.atnStatus = "지각";
-	        } else if (atnOut != null && atnOut.isBefore(LocalTime.of(18, 0))) {
-	            this.atnStatus = "조퇴";
-	        } else {
-	            this.atnStatus = "정상";
-	        }
-	    }
-
+    public void calculateStatus() {
+        if (atnIn == null) {
+            this.atnStatus = "결근";
+        } else if (atnIn.isBefore(LocalTime.of(9, 0))) {
+            this.atnStatus = "출근";
+        } else {
+            this.atnStatus = "지각";
+        }
+    }
 }

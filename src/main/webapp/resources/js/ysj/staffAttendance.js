@@ -1,8 +1,50 @@
 $(document).ready(function() {
     // 페이지 로딩 시 직원 근태 정보 가져오기
-    loadStaffAttendance();
+    loadAllStaffAttendance();
 
-    function loadStaffAttendance() {
+    function loadAllStaffAttendance() {
+        $.ajax({
+            url: path + '/api/allStaffAttendance',
+            method: 'GET',
+            success: function(data) {
+                $('#attendanceTable tbody').empty(); // 기존 테이블 내용 비우기
+                if (data.records) {
+                    data.records.forEach(function(attendance) {
+                        if (attendance && attendance.empId) {
+                            var status = calculateStatus(attendance);
+                            $('#attendanceTable tbody').append(
+                                '<tr>' +
+                                '<td>' + (attendance.empId || '') + '</td>' +
+                                '<td>' + (attendance.empName || '') + '</td>' +
+                                '<td>' + (attendance.atnDate || '') + '</td>' +
+                                '<td>' + (attendance.atnIn || '') + '</td>' +
+                                '<td>' + (attendance.atnOut || '') + '</td>' +
+                                '<td>' + status + '</td>' +
+                                '</tr>'
+                            );
+                        }
+                    });
+                }
+            },
+            error: function(err) {
+                console.error('Failed to load staff attendance data:', err);
+            }
+        });
+    }
+
+    function calculateStatus(attendance) {
+        if (!attendance.atnIn) {
+            return '결근';
+        } else if (new Date(attendance.atnIn).getHours() < 9) {
+            return '출근';
+        } else {
+            return '지각';
+        }
+    }
+});
+
+
+    /*function loadStaffAttendance() {
         $.ajax({
             url: path + '/api/staffAttendance',
             method: 'GET',
@@ -36,9 +78,13 @@ $(document).ready(function() {
                 console.error('Failed to load staff attendance data:', err);
             }
         });
-    }
+    }*/
+    
+   
 
-    function calculateStatus(attendance) {
+
+
+    /*function calculateStatus(attendance) {
         if (!attendance.atnIn && !attendance.atnOut) {
             return '결근';
         } else if (attendance.atnIn && new Date(attendance.atnIn).getHours() < 9) {
@@ -52,3 +98,4 @@ $(document).ready(function() {
         }
     }
 });
+*/

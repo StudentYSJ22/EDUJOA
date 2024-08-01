@@ -10,28 +10,6 @@
 
 <div class="container mt-5">
     <h2> 직원 근태 현황</h2>
-    <div class="summary-container">
-        <h2>오늘의 직원 출퇴근 Summary</h2>
-        <div class="summary-grid">
-            <div class="summary-item active">
-                <div class="icon">&#128188;</div>
-                <div class="text">전체<br><span id="totalCount">0명</span></div>
-            </div>
-            <div class="summary-item">
-                <div class="icon purple">&#128188;</div>
-                <div class="text">출근<br><span id="onTimeCount">0명</span></div>
-            </div>
-            <div class="summary-item">
-                <div class="icon grey">&#128188;</div>
-                <div class="text">지각<br><span id="lateCount">0명</span></div>
-            </div>
-            <div class="summary-item">
-                <div class="icon blue">&#128188;</div>
-                <div class="text">결근<br><span id="absentCount">0명</span></div>
-            </div>
-        </div>
-    </div>
-  
     <table id="attendanceTable" class="table table-striped mt-3">
         <thead>
             <tr>
