@@ -21,12 +21,11 @@ public class FindEmpIdController {
 	 */
 	
 
-	/*
-	 * @GetMapping("/findempid") public String findId(String email, Model model) {
-	 * String empId = Service.findId(email); if (empId != null) {
-	 * model.addAttribute("empId", empId); } else { model.addAttribute("empId",
-	 * "일치하는 이메일이 없습니다."); } return "index"; }
-	 */
+	
+	  @GetMapping("/findempid") public String findId(String email, Model model) {
+		  return null;
+	  }
+	 
 
     @GetMapping("/find-password")
     public String findPasswordForm() {
