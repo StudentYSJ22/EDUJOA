@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    var originalRecords = [];
+
     // 페이지 로딩 시 직원 근태 정보 가져오기
     loadAllStaffAttendance();
 
@@ -7,29 +9,34 @@ $(document).ready(function() {
             url: path + '/api/allStaffAttendance',
             method: 'GET',
             success: function(data) {
-                $('#attendanceTable tbody').empty(); // 기존 테이블 내용 비우기
-                if (data.records) {
-                    data.records.forEach(function(attendance) {
-                        if (attendance && attendance.empId) {
-                            var status = calculateStatus(attendance);
-                            $('#attendanceTable tbody').append(
-                                '<tr>' +
-                                '<td>' + (attendance.empId || '') + '</td>' +
-                                '<td>' + (attendance.empName || '') + '</td>' +
-                                '<td>' + (attendance.atnDate || '') + '</td>' +
-                                '<td>' + (attendance.atnIn || '') + '</td>' +
-                                '<td>' + (attendance.atnOut || '') + '</td>' +
-                                '<td>' + status + '</td>' +
-                                '</tr>'
-                            );
-                        }
-                    });
-                }
+                originalRecords = data.records || [];
+                renderAttendanceTable(originalRecords);
             },
             error: function(err) {
                 console.error('Failed to load staff attendance data:', err);
             }
         });
+    }
+
+    function renderAttendanceTable(records) {
+        $('#attendanceTable tbody').empty(); // 기존 테이블 내용 비우기
+        if (records) {
+            records.forEach(function(attendance) {
+                if (attendance && attendance.empId) {
+                    var status = calculateStatus(attendance);
+                    $('#attendanceTable tbody').append(
+                        '<tr>' +
+                        '<td>' + (attendance.empId || '') + '</td>' +
+                        '<td>' + (attendance.empName || '') + '</td>' +
+                        '<td>' + (attendance.atnDate || '') + '</td>' +
+                        '<td>' + (attendance.atnIn || '') + '</td>' +
+                        '<td>' + (attendance.atnOut || '') + '</td>' +
+                        '<td>' + status + '</td>' +
+                        '</tr>'
+                    );
+                }
+            });
+        }
     }
 
     function calculateStatus(attendance) {
@@ -41,61 +48,55 @@ $(document).ready(function() {
             return '지각';
         }
     }
-});
 
+    window.searchStaffAttendance = function() {
+        var empId = $('#empId').val();
+        var empName = $('#empName').val();
+        var status = $('#status').val();
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
 
-    /*function loadStaffAttendance() {
         $.ajax({
-            url: path + '/api/staffAttendance',
+            url: path + '/api/allStaffAttendance',
             method: 'GET',
+            data: {
+                empId: empId,
+                empName: empName,
+                status: status,
+                startDate: startDate,
+                endDate: endDate
+            },
             success: function(data) {
-                $('#attendanceTable tbody').empty(); // 기존 테이블 내용 비우기
-                if (data.records) {
-                    data.records.forEach(function(attendance) {
-                        var status = calculateStatus(attendance);
-                        $('#attendanceTable tbody').append(
-                            '<tr>' +
-                            '<td>' + attendance.empId + '</td>' +
-                            '<td>' + attendance.empName + '</td>' +
-                            '<td>' + attendance.atnDate + '</td>' +
-                            '<td>' + attendance.atnIn + '</td>' +
-                            '<td>' + attendance.atnOut + '</td>' +
-                            '<td>' + status + '</td>' +
-                            '</tr>'
-                        );
-                    });
-                }
-
-                if (data.summary) {
-                    $('#totalCount').text(data.summary.total + "명");
-                    $('#onTimeCount').text(data.summary.onTime + "명");
-                    $('#lateCount').text(data.summary.late + "명");
-                    $('#absentCount').text(data.summary.absent + "명");
-                    $('#earlyLeaveCount').text(data.summary.earlyLeave + "명");
-                }
+                originalRecords = data.records || [];
+                renderAttendanceTable(originalRecords);
             },
             error: function(err) {
-                console.error('Failed to load staff attendance data:', err);
+                console.error('Failed to search staff attendance data:', err);
             }
         });
-    }*/
-    
-   
+    }
 
+    window.sortStaffAttendance = function() {
+        var sortOrder = $('#sortOrder').val();
+        var sortedRecords = originalRecords.slice(); // 원본 배열을 복사하여 사용
 
-
-    /*function calculateStatus(attendance) {
-        if (!attendance.atnIn && !attendance.atnOut) {
-            return '결근';
-        } else if (attendance.atnIn && new Date(attendance.atnIn).getHours() < 9) {
-            return '출근';
-        } else if (attendance.atnIn && new Date(attendance.atnIn).getHours() >= 9) {
-            return '지각';
-        } else if (attendance.atnOut && new Date(attendance.atnOut).getHours() < 18) {
-            return '조퇴';
+        if (sortOrder === '') {
+            // 기본 정렬 (원본 순서)
+            sortedRecords = originalRecords;
         } else {
-            return '정상';
+            sortedRecords.sort(function(a, b) {
+                if (sortOrder === 'nameAsc') {
+                    return a.empName.localeCompare(b.empName);
+                } else if (sortOrder === 'nameDesc') {
+                    return b.empName.localeCompare(a.empName);
+                } else if (sortOrder === 'dateAsc') {
+                    return new Date(a.atnDate) - new Date(b.atnDate);
+                } else if (sortOrder === 'dateDesc') {
+                    return new Date(b.atnDate) - new Date(a.atnDate);
+                }
+            });
         }
+
+        renderAttendanceTable(sortedRecords);
     }
 });
-*/
