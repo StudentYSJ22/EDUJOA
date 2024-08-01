@@ -18,6 +18,8 @@ public class Attendance {
     private String atnId;
     private String empId;
 
+    private LocalDate atnDate; 
+
     //@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime atnIn;
 
@@ -34,37 +36,12 @@ public class Attendance {
         return Timestamp.valueOf(this.atnOut);
     }
 
-//    public void determineAttendanceStatus() {
-//        LocalTime regularStartTime = LocalTime.of(9, 0);
-//        LocalTime regularEndTime = LocalTime.of(18, 0);
-//
-//        if (this.atnIn == null && this.atnOut == null) {
-//            this.atnStatus = "결근";
-//        } else if (this.atnIn != null && this.atnOut == null) {
-//            this.atnStatus = "미처리";
-//        } else if (this.atnIn != null && this.atnOut != null) {
-//            LocalTime checkInTime = this.atnIn.toLocalTime();
-//            LocalTime checkOutTime = this.atnOut.toLocalTime();
-//
-//            if (checkInTime.isAfter(regularStartTime)) {
-//                this.atnStatus = "지각";
-//            } else if (checkOutTime.isBefore(regularEndTime)) {
-//                this.atnStatus = "조퇴";
-//            } else {
-//                this.atnStatus = "출근";
-//            }
-//        }
-//    }
-    
-    
     public void determineAttendanceStatus() {
         LocalTime regularStartTime = LocalTime.of(9, 0);
         LocalTime regularEndTime = LocalTime.of(18, 0);
 
         if (this.atnIn == null && this.atnOut == null) {
             this.atnStatus = "결근";
-            this.atnIn = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0));
-            this.atnOut = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0));
         } else if (this.atnIn != null && this.atnOut == null) {
             this.atnStatus = "미처리";
         } else if (this.atnIn != null && this.atnOut != null) {

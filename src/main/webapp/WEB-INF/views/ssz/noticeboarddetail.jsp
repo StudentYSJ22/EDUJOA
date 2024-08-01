@@ -80,6 +80,22 @@ body {
 	background-color: #f44336;
 	color: white;
 }
+.edit-content {
+    width: 100%; /* 원하는 너비 설정 */
+    height: 200px; /* 원하는 높이 설정 */
+    box-sizing: border-box; /* 패딩을 포함한 너비와 높이를 설정 */
+    padding: 10px; /* 원하는 패딩 설정 */
+    font-size: 14px; /* 원하는 폰트 크기 설정 */
+    line-height: 1.5; /* 원하는 줄 간격 설정 */
+}
+.edit-title{
+	width: 80%;
+	height: 40px;
+	box-sizing: border-box; /* 패딩을 포함한 너비와 높이를 설정 */
+    padding: 10px; /* 원하는 패딩 설정 */
+    font-size: 14px; /* 원하는 폰트 크기 설정 */
+    line-height: 1.5; /* 원하는 줄 간격 설정 */
+}
 </style>
 </head>
 <body>
@@ -100,6 +116,7 @@ body {
 			<button class="btn-delete">삭제</button>
 		</div>
 		<input type="hidden" id="contextPath" value="${path}">
+		<input type="hidden" id="loginId" value="${loginMember.empId }">
 	</div>
 </body>
 <script>

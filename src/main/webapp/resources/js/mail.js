@@ -1,75 +1,101 @@
 $(document).ready(function() {
-    // Compose 버튼 클릭 시 이메일 작성 페이지로 이동
-    $(document).on('click', '.compose-btn', function() {
-        window.location.href = contextPath + '/mailbox/mailsend';
-    });
+	// 기본적으로 'inbox' 타입의 메일을 보여줍니다.
+	$('.email-item').each(function() {
+		if ($(this).hasClass('delete')) {
+			$(this).hide();
+		}
+	});
 
-    $(document).on('click', '.compose-btn', function() {
-        window.location.href = contextPath + '/mailbox/mailsend';
-    });
+	$('#inbox').click(function() {
+		$('.email-item').show(); // 모든 메일 항목을 표시
+	});
 
-    // 버튼 레이블 업데이트 함수
-    function updateActionButton(label) {
-        $('#actionBtn').text(label);
-    }
+	$('#trash').click(function() {
+		$('.email-item').hide(); // 모든 메일 항목을 숨김
+		$('.email-item.delete').show(); // 삭제된 메일만 표시
+	});
+	// Compose 버튼 클릭 시 이메일 작성 페이지로 이동
+	$(document).on('click', '.compose-btn', function() {
+		window.location.href = '/mailbox/mailsend';
+	});
 
-    // 이메일 폴더 로드 함수
-    function loadEmails(folder) {
-        $.ajax({
-            url: contextPath + '/mailbox/' + folder,
-            method: 'GET',
-            success: function(data) {
-                $('.email-list').html(data);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error loading emails:', status, error);
+	$('#select-all').change(function() {
+		// 전체 선택 체크박스가 체크되었는지 확인
+		var isChecked = $(this).is(':checked');
+		// 모든 이메일 체크박스의 상태를 변경
+		$('.email-checkbox').prop('checked', isChecked);
+	});
+
+	$("#delete").click(function() {
+		// 선택된 이메일 ID들을 가져옴
+		let selectedEmails = [];
+		$(".email-checkbox:checked").each(function() {
+			let emailId = $(this).closest('.email-item').data('email-id');
+			if (emailId !== undefined) { // emailId가 undefined가 아닌 경우에만 추가
+                selectedEmails.push(emailId);
             }
-        });
-    }
+		});
 
-    // 받은메일함 클릭 시
-    $('#inbox').click(function() {
-        loadEmails('inbox');
-        updateActionButton('삭제');
-    });
+		if (selectedEmails.length === 0) {
+			alert("삭제할 이메일을 선택해주세요.");
+			return;
+		}
 
-    // 삭제메일함 클릭 시
-    $('#trash').click(function() {
-        loadEmails('trash');
-        updateActionButton('복구');
-    });
+		console.log("Selected Email IDs:", selectedEmails); // 디버깅용 로그
+		$.ajax({
+			type: "POST",
+			url: "/mailbox/delete",
+			contentType: "application/json",
+			data: JSON.stringify(selectedEmails),
+			dataType: "json",
+			success: function(response) {
+				console.log("Server Response:", response); // 디버깅용 로그
+				if (response > 0) {
+					alert("선택한 이메일이 삭제되었습니다.");
+					window.location.reload();
+				} else if (response <= 0) {
+					alert("이메일 삭제에 실패했습니다.")
+				}
+			}
+		});
+	});
 
-    // 삭제 및 복구 버튼 클릭 시
-    $('#actionBtn').click(function() {
-        let action = $(this).text() === '삭제' ? 'delete' : 'restore';
-        let selectedEmails = [];
-        $('.email-checkbox:checked').each(function() {
-            selectedEmails.push($(this).closest('.email-item').data('email-id'));
-        });
 
-        $.ajax({
-            url: contextPath + '/mailbox/' + action,
-            method: 'POST',
-            data: JSON.stringify({ emails: selectedEmails }),
-            contentType: 'application/json',
-            success: function() {
-                if (action === 'delete') {
-                    // 선택된 이메일을 삭제메일함으로 이동
-                    $('.email-checkbox:checked').each(function() {
-                        $(this).closest('.email-item').removeClass('inbox').addClass('trash').hide();
-                    });
-                } else {
-                    // 선택된 이메일을 받은메일함으로 이동
-                    $('.email-checkbox:checked').each(function() {
-                        $(this).closest('.email-item').removeClass('trash').addClass('inbox').hide();
-                    });
-                    // 삭제메일함을 다시 로드하여 복구된 이메일을 제거
-                    loadEmails('trash');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error updating emails:', status, error);
-            }
-        });
-    });
+	$("#refresh").click(function() {
+		$.ajax({
+			type: "POST",
+			url: "/mailbox/refresh",
+			success: function(emails) {
+				$('.email-list').empty();
+				emails.forEach(function(email) {
+					let subjectHtml = email.mailRead === 0
+						? `<strong>${email.rcvMailTitle}</strong>`
+						: email.rcvMailTitle;
+					//백틱안에 변수 쓰려면 ${}에 감싸야함
+					let emailItem = `                   
+                    <a href="${contextPath}/mailbox/maildetail?emailId=${email.rcvMailId}" class="email-link" style="color: black;">
+                        <div class="email-item inbox" data-email-id="${email.rcvMailId}">
+                            <input type="checkbox" class="email-checkbox"> 
+                            <span class="sender">${email.rcvMailSender}</span> 
+                            <span class="subject">${subjectHtml}</span>
+                            <span class="date">${email.rcvMailDate}</span>
+                        </div>
+                    </a>
+                    `;
+					$('.email-list').append(emailItem);
+				});
+				console.log("메일 목록이 성공적으로 새로고침되었습니다.");
+				// 페이지를 새로 고침
+				window.location.reload();
+			},
+			error: function(error) {
+				// 에러 시 처리할 로직
+				alert("메일 목록 새로고침 중 오류가 발생했습니다.");
+			}
+		});
+	});
+
+	$(document).on('click', '.email-checkbox', function(event) {
+		event.stopPropagation();
+	});
 });
