@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="loginTest">
+	<resultMap type="chslogin" id="loginMap">
+		<id column="emp_id" property="empId"/>
+		<result column="emp_name" property="empName"/>
+		<result column="emp_password" property="empPassword"/>
+		<result column="emp_email" property="empEmail"/>
+		<result column="emp_title" property="empTitle"/>
+		<result column="emp_hiredate" property="empHireDate"/>
+		<result column="emp_yn" property="empYn"/>
+		<result column="emp_address" property="empAddress"/>
+	</resultMap>
+	<select id="login" parameterType="chslogin" resultMap="loginMap">
+		SELECT * FROM EMPLOYEE WHERE EMP_ID = #{empId}
+	</select>	
+	<select id="loginMember" parameterType="map" resultMap="loginMap">
+		SELECT * FROM EMPLOYEE WHERE EMP_ID = #{username}
+	</select>	
+</mapper>

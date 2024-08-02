@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="employee">
+
+	<!-- 직원에 대한 Sql문 -->
+	<sql id="employeeSql">
+		e.emp_id AS e_emp_id,
+		e.emp_name AS e_emp_name,
+		e.emp_password as e_emp_password,
+		e.emp_email as e_emp_email,
+		e.emp_title as e_emp_title,
+		e.emp_hiredate as e_emp_hireadte,
+		e.emp_yn as e_emp_yn,
+		e.emp_address as e_emp_address,
+		e.emp_rvacation as e_emp_rvacation,
+		e.emp_profile as e_emp_profile,
+		e.emp_tvacation as e_emp_tvacation,
+		e.emp_salary as e_emp_salary,
+		e.emp_annualsal as e_emp_annualsal,
+		e.emp_status as e_status,
+		e.emp_bank as e_emp_bank,
+		e.emp_account as e_emp_account,
+		e.oriname as e_oriname,
+		e.emp_retire_date as e_emp_retire_date
+	</sql>
+	<!-- 직원에 대한 Sql문 -->
+	<sql id="alarmSql">
+		ala.alarm_id as ala_alarm_id,
+		ala.emp_id as ala_emp_id,
+		ala.alarm_read as ala_alarm_read,
+		ala.alarm_date as ala_alarm_date,
+		ala.alarm_type as ala_alarm_type,
+		ala.alarm_content as ala_alarm_content
+	</sql>	
+	
+	<!-- 직원에 대한 resultMap -->
+	<resultMap id="employeeMap" type="employee">
+		<id column="e_emp_id" property="empId"/>
+		<result column="e_emp_name" property="empName"/>
+		<result column="e_emp_password" property="empPassword"/>
+		<result column="e_emp_email" property="empEmail"/>
+		<result column="e_emp_title" property="empTitle"/>
+		<result column="e_emp_hireadte" property="empHireDate"/>
+		<result column="e_emp_yn" property="empYn"/>
+		<result column="e_emp_profile" property="empProfile"/>
+		<result column="e_emp_address" property="empAddress"/>
+		<result column="e_emp_rvacation" property="empRvacation"/>
+		<result column="e_emp_tvacation" property="empTvacation"/>
+		<result column="e_emp_salary" property="empSalary"/>
+		<result column="e_emp_annualsal" property="empAnnualSal"/>
+		<result column="e_status" property="status"/>
+		<result column="e_emp_bank" property="empBank"/>
+		<result column="e_emp_account" property="empAccount"/>
+		<result column="e_oriname" property="oriname"/>
+		<result column="e_emp_retire_date" property="empRetireDate"/>
+		<collection property="alarm" resultMap="alarmMap"/>
+	</resultMap>
+	<!-- 알람에 대한 resultMap -->
+	<resultMap id="alarmMap" type="alarm">
+		<id column="ala_alarm_id" property="alarmId"/>
+			<result column="ala_emp_id" property="empId"/>
+			<result column="ala_alarm_read" property="alarmRead"/>
+			<result column="ala_alarm_date" property="alarmDate"/>
+			<result column="ala_alarmType" property="alarmType"/>
+			<result column="ala_alarm_content" property="alarmContent"/>
+	</resultMap>
+	<!-- ======================================================================================= -->
+	<!--  모든 사원의 대한 총원 조회      이름, 재직여부, 직책으로 조건 검색 가능 -->
+	<select id="selectEmployeeCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM EMPLOYEE e
+		<where>
+			e.EMP_TITLE != 'T1'
+			<if test="empName != null and empName != ''">
+		        AND e.EMP_NAME LIKE CONCAT(CONCAT('%', #{empName}), '%')
+		    </if>
+		    <if test="empTitle != null and empTitle != ''">
+		        AND e.EMP_TITLE = #{empTitle}
+		    </if>
+			<if test="empYn != null">
+				AND e.EMP_YN = #{empYn}
+			</if>
+		</where>
+	</select>
+	<!-- 모든 사원에 대한 조회     이름, 재직여부, 직책으로 조건 검색 가능 -->
+	<select id="selectAllEmployee" parameterType="map" resultMap="employeeMap">
+		SELECT 
+		<include refid="employeeSql"/>
+		FROM EMPLOYEE e
+		<where>
+			e.EMP_TITLE != 'T1'
+			<if test="empName != null">
+				AND e.EMP_NAME LIKE CONCAT(CONCAT('%', #{empName}), '%')
+			</if>
+			<if test="empTitle != null">
+				AND e.EMP_TITLE = #{empTitle}
+			</if>
+			<if test="empYn != null">
+				AND e.EMP_YN = #{empYn}
+			</if>
+		</where>
+		ORDER BY e.EMP_HIREDATE DESC
+	</select>
+	
+	<!-- 사원 한 명에 대한 조회 -->
+	<select id="selectOneEmployee" parameterType="string" resultMap="employeeMap">
+		SELECT
+		<include refid="employeeSql"/>,
+		<include refid="alarmSql"/>
+		FROM EMPLOYEE e	
+		LEFT JOIN ALARM ala ON e.emp_Id = ala.emp_Id
+		WHERE e.EMP_ID = #{empId}
+	</select>
+	
+	<!-- 사원 등록 -->
+	<insert id="insertEmployee" parameterType="employee">
+		INSERT INTO EMPLOYEE (
+        EMP_ID, EMP_PASSWORD, EMP_NAME, EMP_TITLE, EMP_HIREDATE, EMP_EMAIL, EMP_ADDRESS, EMP_PROFILE,EMP_SALARY,EMP_ANNUALSAL,EMP_BANK, EMP_ACCOUNT
+	    ) VALUES (
+	        EMP_ID_SEQ.NEXTVAL, #{empPassword} ,#{empName}, #{empTitle}, #{empHireDate}, #{empEmail}, #{empAddress}, #{empProfile}, 0,0,' ',0
+	    )
+	     <!-- INSERT 후에 생성 후 EMP_ID를 가져오기 -->
+	    <selectKey keyProperty="empId" resultType="string" order="AFTER">
+	    	SELECT EMP_ID FROM EMPLOYEE WHERE EMP_ID = (SELECT MAX(EMP_ID) FROM EMPLOYEE WHERE EMP_ID != 'test') 
+	    </selectKey>
+	</insert>
+	
+	<!-- 사원 수정 -->
+	<update id="updateEmployee" parameterType="employee">
+	  UPDATE EMPLOYEE
+	  <set>
+	    <if test="empName != null">EMP_NAME = #{empName},</if>
+	    <if test="empPassword != null">EMP_PASSWORD = #{empPassword},</if>
+	    <if test="empEmail != null">EMP_EMAIL = #{empEmail},</if>
+	    <if test="empTitle != null">EMP_TITLE = #{empTitle},</if>
+	    <if test="empProfile != null">EMP_PROFILE = #{empProfile},</if>
+	    <if test="empYn != null">EMP_YN = #{empYn},</if>
+	    <if test="empAddress != null">EMP_ADDRESS = #{empAddress},</if>
+	    <if test="oriname != null">ORINAME = #{oriname},</if>
+	  </set>
+	  WHERE EMP_ID = #{empId}
+	</update>
+	<!-- 사원 삭제 -->
+	<delete id="deleteEmployee" parameterType="string">
+		UPDATE EMPLOYEE SET EMP_YN = '1', EMP_RETIRE_DATE = SYSDATE WHERE EMP_ID = #{empId}
+	</delete>
+	<!-- ======================================================================================= -->
+	<!-- 매니저만 불러오기 -->
+	<select id="selectManager" resultMap="employeeMap">
+		SELECT
+		<include refid="employeeSql"/>
+		FROM EMPLOYEE e
+		WHERE EMP_TITLE = 'J3'
+	</select>
+	
+	<!-- 알람 생성 -->
+	<insert id="insertAlarm" parameterType="alarm">
+        INSERT INTO alarm VALUES ('',#{empId}, 0, sysdate, #{alarmType}, #{alarmContent})
+    </insert>
+
+    <delete id="deleteAlarm" parameterType="string">
+        DELETE FROM alarm WHERE alarm_id = #{alarmId}
+    </delete>
+	
+	<!-- 알람 삭제 -->
+</mapper>

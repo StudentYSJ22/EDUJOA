@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="loginemp">
+	<!-- 직원에 대한 Sql문 -->
+	<sql id="employeeSql">
+		e.emp_id AS e_emp_id,
+		e.emp_name AS e_emp_name,
+		e.emp_password as e_emp_password,
+		e.emp_email as e_emp_email,
+		e.emp_title as e_emp_title,
+		e.emp_hiredate as e_emp_hireadte,
+		e.emp_yn as e_emp_yn,
+		e.emp_address as e_emp_address,
+		e.emp_rvacation as e_emp_rvacation,
+		e.emp_profile as e_emp_profile,
+		e.emp_tvacation as e_emp_tvacation,
+		e.emp_salary as e_emp_salary,
+		e.emp_annualsal as e_emp_annualsal,
+		e.emp_status as e_status,
+		e.emp_bank as e_emp_bank,
+		e.emp_account as e_emp_account,
+		e.oriname as e_oriname,
+		e.emp_retire_date as e_emp_retire_date
+	</sql>
+	<!-- 직원에 대한 resultMap -->
+	<resultMap id="employeeMap" type="employee">
+		<id column="e_emp_id" property="empId"/>
+		<result column="e_emp_name" property="empName"/>
+		<result column="e_emp_password" property="empPassword"/>
+		<result column="e_emp_email" property="empEmail"/>
+		<result column="e_emp_title" property="empTitle"/>
+		<result column="e_emp_hireadte" property="empHireDate"/>
+		<result column="e_emp_yn" property="empYn"/>
+		<result column="e_emp_profile" property="empProfile"/>
+		<result column="e_emp_address" property="empAddress"/>
+		<result column="e_emp_rvacation" property="empRvacation"/>
+		<result column="e_emp_tvacation" property="empTvacation"/>
+		<result column="e_emp_salary" property="empSalary"/>
+		<result column="e_emp_annualsal" property="empAnnualSal"/>
+		<result column="e_status" property="status"/>
+		<result column="e_emp_bank" property="empBank"/>
+		<result column="e_emp_account" property="empAccount"/>
+		<result column="e_oriname" property="oriname"/>
+		<result column="e_emp_retire_date" property="empRetireDate"/>
+		<collection property="alarm" ofType="alarm">
+			<id column="alarm" property="alarmId"/>
+			<result column="emp_id" property="empId"/>
+			<result column="alarm_read" property="alarmRead"/>
+			<result column="alarm_date" property="alarmDate"/>
+			<result column="alarmType" property="alarmType"/>
+			<result column="alarm_content" property="alarmContent"/>
+		</collection>
+	</resultMap>
+	<select id="selectLoginEmp" parameterType="map" resultMap="employeeMap">
+		 SELECT 
+		<include refid="employeeSql"/>	
+		 FROM EMPLOYEE e WHERE e.EMP_ID = #{username} AND e.EMP_PASSWORD = #{password} 
+	</select>
+	<select id="selectAllEmp" parameterType="string" resultMap="employeeMap">
+		 SELECT
+		 <include refid="employeeSql"/>
+		 FROM EMPLOYEE e WHERE e.EMP_ID != #{loginId} 
+	 </select>
+</mapper>

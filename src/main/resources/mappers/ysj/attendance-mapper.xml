@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="attendance">
+
+
+     <!-- Attendance에 대한 Sql문 -->
+    <sql id="attendanceSql">
+        a.ATN_ID AS a_atn_id,
+        a.EMP_ID AS a_emp_id,
+        a.ATN_DATE AS a_atn_date,
+        a.ATN_IN AS a_atn_in,
+        a.ATN_OUT AS a_atn_out,
+        a.ATN_STATUS AS a_atn_status
+    </sql>
+   <!-- Attendance에 대한 resultMap -->
+    <resultMap id="attendanceMap" type="attendance">
+        <id column="a_atn_id" property="atnId"/>
+        <result column="a_emp_id" property="empId"/>
+        <result column="a_atn_date" property="atnDate"/>
+        <result column="a_atn_in" property="atnIn"/>
+        <result column="a_atn_out" property="atnOut"/>
+        <result column="a_atn_status" property="atnStatus"/>
+    </resultMap>
+ <!-- 직원 ID로 출퇴근 기록 조회 -->
+    <select id="getRecordsByEmpIdWithPagingAndStatus" resultMap="attendanceMap">
+        SELECT
+        <include refid="attendanceSql"/>
+        FROM attendance a
+        WHERE a.EMP_ID = #{empId}
+        <if test="status != null and status != ''">
+            AND a.ATN_STATUS = #{status}
+        </if>
+        ORDER BY a.ATN_DATE DESC, a.ATN_IN DESC
+    </select>
+
+    <!-- 직원 ID로 출퇴근 기록 총 개수 조회 -->
+    <select id="getRecordsCountByEmpIdAndStatus" resultType="int">
+        SELECT COUNT(*)
+        FROM attendance a
+        WHERE a.EMP_ID = #{empId}
+        <if test="status != null and status != ''">
+            AND a.ATN_STATUS = #{status}
+        </if>
+    </select>
+
+    <!-- 출퇴근 요약 정보 조회 -->
+    <select id="getAttendanceSummary" resultType="java.util.Map">
+        SELECT 
+            COUNT(CASE WHEN ATN_STATUS = '출근' THEN 1 END) as ONTIME,
+            COUNT(CASE WHEN ATN_STATUS = '지각' THEN 1 END) as LATE,
+            COUNT(CASE WHEN ATN_STATUS = '결근' THEN 1 END) as ABSENT,
+            COUNT(CASE WHEN ATN_STATUS = '미처리' THEN 1 END) as UNPROCESSED
+        FROM attendance
+        WHERE EMP_ID = #{empId}
+    </select>
+
+    <!-- 특정 날짜의 출퇴근 기록 조회(자동결근 처리를 위하여)  -->
+  <!--   <select id="getAttendanceByEmpIdAndDate" resultMap="attendanceMap">
+        SELECT
+        <include refid="attendanceSql"/>
+        FROM attendance a
+        WHERE a.EMP_ID = #{empId} AND a.ATN_DATE = #{date}
+    </select>
+ -->
+ 
+ 
+ <!-- 특정 날짜의 출퇴근 기록 조회 -->
+   <select id="getAttendanceByEmpIdAndDate" resultMap="attendanceMap">
+    SELECT
+    <include refid="attendanceSql"/>
+    FROM attendance a
+    WHERE a.EMP_ID = #{empId, jdbcType=VARCHAR}
+    AND a.ATN_DATE = #{date, jdbcType=DATE}
+</select>
+
+ 
+ 
+ 
+ 
+ 
+    <!-- 출퇴근 기록 저장 -->
+
+	<insert id="saveAttendance" parameterType="attendance">
+    INSERT INTO attendance (ATN_ID, EMP_ID, ATN_DATE, ATN_IN, ATN_OUT, ATN_STATUS)
+    VALUES (#{atnId,jdbcType=VARCHAR}, #{empId}, #{atnDate}, #{atnIn,jdbcType=TIMESTAMP}, #{atnOut,jdbcType=TIMESTAMP}, #{atnStatus,jdbcType=VARCHAR})
+</insert>
+	
+
+
+  <!-- 기간별 검색 -->
+    <select id="searchByDate" parameterType="map" resultMap="attendanceMap">
+        SELECT
+        <include refid="attendanceSql"/>
+        FROM attendance a
+        WHERE a.EMP_ID = #{empId}
+        AND a.ATN_DATE BETWEEN #{startDate} AND #{endDate}
+    </select>
+ 
+</mapper>

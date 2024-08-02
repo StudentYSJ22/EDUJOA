@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chatroom">
+	<!-- <sql id="chatroomSql"> r.room_id AS r_room_id, r.room_name AS r_room_name, 
+		r. </sql> -->
+	<resultMap id="mychatroomsMap" type="mychatrooms">
+		<result column="emp_name" property="empName" />
+		<result column="emp_profile" property="empProfile" />
+		<result column="emp_title" property="empTitle" />
+		<result column="room_id" property="roomId" />
+		<result column="emp_id" property="empId" />
+	</resultMap>
+	<resultMap id="mychatrecordsMap" type="mychatrecords">
+		<result column="room_id" property="roomId"/>
+		<result column="emp_id" property="empId"/>
+		<result column="content" property="content"/>
+		<result column="chat_time" property="chatTime"/>
+	</resultMap>
+
+	<resultMap id="chatroomMap" type="chatroom">
+		<id column="room_id" property="roomId" />
+		<result column="sender_id" property="senderId" />
+		<!-- 최초 방 생성자 = sender -->
+		<result column="receiver_id" property="receiverId" />
+		<!-- 수신자id = receiver -->
+		<result column="group_yn" property="groupYn" />
+		<association property="employee" resultMap="employeeMap" />
+		<!-- 채팅방 참가인원에 대한 association -->
+		<!-- <collection property="chatattendee" resultMap="chatattendeeMap"/> -->
+		<collection property="chatRecord" resultMap="chatrecordMap" />
+	</resultMap>
+	<resultMap id="chatattendeeMap" type="chatattendee">
+		<result column="room_id" property="roomId" />
+		<result column="emp_id" property="empId" />
+		<collection property="employee" resultMap="employeeMap" />
+	</resultMap>
+	<resultMap id="chatrecordMap" type="chatrecord">
+		<result column="room_id" property="roomId" />
+		<result column="emp_id" property="empId" />
+		<result column="content" property="content" />
+		<result column="chat_time" property="chatTime" />
+		<collection property="employee" resultMap="employeeMap" />
+	</resultMap>
+	<!-- <resultMap id="chatattachmentMap" type="chatattachment"> <id column="file_id" 
+		property="fileId"/> <result column="room_id" property="roomId"/> <result 
+		column="file_path" property="filePath"/> <result column="file_oriname" property="fileOriname"/> 
+		<result column="file_rename" property="fileRename"/> <result column="file_size" 
+		property="fileSize"/> </resultMap> -->
+	<resultMap id="employeeMap" type="employee">
+		<id column="emp_id" property="empId" />
+		<result column="emp_name" property="empName" />
+		<result column="emp_password" property="empPassword" />
+		<result column="emp_email" property="empEmail" />
+		<result column="emp_title" property="empTitle" />
+		<result column="emp_profile" property="empProfile" />
+		<result column="emp_hiredate" property="empHireDate" />
+		<result column="emp_yn" property="empYn" />
+		<result column="emp_address" property="empAddress" />
+		<result column="emp_rvacation" property="empRvacation" />
+		<result column="emp_tvacation" property="empTvacation" />
+		<result column="emp_salary" property="empSalary" />
+		<result column="emp_annualsalary" property="empAnnualSal" />
+		<result column="emp_status" property="status" />
+		<result column="emp_bank" property="empBank" />
+		<result column="emp_account" property="empAccount" />
+		<result column="oriname" property="oriname" />
+		<result column="emp_retire_date" property="empRetireDate" />
+		<collection property="alarm" ofType="alarm"
+			resultMap="AlarmMap" />
+	</resultMap>
+	<resultMap id="AlarmMap" type="alarm">
+		<id column="alarm_id" property="alarmId" />
+		<result column="alarm_read" property="alarmRead" />
+		<result column="alarm_date" property="alarmDate" />
+		<result column="alarm_type" property="alarmType" />
+		<result column="alarm_content" property="alarmContent" />
+	</resultMap>
+	<!-- 자신이 속해있는 채팅방에서 본인을 제외하고 참여자 이름 출력 -->
+	<select id="getRooms" parameterType="string" resultMap="chatroomMap"> 
+		SELECT E.*, CR.*, CRE.* FROM CHAT_ROOM CR JOIN
+		CHAT_ATTENDEE R ON CR.ROOM_ID=R.ROOM_ID JOIN EMPLOYEE E ON
+		R.EMP_ID=E.EMP_ID JOIN CHAT_RECORD CRE ON CR.ROOM_ID=CRE.ROOM_ID WHERE
+		CR.ROOM_ID IN (SELECT ROOM_ID FROM CHAT_ATTENDEE WHERE
+		EMP_ID=#{loginId}) AND R.EMP_ID!=#{loginId}
+	</select>
+	<!-- 클라이언트에서 넘어온 MSG객체에서 필요정보 추출해서 채팅방 생성 -->
+	<insert id="insertChatRoom" parameterType="chatroom">
+	    INSERT INTO CHAT_ROOM (ROOM_ID, SENDER_ID, GROUP_YN, RECEIVER_ID)
+	    VALUES (ROOM_ID_SEQ.NEXTVAL, #{senderId}, '0', #{receiverId})
+	    <selectKey keyProperty="roomId" resultType="string" order="AFTER">
+	        SELECT ROOM_ID_SEQ.CURRVAL AS roomId FROM DUAL
+	    </selectKey>
+	</insert>
+	<!-- PUTROOM에서 생성한 ROOMID로 수신자, 발신자 각각 CHATATTENDEE에 저장 -->
+	<insert id="insertChatAttendee" parameterType="map" keyProperty="roomId">
+		INSERT ALL
+		INTO CHAT_ATTENDEE (ROOM_ID, EMP_ID) VALUES
+		(#{roomId, jdbcType=VARCHAR}, #{sender})
+		INTO CHAT_ATTENDEE (ROOM_ID,EMP_ID) VALUES
+		(#{roomId, jdbcType=VARCHAR}, #{receiver})
+		SELECT * FROM dual
+	</insert>
+
+	<!-- 수신자, 발신자 ID로 채팅방번호 찾기 -->
+	<select id="getRoomId" parameterType="map" resultType="string">
+		SELECT ROOM_ID FROM CHAT_ROOM WHERE SENDER_ID = #{sender} AND RECEIVER_ID = #{receiver}
+	</select>
+
+	<!-- 채팅기록 가져오기 -->
+	<select id="getChatRecord" parameterType="string" resultMap="chatrecordMap">
+		SELECT * FROM CHAT_RECORD WHERE ROOM_ID = #{roomId}
+	</select>
+
+	<select id="getAllRooms" resultMap="chatroomMap">
+		SELECT * FROM CHAT_ROOM
+	</select>
+
+	<insert id="insertChatRecord" parameterType="map">
+		INSERT INTO CHAT_RECORD
+		VALUES(#{roomId},#{sender},#{chatContent},#{chatTime})
+	</insert>
+	<select id="getMyChatRooms" parameterType="string" resultMap="mychatroomsMap">
+		SELECT E.EMP_NAME,E.EMP_PROFILE,E.EMP_TITLE, CA.*
+		FROM CHAT_ATTENDEE CA
+		JOIN EMPLOYEE E ON CA.EMP_ID = E.EMP_ID
+		WHERE ROOM_ID IN (
+		SELECT ROOM_ID FROM CHAT_ATTENDEE
+		WHERE EMP_ID = #{empId}
+		) AND CA.EMP_ID != #{empId}
+		<!-- 본인 포함이지만 본인 제외한 채팅방 정보 -->
+	</select>
+	<select id="getMyChatRecords" parameterType="map" resultMap="mychatrecordsMap">
+		SELECT ROOM_ID, EMP_ID, CONTENT, CHAT_TIME FROM CHAT_RECORD WHERE ROOM_ID=#{roomId}
+	</select>
+	
+	<select id="getReceiverInfo" parameterType="string" resultMap="employeeMap">
+		SELECT * FROM EMPLOYEE WHERE EMP_ID=#{receiver}
+	</select>
+</mapper>

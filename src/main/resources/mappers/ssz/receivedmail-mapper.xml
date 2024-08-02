@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="receivedmail">
+	<resultMap id="receivedmailMap" type="receivedmail">
+		<id column="rmail_id" property="rcvMailId" />
+		<result column="rmail_sender" property="rcvMailSender" javaType="String" jdbcType="VARCHAR" />
+		<result column="rmail_receiver" property="rcvMailReceiver" typeHandler="com.edujoa.ssz.webmail.controller.ListToStringTypeHandler"/>
+		<result column="rmail_cc" property="rcvMailCc" typeHandler="com.edujoa.ssz.webmail.controller.ListToStringTypeHandler" />
+		<result column="rmail_bcc" property="rcvMailBcc" typeHandler="com.edujoa.ssz.webmail.controller.ListToStringTypeHandler" />
+		<result column="rmail_title" property="rcvMailTitle" />
+		<result column="rmail_content" property="rcvMailContent" typeHandler="com.edujoa.ssz.webmail.controller.StringToClobTypeHandler" jdbcType="CLOB" />
+		<result column="rmail_date" property="rcvMailDate" />
+		<result column="rmail_filename" property="rcvMailFileName" typeHandler="com.edujoa.ssz.webmail.controller.StringToClobTypeHandler" jdbcType="CLOB" />
+		<result column="rmail_contenttype" property="rcvMailContentType" typeHandler="com.edujoa.ssz.webmail.controller.StringToClobTypeHandler" jdbcType="CLOB" />
+		<result column="rmail_fileurl" property="rcvMailFileUrl" typeHandler="com.edujoa.ssz.webmail.controller.StringToClobTypeHandler" jdbcType="CLOB" />
+		<result column="rmail_type" property="rcvMailType" />
+		<result column="rmail_read" property="rcvMailRead" />
+		</resultMap>
+		<resultMap id="rcvMailAttachmentMap" type="mailattahment">
+			<result column="rmail_filename" property="fileName" />
+			<result column="rmail_contenttype" property="contentType" />
+			<result column="rmail_filecontent" property="content" javaType="String" jdbcType="CLOB" />
+		</resultMap>
+	
+	<insert id="mergeReceivedMails" parameterType="list">
+    <foreach collection="list" item="mail" separator=";"
+        open="BEGIN" close="; END;">
+        MERGE INTO RECEIVE_MAIL rm
+        USING (
+        SELECT
+        #{mail.rcvMailId} as rmail_id,
+        #{mail.rcvMailSender} as rmail_sender,
+        #{mail.rcvMailReceiver} as rmail_receiver,
+        #{mail.rcvMailCc} as rmail_cc,
+        #{mail.rcvMailBcc} as rmail_bcc,
+        #{mail.rcvMailTitle} as rmail_title,
+        TO_CLOB(#{mail.rcvMailContent}) as rmail_content,
+        #{mail.rcvMailDate} as rmail_date,
+         <choose>
+            <when test="mail.rcvMailFileName != null">TO_CLOB(#{mail.rcvMailFileName}) as rmail_filename,</when>
+            <otherwise>null as rmail_filename,</otherwise>
+        </choose>
+        <choose>
+            <when test="mail.rcvMailContentType != null">TO_CLOB(#{mail.rcvMailContentType}) as rmail_contenttype,</when>
+            <otherwise>null as rmail_contenttype,</otherwise>
+        </choose>
+        <choose>
+            <when test="mail.rcvMailFileUrl != null">TO_CLOB(#{mail.rcvMailFileUrl}) as rmail_fileurl,</when>
+            <otherwise>null as rmail_fileurl,</otherwise>
+        </choose>
+        #{mail.rcvMailType} as rmail_type
+        FROM dual
+        ) src
+        ON (rm.rmail_id = src.rmail_id)
+        WHEN MATCHED THEN
+        UPDATE SET
+        rm.rmail_sender = src.rmail_sender,
+        rm.rmail_receiver = src.rmail_receiver,
+        rm.rmail_cc = src.rmail_cc,
+        rm.rmail_bcc = src.rmail_bcc,
+        rm.rmail_title = src.rmail_title,
+        rm.rmail_content = src.rmail_content,
+        rm.rmail_date = src.rmail_date,
+        rm.rmail_filename = src.rmail_filename,
+        rm.rmail_contenttype = src.rmail_contenttype,
+        rm.rmail_fileurl = src.rmail_fileurl,
+        rm.rmail_type = src.rmail_type
+        WHEN NOT MATCHED THEN
+        INSERT (rmail_id, rmail_sender, rmail_receiver, rmail_cc, rmail_bcc,
+        rmail_title, rmail_content, rmail_date, rmail_filename, rmail_contenttype, rmail_fileurl, rmail_type,
+        rmail_read)
+        VALUES (src.rmail_id, src.rmail_sender, src.rmail_receiver, src.rmail_cc,
+        src.rmail_bcc,
+        src.rmail_title, src.rmail_content, src.rmail_date, src.rmail_filename, src.rmail_contenttype, src.rmail_fileurl,
+        src.rmail_type, '0')
+    </foreach>
+</insert>
+	
+	<select id="selectReceivedMails" resultMap="receivedmailMap">
+		SELECT * FROM RECEIVE_MAIL WHERE RMAIL_TYPE = 'inbox'
+	</select>
+	
+	<update id="updatelabeldelete" parameterType="list">
+	    UPDATE RECEIVE_MAIL
+	    SET RMAIL_TYPE = 'delete'
+	    WHERE RMAIL_ID IN
+	    <foreach collection="list" item="emailId" open="(" separator="," close=")">
+	        #{emailId}
+	    </foreach>
+	</update>
+	
+	<update id="updatelabelinbox" parameterType="list">
+	    UPDATE RECEIVE_MAIL
+	    SET RMAIL_TYPE = 'inbox'
+	    WHERE RMAIL_ID IN
+	    <foreach collection="list" item="emailId" open="(" separator="," close=")">
+	        #{emailId}
+	    </foreach>
+	</update>
+	
+	<select id="getSelectedMail" parameterType="string" resultMap="receivedmailMap">
+		SELECT * FROM RECEIVE_MAIL WHERE RMAIL_ID = #{emailId}
+	</select>
+	<update id="updateMailRead" parameterType="string">
+		UPDATE RECEIVE_MAIL SET RMAIL_READ = '1' WHERE RMAIL_ID = #{emailId}
+	</update>
+	
+	<select id="getDeletedMail" resultMap="receivedmailMap">
+		SELECT * FROM RECEIVE_MAIL WHERE RMAIL_TYPE = 'delete'
+	</select>
+
+</mapper>

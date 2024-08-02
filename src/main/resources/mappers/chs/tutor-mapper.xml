@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tutor">
+	<!-- 강사 관리 목록에 대한 Sql문 -->
+	<sql id="visionSql">
+		sv.tt_id AS sv_tt_id,
+		sv.emp_Id AS sv_emp_id,
+		e.emp_id AS e_emp_id,
+		e.emp_name AS e_emp_name,
+		e.emp_title AS e_emp_title,
+		t.tt_id AS t_tt_id,
+		t.tt_name AS t_tt_name
+	</sql>
+	
+	<!-- 강사에 대한 Sql문 -->
+	<sql id="tutorSql">
+		t.tt_id AS t_tt_id,
+	    t.sub_id AS t_sub_id,
+	    t.tt_name AS t_tt_name,
+	    t.tt_phone AS t_tt_phone,
+	    t.tt_email AS t_tt_email,
+	    t.tt_hiredate AS t_tt_hiredate,
+	    t.tt_profile AS t_tt_profile,
+	    t.tt_yn AS t_tt_yn,
+	    t.tt_salary AS t_tt_salary,
+	    t.tt_annualsal AS t_tt_annualsal
+	</sql>
+	<!-- 과목에 대한 Sql문 -->
+	<sql id="subjectSql">
+	    s.sub_id AS s_sub_id,
+	    s.sub_name AS s_sub_name,
+	    s.sub_detail AS s_sub_detail
+	</sql>
+	<!-- 반에 대한 Sql문 -->
+	<sql id="classSql">
+		c.class_id AS c_class_id,
+		c.tt_id AS c_tt_id,
+		c.class_open AS c_class_open,
+		c.class_close AS c_class_close
+	</sql>
+	<!-- 수강 목록에 대한 Sql문 -->
+	<sql id="myclassSql">
+		m.mcl_id AS m_mcl_id,
+		m.std_id AS m_std_id,
+		m.class_id AS m_class_id
+	</sql>
+	<!-- 학생에 대한 Sql문 -->
+	<sql id="studentSql">
+		st.std_id AS st_std_id,
+		st.std_name AS st_std_name,
+		st.std_school AS st_std_school,
+		st.std_phone AS st_std_phone,
+		st.std_parent_phone AS st_std_parent_phone,
+		st.std_payment AS st_std_payment,
+		st.std_yn AS st_std_yn
+	</sql>
+	<!-- 강의 조회에 필요한 Sql문 -->
+	<sql id="searchclassSql">
+		c.class_id AS c_class_id,
+		c.tt_id AS c_tt_id,
+		c.class_open AS c_class_open,
+		c.class_close AS c_class_close
+		t.tt_id AS t_tt_id,
+	    t.sub_id AS t_sub_id,
+	    t.tt_name AS t_tt_name,
+	    t.tt_yn AS t_tt_yn,
+	    s.sub_id AS s_sub_id,
+	    s.sub_name AS s_sub_name,
+	</sql>
+	<!-- 직원에 대한 resultMap -->
+	<resultMap id="employeeMap" type="employee">
+		<id column="e_emp_id" property="empId"/>
+		<result column="e_emp_name" property="empName"/>
+		<result column="e_emp_title" property="empTitle"/>
+	</resultMap>
+	<!-- 강사 관리 목록에 대한 resultMap -->
+	<resultMap id="visionMap" type="supervision">
+		<result column="sv_tt_id" property="ttId"/>
+		<result column="sv_emp_id" property="empId"/>
+		<association property="employee" resultMap="employeeMap"/>
+		<association property="tutor" resultMap="tutorMap"/>
+	</resultMap>
+	<!-- 강사에 대한 resultMap -->
+	<resultMap id="tutorMap" type="tutor">
+		<id column="t_tt_id" property="ttId"/>
+		<result column="t_sub_id" property="subId"/>
+		<result column="t_tt_name" property="ttName"/>
+		<result column="t_tt_phone" property="ttPhone"/>
+		<result column="t_tt_email" property="ttEmail"/>
+		<result column="t_tt_hiredate" property="ttHireDate"/>
+		<result column="t_tt_profile" property="ttProfile"/>
+		<result column="t_tt_yn" property="ttYn"/>
+		<result column="t_tt_salary" property="ttSalary"/>
+		<result column="t_tt_annualsal" property="ttAnnualSal"/>
+		<!-- 과목 -->
+		<association property="subject" resultMap="subjectMap"/>
+		<!-- 반 -->
+		<association property="class_" resultMap="classMap"/>
+	</resultMap>
+	
+	<!-- 과목에 대한 resultMap -->
+	<resultMap id="subjectMap" type="subject">
+		<id column="s_sub_id" property="subId"/>
+		<result column="s_sub_name" property="subName"/>
+		<result column="s_sub_detail" property="subDetail"/>
+	</resultMap>
+	
+	<!-- 반에 대한 resultMap -->
+	<resultMap id="classMap" type="class">
+		<id column="c_class_id" property="classId"/>
+		<result column="c_tt_id" property="ttId" />
+		<result column="c_class_open" property="classOpen" />
+		<result column="c_class_close" property="classClose" />
+		<collection property="myClass" resultMap="myclassMap"/>
+	</resultMap>
+	<!-- 수강 목록에 대한 reusltMap -->
+	<resultMap type="myclass" id="myclassMap">
+		<id column="m_mcl_id" property="mclId"/>
+		<result column="m_std_id" property="stdId"/>
+		<result column="m_class_id" property="classId"/>
+		<association property="student" resultMap="studentMap"/>
+	</resultMap>
+	<!-- 학생에 대한 resultMap -->
+	<resultMap type="student" id="studentMap">
+		<id column="st_std_id" property="stdId"/>
+		<result column="st_std_name" property="stdName"/>
+		<result column="st_std_school" property="stdSchool"/>
+		<result column="st_std_phone" property="stdPhone"/>
+		<result column="st_std_parent_phone" property="stdParentPhone"/>
+		<result column="st_std_payment" property="stdPayment"/>
+		<result column="st_std_yn" property="stdYn"/>
+	</resultMap>
+	<!-- 수강 목록에 대한 커스텀 reusltMap -->
+	<resultMap type="myclass" id="myclassCustomMap">
+		<id column="m_mcl_id" property="mclId"/>
+		<result column="m_std_id" property="stdId"/>
+		<result column="m_class_id" property="classId"/>
+	</resultMap>
+	<!-- 학생에 대한 커스텀 resultMap -->
+	<resultMap type="student" id="studentCustomMap">
+		<id column="st_std_id" property="stdId"/>
+		<result column="st_std_name" property="stdName"/>
+		<result column="st_std_school" property="stdSchool"/>
+		<result column="st_std_phone" property="stdPhone"/>
+		<result column="st_std_parent_phone" property="stdParentPhone"/>
+		<result column="st_std_payment" property="stdPayment"/>
+		<result column="st_std_yn" property="stdYn"/>
+		<collection property="myClass" resultMap="myclassMap"/>
+	</resultMap>
+<!-- ========================================================================================== -->	
+	<!-- 담당 매니저 조회하기 -->
+	<select id="selectVision" resultMap="visionMap">
+		SELECT 
+		<include refid="visionSql"/>
+		
+		FROM SUPERVISION sv 
+		JOIN EMPLOYEE e ON sv.EMP_ID = e.EMP_ID
+		JOIN TUTOR t ON sv.TT_ID = t.TT_ID
+	</select>
+	<!-- 담당 매니저 등록 -->
+	<select id="insertManager" parameterType="map">
+		INSERT INTO SUPERVISION VALUES(#{empId}, #{ttId})
+	</select>
+	<!-- 강사 전체 수 조회  // 강사 이름, 과목 이름으로 조건 검색 가능 -->
+	<select id="selectTutorCount" parameterType="map" resultType="_int" >
+		SELECT COUNT(*) FROM TUTOR
+		<where>
+			<if test="ttName != null">
+				AND TT_NAME = #{ttName}
+			</if>
+			<if test="subId != null">
+				AND SUB_ID = #{subId}
+			</if>
+			<if test="ttYn != null">
+				AND TT_YN = #{ttYn}
+			</if>
+		 </where>
+	</select>
+	<!-- 강사 전체에 대한 조회 // 강사 이름, 과목 이름으로 조회 가능-->
+	<select id="selectAllTutor" resultMap="tutorMap" parameterType="map">
+		SELECT 
+		<include refid="tutorSql"/>
+		,<include refid="classSql"/>
+		,<include refid="subjectSql"/>
+		,<include refid="myclassSql"/>
+		,<include refid="studentSql"/>
+		FROM TUTOR t 
+		LEFT JOIN CLASS c ON t.TT_ID = c.TT_ID 
+		LEFT JOIN SUBJECT s ON t.SUB_ID = s.SUB_ID
+		LEFT JOIN MYCLASS m ON c.CLASS_ID = m.CLASS_ID
+		LEFT JOIN STUDENT st ON m.STD_ID = st.STD_ID 
+		<where>
+			<if test="ttName != null">
+				AND t.TT_Name LIKE CONCAT(CONCAT('%', #{ttName}), '%')
+			</if>
+			<if test="subId != null">
+				AND t.SUB_ID = #{subId}
+			</if>
+			<if test="ttYn != null">
+				AND TT_YN = #{ttYn}
+			</if>
+		</where>
+		ORDER BY t.TT_NAME
+	</select>
+	<!-- 강사 한명에 대한 조회-->
+	<select id="selectOneTutor" parameterType="string" resultMap="tutorMap">
+		SELECT
+		<include refid="tutorSql"/>
+		,<include refid="classSql"/>
+		,<include refid="subjectSql"/>
+		,<include refid="myclassSql"/>
+		,<include refid="studentSql"/>
+		FROM TUTOR t 
+		LEFT JOIN CLASS c ON t.TT_ID = c.TT_ID 
+		LEFT JOIN SUBJECT s ON t.SUB_ID = s.SUB_ID
+		LEFT JOIN MYCLASS m ON c.CLASS_ID = m.CLASS_ID
+		LEFT JOIN STUDENT st ON m.STD_ID = st.STD_ID 
+		WHERE t.TT_ID = #{ttId}
+	</select>
+	<!-- 강사 등록 -->
+	<insert id='insertTutor' parameterType="tutor">
+		<selectKey keyProperty="ttId" resultType="String" order="BEFORE">
+			SELECT TUTOR_SEQ.NEXTVAL AS ttId FROM DUAL
+		</selectKey>
+		INSERT INTO TUTOR VALUES(#{ttId},#{subId},#{ttName},#{ttPhone},#{ttEmail},#{ttHireDate},#{ttProfile},'0', 0, 0)
+	</insert>
+	<!-- 강사 수정 -->
+	<update id="updateTutor" parameterType="tutor">
+		UPDATE TUTOR 
+		<set>
+		    <if test="subId != null">SUB_ID = #{subId},</if>
+		    <if test="ttName != null">TT_NAME = #{ttName},</if>
+		    <if test="ttPhone != null">TT_PHONE = #{ttPhone},</if>
+		    <if test="ttEmail != null">TT_EMAIL = #{ttEmail},</if>
+		    <if test="ttHireDate != null">TT_HIREDATE = #{ttHireDate},</if>
+		    <if test="ttProfile != null">TT_PROFILE = #{ttProfile},</if>
+		    <if test="ttYn != null">TT_YN = #{ttYn},</if>
+		    <if test="ttSalary != null">TT_SALARY = #{ttSalary},</if>
+		    <if test="ttAnnualSal != null">TT_ANNUALSAL = #{ttAnnualSal}</if>
+		</set>
+		WHERE TT_ID = #{ttId}
+	</update>
+	<!-- 강사 삭제 -->
+	<update id="deleteTutor" parameterType="string">
+		UPDATE TUTOR SET TT_YN = '1' WHERE TT_ID = #{ttId}
+	</update>
+<!-- ========================================================================================== -->	
+	<!-- 과목 조회 -->
+	<select id="selectSubject" resultMap="subjectMap">
+		SELECT 
+		<include refid="subjectSql"/>
+		FROM SUBJECT s
+	</select>
+	<!-- 과목 등록 -->
+	<insert id="insertSubject" parameterType="subject">
+		INSERT INTO SUBJECT VALUES('', #{subName}, #{subDetail})
+	</insert>
+	<!-- 과목 수정 -->
+	<update id="updateSubject" parameterType="subject">
+		UPDATE SUBJECT SET SUB_NAME = #{subName}, SUB_DETAIL = #{subDetail}
+		WHERE SUB_ID = #{subId}
+	</update>
+	<!-- 과목 삭제 -->
+	<delete id="deleteSubject" parameterType="string">
+		DELETE SUBJECT WHERE SUB_ID = #{subId}
+	</delete>
+<!-- =====================================================|===================================== -->	
+	<!-- 반 조회 -->
+	<select id="selectClass" resultMap="classMap">
+		SELECT 
+		<include refid="classSql"/>
+		 FROM CLASS c
+	</select>
+	<!-- 반 등록 -->
+	<insert id='insertClass'>
+		INSERT INTO CLASS VALUES('', #{ttId}, #{classOpen}, #{classClose})
+	</insert>
+	
+<!-- ========================================================================================== -->	
+	<!-- 수강 조회 -->
+	<select id="selectMyClass" resultMap="myclassMap">
+		SELECT 
+		<include refid="myclassSql"/>
+		FROM MYCLASS m
+	</select>
+	<!-- 수강 등록 -->
+	<insert id="insertMyClass" parameterType="myclass">
+		INSERT INTO MYCLASS VALUES('', #{stdId}, #{classId})
+	</insert>
+	<!-- 수강 삭제 -->
+	<delete id="deleteMyClass" parameterType="string">
+		DELETE MYCLASS WHERE CLASS_ID = #{classId}
+	</delete>
+<!-- ========================================================================================== -->	
+	<!-- 학생 총원 수 조회   파라미터로 이름, 학교 받을 수 있음. -->
+	<select id="selectStudentCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*) 
+		FROM STUDENT st
+		<where>
+			<if test="stdName != null">
+				AND st.STD_NAME LIKE CONCAT(CONCAT('%', #{stdName}), '%')
+			</if>
+			<if test="stdSchool != null">
+				AND st.STD_SCHOOL LIKE CONCAT(CONCAT('%', #{stdSchool}), '%')
+			</if>
+			<if test="stdYn != null">
+				AND st.STD_YN LIKE CONCAT(CONCAT('%', #{stdYn}), '%')
+			</if>
+		</where>
+	</select>
+	<!-- 학생 전체 조회 파라미터로 이름, 학교 받을 수 있음-->
+	<select id="selectAllStudent" parameterType="map" resultMap="studentMap">
+		SELECT
+		<include refid="studentSql"/>
+		FROM STUDENT st
+		<where>
+			<if test="stdName != null">
+				AND st.STD_NAME LIKE CONCAT(CONCAT('%', #{stdName}), '%')
+			</if>
+			<if test="stdSchool != null">
+				AND st.STD_SCHOOL LIKE CONCAT(CONCAT('%', #{stdSchool}), '%')
+			</if>
+			<if test="stdYn != null">
+				AND st.STD_YN LIKE CONCAT(CONCAT('%', #{stdYn}), '%')
+			</if>
+		</where>
+		ORDER BY st.STD_NAME
+	</select>
+	<!-- 학생 상세 조회 -->
+	<select id="selectOneStudent" parameterType="string" resultMap="studentCustomMap">
+		SELECT
+		<include refid="studentSql"/>,
+		<include refid="myclassSql"/>
+		FROM STUDENT st
+		LEFT JOIN MYCLASS m ON st.STD_ID = m.STD_ID
+		WHERE st.STD_ID = #{stdId}
+	</select>
+	<!-- 학생 등록 -->
+	<insert id='insertStudent'>
+		INSERT INTO STUDENT VALUES('',#{stdName},#{stdSchool},#{stdPhone},#{stdParentPhone},#{stdPayment},'0')
+	</insert>
+	<!-- 학생 수정 -->
+	<update id="updateStudent" parameterType="student">
+		UPDATE STUDENT SET STD_NAME = #{stdName}, STD_SCHOOL = #{stdSchool}, STD_PHONE = #{stdPhone},
+		STD_PARENT_PHONE = #{stdParentPhone}, STD_PAYMENT = #{stdPayment}
+		WHERE STD_ID = #{stdId}
+	</update>
+	<!-- 학생 삭제 -->
+	<update id="deleteStudent" parameterType="string">
+		UPDATE STUDENT SET STD_YN = '1' WHERE STD_ID = #{stdId}
+	</update>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="staffAttendance">
+
+    <!-- staffAttendance SQL  -->
+    <sql id="staffAttendanceSql">
+        e.EMP_ID,
+        e.EMP_NAME,
+        a.ATN_DATE,
+        a.ATN_IN,
+        a.ATN_OUT
+    </sql>
+
+    <!-- StaffAttendance -->
+    <resultMap id="staffAttendanceMap" type="StaffAttendance">
+        <id column="EMP_ID" property="empId"/>
+        <result column="EMP_NAME" property="empName"/>
+        <result column="ATN_DATE" property="atnDate"/>
+        <result column="ATN_IN" property="atnIn"/>
+        <result column="ATN_OUT" property="atnOut"/>
+    </resultMap>
+
+    <!-- 오늘의 직원 근태 현황 -->
+<!--     <select id="getTodayStaffAttendance" resultMap="staffAttendanceMap">
+        SELECT 
+            <include refid="staffAttendanceSql"/>
+        FROM 
+            employee e
+        LEFT JOIN 
+            attendance a ON e.EMP_ID = a.EMP_ID AND a.ATN_DATE = TRUNC(SYSDATE)
+        WHERE 
+            e.EMP_TITLE != 'J1' 
+        ORDER BY 
+            e.EMP_NAME, a.ATN_IN
+    </select>
+     -->
+    <!-- 전체 직원 근태 현황-->
+    <select id="getAllStaffAttendance" resultMap="staffAttendanceMap">
+        SELECT 
+            <include refid="staffAttendanceSql"/>
+        FROM 
+            employee e
+        LEFT JOIN 
+            attendance a ON e.EMP_ID = a.EMP_ID
+        WHERE 
+            e.EMP_TITLE != 'J1'
+        ORDER BY 
+            a.ATN_DATE DESC, a.ATN_IN DESC
+    </select>
+    
+    <!-- 조건에 따라 직원 근태 현황 검색 -->
+    <select id="searchStaffAttendance" resultMap="staffAttendanceMap">
+        SELECT 
+            <include refid="staffAttendanceSql"/>
+        FROM 
+            employee e
+        LEFT JOIN 
+            attendance a ON e.EMP_ID = a.EMP_ID
+        WHERE 
+            e.EMP_TITLE != 'J1'
+            <!-- 사원 ID로 검색 -->
+            <if test="empId != null and empId != ''">
+                AND e.EMP_ID = #{empId}
+            </if>
+            <!-- 사원 이름으로 검색 -->
+            <if test="empName != null and empName != ''">
+                AND e.EMP_NAME LIKE '%' || #{empName} || '%'
+            </if>
+            <!-- 상태로 검색 -->
+            <if test="status != null and status != ''">
+                AND a.ATN_STATUS = #{status}
+            </if>
+            <!-- 시작 날짜로 검색 -->
+            <if test="startDate != null and startDate != ''">
+                AND a.ATN_DATE &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+            </if>
+            <!-- 종료 날짜로 검색 -->
+            <if test="endDate != null and endDate != ''">
+                AND a.ATN_DATE &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
+            </if>
+        ORDER BY 
+            a.ATN_DATE DESC, a.ATN_IN DESC
+    </select>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="salaryEmployee">
+    <sql id="employeeSql">
+        e.emp_id AS empId,
+        e.emp_name AS empName,
+        e.emp_password AS empPassword,
+        e.emp_email AS empEmail,
+        e.emp_title AS empTitle,
+        e.emp_profile AS empProfile,
+        e.emp_hiredate AS empHireDate,
+        e.emp_yn AS empYn,
+        e.emp_address AS empAddress,
+        e.emp_rvacation AS empRvacation,
+        e.emp_tvacation AS empTvacation,
+        e.emp_salary AS empSalary,
+        e.emp_annualsal AS empAnnualSal,
+        e.emp_status AS empStatus,
+        e.emp_bank AS empBank,
+        e.emp_account AS empAccount,
+        e.emp_retire_date AS empRetireDate,
+        e.oriname AS oriname
+    </sql>
+
+    <resultMap id="employeeMap" type="com.edujoa.with.employee.model.dto.Employee">
+        <id column="empId" property="empId"/>
+        <result column="empName" property="empName"/>
+        <result column="empPassword" property="empPassword"/>
+        <result column="empEmail" property="empEmail"/>
+        <result column="empTitle" property="empTitle"/>
+        <result column="empProfile" property="empProfile"/>
+        <result column="empHireDate" property="empHireDate"/>
+        <result column="empYn" property="empYn"/>
+        <result column="empAddress" property="empAddress"/>
+        <result column="empRvacation" property="empRvacation"/>
+        <result column="empTvacation" property="empTvacation"/>
+        <result column="empSalary" property="empSalary"/>
+        <result column="empAnnualSal" property="empAnnualSal"/>
+        <result column="empStatus" property="status"/> <!-- 매핑 수정 -->
+        <result column="empBank" property="empBank"/>
+        <result column="empAccount" property="empAccount"/>
+        <result column="oriname" property="oriname"/>
+        <result column="empRetireDate" property="empRetireDate"/>
+    </resultMap>
+
+    <select id="findEmployeeById" parameterType="string" resultMap="employeeMap">
+        SELECT
+        <include refid="employeeSql"/>
+        FROM employee e
+        WHERE e.emp_id = #{empId}
+    </select>
+</mapper>

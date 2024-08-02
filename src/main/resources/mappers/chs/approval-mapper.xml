@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="approval">
+	<!-- 문서 조회 sql문 -->
+	<sql id="approvalSql">
+		a.apv_type AS a_apv_type,
+		a.apv_title AS a_apv_title,
+		a.apv_content AS a_apv_content,
+		a.apv_date AS a_apv_date,
+		a.apv_modify AS a_apv_modify,
+		a.apv_done AS a_apv_done,
+		a.apv_status AS a_apv_status,
+		a.apv_strg AS a_apv_strg,
+		a.apv_id AS a_apv_id,
+		a.emp_id AS a_emp_id
+	</sql>
+	<!-- 사원에 대한 sql -->
+	<sql id="employeeSql">
+		e.emp_id AS e_emp_id,
+		e.emp_name AS e_emp_name,
+		e.emp_password as e_emp_password,
+		e.emp_email as e_emp_email,
+		e.emp_title as e_emp_title,
+		e.emp_hiredate as e_emp_hireadte,
+		e.emp_yn as e_emp_yn,
+		e.emp_address as e_emp_address,
+		e.emp_rvacation as e_emp_rvacation,
+		e.emp_profile as e_emp_profile,
+		e.emp_tvacation as e_emp_tvacation,
+		e.emp_salary as e_emp_salary,
+		e.emp_annualsal as e_emp_annualsal,
+		e.emp_status as e_emp_status,
+		e.emp_bank as e_emp_bank,
+		e.emp_account as e_emp_account,
+		e.oriname as e_oriname,
+		e.emp_retire_date as e_emp_retire_date
+	</sql>
+	<!-- 결재라인 사원에 대한 커스텀 sql -->
+	<sql id="employeeCustomSql">
+		ae.emp_id AS ae_emp_id,
+		ae.emp_name AS ae_emp_name,
+		ae.emp_password as ae_emp_password,
+		ae.emp_email as ae_emp_email,
+		ae.emp_title as ae_emp_title,
+		ae.emp_hiredate as ae_emp_hireadte,
+		ae.emp_yn as ae_emp_yn,
+		ae.emp_address as ae_emp_address,
+		ae.emp_rvacation as ae_emp_rvacation,
+		ae.emp_profile as ae_emp_profile,
+		ae.emp_tvacation as ae_emp_tvacation,
+		ae.emp_salary as ae_emp_salary,
+		ae.emp_annualsal as ae_emp_annualsal,
+		ae.emp_status as ae_emp_status,
+		ae.emp_bank as ae_emp_bank,
+		ae.emp_account as ae_emp_account,
+		ae.oriname as ae_oriname,
+		ae.emp_retire_date as ae_emp_retire_date
+	</sql>
+	<!-- 참조인 사원에 대한 커스텀 sql -->
+	<sql id="employeeCustom1Sql">
+		ce.emp_id AS ce_emp_id,
+		ce.emp_name AS ce_emp_name,
+		ce.emp_password as ce_emp_password,
+		ce.emp_email as ce_emp_email,
+		ce.emp_title as ce_emp_title,
+		ce.emp_hiredate as ce_emp_hireadte,
+		ce.emp_yn as ce_emp_yn,
+		ce.emp_address as ce_emp_address,
+		ce.emp_rvacation as ce_emp_rvacation,
+		ce.emp_profile as ce_emp_profile,
+		ce.emp_tvacation as ce_emp_tvacation,
+		ce.emp_salary as ce_emp_salary,
+		ce.emp_annualsal as ce_emp_annualsal,
+		ce.emp_status as ce_emp_status,
+		ce.emp_bank as ce_emp_bank,
+		ce.emp_account as ce_emp_account,
+		ce.oriname as ce_oriname,
+		ce.emp_retire_date as ce_emp_retire_date
+	</sql>
+	<!-- 결재 첨부파일에 대한 sql -->
+	<sql id="apvattachmentSql">
+		aa.apv_id AS aa_apv_id,
+		aa.file_oriname AS aa_file_oriname,
+		aa.file_rename AS aa_file_rename
+	</sql>
+	<!-- 결재 태그에 대한 sql 문 -->
+	<sql id="apvtagSql">
+		at2.apv_type AS at2_apv_type,
+		at2.pre_payment AS at2_pre_payment,
+		at2.after_payment AS at2_after_payment,
+		at2.vacay AS at2_vacay
+	</sql>
+	<!-- 휴가 신청서에 대한 sql 문 -->
+	<sql id="vacaySql">
+		v.apv_id AS v_apv_id,
+		v.vacay_type AS v_vacay_type,
+		v.vacay_start AS v_vacay_start,
+		v.vacay_end AS v_vacay_end
+	</sql>
+	<!-- 품의서 양식에 대한 sql 문 -->
+	<sql id="prepaymentSql">
+		pp.apv_id AS pp_apv_id,
+		pp.pay_case AS pp_pay_case,
+		pp.pay_amount AS pp_pay_amount,
+		pp.pay_date AS pp_pay_date
+	</sql>
+	<!-- 지출결의서에 대한 sql 문 -->
+	<sql id="afterpaymentSql">
+		ap.apv_id AS ap_apv_Id,
+		ap.pay_case AS ap_pay_case,
+		ap.pay_amount AS ap_pay_amount,
+		ap.pay_date AS ap_pay_date
+	</sql>
+	<!-- 지출 리스트에 대한 sql문 -->
+	<sql id="paymentlistSql">
+		pl.apv_id AS pl_apv_id,
+		pl.pay_list AS pl_pay_list,
+		pl.pay_amount AS pl_pay_amount,
+		pl.reference AS pl_reference
+	</sql>
+	<!-- 참조인에 대한 sql문 -->
+	<sql id="carboncopySql">
+		cc.cc_id AS cc_cc_id,
+		cc.emp_id AS cc_emp_id,
+		cc.apv_id AS cc_apv_id
+	</sql>
+	<!-- 결재선에 대한 sql문 -->
+	<sql id="approvallineSql">
+		al.apv_line_id AS al_apv_line_id,
+		al.emp_id AS al_emp_id,
+		al.apv_Id AS al_apv_id,
+		al.apv_sequence AS al_apv_sequence,
+		al.apv_status AS al_apv_status
+	</sql>
+	<!-- 자주쓰는 결재라인 sql문 -->
+	<sql id="frequentlineSql">
+		fl.feq_id AS fl_feq_id,
+		fl.emp_id AS fl_emp_id,
+		fl.feq_name AS fl_feq_name,
+		fp.feqp_id AS fp_feqp_id,
+		fp.emp_id AS fp_emp_id,
+		fp.feq_id AS fp_feq_id,
+		fp.feq_type AS fp_feq_type,
+		e.emp_name AS e_emp_name,
+		e.emp_title AS e_emp_title
+	</sql>
+	<!-- 직원에 대한 resultMap -->
+	<resultMap id="employeeMap" type="employee">
+		<id column="e_emp_id" property="empId"/>
+		<result column="e_emp_name" property="empName"/>
+		<result column="e_emp_password" property="empPassword"/>
+		<result column="e_emp_email" property="empEmail"/>
+		<result column="e_emp_title" property="empTitle"/>
+		<result column="e_emp_hireadte" property="empHireDate"/>
+		<result column="e_emp_yn" property="empYn"/>
+		<result column="e_emp_profile" property="empProfile"/>
+		<result column="e_emp_address" property="empAddress"/>
+		<result column="e_emp_rvacation" property="empRvacation"/>
+		<result column="e_emp_tvacation" property="empTvacation"/>
+		<result column="e_emp_salary" property="empSalary"/>
+		<result column="e_emp_annualsal" property="empAnnualSal"/>
+		<result column="e_status" property="status"/>
+		<result column="e_emp_bank" property="empBank"/>
+		<result column="e_emp_account" property="empAccount"/>
+		<result column="e_oriname" property="oriname"/>
+		<result column="e_emp_retire_date" property="empRetireDate"/>
+	</resultMap>
+	<!-- 결재라인 직원에 대한 custom resultMap -->
+	<resultMap id="employeeCustomMap" type="employee">
+		<id column="ae_emp_id" property="empId"/>
+		<result column="ae_emp_name" property="empName"/>
+		<result column="ae_emp_password" property="empPassword"/>
+		<result column="ae_emp_email" property="empEmail"/>
+		<result column="ae_emp_title" property="empTitle"/>
+		<result column="ae_emp_hireadte" property="empHireDate"/>
+		<result column="ae_emp_yn" property="empYn"/>
+		<result column="ae_emp_profile" property="empProfile"/>
+		<result column="ae_emp_address" property="empAddress"/>
+		<result column="ae_emp_rvacation" property="empRvacation"/>
+		<result column="ae_emp_tvacation" property="empTvacation"/>
+		<result column="ae_emp_salary" property="empSalary"/>
+		<result column="ae_emp_annualsal" property="empAnnualSal"/>
+		<result column="ae_status" property="status"/>
+		<result column="ae_emp_bank" property="empBank"/>
+		<result column="ae_emp_account" property="empAccount"/>
+		<result column="ae_oriname" property="oriname"/>
+		<result column="ae_emp_retire_date" property="empRetireDate"/>
+	</resultMap>
+	<!-- 참조인 직원에 대한 custom resultMap -->
+	<resultMap id="employeeCustom1Map" type="employee">
+		<id column="ce_emp_id" property="empId"/>
+		<result column="ce_emp_name" property="empName"/>
+		<result column="ce_emp_password" property="empPassword"/>
+		<result column="ce_emp_email" property="empEmail"/>
+		<result column="ce_emp_title" property="empTitle"/>
+		<result column="ce_emp_hireadte" property="empHireDate"/>
+		<result column="ce_emp_yn" property="empYn"/>
+		<result column="ce_emp_profile" property="empProfile"/>
+		<result column="ce_emp_address" property="empAddress"/>
+		<result column="ce_emp_rvacation" property="empRvacation"/>
+		<result column="ce_emp_tvacation" property="empTvacation"/>
+		<result column="ce_emp_salary" property="empSalary"/>
+		<result column="ce_emp_annualsal" property="empAnnualSal"/>
+		<result column="ce_status" property="status"/>
+		<result column="ce_emp_bank" property="empBank"/>
+		<result column="ce_emp_account" property="empAccount"/>
+		<result column="ce_oriname" property="oriname"/>
+		<result column="ce_emp_retire_date" property="empRetireDate"/>
+	</resultMap>
+	<!-- 첨부 파일에 대한 resultMap -->
+	<resultMap id="apvattachmentMap" type="apvattachment">
+		<id column="aa_apv_id" property="apvId"/>
+			<result column="aa_file_oriname" property="fileOriname"/>
+			<result column="aa_file_rename" property="fileRename"/>
+	</resultMap>
+	<!-- 결제 목록에 대한 resultMap -->
+	<resultMap id="approvalMap" type="approval">
+		<id column="a_apv_id" property="apvId"/>
+		<result column="a_emp_id" property="empId"/>
+		<result column="a_apv_type" property="apvType"/>
+		<result column="a_apv_title" property="apvTitle"/>
+		<result column="a_apv_content" property="apvContent"/>
+		<result column="a_apv_date" property="apvDate"/>
+		<result column="a_apv_modelfy" property="apvModelfy"/>
+		<result column="a_apv_done" property="apvDone"/>
+		<result column="a_apv_status" property="apvStatus"/>
+		<result column="a_apv_strg" property="apvStrg"/>
+		<!-- 직원에 대한 association -->
+		<association property="employee" resultMap="employeeMap"/>
+		<!-- 결재 첨부파일에 대한 association -->
+		<association property="apvAttachment" resultMap="apvattachmentMap"/>
+		<!-- 품의서에 대한 association -->
+		<association property="prePayment" resultMap="prepaymentMap"/>
+		<!-- 지출결의서 대한 association -->
+		<association property="afterPayment" resultMap="afterpaymentMap"/>
+		<!-- 휴가신청서에 대한 association -->
+		<association property="vacay" resultMap="vacayMap"/>
+		<!-- 참조인 -->
+		<collection property="carbonCopy" resultMap="carboncopyMap"/>
+		<!-- 결재선 -->
+		<collection property="approvalLine" resultMap="approvallineMap"/>
+	</resultMap>
+	<!-- 문서 타입에 대한 resultMap -->
+	<resultMap id="apvtagMap" type="apvtag">
+		<id column="at2_apv_type" property="apvType"/>
+		<result column="at2_pre_payment" property="prePayment"/>
+		<result column="at2_after_payment" property="afterPayment"/>
+		<result column="at2_vacay" property="vacay"/>
+	</resultMap>
+	<!-- 휴가 신청서에 대한 Vacay -->
+	<resultMap id="vacayMap" type="vacay">
+		<id column="v_apv_id" property="apvId"/>
+		<result column="v_vacay_type" property="vacayType"/>
+		<result column="v_vacay_start" property="vacayStart"/>
+		<result column="v_vacay_end" property="vacayEnd"/>
+	</resultMap>
+	<!-- 품의서에 대한 resultMap -->
+	<resultMap id="prepaymentMap" type="prepayment">
+		<id column="pp_apv_id" property="apvId"/>
+		<result column="pp_pay_case" property="payCase"/>
+		<result column="pp_pay_amount" property="payAmount"/>
+		<result column="pp_pay_date" property="payDate"/>
+		<collection property="paymentList" resultMap="paymentlistMap"/>
+	</resultMap>
+	<!-- 지출결의서에 대한 resultMap -->
+	<resultMap id="afterpaymentMap" type="afterpayment">
+		<id column="ap_apv_id" property="apvId"/>
+		<result column="ap_pay_case" property="payCase"/>
+		<result column="ap_pay_amount" property="payAmount"/>
+		<result column="ap_pay_date" property="payDate"/>
+		<collection property="paymentList" resultMap="paymentlistMap"/>
+	</resultMap>
+	<!-- 지출 리스트에 대한 resultmap -->
+	<resultMap id="paymentlistMap" type="paymentList">
+		<result column="pl_apv_id" property="apvId"/>
+		<result column="pl_pay_list" property="payList"/>
+		<result column="pl_pay_amount" property="payAmount"/>
+		<result column="pl_reference" property="reference"/>
+	</resultMap>
+	<!-- 참조인에 대한 resultMap -->
+	<resultMap id="carboncopyMap" type="carboncopy">
+		<id column="cc_cc_id" property="ccId"/>	
+		<result column="cc_emp_id" property="empId"/>
+		<result column="cc_apv_id" property="apvId"/>
+		<association property="employee" resultMap="employeeCustom1Map"/>
+	</resultMap>
+	<!-- 결재선에 대한 resultMap -->
+	<resultMap id="approvallineMap" type="approvalline">
+		<id column="al_apv_line_id" property="apvLineId"/>
+		<result column="al_emp_id" property="empId"/>
+		<result column="al_apv_id" property="apvId"/>
+		<result column="al_apv_sequence" property="apvSequence"/>
+		<result column="al_apv_status" property="apvStatus"/>
+		<association property="employee" resultMap="employeeCustomMap"/>
+	</resultMap>
+	<!-- 결재 라인에 대한 resultMap -->
+	<resultMap id="frequentlineMap" type="frequentline">
+		<id column="fl_feq_id" property="feqId"/>
+		<result column="fl_emp_id" property="empId"/>
+		<result column="fl_feq_name" property="feqName"/>
+		<!-- 결재 라인 인원에 대한 collection -->
+		<collection property="frequentperson" resultMap="frequentpersonMap"/>
+	</resultMap>
+	<!-- 결재 라인 인원들에 대한 resultMap -->
+	<resultMap id="frequentpersonMap" type="frequentperson">
+			<id column="fp_feqp_id" property="feqpId"/>
+			<result column="fp_emp_id" property="empId"/>
+			<result column="fp_feq_id" property="feqId"/>
+			<result column="fp_feq_type" property="feqType"/>
+			<association property="employee" resultMap="employeeMap"/>
+	</resultMap>
+<!-- ================================================================================================================================== -->	
+	<!-- 
+		기안함 결재 문서의 총 갯수
+		기안함에서의 진행중, 반려, 결재 완료
+		파라미터 값으로는  로그인한 사원의 id, 결재 상태, 결재 저장 상태로 조건 검색이 가능해야함
+	 -->
+	<select id="selectMyApprovalCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM APPROVAL
+		<where>
+			EMP_ID = #{empId}
+			<if test="apvStatus != null">
+				AND APV_STATUS = #{apvStatus}
+			</if>
+			<if test="apvStrg != null">
+				AND APV_STRG = #{apvStrg}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 
+		기안함에서 진행 중, 반려, 승인, 임시 저장에 대한 전체 결재 문서에 대해 조회 
+		파라미터로는 로그인한 사원의 id, 최근 순, 오래된 순이 들어옴
+	-->
+	<select id="selectMyApproval" parameterType="map" resultMap="approvalMap">
+		SELECT
+		<include refid="approvalSql"/>,
+		<include refid="employeeSql"/>,
+		<include refid="apvattachmentSql"/>,
+		<include refid="apvtagSql"/>,
+		<include refid="vacaySql"/>,
+		<include refid="prepaymentSql"/>,
+		<include refid="afterpaymentSql"/>
+		FROM APPROVAL a
+		LEFT JOIN EMPLOYEE e ON a.EMP_ID = e.EMP_ID
+		LEFT JOIN APV_ATTACHMENT aa ON a.APV_ID = aa.APV_ID
+		LEFT JOIN APV_TAG at2 ON a.APV_TYPE = at2.APV_TYPE
+		LEFT JOIN VACAY v ON a.APV_ID = v.APV_ID
+		LEFT JOIN PRE_PAYMENT pp ON a.APV_ID = pp.APV_ID 
+		LEFT JOIN AFTER_PAYMENT ap ON a.APV_ID = ap.APV_ID
+		<where>
+			a.EMP_ID = #{empId}
+			<if test="apvStatus != null">
+				AND a.APV_STATUS = #{apvStatus}
+			</if>
+			<if test="apvStrg != null">
+				AND a.APV_STRG = #{apvStrg}
+			</if>
+		</where>
+			<if test="old != null">
+				ORDER BY a.APV_DATE 
+			</if>
+			<if test="old == null">
+				ORDER BY a.APV_DATE DESC
+			</if>
+	</select>
+	<!-- 
+		결재함 결재 문서의 총 갯수
+		결재함에서 미결, 종결, 열람
+		파라미터 값으로는 로그인한 사원의 id, 결재 상태로 조건 검색이 가능해야함
+	 -->
+	 <select id="selectApprovalCount" parameterType="map" resultType="int">
+	    SELECT COUNT(*)
+	    FROM APPROVAL a
+	    <if test="approvalLine != null">
+	        LEFT JOIN APPROVAL_LINE al ON a.APV_ID = al.APV_ID
+	    </if>
+	    <if test="carbonCopy != null">
+	        JOIN CARBON_COPY cc ON a.APV_ID = cc.APV_ID
+	    </if>
+	    <where>
+	        <if test="approvalLine != null">
+	            (
+	                al.EMP_ID = #{empId}
+	                AND a.APV_STRG = '0'
+	                AND (
+	                    al.APV_SEQUENCE = 0
+	                    AND EXISTS (
+	                        SELECT 1
+	                        FROM APPROVAL_LINE team_leader_al
+	                        WHERE team_leader_al.APV_ID = a.APV_ID
+	                        AND team_leader_al.APV_SEQUENCE = 1
+	                        AND team_leader_al.APV_STATUS = '1'
+	                    )
+	                    OR (
+	                        al.APV_SEQUENCE = 1
+	                    )
+	                    OR (
+	                        al.APV_SEQUENCE > 1
+	                        AND EXISTS (
+	                            SELECT 1
+	                            FROM APPROVAL_LINE prev_al
+	                            WHERE prev_al.APV_ID = a.APV_ID
+	                            AND prev_al.APV_SEQUENCE = al.APV_SEQUENCE - 1
+	                            AND prev_al.APV_STATUS = '1'
+	                        )
+	                    )
+	                )
+	            )
+	        </if>
+	        <if test="carbonCopy != null">
+	            OR cc.EMP_ID = #{empId}
+	        </if>
+	        <if test="apvStatus != null">
+	            AND a.APV_STATUS = #{apvStatus}
+	        </if>
+	    </where>
+	</select>
+	<!-- 결재함 조회 미결, 종결 -->
+	<select id="selectApproval" parameterType="map" resultMap="approvalMap">
+	    SELECT
+	    <include refid="approvalSql"/>,
+	    <include refid="employeeSql"/>,
+	    <include refid="vacaySql"/>,
+	    <include refid="prepaymentSql"/>,
+	    <include refid="afterpaymentSql"/>
+	    FROM APPROVAL a
+	    LEFT JOIN EMPLOYEE e ON a.EMP_ID = e.EMP_ID
+	    LEFT JOIN VACAY v ON a.APV_ID = v.APV_ID
+	    LEFT JOIN PRE_PAYMENT pp ON a.APV_ID = pp.APV_ID 
+	    LEFT JOIN AFTER_PAYMENT ap ON a.APV_ID = ap.APV_ID
+	    <if test="approvalLine != null">
+	        LEFT JOIN APPROVAL_LINE al ON a.APV_ID = al.APV_ID
+	    </if>
+	     <if test="carbonCopy != null">
+	        JOIN CARBON_COPY cc ON a.APV_ID = cc.APV_ID
+	    </if>
+	    <where>
+	        <if test="approvalLine != null">
+	            (
+	                al.EMP_ID = #{empId}
+	                AND a.APV_STRG = '0'
+	                AND (
+	                    al.APV_SEQUENCE = 0
+	                    AND EXISTS (
+	                        SELECT 1
+	                        FROM APPROVAL_LINE team_leader_al
+	                        WHERE team_leader_al.APV_ID = a.APV_ID
+	                        AND team_leader_al.APV_SEQUENCE = 1
+	                        AND team_leader_al.APV_STATUS = '1'
+	                    )
+	                    OR (
+	                        al.APV_SEQUENCE = 1
+	                    )
+	                    OR (
+	                        al.APV_SEQUENCE > 1
+	                        AND EXISTS (
+	                            SELECT 1
+	                            FROM APPROVAL_LINE prev_al
+	                            WHERE prev_al.APV_ID = a.APV_ID
+	                            AND prev_al.APV_SEQUENCE = al.APV_SEQUENCE - 1
+	                            AND prev_al.APV_STATUS = '1'
+	                        )
+	                    )
+	                )
+	            )
+	        </if>
+	        <if test="carbonCopy != null">
+	        	cc.EMP_ID = #{empId}
+	    	</if>
+	        <if test="apvStatus == 0">
+				AND a.APV_STATUS = #{apvStatus}
+			</if>
+	        <if test="apvStatus == 1">
+				AND a.APV_STATUS IN('1','2')
+			</if>
+	    </where>
+	    <if test="old == null">
+			ORDER BY a.APV_DATE 
+		</if>
+		<if test="old != null">
+			ORDER BY a.APV_DATE DESC
+		</if>
+	</select>
+
+
+	<!-- 
+		결재 문서 상세 조회 map 안에는 문서 pk값, 문서 종류가 들어옴
+		결재 문서 테이블에 문서 종류에 따라 불러오는 결재 양식이 바뀜
+	-->
+	<select id="selectOneApproval" parameterType="map" resultMap="approvalMap">
+		SELECT
+		<include refid="approvalSql"/>,
+		<include refid="employeeSql"/>,
+		<include refid="apvattachmentSql"/>,
+		<if test="apvType == 0">
+			<include refid="vacaySql"/>,
+		</if>
+		<if test="apvType == 1">
+			<include refid="prepaymentSql"/>,
+			<include refid="paymentlistSql"/>,
+		</if>
+		<if test="apvType == 2">
+			<include refid="afterpaymentSql"/>,
+			<include refid="paymentlistSql"/>,
+		</if>
+		<include refid="carboncopySql"/>,
+		<include refid="employeeCustom1Sql"/>,
+		<include refid="approvallineSql"/>,
+		<include refid="employeeCustomSql"/>
+		FROM APPROVAL a
+		LEFT JOIN EMPLOYEE e ON a.EMP_ID = e.EMP_ID
+		LEFT JOIN APV_ATTACHMENT aa ON a.APV_ID = aa.APV_ID
+		<if test="apvType == 0">
+			LEFT JOIN VACAY v ON a.APV_ID = v.APV_ID
+		</if>
+		<if test="apvType == 1">
+			LEFT JOIN PRE_PAYMENT pp ON a.APV_ID = pp.APV_ID 
+			LEFT JOIN PAYMENT_LIST pl ON a.APV_ID = pl.APV_ID
+		</if>
+		<if test="apvType == 2">
+			LEFT JOIN AFTER_PAYMENT ap ON a.APV_ID = ap.APV_ID
+			LEFT JOIN PAYMENT_LIST pl ON a.APV_ID = pl.APV_ID
+		</if>
+		LEFT JOIN CARBON_COPY cc ON a.APV_ID = cc.APV_ID
+		LEFT JOIN EMPLOYEE ce ON cc.EMP_ID = ce.EMP_ID
+		LEFT JOIN APPROVAL_LINE al ON a.APV_ID = al.APV_ID
+		LEFT JOIN EMPLOYEE ae ON al.EMP_ID = ae.EMP_ID
+		WHERE a.APV_ID = #{apvId}
+	</select>
+	<!--
+		결재 태그 저장 테이블과 자주쓰는 결재라인의 FK값이 일치하지 않아서 DB를 접근 2번해서 가져와야할것같음.
+		 결재 문서 등록창 들어갈 때 필요한 값 불러오기  파라미터로는 로그인한 사원의 id가 들어옴
+		 결재 문서 등록할 때 필요한 데이터는 결재 태그 불러오기, 자주쓰는 결재라인 불러오기
+	-->
+	<!-- 결재 태그 불러오기 -->
+	<select id="selectApvTag" parameterType="string" resultMap="apvtagMap">
+		SELECT 
+		<include refid="apvtagSql"/>
+		FROM APV_TAG at2
+		WHERE at2.APV_TYPE = #{apvType}
+	</select>
+	
+	
+	<!-- 결재 문서 등록하기 -->
+	<insert id="insertApproval" parameterType="approval">
+		INSERT INTO APPROVAL VALUES('', #{empId}, #{apvType}, #{apvTitle}, #{apvContent}, #{apvDate}, null,
+									null, #{apvStatus}, #{apvStrg})
+		<!-- 시퀀스값 selectKey를 이용해 apvId 필드값에 값 넣어줌. -->
+		<selectKey keyProperty="apvId" resultType="string" order="AFTER">
+			SELECT APV_ID FROM APPROVAL WHERE APV_ID = (SELECT MAX(APV_ID) FROM APPROVAL)
+		</selectKey>
+	</insert>
+	<!-- 결재 문서 수정하기  -->
+	<update id="updateApproval" parameterType="com.edujoa.chs.approval.model.dto.Approval">
+	    UPDATE APPROVAL
+	    <set>
+	        <if test="apvType != null">APV_TYPE = #{apvType,jdbcType=VARCHAR},</if>
+	        <if test="apvTitle != null">APV_TITLE = #{apvTitle,jdbcType=VARCHAR},</if>
+	        <if test="apvContent != null">APV_CONTENT = #{apvContent,jdbcType=VARCHAR},</if>
+	        <if test="apvDate != null">APV_DATE = #{apvDate,jdbcType=DATE},</if>
+	        <if test="apvStatus != null">APV_STATUS = #{apvStatus,jdbcType=VARCHAR},</if>
+	        <if test="apvStrg != null">APV_STRG = #{apvStrg,jdbcType=VARCHAR},</if>
+	    </set>
+	    WHERE APV_ID = #{apvId,jdbcType=VARCHAR}
+	</update>
+
+
+	<!-- 결재 문서 삭제하기 -->
+	<delete id="deleteApproval" parameterType="string">
+		DELETE APPROVAL WHERE APV_ID = #{apvId}
+	</delete>
+	<!-- 휴가 신청서 등록하기 -->
+	<insert id="insertVacay" parameterType="vacay">
+		INSERT INTO VACAY VALUES(#{apvId}, #{vacayType}, #{vacayStart}, #{vacayEnd})
+	</insert>
+	<!-- 휴가 신청서 수정하기 -->
+	<update id="updateVacay" parameterType="vacay">
+		UPDATE VACAY SET VACAY_TYPE = #{vacayType}, VACAY_START = #{vacayType}, VACAY_END = #{vacayEnd}
+		WHERE APV_ID = #{apvId}
+	</update>
+	<!--  품의서 등록하기 -->
+	<insert id="insertPrePayment" parameterType="prepayment">
+		INSERT INTO PRE_PAYMENT VALUES(#{apvId}, #{payCase}, ${payAmount}, #{payDate})
+	</insert>
+	<!-- 품의서 수정하기 -->
+	<update id="updatePrePayment" parameterType="prepayment">
+		UPDATE PRE_PAYMENT SET PAY_CASE = #{payCase}, PAY_AMOUNT = ${payAmount}, PAY_DATE = #{payDate}
+		WHERE APV_ID = #{apvId}
+	</update>
+	<!--  지출결의서 등록하기 -->
+	<insert id="insertAfterPayment" parameterType="prepayment">
+		INSERT INTO AFTER_PAYMENT VALUES(#{apvId}, #{payCase}, ${payAmount}, #{payDate})
+	</insert>
+	<!-- 지출결의서 수정하기 -->
+	<update id="updateAfterPayment" parameterType="prepayment">
+		UPDATE AFTER_PAYMENT SET PAY_CASE = #{payCase}, PAY_AMOUNT = ${payAmount}, PAY_DATE = #{payDate}
+		WHERE APV_ID = #{apvId}
+	</update>
+	<!-- 지출 리스트 등록하기 -->
+	<insert id="insertPaymentList" parameterType="paymentList">
+		INSERT INTO PAYMENT_LIST VALUES(#{apvId},#{payList},${payAmount},#{reference})
+	</insert>
+	<!-- 지출 리스트 수정하기 -->
+	<update id="updatePaymentList" parameterType="paymentList">
+		UPDATE PAYMENT_LIST SET PAY_LIST = #{payList}, PAY_AMOUNT = #{payAmount}, REFERENCE = #{reference} 
+		WHERE APV_ID = #{apvId}
+	</update>
+	<!-- 참조인 등록하기 -->
+	<insert id="insertCarbonCopy" parameterType="carboncopy">
+		INSERT INTO CARBON_COPY VALUES('', #{empId}, #{apvId})
+	</insert>
+	<!-- 참조인 수정하기 -->
+	<update id="updateCarbonCopy" parameterType="carboncopy">
+		UPDATE CARBON_COPY SET EMP_ID = #{empId}
+		WHERE APV_ID = #{apvId}
+	</update>
+	<!-- 참조인 삭제하기 -->
+	<delete id="deleteCarbonCopy" parameterType="string">
+		DELETE CARBON_COPY WHERE APV_ID = #{apvId}
+	</delete>
+	<!-- 결재선 등록하기 -->
+	<insert id="insertApprovalLine" parameterType="approvalline">
+		INSERT INTO APPROVAL_LINE VALUES('', #{empId}, #{apvId}, #{apvSequence},'0')
+	</insert>
+	<!--  결재선 수정하기 -->
+	<update id="updateApprovalLine" parameterType="approvalline">
+		UPDATE APPROVAL_LINE SET EMP_ID = #{empId}, APV_SEQUENCE = #{apvSequence}
+		WHERE APV_LINE_ID = #{apvLineId}
+	</update>
+	<!-- 결재선 삭제하기 -->
+	<delete id="deleteApprovalLine" parameterType="string">
+		DELETE APPROVAL_LINE WHERE APV_ID = #{apvId}
+	</delete>
+	<!-- 결재 첨부파일 등록하기 -->
+	<insert id="insertApvAttachment" parameterType="apvattachment">
+		INSERT INTO APV_ATTACHMENT VALUES(#{apvId},#{fileOriname},#{fileRename})
+	</insert>
+	<!-- 결재 첨부파일 수정하기 -->
+	<update id="updateApvAttcahment" parameterType="apvattachment">
+		UPDATE APV_ATTACHMENT SET FILE_ORINAME = #{fileOriname}, FILE_RENAME = #{fileRename}
+		WHERE APV_ID = #{apvId}
+	</update>
+	<!-- 결재 첨부파일 삭제하기 -->
+	<delete id="deleteApvAttachment" parameterType="string">
+		DELETE APV_ATTACHMENT WEHERE APV_ID = #{apvId}
+	</delete>
+	<!-- 로그인한 사원의 자주쓰는 결재라인 불러오기 -->
+	<select id="selectFrequentLine" parameterType="string" resultMap="frequentlineMap">
+		SELECT 
+		<include refid="frequentlineSql"/>,
+		<include refid="employeeSql"/>
+		FROM FREQUENT_LINE fl
+		LEFT JOIN FREQUENT_PERSON fp ON fl.FEQ_ID = fp.FEQ_ID
+		JOIN EMPLOYEE e ON fp.EMP_ID = e.EMP_ID
+		WHERE fl.EMP_ID = #{empId}
+	</select>
+	<!--  자주쓰는 결재라인 등록하기 -->
+	<insert id="insertFrequentLine" parameterType="frequentline">
+		INSERT INTO FREQUENT_LINE VALUES('',#{empId},#{feqName})
+		<selectKey keyProperty="feqId" resultType="string" order="AFTER">
+			SELECT FEQ_ID FROM FREQUENT_LINE WHERE FEQ_ID = (SELECT MAX(FEQ_ID) FROM FREQUENT_LINE)
+		</selectKey>
+	</insert>
+	<!-- 자주쓰는 결재라인 삭제하기 -->
+	<delete id="deleteFrequentLine" parameterType="string">
+		DELETE FRE_QUENTLINE WHERE FEQ_ID = #{feqId}
+	</delete>
+	<!-- 자주쓰는 결재라인 인원 등록하기 -->
+	<insert id="insertFrequentPerson" parameterType="frequentperson">
+		INSERT INTO FREQUENT_PERSON VALUES('', #{empId}, #{feqId}, #{feqType})
+	</insert>
+	
+	
+	<!-- 결재선에 들어갈 수 있는 인원 조회하기 -->
+	<select id="selectAllApprovalLine" parameterType="string" resultMap="employeeMap" >
+		SELECT
+		<include refid="employeeSql"/>
+		FROM EMPLOYEE e
+		WHERE e.EMP_TITLE IN('J1','J2','J3')
+		AND e.EMP_ID NOT IN(#{empId})
+	</select>
+	<!-- 결재 사인 생성하기 -->
+	<update id="updateSignature" parameterType="map">
+		UPDATE EMPLOYEE SET ORINAME = #{oriname} WHERE EMP_ID = #{empId}
+	</update>
+	
+	<!-- 결재라인 업데이트하기 -->
+	<update id="updateApprovalLineStatus" parameterType="map">
+		UPDATE APPROVAL_LINE SET APV_STATUS = '1' WHERE APV_LINE_ID = #{apvLineId}
+	</update>
+	<update id="updateApprovalStatus" parameterType="map">
+		UPDATE APPROVAL SET 
+		<if test="type==0 and apvSequence==0">
+			APV_STATUS = 2, APV_DONE = SYSDATE
+		</if>
+		<if test="type==1">
+			APV_STATUS = 1, APV_DONE = SYSDATE
+		</if>
+		WHERE APV_ID = #{apvId}
+	</update>
+	
+	<!--  파일 다운로드 로직 -->
+	<select id="selectFileById" parameterType="String" resultMap="apvattachmentMap">
+	    SELECT 
+		<include refid="apvattachmentSql"/>
+	    FROM apv_attachment aa
+	    WHERE aa.apv_id = #{apvId}
+	 </select>
+	 
+	 <!-- 결재 대기에 대한 카운트 -->
+	 <select id="approvalWaitCount" parameterType="String" resultType="_int">
+	 	SELECT COUNT(*)
+		FROM APPROVAL_LINE al 
+		LEFT JOIN APPROVAL a ON a.APV_ID = al.APV_ID
+		WHERE al.EMP_ID = #{empId} 
+		AND al.APV_STATUS ='0'
+	 </select>
+	 <!-- 결재 요청에 대한 카운트 -->
+	 <select id="myApprovalWaitCount" parameterType="String" resultType="_int">
+	 	SELECT COUNT(*) 
+		FROM APPROVAL
+		WHERE APV_STATUS = '0'
+		AND EMP_ID = #{empId}
+	</select>
+	 
+</mapper>

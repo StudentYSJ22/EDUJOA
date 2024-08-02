@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="schedule">
+
+    <!-- 공통으로 사용되는 SQL 부분 -->
+    <sql id="scheduleSql">
+        sch_id, emp_id, sch_title, sch_content, sch_start, sch_end, sch_type, sch_color, calendar_type
+    </sql>
+	
+	<!-- 직원에 대한 sql -->
+	<sql id="employeeSql">
+		e.emp_id as e_emp_id,
+		e.emp_name as e_emp_name,
+		e.emp_title as e_emp_title
+	</sql>
+	<!-- 직원에 대한 resultMap -->
+	<resultMap id="employeeMap" type="employee">
+		<id column="e_emp_id" property="empId"/>
+		<result column="e_emp_name" property="empName"/>
+		<result column="e_emp_title" property="empTitle"/>
+	</resultMap>
+	
+    <!-- Schedule resultMap -->
+    <resultMap id="scheduleMap" type="schedule">
+        <id column="sch_id" property="schId"/>
+        <result column="emp_id" property="empId"/>
+        <result column="sch_title" property="schTitle"/>
+        <result column="sch_content" property="schContent"/>
+        <result column="sch_start" property="schStart"/>
+        <result column="sch_end" property="schEnd"/>
+        <result column="sch_type" property="schType"/>
+        <result column="sch_color" property="schColor"/>
+        <result column="calendar_type" property="calendarType"/>
+    </resultMap>
+
+    <!-- ScheduleSharer resultMap -->
+    <resultMap id="scheduleSharerMap" type="scheduleSharer">
+        <id column="sch_id" property="schId"/>
+        <result column="emp_id" property="empId"/>
+        <!-- 추가 -->
+        <collection property="employee" resultMap="employeeMap" />
+    </resultMap>
+
+    <!-- 사용자별 일정 조회 -->
+    <select id="selectSchedulesByEmpId" resultMap="scheduleMap" parameterType="string">
+        SELECT <include refid="scheduleSql"/>
+        FROM SCHEDULE
+        WHERE emp_id = #{empId}
+    </select>
+
+    <!-- 사용자별 특정 캘린더에 대한 일정 조회 -->
+    <select id="selectSchedulesByEmpIdAndCalendars" resultMap="scheduleMap" parameterType="map">
+        SELECT <include refid="scheduleSql"/>
+        FROM SCHEDULE
+        WHERE emp_id = #{empId}
+        AND calendar_type IN
+        <foreach item="calendar" collection="calendars" open="(" separator="," close=")">
+            #{calendar}
+        </foreach>
+    </select>
+
+    <!-- 일정 등록 -->
+    <!-- <insert id="insertSchedule" parameterType="schedule">
+        INSERT INTO SCHEDULE (
+            emp_id, sch_title, sch_content, sch_start,
+            sch_end, sch_type, sch_color, calendar_type
+        ) VALUES (
+            #{empId}, #{schTitle}, #{schContent},
+            #{schStart, jdbcType=TIMESTAMP}, #{schEnd, jdbcType=TIMESTAMP},
+            #{schType}, #{schColor}, #{calendarType}
+        )
+        <selectKey keyProperty="schId" resultType="String" order="AFTER">
+            SELECT SCH_ID FROM SCHEDULE WHERE SCH_ID = (SELECT MAX(SCH_ID) FROM SCHEDULE)
+        </selectKey>
+    </insert> -->
+	<!-- 일정 등록 -->
+<insert id="insertSchedule" parameterType="schedule">
+    INSERT INTO SCHEDULE (
+        emp_id, sch_title, sch_content, sch_start,
+        sch_end, sch_type, sch_color, calendar_type
+    ) VALUES (
+        #{empId}, #{schTitle}, #{schContent},
+        #{schStart, jdbcType=TIMESTAMP}, #{schEnd, jdbcType=TIMESTAMP},
+        #{schType}, #{schColor}, #{calendarType}
+    )
+    <selectKey keyProperty="schId" resultType="String" order="AFTER">
+        SELECT SCH_ID FROM SCHEDULE WHERE SCH_ID = (SELECT MAX(SCH_ID) FROM SCHEDULE)
+    </selectKey>
+</insert>
+
+<!-- 일정 수정 -->
+<update id="updateSchedule" parameterType="schedule">
+    UPDATE SCHEDULE
+    <set>
+        emp_id = #{empId},
+        sch_title = #{schTitle},
+        sch_content = #{schContent},
+        sch_start = #{schStart, jdbcType=TIMESTAMP},
+        sch_end = #{schEnd, jdbcType=TIMESTAMP},
+        sch_type = #{schType},
+        calendar_type = #{calendarType},
+        sch_color = #{schColor}
+    </set>
+    WHERE sch_id = #{schId}
+</update>
+	
+
+    <!-- 일정 상세 이벤트 조회 -->
+    <select id="selectScheduleById" resultMap="scheduleMap" parameterType="string">
+        SELECT <include refid="scheduleSql"/>
+        FROM SCHEDULE
+        WHERE sch_id = #{eventId}
+    </select>
+
+
+    <!-- 일정 삭제 -->
+    <delete id="deleteScheduleSharersByScheduleId" parameterType="string">
+        DELETE FROM SCHEDULE_SHARER WHERE sch_id = #{eventId}
+    </delete>
+
+    <delete id="deleteSchedule" parameterType="string">
+        DELETE FROM SCHEDULE WHERE sch_id = #{eventId}
+    </delete>
+
+    <!-- 참석자 조회 -->
+    <select id="selectScheduleSharers" resultMap="scheduleSharerMap" parameterType="string">
+        SELECT s.sch_id, s.emp_id, <include refid="employeeSql"/>
+        FROM SCHEDULE_SHARER s
+        left join employee e on s.emp_id = e.emp_id
+        WHERE s.sch_id = #{eventId}
+    </select>
+
+    <!-- 참석자 중복 확인 -->
+    <select id="checkDuplicateSharer" parameterType="scheduleSharer" resultType="int">
+        SELECT COUNT(*)
+        FROM SCHEDULE_SHARER
+        WHERE sch_id = #{schId}
+          AND emp_id = #{empId}
+    </select>
+
+    <!-- 참석자 추가 -->
+    <insert id="insertScheduleSharer" parameterType="scheduleSharer">
+        INSERT INTO SCHEDULE_SHARER (sch_id, emp_id)
+        VALUES (#{schId, jdbcType=VARCHAR}, #{empId, jdbcType=VARCHAR})
+    </insert>
+
+    <!-- 참석자 삭제 -->
+    <delete id="deleteScheduleSharers" parameterType="string">
+        DELETE FROM SCHEDULE_SHARER WHERE sch_id = #{schId}
+    </delete>
+
+    <!-- 전체 직원 목록 가져오기 -->
+    <select id="selectAllEmployeesForSchedule" resultType="employee">
+        SELECT
+            EMP_ID as empId,
+            EMP_NAME as empName,
+            EMP_TITLE as empTitle
+        FROM EMPLOYEE
+        WHERE EMP_YN = '0'
+        ORDER BY EMP_NAME
+    </select>
+
+</mapper>
+

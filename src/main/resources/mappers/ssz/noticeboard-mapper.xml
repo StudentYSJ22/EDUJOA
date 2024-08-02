@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="noticeboard">
+
+	<resultMap id="noticeboardMap" type="noticeboard">
+		<id column="board_id" property="boardId" />
+		<result column="emp_id" property="empId" />
+		<result column="board_title" property="boardTitle" />
+		<result column="board_content" property="boardContent" />
+		<result column="board_date" property="boardDate" />
+		<result column="board_count" property="boardCount" />
+		<association property="employee" resultMap="employeeMaps" />
+	</resultMap>
+	<resultMap id="employeeMaps" type="employee">
+		<id column="emp_id" property="empId" />
+		<result column="emp_name" property="empName" />
+		<result column="emp_password" property="empPassword" />
+		<result column="emp_email" property="empEmail" />
+		<result column="emp_title" property="empTitle" />
+		<result column="emp_profile" property="empProfile" />
+		<result column="emp_hiredate" property="empHireDate" />
+		<result column="emp_yn" property="empYn" />
+		<result column="emp_address" property="empAddress" />
+		<result column="emp_rvacation" property="empRvacation" />
+		<result column="emp_tvacation" property="empTvacation" />
+		<result column="emp_salary" property="empSalary" />
+		<result column="emp_annualsal" property="empAnnualSal" />
+		<result column="emp_status" property="status" />
+		<result column="emp_bank" property="empBank" />
+		<result column="emp_account" property="empAccount" />
+		<result column="emp_retire_date" property="empRetireDate" />
+		<result column="oriname" property="oriname" />
+	</resultMap>
+
+
+
+	<select id="getAllBoardList" resultMap="noticeboardMap">
+		SELECT NB.*, E.* FROM NOTICE_BOARD NB JOIN EMPLOYEE E ON NB.EMP_ID =
+		E.EMP_ID
+	</select>
+
+	<select id="getBoardDetail" parameterType="map"
+		resultMap="noticeboardMap">
+		SELECT NB.*, E.* FROM NOTICE_BOARD NB JOIN EMPLOYEE E ON NB.EMP_ID =
+		E.EMP_ID
+		WHERE NB.BOARD_ID = #{boardId}
+	</select>
+
+	<update id="increaseViewCount" parameterType="string">
+		UPDATE NOTICE_BOARD
+		SET BOARD_COUNT = BOARD_COUNT + 1
+		WHERE BOARD_ID = #{boardId}
+	</update>
+
+	<select id="findAllByOrderByBoardId" resultMap="noticeboardMap">
+		SELECT * FROM notice_board
+		ORDER BY board_id ASC
+	</select>
+
+	<select id="findAllByOrderByBoardCountDesc"
+		resultMap="noticeboardMap">
+		SELECT NB.*, E.* FROM NOTICE_BOARD NB JOIN EMPLOYEE E ON NB.EMP_ID =
+		E.EMP_ID
+		ORDER BY NB.BOARD_COUNT DESC
+	</select>
+
+	<insert id="insertBoard" parameterType="noticeboard">
+		INSERT INTO NOTICE_BOARD
+		VALUES(NBOARD_SEQ.NEXTVAL,#{empId},#{boardTitle},#{boardContent},#{boardDate},#{boardCount})
+	</insert>
+
+	<delete id="deleteBoard" parameterType="map">
+		DELETE FROM NOTICE_BOARD WHERE BOARD_ID=#{boardId} AND EMP_ID = #{loginId}
+	</delete>
+
+	<update id="updateBoard" parameterType="map">
+		UPDATE NOTICE_BOARD SET BOARD_TITLE = #{boardTitle}, BOARD_CONTENT =
+		#{boardContent} WHERE BOARD_ID = #{boardId}
+	</update>
+</mapper>

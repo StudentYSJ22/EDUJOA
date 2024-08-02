@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+   <typeAliases>
+      <!-- 최헌수 -->
+ <typeAlias type="com.edujoa.chs.tutor.model.dto.ClassRoom" alias="class"/>
+		<typeAlias type="com.edujoa.chs.tutor.model.dto.MyClass" alias="myclass"/>
+		<typeAlias type="com.edujoa.chs.tutor.model.dto.Student" alias="student"/>
+		<typeAlias type="com.edujoa.chs.tutor.model.dto.Subject" alias="subject"/>
+		<typeAlias type="com.edujoa.chs.tutor.model.dto.Tutor" alias="tutor"/>
+		<typeAlias type="com.edujoa.chs.tutor.model.dto.SuperVision" alias="supervision"/>
+		<typeAlias type="com.edujoa.with.employee.model.dto.Employee" alias="employee"/>
+		<typeAlias type="com.edujoa.with.employee.model.dto.Alarm" alias="alarm"/>
+		<typeAlias type="com.edujoa.chs.approval.model.dto.AfterPayment" alias="afterpayment"/>
+		<typeAlias type="com.edujoa.chs.approval.model.dto.Approval" alias="approval"/>
+		<typeAlias type="com.edujoa.chs.approval.model.dto.ApprovalLine" alias="approvalline"/>
+		<typeAlias type="com.edujoa.chs.approval.model.dto.ApvAttachment" alias="apvattachment"/>
+		<typeAlias type="com.edujoa.chs.approval.model.dto.CarbonCopy" alias="carboncopy"/>
+		<typeAlias type="com.edujoa.chs.approval.model.dto.FrequentLine" alias="frequentline"/>
+		<typeAlias type="com.edujoa.chs.approval.model.dto.FrequentPerson" alias="frequentperson"/>
+		<typeAlias type="com.edujoa.chs.approval.model.dto.PrePayment" alias="prepayment"/>
+		<typeAlias type="com.edujoa.chs.approval.model.dto.ApvTag" alias="apvtag"/>
+		<typeAlias type="com.edujoa.chs.approval.model.dto.Vacay" alias="vacay"/>
+		<typeAlias type="com.edujoa.chs.approval.model.dto.PaymentList" alias="paymentList"/>
+		<typeAlias type="com.edujoa.chs.logintest.model.dto.LoginTest" alias="chslogin"/>
+
+    <!-- 유선정 -->
+      <typeAlias type="com.edujoa.ysj.schedule.model.dto.Schedule" alias="schedule"/>
+      <typeAlias type="com.edujoa.ysj.attendance.model.dto.Attendance" alias="attendance"/>
+      <typeAlias type="com.edujoa.ysj.schedule.model.dto.ScheduleSharer" alias="ScheduleSharer"/>
+      <typeAlias type="com.edujoa.ysj.attendance.model.dto.StaffAttendance" alias="staffAttendance"/>
+      
+       <!-- 유승주 -->
+	  <typeAlias type="com.edujoa.ssz.chatting.model.dto.ChatAttachment" alias="chatattachment"/>
+      <typeAlias type="com.edujoa.ssz.chatting.model.dto.ChatAttendee" alias="chatattendee"/>
+      <typeAlias type="com.edujoa.ssz.chatting.model.dto.ChatRecord" alias="chatrecord"/>
+      <typeAlias type="com.edujoa.ssz.chatting.model.dto.ChatRoom" alias="chatroom"/>
+      <typeAlias type="com.edujoa.ssz.chatting.model.dto.MyChatRooms" alias="mychatrooms"/>
+      <typeAlias type="com.edujoa.ssz.chatting.model.dto.MyChatRecords" alias="mychatrecords"/>
+      <typeAlias type="com.edujoa.ssz.noticeboard.model.dto.NoticeBoard" alias="noticeboard"/>
+      <typeAlias type="com.edujoa.ssz.noticeboard.model.dto.NoticeBoardAttachment" alias="noticeboardattch"/>
+      <typeAlias type="com.edujoa.ssz.webmail.model.dto.Mail" alias="mail"/>
+      <typeAlias type="com.edujoa.ssz.webmail.model.dto.ReceivedMail" alias="receivedmail"/>
+      <typeAlias type="com.edujoa.ssz.webmail.model.dto.MailAttachment" alias="mailattahment"/>
+      <typeAlias alias="list" type="java.util.List"/>
+   </typeAliases> 
+   <typeHandlers>
+	    <typeHandler handler="com.edujoa.ssz.webmail.controller.ListToStringTypeHandler"/>
+	    <typeHandler handler="com.edujoa.ssz.webmail.controller.StringToClobTypeHandler" javaType="java.lang.String" jdbcType="CLOB"/>
+	    <typeHandler handler="com.edujoa.ssz.webmail.controller.ByteArrayToStringClobTypeHandler"/>
+  </typeHandlers>
+</configuration>

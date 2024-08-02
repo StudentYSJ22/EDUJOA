@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mail">
+<resultMap id="mailMap" type="mail">
+<id column="mail_id" property="mailId"/>
+<result column="sender_email" property="senderEmail"/>
+<result column="receiver_email" property="sendto" typeHandler="com.edujoa.ssz.webmail.controller.ListToStringTypeHandler"/>
+<result column="mail_cc" property="ccto" typeHandler="com.edujoa.ssz.webmail.controller.ListToStringTypeHandler"/>
+<result column="mail_bcc" property="Bccto" typeHandler="com.edujoa.ssz.webmail.controller.ListToStringTypeHandler"/>
+<result column="mail_title" property="mailTitle"/>
+<result column="mail_content" property="mailContent"/>
+<result column="mail_date" property="mailDate"/>
+<result column="mail_type" property="mailType"/>
+</resultMap>
+
+	<insert id="insertSendMail" parameterType="map">
+		INSERT INTO MAIL VALUES(MAIL_SEQ.NEXTVAL,#{empEmail},#{sendto},#{ccto},#{mailTitle},#{message},#{mailDate},#{Bccto},'0')
+	</insert>
+	
+	<insert id="insertTempMail" parameterType="map">
+		INSERT INTO MAIL VALUES(MAIL_SEQ.NEXTVAL,#{empEmail},#{sendto},#{ccto},#{mailTitle},#{message},#{mailDate},#{Bccto},'1')
+	</insert>
+	
+	<select id="getTempMail" resultMap="mailMap">
+		SELECT * FROM MAIL WHERE MAIL_TYPE = '1'
+	</select>
+
+	<select id="getSentMail" resultMap="mailMap">
+		SELECT * FROM MAIL WHERE MAIL_TYPE = '0'
+	</select>
+	
+	<select id="getSelectedSentMail" parameterType="string" resultMap="mailMap">
+		SELECT * FROM MAIL WHERE MAIL_ID = #{emailId}
+	</select>
+	
+</mapper>

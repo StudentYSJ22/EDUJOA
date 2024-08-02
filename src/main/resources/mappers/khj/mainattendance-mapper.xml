@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mainAttendance">
+<!-- DAO에서 (네임스페이스.아이디값)을 불러올수 있도록 함 -->
+<!-- 파라미터타입은 패키지명 통째로 써야하지만 마이바티스컨피그에서 알리아스로 별칭을 적어주면 간단함 -->
+<!-- 여기서 선정이가만든 dto이용했음!  -->
+	<resultMap id="MainAttendanceMap" type="attendance">
+		<id column="atn_id" property="atnId"/>
+		<result column="emp_id" property="empId"/>
+		<result column="atn_in" property="atnIn"/>
+		<result column="atn_out" property="atnOut"/>
+		<result column="atn_status" property="atnStatus"/>
+	</resultMap>
+	<insert id="insertAttendance" parameterType="attendance">
+	 	INSERT INTO ATTENDANCE(ATN_ID, EMP_ID, ATN_IN) VALUES ('', #{empId}, #{atnIn})
+	</insert>
+
+	
+	<update id="updateAttendance" parameterType="attendance">
+        UPDATE ATTENDANCE 
+        SET ATN_OUT = #{atnOut} 
+	   WHERE emp_id=#{empId} AND to_char(atn_in,'yyyy-mm-dd') = to_char(sysdate,'yyyy-mm-dd') AND atn_out IS null
+    </update>
+	
+	<select id="selectAttendance" parameterType="String" resultMap="MainAttendanceMap">
+		SELECT * FROM ATTENDANCE WHERE EMP_ID=#{empId} AND to_char(atn_in,'yyyy-mm-dd') = to_char(sysdate,'yyyy-mm-dd')
+	</select>
+</mapper>
