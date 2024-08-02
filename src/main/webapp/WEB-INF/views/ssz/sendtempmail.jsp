@@ -6,11 +6,7 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<%
-    String title = request.getParameter("emailTitle");
-    String sender = request.getParameter("emailSender");
-    String content = request.getParameter("emailContent");
-%>
+
 <title>새 메일 작성</title>
 <style>
 body {
@@ -185,6 +181,7 @@ body {
 		<!-- 사이드바 -->
 		<aside class="menubar">
 			<div class="logo">
+				<h3>메일 메뉴</h3>
 			</div>
 			<ul class="menulist">
 				<li><a href="/mailbox" id="inbox">받은메일함</a></li>
@@ -201,37 +198,39 @@ body {
 				<div class="field">
 					<label for="mailTitle">제목: </label> 
 					<input type="text" name="mailTitle" id="mailTitle" placeholder="제목" required
-						style="width: 80%; box-sizing: border-box;" value="<%=title%>:RE">
+						value="${email.mailTitle }" style="width: 80%; box-sizing: border-box;">
 				</div>
 				<!-- 수신자 -->
 				<div class="field">
 					<label for="mailReceiver">수신자: </label> 
 					<input type="email" name="sendto" id="sendto" placeholder="받는 사람" required
-						style="width: 80%; box-sizing: border-box;" value="<%=sender %>">
+						value="${email.sendto }" style="width: 80%; box-sizing: border-box;">
 				</div>
 				<!-- 참조 -->
 				<div class="field">
 					<label for="mailCc">참조: </label> 
 					<input type="text" name="ccto" id="ccto" placeholder="받는 사람"
-						style="width: 80%; box-sizing: border-box;">
+						value="${email.ccto }" style="width: 80%; box-sizing: border-box;">
 				</div>
 				<!-- 숨은참조 -->
 				<div class="field">
 					<label for="mailBcc">숨은 참조: </label> 
 					<input type="text" name="Bccto" id="Bccto" placeholder="받는 사람"
-						style="width: 80%; box-sizing: border-box;">
+						 style="width: 80%; box-sizing: border-box;">
 				</div>
 				<!-- 내용 -->
 				<div class="field">
 					<textarea name="message" id="message" placeholder="내용을 입력하세요" required style="width: 100%; box-sizing: border-box;">
-						
+						${email.mailContent }
 					</textarea>
 				</div>
 				<!-- 안보이는 시간 보내는 용도 -->
 				<div class="field">
-					<input type="text" name="mailDate" id="mailDate" value="" style="display: none;">
+					<input type="text" name="mailDate" id="mailDate" style="display: none;">
 				</div>
 				<!-- 보내기버튼 -->
+				
+				<button type="button" id="tempsubmit" style="align-self: flex-end;">임시저장</button>
 				<button type="submit" id="button" style="align-self: flex-end;">보내기</button>
 				
 				<!-- 이름 -->
@@ -248,13 +247,12 @@ body {
 				<div class="field">
 					
 					<input type="text" name="empTitle" id="empTitle"
-						value="
-						<c:choose>
+						value="<c:choose>
                         <c:when test="${loginmember.empTitle == 'J1'}">원장</c:when>
                         <c:when test="${loginmember.empTitle == 'J2'}">팀장</c:when>
                         <c:when test="${loginmember.empTitle == 'J3'}">매니저</c:when>
-                    	</c:choose>" style="display: none;">
-					<input type="text" name="senderEmail" id="senderEmail" value="${loginMember.empEmail }" style="display: none;"/>
+                    </c:choose>" style="display: none;">
+						<input type="text" name="senderEmail" id="senderEmail" value="${loginMember.empEmail }" style="display: none;"/>
 				</div>
 			</form>
 		</div>
@@ -264,18 +262,21 @@ body {
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-<script src="${path }/resources/js/mailreply.js"></script>
 <script src="${path }/resources/js/mailsend.js"></script>
 <script>
-	const empName="${loginMember.empName}";
-	document.addEventListener("DOMContentLoaded", function() {
-        // ID가 'empTitle'인 요소의 값을 가져옵니다.
-        const empTitleElement = document.getElementById("empTitle");
-        const empTitle = empTitleElement ? empTitleElement.value : "";
+function removeBrackets(value) {
+	return value.replace(/[\[\]]/g, '');
+}
 
-        // 필요한 경우 empTitle을 콘솔에 출력하여 확인합니다.
-        console.log("Employee Title:", empTitle);
-    });
+$(document).ready(function() {
+	let sendto = $('#sendto').val();
+	let ccto = $('#ccto').val();
+
+	$('#sendto').val(removeBrackets(sendto));
+	$('#ccto').val(removeBrackets(ccto));
+});
+	const empName="${loginMember.empName}";
+	const empTitle="${loginMember.empTitle}";
 </script>
 
 <div class="container-xxl flex-grow-1 container-p-y">

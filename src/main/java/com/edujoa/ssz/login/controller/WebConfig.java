@@ -20,6 +20,8 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addViewController("/noticeboard/boardwrite").setViewName("ssz/notiecboardwrite");
 		registry.addViewController("/chatting").setViewName("ssz/chattingtest");
 		registry.addViewController("/mailbox/maildetail").setViewName("ssz/maildetail");
+		registry.addViewController("/mailbox/sentmaildetail").setViewName("ssz/sentmaildetail");
+		registry.addViewController("/mailbox/sendtempmail").setViewName("ssz/sendtempmail");
 		registry.addViewController("/mailbox/replymail").setViewName("ssz/replymail");
 		registry.addViewController("/mailbox/deletebox").setViewName("ssz/deletebox");
 		registry.addViewController("/mailbox/tempbox").setViewName("ssz/tempbox");

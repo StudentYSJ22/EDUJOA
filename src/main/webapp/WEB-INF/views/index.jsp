@@ -32,6 +32,39 @@
 	max-width: 900px;
 	margin: 0 auto;
 }
+
+
+
+
+/* FullCalendar 버튼 스타일 */
+.fc .fc-button-primary {
+  background-color: #46b25b;
+  border-color: #46b25b;
+}
+
+.fc .fc-button-primary:hover,
+.fc .fc-button-primary:focus {
+  background-color: darkgreen;
+  border-color: darkgreen;
+}
+
+/* 활성화된 버튼 스타일 (예: month 버튼이 클릭된 상태) */
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background-color: darkgreen !important;
+  border-color: darkgreen !important;
+}
+
+.fc .fc-button-primary:focus {
+  /* box-shadow: 0 0 0 0.1rem rgba(0, 100, 0, 0.5); */
+  box-shadow: 0 0 0 0.1rem #46b25b !important;
+}
+
+
+
+
+
+
 </style>
 
 
@@ -166,9 +199,10 @@
 			<div class="hj">
 				<div class="mini2-first-container">
 					<div class="four-container">
-						<a href="${pageContext.request.contextPath}/mailbox"><div class="circle-su";>5</div></a> <a
+						<a href="${pageContext.request.contextPath}/mailbox">
+						<div class="circle-su";>${mailCount }</div></a> <a
 							href="${pageContext.request.contextPath}/mailbox"><div class="circle"
-								style="background-image: url(${pageContext.request.contextPath}/resources/images/mail.png");></div></a>
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/mail-i.png");></div></a>
 						<div class="circle-info"></div>
 					</div>
 					<div class="four-container">
@@ -178,7 +212,7 @@
 						</a> <a
 							href="${pageContext.request.contextPath}/approval/flagginging.do?empId=${loginMember.empId}">
 							<div class="circle"
-								style="background-image: url(${pageContext.request.contextPath}/resources/images/approval-i.png");></div>
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/aprv-i.png");></div>
 						</a>
 						<div class="circle-info"></div>
 					</div>
@@ -186,7 +220,7 @@
 						<a href="${pageContext.request.contextPath }/schedule/schedule.do"><div class="circle-su";>N</div></a> <a
 							href="${pageContext.request.contextPath }/schedule/schedule.do">
 							<div class="circle"
-								style="background-image: url(${pageContext.request.contextPath}/resources/images/calendar-icon.png");></div>
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/calendar-i.png");></div>
 						</a>
 						<div class="circle-info"></div>
 					</div>
@@ -194,7 +228,7 @@
 						<a href="${pageContext.request.contextPath }/chatting/chattestview?empId=${loginMember.empId}"><div class="circle-su";>N</div></a> <a
 							href="${pageContext.request.contextPath }/chatting/chattestview?empId=${loginMember.empId}"><div
 								class="circle"
-								style="background-image: url(${pageContext.request.contextPath}/resources/images/chat-i.png");></div></a>
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/messanger-i.png");></div></a>
 						<div class="circle-info"></div>
 					</div>
 				</div>

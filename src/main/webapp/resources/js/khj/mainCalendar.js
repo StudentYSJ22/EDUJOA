@@ -27,7 +27,7 @@ $(document).ready(function() {
                             start: event.schStart,
                             end: event.schEnd,
                             description: event.schContent,
-                            backgroundColor: event.schColor,
+                            backgroundColor: 'event.schColor',
                             textColor: 'black',
                             borderColor: event.schColor,
                             extendedProps: {
