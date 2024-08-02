@@ -1,5 +1,7 @@
 package com.edujoa.ysj.schedule.model.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -12,9 +14,11 @@ import com.edujoa.ysj.schedule.model.dto.Schedule;
 import com.edujoa.ysj.schedule.model.dto.ScheduleSharer;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleDao dao;
     private final SqlSession session;
@@ -44,15 +48,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     // 일정 등록
-//    @Transactional
-//    @Override
-//    public int insertSchedule(Schedule schedule) {
-//        return dao.insertSchedule(session, schedule);
-//    }
     @Transactional
     @Override
     public int insertSchedule(Schedule schedule) {
-        int result = dao.insertSchedule(session, schedule);
+        log.debug("Inserting schedule: {}", schedule);
+        int result=0;
+        if(schedule.getRepeatType()==null || schedule.getRepeatType()=="") {
+        	
+        	result= dao.insertSchedule(session, schedule);
+        }
         String schId = schedule.getSchId(); 
 
         if (schedule.getSharers() != null) {
@@ -62,7 +66,66 @@ public class ScheduleServiceImpl implements ScheduleService {
             }
         }
 
+        // 반복 일정 생성
+        if ("반복 일정".equals(schedule.getSchType())) {
+            List<Schedule> repeatingEvents = generateRepeatingEvents(schedule);
+            for (Schedule event : repeatingEvents) {
+                result=dao.insertSchedule(session, event);
+            }
+        }
+
         return result;
+    }
+    
+    // 반복 일정 생성 
+    @Override
+    public List<Schedule> generateRepeatingEvents(Schedule schedule) {
+        List<Schedule> repeatingEvents = new ArrayList<>();
+
+        LocalDateTime startDate = schedule.getSchStart();
+        LocalDateTime endDate = schedule.getSchEnd();
+        LocalDateTime repeatEndDate = schedule.getRepeatEndDate();
+
+        if (repeatEndDate == null) {
+            throw new IllegalArgumentException("repeatEndDate cannot be null for repeating events.");
+        }
+
+        while (!startDate.isAfter(repeatEndDate)) {
+            Schedule newEvent = new Schedule();
+            newEvent.setSchId(schedule.getSchId());
+            newEvent.setEmpId(schedule.getEmpId());
+            newEvent.setSchTitle(schedule.getSchTitle());
+            newEvent.setSchContent(schedule.getSchContent());
+            newEvent.setSchStart(startDate);
+            newEvent.setSchEnd(endDate);
+            newEvent.setSchType(schedule.getSchType());
+            newEvent.setSchColor(schedule.getSchColor());
+            newEvent.setCalendarType(schedule.getCalendarType());
+            newEvent.setSharers(schedule.getSharers());
+            newEvent.setRepeatType(schedule.getRepeatType());
+            newEvent.setRepeatEndDate(schedule.getRepeatEndDate());
+
+            repeatingEvents.add(newEvent);
+
+            switch (schedule.getRepeatType()) {
+                case "daily":
+                    startDate = startDate.plusDays(1);
+                    endDate = endDate.plusDays(1);
+                    break;
+                case "weekly":
+                    startDate = startDate.plusWeeks(1);
+                    endDate = endDate.plusWeeks(1);
+                    break;
+                case "monthly":
+                    startDate = startDate.plusMonths(1);
+                    endDate = endDate.plusMonths(1);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported repeat type: " + schedule.getRepeatType());
+            }
+        }
+
+        return repeatingEvents;
     }
 
     // 일정 상세 조회
@@ -78,28 +141,31 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     // 일정 수정
-//    @Transactional
-//    @Override
-//    public int updateSchedule(Schedule schedule) {
-//        return dao.updateSchedule(session, schedule);
-//    }
+    @Transactional
+    @Override
+    public int updateSchedule(Schedule schedule) {
+        int result = dao.updateSchedule(session, schedule);
+        String schId = schedule.getSchId(); 
 
-@Transactional
-@Override
-public int updateSchedule(Schedule schedule) {
-    int result = dao.updateSchedule(session, schedule);
-    String schId = schedule.getSchId(); 
-
-    if (schedule.getSharers() != null) {
-        dao.deleteScheduleSharersByScheduleId(session, schId); 
-        for (ScheduleSharer sharer : schedule.getSharers()) {
-            sharer.setSchId(schId); 
-            dao.insertScheduleSharer(session, sharer);
+        if (schedule.getSharers() != null) {
+            dao.deleteScheduleSharersByScheduleId(session, schId); 
+            for (ScheduleSharer sharer : schedule.getSharers()) {
+                sharer.setSchId(schId); 
+                dao.insertScheduleSharer(session, sharer);
+            }
         }
-    }
 
-    return result;
-}
+        // 기존 반복 일정 삭제 및 재생성
+        if ("반복 일정".equals(schedule.getSchType())) {
+            dao.deleteRepeatingSchedules(session, schId); 
+            List<Schedule> repeatingEvents = generateRepeatingEvents(schedule);
+            for (Schedule event : repeatingEvents) {
+                dao.insertSchedule(session, event);
+            }
+        }
+
+        return result;
+    }
 
     // 일정 삭제
     @Transactional

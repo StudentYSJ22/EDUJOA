@@ -173,8 +173,11 @@
                   <button class="btn btn-primary d-grid w-100" id="logbtn" type="submit">L O G I N</button>
                 </div>
               </form>
+              
+              
+              <p></p>
 
-              <p class="text-center">
+             <%--  <p class="text-center">
                 <b>계정을 잊으셨나요?</b>
                 <a href="${pageContext.request.contextPath}/findempid">
                   <b>아이디/비밀번호 찾기</b>
@@ -182,7 +185,7 @@
                 <a href="#">
                 	<b>비밀번호 찾기</b>
                 </a>
-              </p>
+              </p> --%>
             </div>
           </div>
           <!-- /Register -->

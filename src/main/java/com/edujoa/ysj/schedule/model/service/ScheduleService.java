@@ -35,4 +35,7 @@ public interface ScheduleService {
     
     // 전체 직원 목록 조회
     List<Employee> getAllEmployeesForSchedule();
+    
+    // 반복 일정 생성 
+    List<Schedule> generateRepeatingEvents(Schedule schedule);
 }

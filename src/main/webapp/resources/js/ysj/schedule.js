@@ -1,9 +1,14 @@
-// 날짜 및 시간 형식 변환 함수 (ISO-8601 형식) 찐찐본 
-function formatLocalDateTimeToUTC(date) {
-    var date = new Date(date);
-    return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 19);
-    // getTime(): milliseconds since 1970/01/01, TimezoneOffset: minutes to milliseconds
-}
+// 날짜 및 시간 형식 변환 함수 (ISO-8601 형식) ㅉㅉ! 
+/*function formatLocalDateTimeToUTC(date) {
+   var date = new Date(date);
+   return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 19);
+   
+}*/
+const formatLocalDateTimeToUTC = date => {
+    const parsedDate = new Date(date);
+    return isNaN(parsedDate) ? null : parsedDate.toISOString().slice(0, 19);
+};
+
 
 // 이벤트 색상 업데이트 함수
 function updateEventColor() {
@@ -81,8 +86,12 @@ $(document).ready(function () {
                                 empId: event.empId,
                                 schType: event.schType,
                                 schColor: event.schColor,
-                                sharers: event.sharers // 추가된 부분
+                                sharers: event.sharers,
+                                repeatType: event.repeatType,
+                                repeatEndDate: event.repeatEndDate
+                                
                             }
+                            
                         };
                     });
                     successCallback(events); // 성공!
@@ -98,7 +107,8 @@ $(document).ready(function () {
         aspectRatio: 1.35, 		  // 화면 비율 설정
         handleWindowResize: true, // 창 크기 조정 시 캘린더 크기 조정
 
-        // 이벤트 클릭 시 호출되는 함수(상세정보 모달창)
+/* 상세정보보기  */
+        // 일정 클릭 시 호출되는 함수(상세정보 모달창)
         eventClick: function (info) {
             clickedEventInfo = info;
 
@@ -108,6 +118,8 @@ $(document).ready(function () {
                 data: { eventId: info.event.id },
                 dataType: 'json',
                 success: function (event) {
+				 console.log("Event data:", event);
+					
                     $('#detailEmpId').val(event.empId);
                     $('#detailSchTitle').val(event.schTitle);
                     $('#detailSchContent').val(event.schContent);
@@ -116,19 +128,19 @@ $(document).ready(function () {
                     $('#detailSchType').val(event.schType);
                     $('#detailCalendarType').val(event.calendarType);
                     $('#detailSchColor').val(event.schColor);
+					$('detailRepeatType').val(event);
+                    // 반복 타입과 반복 종료 날짜 
+                    $('#detailRepeatType').val(event.repeatType);
+                    $('#detailRepeatEndDate').val(event.repeatEndDate ? formatLocalDateTimeToUTC(event.repeatEndDate) : '');
 
                     // 참여자 목록 로드
-                    selectedSharers = event.sharers[0].employee || [];
+                    selectedSharers = event.sharers.length ? event.sharers[0].employee : [];
                     const sharersNames = selectedSharers.map(sharer => sharer.empName).join(', ');
                     $('#detailSharers').val(sharersNames);
-					$('#editDetailSharers').val(sharersNames);
-									
-					
-						
-						
+                    $('#editDetailSharers').val(sharersNames);
+
                     // 폼 필드 비활성화
-                    $('#eventDetailForm input, #eventDetailForm textarea, #eventDetailForm select').prop('readonly', true);
-                    $('#detailSchType, #detailCalendarType').prop('disabled', true); // 추가된 부분
+                    $('#eventDetailForm input, #eventDetailForm textarea, #eventDetailForm select').prop('readonly', true).prop('disabled', true);
                     $('#saveEventBtn').hide();
                     $('#editEventBtn').show();
 
@@ -166,12 +178,8 @@ $(document).ready(function () {
         selectedSharers = []; // 참여자 배열 초기화
         $('#detailSharers').val(''); // 참여자 필드 초기화
     });
-	
-	
-	//종일 
-	
-	
-    // 일정 추가 폼 제출 시 이벤트 데이터 처리
+    
+   // 일정 추가 폼 제출 시 이벤트 데이터 처리
     $('#eventForm').on('submit', function (e) {
         e.preventDefault();
         var eventData = {
@@ -183,7 +191,9 @@ $(document).ready(function () {
             schType: $('#schType').val(),
             calendarType: $('#calendarType').val(),
             schColor: $('#schColor').val(),
-            sharers: selectedSharers.map(emp => ({ empId: emp.empId, empName: emp.empName }))
+            sharers: selectedSharers.map(emp => ({ empId: emp.empId, empName: emp.empName })),
+            repeatType: $('#repeatType').val(),  
+            repeatEndDate: formatLocalDateTimeToUTC($('#repeatEndDate').val())
         };
 
         // 시작 날짜가 종료 날짜보다 이후인 경우 경고
@@ -210,27 +220,45 @@ $(document).ready(function () {
         });
     });
 
+
+    // 반복 일정 관련 필드 활성화
+    $('#schType').change(function () {
+        if ($(this).val() === '반복 일정') {
+            $('#repeatType').prop('disabled', false);
+            $('#repeatEndDate').prop('disabled', false);
+        } else {
+            $('#repeatType').prop('disabled', true);
+            $('#repeatEndDate').prop('disabled', true);
+        }
+    });
+
     // 모달이 닫힐 때 슬라이드 패널도 닫기
     $('#addEventModal, #eventDetailModal').on('hide.bs.modal', function () {
         $('#participantPanel').removeClass('open');
     });
 
+
     // 모달이 열릴 때 기본적으로 폼을 읽기 전용으로 설정
     $('#eventDetailModal').on('show.bs.modal', function () {
-        $('#eventDetailForm input, #eventDetailForm textarea, #eventDetailForm select').prop('readonly', true);
-        $('#detailSchType, #detailCalendarType').prop('disabled', true); // 비활성화 추가
+        $('#eventDetailForm input, #eventDetailForm textarea, #eventDetailForm select').prop('readonly', true).prop('disabled', true);
         $('#saveEventBtn').hide();
         $('#editEventBtn').show();
     });
 
+
+/*질문하기  */ 
+/* --------- 수정 -----------  */
     // 이벤트 수정 버튼 클릭 시 폼 활성화
-    $('#editEventBtn').on('click', function () {
-        $('#eventDetailForm input, #eventDetailForm textarea').prop('readonly', false);
-        $('#detailSchType, #detailCalendarType').prop('disabled', false); // 활성화 추가
+    $('#editEventBtn').on('click', function (e) {
+        e.preventDefault(); // 기본 동작 방지
+          e.stopPropagation(); // 이벤트 전파 방지
+        $('#eventDetailForm input, #eventDetailForm textarea, #eventDetailForm select').prop('readonly', false).prop('disabled', false);
         $('#saveEventBtn').show();
         isEditMode = true; // 수정 모드 활성화
         $(this).hide();
     });
+    
+    
 
     // 일정 수정 폼 제출 
     $('#eventDetailForm').on('submit', function (e) {
@@ -245,7 +273,9 @@ $(document).ready(function () {
             schType: $('#detailSchType').val(),
             calendarType: $('#detailCalendarType').val(),
             schColor: $('#detailSchColor').val(),
-            sharers: selectedSharers.map(emp => ({ empId: emp.empId, empName: emp.empName })) // 참여자 배열 추가
+            sharers: selectedSharers.map(emp => ({ empId: emp.empId, empName: emp.empName })), // 참여자 배열 추가
+            repeatType: $('#detailRepeatType').val(),  // 추가된 부분
+            repeatEndDate: formatLocalDateTimeToUTC($('#detailRepeatEndDate').val()) // 추가된 부분
         };
 
         // 일정 수정
@@ -308,14 +338,15 @@ $(document).ready(function () {
             url: `${path}/schedule/employees`,
             method: 'GET',
             success: function (employees) {
-				console.log(selectedSharers);
+				 $('#selectedEmpList').text('');
+                console.log(selectedSharers);
                 const empList = $('#empList').empty();
                 employees.forEach(emp => {
                     if (!selectedSharers.find(e => e.empId === emp.empId)) {
                         empList.append(`<li data-id="${emp.empId}" data-name="${emp.empName}">${emp.empName} (${emp.empTitle})</li>`);
-                    }else{
-						$('#selectedEmpList').append(`<li data-id="${emp.empId}" data-name="${emp.empName}">${emp.empName}</li>`);
-					}
+                    } else {
+                        $('#selectedEmpList').append(`<li data-id="${emp.empId}" data-name="${emp.empName}">${emp.empName}</li>`);
+                    }
                 });
             },
             error: function (xhr, status, error) {
@@ -342,40 +373,28 @@ $(document).ready(function () {
         loadEmployees();
     });
 
-
     // 참여자 확인 버튼 클릭
-    // 참여자 선택 후 확인 버튼을 눌렀을 때, 선택된 참여자 목록이 #detailSharers 필드에 EMP_NAME으로 출력 
-    /*$('#confirmParticipants').click(function () {
+    $('#confirmParticipants').click(function () {
         const empNames = selectedSharers.map(emp => emp.empName).join(', ');
-        $('#detailSharers').val(empNames);
+        // 추가 모달에서 열려있는지 확인
+        if ($('#addEventModal').hasClass('show')) {
+            $('#detailSharers').val(empNames);
+        } else if ($('#eventDetailModal').hasClass('show')) { // 수정 모달에서 열려있는지 확인
+            $('#editDetailSharers').val(empNames);
+        }
         $('#participantPanel').removeClass('open');
-    });*/
-    // 참여자 확인 버튼 클릭
-$('#confirmParticipants').click(function () {
-    const empNames = selectedSharers.map(emp => emp.empName).join(', ');
-    // 추가 모달에서 열려있는지 확인
-    if ($('#addEventModal').hasClass('show')) {
-        $('#detailSharers').val(empNames);
-    } else if ($('#eventDetailModal').hasClass('show')) { // 수정 모달에서 열려있는지 확인
-        $('#editDetailSharers').val(empNames);
-    }
-    $('#participantPanel').removeClass('open');
-});
-
+    });
 
     // 참여자 취소 버튼 클릭 시
     $('#cancelParticipants').click(function () {
         $('#participantPanel').removeClass('open');
     });
-    
-    
-    
-    // 모달 닫기 버튼과 취소 버튼 누르면 모달창 닫기~ 
+
+    // 모달 닫기 버튼과 취소 버튼 누르면 모달창 닫기
     $('#addEventModal .close, #addEventModal .btn-secondary').click(function () {
         $('#addEventModal').modal('hide');
+        isEditMode = false;
     });
 
-    $('#eventDetailModal .close, #eventDetailModal .btn-secondary').click(function () {
-        $('#eventDetailModal').modal('hide');
-    });
+ 	
 });

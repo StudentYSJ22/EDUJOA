@@ -99,13 +99,30 @@
             <label for="schEnd">종료</label>
             <input type="datetime-local" class="form-control" id="schEnd" name="schEnd">
           </div>
-          <div class="form-group">
+        <div class="form-group">
             <label for="schType">일정 종류</label>
             <select class="form-control" id="schType" name="schType">
               <option value="일반 일정">일반 일정</option>
               <option value="반복 일정">반복 일정</option>
             </select>
-          </div>
+          </div> 
+          
+          <div class="form-group">
+    <label for="repeatType">반복 타입</label>
+    <select class="form-control" id="repeatType" name="repeatType" disabled>
+    <!-- <select class="form-control" id="repeatType" name="repeatType"> -->
+        <option value="none">반복 없음</option>
+        <option value="daily">매일</option>
+        <option value="weekly">매주</option>
+        <option value="monthly">매월</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="repeatEndDate">반복 종료 날짜</label>
+    <input type="datetime-local" class="form-control" id="repeatEndDate" name="repeatEndDate" disabled>
+</div>
+          
           <div class="form-group">
             <label for="calendarType">캘린더</label>
             <select class="form-control" id="calendarType" name="calendarType" onchange="updateEventColor()">
@@ -134,6 +151,7 @@
   </div>
 </div>
 
+<!-- 일정 상세 모달 -->
 <!-- 일정 상세 모달 -->
 <div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -174,6 +192,19 @@
             </select>
           </div>
           <div class="form-group">
+            <label for="detailRepeatType">반복 타입</label>
+            <select class="form-control" id="detailRepeatType">
+              <option value="none">반복 없음</option>
+              <option value="daily">매일</option>
+              <option value="weekly">매주</option>
+              <option value="monthly">매월</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="detailRepeatEndDate">반복 종료 날짜</label>
+            <input type="datetime-local" class="form-control" id="detailRepeatEndDate">
+          </div>
+          <div class="form-group">
             <label for="detailCalendarType">캘린더</label>
             <select class="form-control" id="detailCalendarType" onchange="updateDetailEventColor()">
               <option value="내 일정" data-color="#FFADAD">내 일정(기본)</option>
@@ -182,17 +213,15 @@
               <option value="강사 일정" data-color="#A0C4FF">강사 일정</option>
               <option value="공지 일정" data-color="#FFC6FF">공지 일정</option>
             </select>
-            
-            <div class="form-group">
-              <label for="editDetailSharers">참여자</label>
-              <div class="input-group">
-                <input type="text" class="form-control" id="editDetailSharers" name="detailSharers" placeholder="참여자 선택" readonly>
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" type="button" id="selectParticipants">선택</button>
-                </div>
+          </div>
+          <div class="form-group">
+            <label for="editDetailSharers">참여자</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="editDetailSharers" name="detailSharers" placeholder="참여자 선택" readonly>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="selectParticipants">선택</button>
               </div>
             </div>
-            
           </div>
           <input type="hidden" id="detailSchColor" name="detailSchColor" value="#FFADAD">
           <button type="button" id="editEventBtn" class="btn btn-secondary">수정</button>
