@@ -6,7 +6,7 @@
 <c:set var="loginMember"
 	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <link rel="stylesheet" href="${path }/resources/css/khj/index_hj.css">
-<link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+<link rel="stylesheet" href="${path }/resources/common/assets/vendor/fonts/boxicons.css" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script src="${path }/resources/js/jquery-3.7.1.min.js"></script>
 
