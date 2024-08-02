@@ -45,4 +45,7 @@ public interface ScheduleDao {
     
     // 전체 직원 목록 조회
     List<Employee> selectAllEmployeesForSchedule(SqlSession session);
+    
+    // 반복 일정 삭제 메서드 추가
+    int deleteRepeatingSchedules(SqlSession session, String schId);
 }

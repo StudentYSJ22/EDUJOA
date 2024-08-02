@@ -1,3 +1,4 @@
+
 package com.edujoa.ysj.schedule.controller;
 
 import java.util.List;
@@ -18,7 +19,9 @@ import com.edujoa.ysj.schedule.model.dto.ScheduleSharer;
 import com.edujoa.ysj.schedule.model.service.ScheduleService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/schedule")
 @RequiredArgsConstructor
@@ -39,22 +42,18 @@ public class ScheduleController {
     }
 
  // 일정 추가
+
+
     @PostMapping("/addevent.do")
     public ResponseEntity<String> insertSchedule(@RequestBody Schedule schedule) {
         int result = service.insertSchedule(schedule);
         String msg = result > 0 ? "success" : "failed";
         return ResponseEntity.ok(msg);
     }
-
-    // 일정 상세 조회
-//    @GetMapping("/eventDetail")
-//    public ResponseEntity<Schedule> getEventDetail(@RequestParam("eventId") String eventId) {
-//        Schedule schedule = service.getEventDetail(eventId);
-//        List<ScheduleSharer> sharers = service.getScheduleSharers(eventId);
-//        schedule.setSharers(sharers);
-//        return ResponseEntity.ok(schedule);
-//    }
     
+    
+
+
  // 일정 상세 조회
     @GetMapping("/eventDetail")
     public ResponseEntity<Schedule> getEventDetail(@RequestParam("eventId") String eventId) {
