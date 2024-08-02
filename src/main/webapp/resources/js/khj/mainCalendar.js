@@ -15,11 +15,13 @@ $(document).ready(function() {
 		data: { calendars: [] }, // 선택된 캘린더 타입을 서버로 보냄
 		success: function(response) {
 			var responseEvents = response.map(function(event) {
-				if (parseInt(event.schStart.substring(5, 7)) === thisMonth || parseInt(event.schEnd.substring(5, 7)) === thisMonth) {
-					thisMonthSchedules.push(event);
-				}
-				if (parseInt(event.schStart.substring(8, 10)) == thisDay) {
-					thisDaySchedules.push(event);
+				if(event.schStart != null){
+					if (parseInt(event.schStart.substring(5, 7)) === thisMonth || parseInt(event.schEnd.substring(5, 7)) === thisMonth) {
+						thisMonthSchedules.push(event);
+					}
+					if (parseInt(event.schStart.substring(8, 10)) == thisDay) {
+						thisDaySchedules.push(event);
+					}
 				}
 				return {
 					id: event.schId,
