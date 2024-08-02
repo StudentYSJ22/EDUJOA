@@ -1,8 +1,8 @@
 package com.edujoa.ssz.webmail.model.service;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,7 +12,6 @@ import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.edujoa.ssz.webmail.model.dto.Mail;
 import com.edujoa.ssz.webmail.model.dto.MailAttachment;
 import com.edujoa.ssz.webmail.model.dto.ReceivedMail;
 
@@ -41,7 +40,8 @@ public class EmailReceiverService {
 
 	@Value("${spring.mail.password}")
 	private String password;
-
+	
+	@Value("${file.upload-dir}")
 	private String uploadDir;
 
 	public List<ReceivedMail> receiveEmails() {
@@ -97,7 +97,7 @@ public class EmailReceiverService {
 						fileName = attachment.getFileName();
 						contentType = attachment.getContentType();
 						// Generate file URL
-						fileUrl = generateFileUrl(fileName);
+						fileUrl = saveAttachmentToFile(attachment);
 					}
 				}
 				// 여기는 받는 메일이라서 receivedMail 객체로 변경해야함
@@ -117,12 +117,26 @@ public class EmailReceiverService {
 		return emails;
 	}
 
-	private String generateFileUrl(String fileName) {
-		if (fileName == null) {
-			return null;
-		}
-		return uploadDir + "/" + fileName; // 파일 저장 경로와 파일 이름을 조합하여 URL 생성
-	}
+	private String saveAttachmentToFile(MailAttachment attachment) throws Exception {
+		if (attachment.getFileName() == null) {
+            return null;
+        }
+        File uploadDirectory = new File(uploadDir);
+        if (!uploadDirectory.exists()) {
+            uploadDirectory.mkdirs();
+        }
+        String filePath = uploadDir + "/" + attachment.getFileName();
+        File file = new File(filePath);
+        try (InputStream inputStream = attachment.getInputStream();
+             FileOutputStream outputStream = new FileOutputStream(file)) {
+            int read;
+            byte[] bytes = new byte[1024];
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+        }
+        return filePath; // 파일 저장 경로 반환
+    }
 
 	private List<String> getAddresses(Address[] addresses) {
 		List<String> result = new ArrayList<>();
@@ -169,7 +183,7 @@ public class EmailReceiverService {
                 MailAttachment attachment = MailAttachment.builder()
                         .fileName(part.getFileName())
                         .contentType(part.getContentType())
-                        .fileUrl(generateFileUrl(part.getFileName()))
+                        .inputStream(part.getInputStream())
                         .build();
                 attachments.add(attachment);
             } else if (part.isMimeType("multipart/*")) {

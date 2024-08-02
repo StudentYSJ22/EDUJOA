@@ -68,5 +68,10 @@ public class MailServiceImpl implements MailService{
 	public List<Mail> getSentMail() {
 		return dao.getSentMail(session);
 	}
+
+	@Override
+	public Mail getSelectedSentMail(String emailId) {
+		return dao.getSelectedSentMail(session, emailId);
+	}
 	
 }

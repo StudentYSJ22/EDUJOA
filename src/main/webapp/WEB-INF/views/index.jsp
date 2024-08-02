@@ -6,7 +6,7 @@
 <c:set var="loginMember"
 	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <link rel="stylesheet" href="${path }/resources/css/khj/index_hj.css">
-<link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
+<link rel="stylesheet" href="${path} /resources/common/assets/vendor/fonts/boxicons.css" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script src="${path }/resources/js/jquery-3.7.1.min.js"></script>
 
@@ -30,7 +30,31 @@
 <style>
 #calendar {
 	max-width: 900px;
-	margin: 0 auto;
+/* 	margin: 0 auto; */
+	margin: 15px 15px;
+}
+
+/* FullCalendar 버튼 스타일 */
+.fc .fc-button-primary {
+	background-color: #46b25b;
+	border-color: #46b25b;
+}
+
+.fc .fc-button-primary:hover, .fc .fc-button-primary:focus {
+	background-color: darkgreen;
+	border-color: darkgreen;
+}
+
+/* 활성화된 버튼 스타일 (예: month 버튼이 클릭된 상태) */
+.fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active
+	{
+	background-color: darkgreen !important;
+	border-color: darkgreen !important;
+}
+
+.fc .fc-button-primary:focus {
+	/* box-shadow: 0 0 0 0.1rem rgba(0, 100, 0, 0.5); */
+	box-shadow: 0 0 0 0.1rem #46b25b !important;
 }
 </style>
 
@@ -75,8 +99,7 @@
 
 
 
-						<div class="emp-info2"
-							style="font-size: 20px; color: rgba(0, 151, 28, 0.44);">${loginMember.empName}</div>
+						<div class="emp-info2">${loginMember.empName}</div>
 
 					</div>
 				</div>
@@ -121,7 +144,7 @@
 										class="attn-btn ${attendance!=null&&attendance.atnIn!=null?'disabled':'' }"
 										id="input"
 										${attendance!=null&&attendance.atnIn!=null?"disabled":"" }>
-										<b><i class='bx bx-time'></i> 출  근</b>
+										<b><i class='bx bx-time'></i> 출 근</b>
 									</button>
 								</div>
 							</div>
@@ -166,9 +189,11 @@
 			<div class="hj">
 				<div class="mini2-first-container">
 					<div class="four-container">
-						<a href="${pageContext.request.contextPath}/mailbox"><div class="circle-su";>5</div></a> <a
-							href="${pageContext.request.contextPath}/mailbox"><div class="circle"
-								style="background-image: url(${pageContext.request.contextPath}/resources/images/mail.png");></div></a>
+						<a href="${pageContext.request.contextPath}/mailbox">
+							<div class="circle-su";>${mailCount }</div>
+						</a> <a href="${pageContext.request.contextPath}/mailbox"><div
+								class="circle"
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/mail-i.png");></div></a>
 						<div class="circle-info"></div>
 					</div>
 					<div class="four-container">
@@ -178,30 +203,34 @@
 						</a> <a
 							href="${pageContext.request.contextPath}/approval/flagginging.do?empId=${loginMember.empId}">
 							<div class="circle"
-								style="background-image: url(${pageContext.request.contextPath}/resources/images/approval-i.png");></div>
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/aprv-i.png");></div>
 						</a>
 						<div class="circle-info"></div>
 					</div>
 					<div class="four-container">
-						<a href="${pageContext.request.contextPath }/schedule/schedule.do"><div class="circle-su";>N</div></a> <a
+						<a href="${pageContext.request.contextPath }/schedule/schedule.do"><div
+								class="circle-su";>N</div></a> <a
 							href="${pageContext.request.contextPath }/schedule/schedule.do">
 							<div class="circle"
-								style="background-image: url(${pageContext.request.contextPath}/resources/images/calendar-icon.png");></div>
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/calendar-i.png");></div>
 						</a>
 						<div class="circle-info"></div>
 					</div>
 					<div class="four-container">
-						<a href="${pageContext.request.contextPath }/chatting/chattestview?empId=${loginMember.empId}"><div class="circle-su";>N</div></a> <a
+						<a
+							href="${pageContext.request.contextPath }/chatting/chattestview?empId=${loginMember.empId}"><div
+								class="circle-su";>N</div></a> <a
 							href="${pageContext.request.contextPath }/chatting/chattestview?empId=${loginMember.empId}"><div
 								class="circle"
-								style="background-image: url(${pageContext.request.contextPath}/resources/images/chat-i.png");></div></a>
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/messanger-i.png");></div></a>
 						<div class="circle-info"></div>
 					</div>
 				</div>
 			</div>
 			<div class="mini2-second-container">
 				<div class="todo-title">
-					<b>${loginMember.empName} 님의 Monthly Schedule</b>
+					<%-- <b>${loginMember.empName} 님의 Monthly Schedule</b> --%>
+					<b> &nbsp; M O N T H L Y &nbsp; &nbsp;  S C H E D U L E</b>
 				</div>
 				<div class="todo-info-container">
 					<!-- <div class="todo-info"> -->
@@ -214,9 +243,18 @@
 					<!-- </div> -->
 
 					<!-- </div> -->
-					<div id="thisMonthSchedules" class="todo-info">
+				<!-- 	<div id="thisMonthSchedules" class="todo-info">
 						<h4 style="text-align: center">오늘의 일정</h4>
+					</div> -->
+
+
+
+					<div id="thisMonthSchedules" class="whiteboard">
+						<h4>D A I L Y</h4>
+						<div class="schedule-container"></div>
 					</div>
+
+
 
 
 				</div>
@@ -226,11 +264,11 @@
 
 	</div>
 </div>
-<div class="third">
-	<div class="mini3-container">
+<!-- <div class="third"> -->
+<%-- 	<div class="mini3-container">
 		<div class="mini3-first-container">
-			<div style="margin: 25px; color: black;">
-				<b>내 전자결재 현황</b>
+			<div style="margin: 40px; color: rgb(1, 153, 70);">
+				<h5><b>내 전자결재 현황</b></h5>
 			</div>
 			<div class="myaprv-container">
 				<div class="myaprv">문서종류</div>
@@ -255,8 +293,8 @@
 			</div>
 		</div>
 		<div class="mini3-second-container">
-			<div style="margin: 25px; color: black;">
-				<b>받은메일함</b>
+			<div style="margin: 40px; color: #07a72b9c;">
+				<h5><b>받은 메일함</b></h5>
 			</div>
 			<div class="mymailtitle-container">
 				<ul class="aprv-ul">
@@ -267,17 +305,85 @@
 			</div>
 			<div class="border-line"></div>
 			<div class="aprv-mail">
-				<c:forEach var="m" items="${mails }">					
+				<c:forEach var="m" items="${mails }">
 					<ul class="aprv-ul">
 						<li class="aprv-ul-title">${m.rcvMailTitle}</li>
-						<li>${m.rcvMailSender }</li>						
+						<li>${m.rcvMailSender }</li>
 						<li>${m.rcvMailDate}</li>
 					</ul>
 				</c:forEach>
 
 			</div>
 		</div>
-	</div>
+	</div> --%>
+	
+	
+	
+	
+	
+	
+	<div class="third">
+    <div class="mini3-container">
+        <div class="mini3-first-container modern-container">
+            <h5 class="section-title"><b>내 전자결재 현황</b></h5>
+            <div class="content-wrapper">
+                <div class="header-row">
+                    <span>문서종류</span>
+                    <span>제목</span>
+                    <span>상태</span>
+                    <span>기안일</span>
+                </div>
+                <div class="scrollable-content">
+                    <c:forEach var="a" items="${approval}">
+                        <div class="item-row">
+                            <span class="doc-type">
+                                <c:choose>
+                                    <c:when test="${a.apvType == 0}">휴가신청서</c:when>
+                                    <c:when test="${a.apvType == 1}">품의서</c:when>
+                                    <c:when test="${a.apvType == 2}">지출결의서</c:when>
+                                </c:choose>
+                            </span>
+                            <span class="title">${a.apvTitle}</span>
+                            <span class="status">
+                                <c:choose>
+                                    <c:when test="${a.apvStatus == 0}"><span class="badge in-progress">진행 중</span></c:when>
+                                    <c:when test="${a.apvStatus == 1}"><span class="badge rejected">반려</span></c:when>
+                                    <c:when test="${a.apvStatus == 2}"><span class="badge completed">결재완료</span></c:when>
+                                </c:choose>
+                            </span>
+                            <span class="date">${a.apvDate}</span>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+        <div class="mini3-second-container modern-container">
+            <h5 class="section-title"><b>받은 메일함</b></h5>
+            <div class="content-wrapper">
+                <div class="header-row">
+                    <span>제목</span>
+                    <span>송신인</span>
+                    <span>수신일</span>
+                </div>
+                <div class="scrollable-content">
+                    <c:forEach var="m" items="${mails}">
+                        <div class="item-row">
+                            <span class="title">${m.rcvMailTitle}</span>
+                            <span class="sender">${m.rcvMailSender}</span>
+                            <span class="date">${m.rcvMailDate}</span>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+	
+	
+	
+	
 </div>
 </div>
 </div>

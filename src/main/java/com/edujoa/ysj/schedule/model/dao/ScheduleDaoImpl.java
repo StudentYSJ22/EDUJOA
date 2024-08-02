@@ -151,4 +151,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
     public List<Employee> selectAllEmployeesForSchedule(SqlSession session) {
         return session.selectList("schedule.selectAllEmployeesForSchedule");
     }
+    
+    // 반복 일정 삭제 메서드 구현
+    @Override
+    public int deleteRepeatingSchedules(SqlSession session, String schId) {
+        return session.delete("schedule.deleteRepeatingSchedules", schId);
+    }
 }

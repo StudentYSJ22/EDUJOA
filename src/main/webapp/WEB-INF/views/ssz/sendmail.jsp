@@ -184,16 +184,15 @@ body {
 				<h3>메일 메뉴</h3>
 			</div>
 			<ul class="menulist">
-				<li><a href="#">받은메일함</a></li>
-				<li><a href="#">보낸메일함</a></li>
+				<li><a href="/mailbox" id="inbox">받은메일함</a></li>
+				<li><a href="/mailbox/sentbox">보낸메일함</a></li>
 				<li><a href="#">스팸메일함</a></li>
-				<li><a href="#">임시저장함</a></li>
+				<li><a href="/mailbox/tempbox">임시저장함</a></li>
 				<li><a href="#">즐겨찾기</a></li>
-				<li><a href="#">삭제메일함</a></li>
+				<li><a href="/mailbox/deletebox" id="trash">삭제메일함</a></li>
 			</ul>
 		</aside>
 		<div class="email-compose">
-			<h3>새 메일 작성</h3>
 			<form class="email-form" id="emailForm">
 				<!-- 제목 -->
 				<div class="field">
@@ -269,8 +268,8 @@ body {
 	const empTitle="${loginMember.empTitle}";
 </script>
 
-<div class="container-xxl flex-grow-1 container-p-y"
-	style="border-top: 3px solid black; margin-top: 20px;">
+<div class="container-xxl flex-grow-1 container-p-y">
+	<!--  style="border-top: 3px solid black; margin-top: 20px;">
 	<div class="footer" style="width: 100%; height: 150px;">
 		<div style="display: flex;">
 			<img src="${path }/resources/upload/edulogo.png"
@@ -287,7 +286,7 @@ body {
 				<p>copyrightⓒ2014 EduJoa.co.,Ltd. All rights reserved.</p>
 			</div>
 		</div>
-	</div>
+	</div>-->
 </div>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

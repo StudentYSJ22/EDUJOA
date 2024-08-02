@@ -72,5 +72,10 @@ public class MailDaoImpl implements MailDao{
 	public List<Mail> getSentMail(SqlSession session) {
 		return session.selectList("mail.getSentMail");
 	}
+
+	@Override
+	public Mail getSelectedSentMail(SqlSession session, String emailId) {
+		return session.selectOne("mail.getSelectedSentMail", emailId);
+	}
 	
 }
