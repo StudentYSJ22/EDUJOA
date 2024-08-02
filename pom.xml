@@ -154,7 +154,6 @@
 			</dependencies>
 
 	<build>
-		<finalName>GDJ79_EDUJOA/final</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
