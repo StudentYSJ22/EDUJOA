@@ -31,7 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
-src/main/resources/*.properties
-src/main/resources/**/*.xml
+#src/main/resources/*.properties
+#src/main/resources/**/*.xml
 Scripts
 .dbeaver/
