@@ -235,7 +235,7 @@ function escapeHTML(str) {
 	return String(str).replace(/[&<>"'`=\/]/g, s => entityMap[s]);
 }
 
-function getMyChatRooms(empId) {
+function getMyChatRooms() {
 	$.ajax({
 		type: "GET",
 		url: "/chatting/getMyChatRooms",
