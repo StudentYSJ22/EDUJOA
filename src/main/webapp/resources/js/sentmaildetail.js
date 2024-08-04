@@ -5,7 +5,7 @@
     var encodedContent = encodeURIComponent(emailContent);
 
     // 이메일 답장 페이지로 이동
-    window.location.href = `/mailbox/replymail?emailTitle=${encodedTitle}&emailSender=${encodedSender}&emailContent=${encodedContent}`;
+    window.location.href = `${path}/mailbox/replymail?emailTitle=${encodedTitle}&emailSender=${encodedSender}&emailContent=${encodedContent}`;
 }
 
     function deleteEmail() {

@@ -16,7 +16,7 @@ $(document).ready(function() {
 	});
 	// Compose 버튼 클릭 시 이메일 작성 페이지로 이동
 	$(document).on('click', '.compose-btn', function() {
-		window.location.href = '/mailbox/mailsend';
+		window.location.href = contextPath +'/mailbox/mailsend';
 	});
 
 	$('#select-all').change(function() {
@@ -44,7 +44,7 @@ $(document).ready(function() {
 		console.log("Selected Email IDs:", selectedEmails); // 디버깅용 로그
 		$.ajax({
 			type: "POST",
-			url: "/mailbox/delete",
+			url: contextPath +"/mailbox/delete",
 			contentType: "application/json",
 			data: JSON.stringify(selectedEmails),
 			dataType: "json",
@@ -64,7 +64,7 @@ $(document).ready(function() {
 	$("#refresh").click(function() {
 		$.ajax({
 			type: "POST",
-			url: "/mailbox/refresh",
+			url: contextPath +"/mailbox/refresh",
 			success: function(emails) {
 				$('.email-list').empty();
 				emails.forEach(function(email) {

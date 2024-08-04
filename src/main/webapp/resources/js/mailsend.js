@@ -24,7 +24,7 @@ document.querySelector('.email-form').addEventListener('submit', function(event)
 		.then(() => {
 			btn.textContent = '보내기';
 			alert('메일이 성공적으로 전송되었습니다.');
-			window.location.href = '/mailbox';
+			window.location.href = `${contextPath}/mailbox`;
 			sendDataToServer(this);
 
 		}, (err) => {
@@ -42,7 +42,7 @@ function sendDataToServer(form) {
 	// JSON 문자열로 변환
 	const jsonData = JSON.stringify(object);
 
-	fetch('/mailbox/sendmail', {  // 실제 컨트롤러 엔드포인트를 입력하세요
+	fetch(`${contextPath}`+'/mailbox/sendmail', {  // 실제 컨트롤러 엔드포인트를 입력하세요
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -90,7 +90,7 @@ $(document).ready(function() {
 			if (confirm('임시저장하시겠습니까?')) {
 				$.ajax({
 					type: 'POST',
-					url: '/mailbox/saveDraft',
+					url: contextPath+'/mailbox/saveDraft',
 					contentType: 'application/json',
 					data: JSON.stringify({
 						mailTitle: mailTitle,
@@ -105,7 +105,7 @@ $(document).ready(function() {
 						if (response > 0) {
 							console.log('Draft saved successfully');
 							alert("임시저장이 완료되었습니다.");
-							window.location.href = '/mailbox';
+							window.location.href = `${contextPath}+'/mailbox'`;
 						} else {
 							console.log('Draft failed to save');
 							alert("임시저장 실패.");

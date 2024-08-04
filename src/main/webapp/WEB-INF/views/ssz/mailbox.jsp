@@ -146,11 +146,11 @@ body {
 			</div>
 			<ul class="menulist">
 				<li><a href="#" id="inbox">받은메일함</a></li>
-				<li><a href="/mailbox/sentbox">보낸메일함</a></li>
+				<li><a href="${path }/mailbox/sentbox">보낸메일함</a></li>
 				<li><a href="#">스팸메일함</a></li>
-				<li><a href="/mailbox/tempbox">임시저장함</a></li>
+				<li><a href="${path }/mailbox/tempbox">임시저장함</a></li>
 				<li><a href="#">즐겨찾기</a></li>
-				<li><a href="/mailbox/deletebox" id="trash">삭제메일함</a></li>
+				<li><a href="${path }/mailbox/deletebox" id="trash">삭제메일함</a></li>
 			</ul>
 		</aside>
 		<main class="content">
@@ -170,7 +170,7 @@ body {
 				</div>
 				<!-- 추가 메일 아이템 -->
 				<c:forEach items="${emails}" var="email">
-				<a href="/mailbox/maildetail?emailId=${email.rcvMailId}" style="color: black;">
+				<a href="${path }/mailbox/maildetail?emailId=${email.rcvMailId}" style="color: black;">
 					<div class="email-item ${email.rcvMailType}" data-email-id="${email.rcvMailId}">
 						<input type="checkbox" class="email-checkbox"> 
 						<span class="sender">${email.rcvMailSender}</span> 

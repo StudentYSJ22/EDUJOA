@@ -187,12 +187,12 @@ body {
 			<div class="logo">
 			</div>
 			<ul class="menulist">
-				<li><a href="/mailbox" id="inbox">받은메일함</a></li>
-				<li><a href="/mailbox/sentbox">보낸메일함</a></li>
+				<li><a href="${path }/mailbox" id="inbox">받은메일함</a></li>
+				<li><a href="${path }/mailbox/sentbox">보낸메일함</a></li>
 				<li><a href="#">스팸메일함</a></li>
-				<li><a href="/mailbox/tempbox">임시저장함</a></li>
+				<li><a href="${path }/mailbox/tempbox">임시저장함</a></li>
 				<li><a href="#">즐겨찾기</a></li>
-				<li><a href="/mailbox/deletebox" id="trash">삭제메일함</a></li>
+				<li><a href="${path }/mailbox/deletebox" id="trash">삭제메일함</a></li>
 			</ul>
 		</aside>
 		<div class="email-compose">
@@ -276,6 +276,7 @@ body {
         // 필요한 경우 empTitle을 콘솔에 출력하여 확인합니다.
         console.log("Employee Title:", empTitle);
     });
+	var contextPath = "${path}";
 </script>
 
 <div class="container-xxl flex-grow-1 container-p-y">

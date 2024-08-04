@@ -6,6 +6,7 @@
 	<c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <title>게시판 상세보기</title>
 
@@ -108,7 +109,7 @@ body {
 					class="views">조회수 ${board.boardCount }</span>
 			</div>
 		</div>
-		<div class="post-content">${board.boardContent }</div>
+		<div class="post-content"><pre>${board.boardContent }</pre></div>
 		<div class="post-footer">
 			<button class="btn-gotolist">목록으로</button>
 			<button class="btn-edit">수정</button>

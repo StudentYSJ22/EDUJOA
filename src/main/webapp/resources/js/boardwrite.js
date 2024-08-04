@@ -15,7 +15,7 @@ $(document).ready(function() {
 			// 예: AJAX를 사용하여 서버에 삭제 요청을 보냅니다.
 			$.ajax({
 				type: "POST",
-				url: "/noticeboard/deleteBoard",
+				url: contextPath +"/noticeboard/deleteBoard",
 				contentType: "application/json",
 				dataType: "json",
 				data: JSON.stringify({

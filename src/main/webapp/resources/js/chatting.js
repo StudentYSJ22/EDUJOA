@@ -19,7 +19,7 @@ function getKoreanTitle(empTitle) {
 }
 
 function connectWebSocket() {
-	server = new WebSocket("wss://14.36.141.71:10079/GDJ79_EDUJOA_final/chattest");
+	server = new WebSocket("ws://14.36.141.71:10079/GDJ79_EDUJOA_final/chattest");
 	//server = new WebSocket("ws://localhost:9090/chattest");
 
 	server.onopen = () => {
@@ -139,7 +139,7 @@ $(document).ready(function() {
 function createChatRoom(targetId, empName, empTitle, empProfile) {
 	$.ajax({
 		type: "POST",
-		url: "/chatting/createChatRoom",
+		url: `${path}`+"/chatting/createChatRoom",
 		contentType: "application/json",
 		data: JSON.stringify({
 			sender: loginId,
@@ -238,7 +238,7 @@ function escapeHTML(str) {
 function getMyChatRooms() {
 	$.ajax({
 		type: "GET",
-		url: "/chatting/getMyChatRooms",
+		url: `${path}`+"/chatting/getMyChatRooms",
 		//메소드 실행되면 empName, empProfile, empTitle, roomId, empId나옴
 		data: { empId: loginId },
 		dataType: "json",
@@ -289,7 +289,7 @@ function attachChatRoomClickEvent() {
 function getMyChatRecords(roomId, empId) {
 	$.ajax({
 		type: "POST",
-		url: "/chatting/getMyChatRecords",
+		url: `${path}`+"/chatting/getMyChatRecords",
 		//ROOM_ID, EMP_ID, CONTENT, CHAT_TIME
 		contentType: "application/json",
 		data: JSON.stringify({

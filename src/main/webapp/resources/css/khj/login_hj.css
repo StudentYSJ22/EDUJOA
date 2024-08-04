@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 body {
- background-image: url('/resources/images/loginmain.jpg'); 
+ background-image: url("/GDJ79_final/resources/images/loginmain.jpg"); 
  width: 100%;
  height: 100vh; /* 화면 전체 높이 */
  background-size: cover; /* 배경 이미지를 요소 전체를 덮도록 설정 */

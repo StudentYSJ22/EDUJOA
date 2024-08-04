@@ -91,12 +91,12 @@
 <div class="container">
     <aside class="menubar">
         <ul class="menulist">
-				<li><a href="/mailbox" id="inbox">받은메일함</a></li>
-				<li><a href="/mailbox/sentbox">보낸메일함</a></li>
+				<li><a href="${path }/mailbox" id="inbox">받은메일함</a></li>
+				<li><a href="${path }/mailbox/sentbox">보낸메일함</a></li>
 				<li><a href="#">스팸메일함</a></li>
-				<li><a href="/mailbox/tempbox">임시저장함</a></li>
+				<li><a href="${path }/mailbox/tempbox">임시저장함</a></li>
 				<li><a href="#">즐겨찾기</a></li>
-				<li><a href="/mailbox/deletebox" id="trash">삭제메일함</a></li>
+				<li><a href="${path }/mailbox/deletebox" id="trash">삭제메일함</a></li>
 			</ul>
     </aside>
     <main class="email-content">
@@ -122,6 +122,7 @@
         <div class="email-body"id="emailContent">
             ${email.rcvMailContent}
         </div>
+        
     </main>
 </div>
 
@@ -134,6 +135,7 @@
     var emailSenderRaw = document.getElementById("emailSender").textContent;
     var emailContent=document.getElementById("emailContent").textContent;
     var emailSender = emailSenderRaw.replace("보낸사람: ", "").trim();
+    var contextPath = "${path}";
 </script>
 
 <div class="container-xxl flex-grow-1 container-p-y"></div>

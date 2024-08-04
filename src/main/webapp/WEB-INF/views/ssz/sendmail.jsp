@@ -184,12 +184,12 @@ body {
 				<h3>메일 메뉴</h3>
 			</div>
 			<ul class="menulist">
-				<li><a href="/mailbox" id="inbox">받은메일함</a></li>
-				<li><a href="/mailbox/sentbox">보낸메일함</a></li>
+				<li><a href="${path }/mailbox" id="inbox">받은메일함</a></li>
+				<li><a href="${path }/mailbox/sentbox">보낸메일함</a></li>
 				<li><a href="#">스팸메일함</a></li>
-				<li><a href="/mailbox/tempbox">임시저장함</a></li>
+				<li><a href="${path }/mailbox/tempbox">임시저장함</a></li>
 				<li><a href="#">즐겨찾기</a></li>
-				<li><a href="/mailbox/deletebox" id="trash">삭제메일함</a></li>
+				<li><a href="${path }/mailbox/deletebox" id="trash">삭제메일함</a></li>
 			</ul>
 		</aside>
 		<div class="email-compose">

@@ -55,6 +55,16 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="${path}/resources/common/assets/js/config.js"></script>
   </head>
+  <style>
+  body {
+ background-image: url("${pageContext.request.contextPath}/resources/images/loginmain.jpg"); 
+ width: 100%;
+ height: 100vh; /* 화면 전체 높이 */
+ background-size: cover; /* 배경 이미지를 요소 전체를 덮도록 설정 */
+ background-position: center center; /* 배경 이미지를 중앙에 배치 */
+ background-repeat: no-repeat; /* 배경 이미지를 반복하지 않음 */  
+}
+</style>
 
   <body>
     <!-- Content -->

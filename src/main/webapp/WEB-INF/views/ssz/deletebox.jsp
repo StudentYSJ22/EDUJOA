@@ -144,10 +144,10 @@ body {
 				<button class="compose-btn">메일 쓰기</button>
 			</div>
 			<ul class="menulist">
-				<li><a href="/mailbox" id="inbox">받은메일함</a></li>
-				<li><a href="/mailbox/sentbox">보낸메일함</a></li>
+				<li><a href="${path }/mailbox" id="inbox">받은메일함</a></li>
+				<li><a href="${path }/mailbox/sentbox">보낸메일함</a></li>
 				<li><a href="#">스팸메일함</a></li>
-				<li><a href="/mailbox/tempbox">임시저장함</a></li>
+				<li><a href="${path }/mailbox/tempbox">임시저장함</a></li>
 				<li><a href="#">즐겨찾기</a></li>
 				<li><a href="#" id="trash">삭제메일함</a></li>
 			</ul>

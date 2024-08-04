@@ -7,7 +7,7 @@ $(document).ready(function() {
 	function getBoardList() {
 		$.ajax({
 			type: "GET",
-			url: "/noticeboard/getboardlist",
+			url: contextPath +"/noticeboard/getboardlist",
 			contentType: "application/json",
 			dataType: "json",
 			success: function(response) {
@@ -41,11 +41,11 @@ $(document).ready(function() {
 		// 조회수 증가 요청을 먼저 보냅니다.
 		increaseViewCount(MboardId).then(function() {
 			// 조회수 증가가 완료된 후 상세 페이지로 이동합니다.
-			window.location.href = '/noticeboard/detail?boardId=' + MboardId;
+			window.location.href = contextPath +'/noticeboard/detail?boardId=' + MboardId;
 		}).catch(function(error) {
 			console.log("Failed to increase view count", error);
 			// 오류가 발생해도 페이지 이동은 수행합니다.
-			window.location.href = '/noticeboard/detail?boardId=' + MboardId;
+			window.location.href = contextPath +'/noticeboard/detail?boardId=' + MboardId;
 		});
 	}
 
@@ -53,7 +53,7 @@ $(document).ready(function() {
 		return new Promise(function(resolve, reject) {
 			$.ajax({
 				type: "POST",
-				url: "/noticeboard/increaseViewCount",
+				url: contextPath +"/noticeboard/increaseViewCount",
 				contentType: "application/json",
 				data: JSON.stringify({
 					boardId: MboardId
@@ -79,7 +79,7 @@ $(document).ready(function() {
 		}
 		// AJAX 요청을 통해 서버에서 정렬된 데이터를 가져옵니다.
 		$.ajax({
-			url: '/noticeboard/sort',
+			url: contextPath +'/noticeboard/sort',
 			type: 'GET',
 			data: { sortBy: sortBy },
 			success: function(response) {
