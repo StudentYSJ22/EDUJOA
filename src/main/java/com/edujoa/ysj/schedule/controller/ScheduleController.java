@@ -42,16 +42,21 @@ public class ScheduleController {
     }
 
  // 일정 추가
-
-
+//    @PostMapping("/addevent.do")
+//    public ResponseEntity<String> insertSchedule(@RequestBody Schedule schedule) {
+//        int result = service.insertSchedule(schedule);
+//        String msg = result > 0 ? "success" : "failed";
+//        return ResponseEntity.ok(msg);
+//    }
+//    
     @PostMapping("/addevent.do")
     public ResponseEntity<String> insertSchedule(@RequestBody Schedule schedule) {
+        log.debug("Schedule to insert: {}", schedule);
         int result = service.insertSchedule(schedule);
         String msg = result > 0 ? "success" : "failed";
         return ResponseEntity.ok(msg);
     }
-    
-    
+
 
 
  // 일정 상세 조회

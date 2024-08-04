@@ -179,46 +179,55 @@ $(document).ready(function () {
         $('#detailSharers').val(''); // 참여자 필드 초기화
     });
     
-   // 일정 추가 폼 제출 시 이벤트 데이터 처리
-    $('#eventForm').on('submit', function (e) {
-        e.preventDefault();
-        var eventData = {
-            empId: $('#empId').val(),
-            schTitle: $('#schTitle').val(),
-            schContent: $('#schContent').val(),
-            schStart: formatLocalDateTimeToUTC($('#schStart').val()),
-            schEnd: formatLocalDateTimeToUTC($('#schEnd').val()),
-            schType: $('#schType').val(),
-            calendarType: $('#calendarType').val(),
-            schColor: $('#schColor').val(),
-            sharers: selectedSharers.map(emp => ({ empId: emp.empId, empName: emp.empName })),
-            repeatType: $('#repeatType').val(),  
-            repeatEndDate: formatLocalDateTimeToUTC($('#repeatEndDate').val())
-        };
+  function formatLocalDateTimeToUTC(date) {
+    const parsedDate = new Date(date);
+    return isNaN(parsedDate) ? null : new Date(parsedDate.getTime() - (parsedDate.getTimezoneOffset() * 60000)).toISOString().slice(0, 19);
+}
 
-        // 시작 날짜가 종료 날짜보다 이후인 경우 경고
-        if (new Date(eventData.schStart) > new Date(eventData.schEnd)) {
-            alert('시작 날짜는 종료 날짜보다 빨라야 합니다.');
-            return;
+// 일정 추가 폼 제출 시 이벤트 데이터 처리
+$('#eventForm').on('submit', function (e) {
+    e.preventDefault();
+    var eventData = {
+        empId: $('#empId').val(),
+        schTitle: $('#schTitle').val(),
+        schContent: $('#schContent').val(),
+        schStart: formatLocalDateTimeToUTC($('#schStart').val()),
+        schEnd: formatLocalDateTimeToUTC($('#schEnd').val()),
+        schType: $('#schType').val(),
+        calendarType: $('#calendarType').val(),
+        schColor: $('#schColor').val(),
+        sharers: selectedSharers.map(emp => ({ empId: emp.empId, empName: emp.empName })),
+        repeatType: $('#repeatType').val(),  
+        repeatEndDate: formatLocalDateTimeToUTC($('#repeatEndDate').val())
+    };
+
+    // 시작 날짜가 종료 날짜보다 이후인 경우 경고
+    if (new Date(eventData.schStart) > new Date(eventData.schEnd)) {
+        alert('시작 날짜는 종료 날짜보다 빨라야 합니다.');
+        return;
+    }
+
+    // 일정 추가
+    $.ajax({
+        url: `${path}/schedule/addevent.do`,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(eventData),
+        success: function (response) {
+            console.log('Schedule added successfully:', response); // 디버깅 로그
+            alert('일정이 성공적으로 등록되었습니다.');
+            $('#addEventModal').modal('hide');
+            $('#eventForm')[0].reset();
+            calendar.refetchEvents();
+        },
+        error: function (xhr, status, error) {
+            console.error('Error adding schedule:', error); // 디버깅 로그
+            alert('일정 등록에 실패했습니다.');
         }
-
-        // 일정 추가
-        $.ajax({
-            url: `${path}/schedule/addevent.do`,
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(eventData),
-            success: function (response) {
-                alert('일정이 성공적으로 등록되었습니다.');
-                $('#addEventModal').modal('hide');
-                $('#eventForm')[0].reset();
-                calendar.refetchEvents();
-            },
-            error: function (xhr, status, error) {
-                alert('일정 등록에 실패했습니다.');
-            }
-        });
     });
+});
+
+
 
 
     // 반복 일정 관련 필드 활성화

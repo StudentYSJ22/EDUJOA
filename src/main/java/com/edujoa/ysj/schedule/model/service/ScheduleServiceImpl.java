@@ -34,13 +34,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<Schedule> getSchedulesByCalendars(List<String> calendars) {
         return dao.selectSchedulesByCalendars(session, calendars);
     }
-    
+
     // 사용자별 일정 가져오기
     @Override
     public List<Schedule> getSchedulesByEmpId(String empId) {
         return dao.selectSchedulesByEmpId(session, empId);
     }
-    
+
     // 사용자별 특정 캘린더에 대한 일정 가져오기
     @Override
     public List<Schedule> getSchedulesByEmpIdAndCalendars(String empId, List<String> calendars) {
@@ -52,38 +52,37 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public int insertSchedule(Schedule schedule) {
         log.debug("Inserting schedule: {}", schedule);
-        int result=0;
-        if(schedule.getRepeatType()==null || schedule.getRepeatType()=="") {
-        	
-        	result= dao.insertSchedule(session, schedule);
-        }
-        String schId = schedule.getSchId(); 
+        int result = 0;
+
+        // 기본 일정 등록
+        result = dao.insertSchedule(session, schedule);
+        String schId = schedule.getSchId();
 
         if (schedule.getSharers() != null) {
             for (ScheduleSharer sharer : schedule.getSharers()) {
-                sharer.setSchId(schId); 
+                sharer.setSchId(schId);
                 dao.insertScheduleSharer(session, sharer);
             }
         }
 
         // 반복 일정 생성
-        if ("반복 일정".equals(schedule.getSchType())) {
+        if (schedule.getRepeatType() != null && !schedule.getRepeatType().isEmpty()) {
             List<Schedule> repeatingEvents = generateRepeatingEvents(schedule);
             for (Schedule event : repeatingEvents) {
-                result=dao.insertSchedule(session, event);
+                dao.insertSchedule(session, event);
             }
         }
 
         return result;
     }
-    
-    // 반복 일정 생성 
+
+    // 반복 일정 생성
     @Override
     public List<Schedule> generateRepeatingEvents(Schedule schedule) {
         List<Schedule> repeatingEvents = new ArrayList<>();
 
-        LocalDateTime startDate = schedule.getSchStart();
-        LocalDateTime endDate = schedule.getSchEnd();
+        LocalDateTime startDate = schedule.getSchStart().plusDays(1); // 첫날을 제외하고 반복 일정 생성 시작
+        LocalDateTime endDate = schedule.getSchEnd().plusDays(1);     // 첫날을 제외하고 반복 일정 생성 시작
         LocalDateTime repeatEndDate = schedule.getRepeatEndDate();
 
         if (repeatEndDate == null) {
@@ -92,7 +91,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         while (!startDate.isAfter(repeatEndDate)) {
             Schedule newEvent = new Schedule();
-            newEvent.setSchId(schedule.getSchId());
             newEvent.setEmpId(schedule.getEmpId());
             newEvent.setSchTitle(schedule.getSchTitle());
             newEvent.setSchContent(schedule.getSchContent());
@@ -145,19 +143,19 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public int updateSchedule(Schedule schedule) {
         int result = dao.updateSchedule(session, schedule);
-        String schId = schedule.getSchId(); 
+        String schId = schedule.getSchId();
 
         if (schedule.getSharers() != null) {
-            dao.deleteScheduleSharersByScheduleId(session, schId); 
+            dao.deleteScheduleSharersByScheduleId(session, schId);
             for (ScheduleSharer sharer : schedule.getSharers()) {
-                sharer.setSchId(schId); 
+                sharer.setSchId(schId);
                 dao.insertScheduleSharer(session, sharer);
             }
         }
 
         // 기존 반복 일정 삭제 및 재생성
         if ("반복 일정".equals(schedule.getSchType())) {
-            dao.deleteRepeatingSchedules(session, schId); 
+            dao.deleteRepeatingSchedules(session, schId);
             List<Schedule> repeatingEvents = generateRepeatingEvents(schedule);
             for (Schedule event : repeatingEvents) {
                 dao.insertSchedule(session, event);
