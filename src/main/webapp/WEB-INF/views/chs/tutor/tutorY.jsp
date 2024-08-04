@@ -56,9 +56,6 @@
                         			<c:if test="${v.ttId == t.ttId}">
                         				${v.employee.empName }
                         			</c:if>
-                        			<c:if test="${v.ttId != t.ttId}">
-                        				없음
-                        			</c:if>
                         		</c:forEach>
                         	</c:if>
                         </li>

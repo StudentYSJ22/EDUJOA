@@ -19,6 +19,16 @@
 		        <button onclick="closeSignatureModal()">취소</button>
 		    </div>
 		</div>
+		<!-- 자주쓰는 결재라인 추가 모달 -->
+		<div id="approval-line-modal" style="display:none; position:fixed;z-index:100; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+		    <div style="background-color:white; padding:20px; border-radius:10px; text-align:center;">
+		        <p>즐겨찾기 이름을 입력하세요:</p>
+		        <input style="border:1px solid black" type="text" id="favorite-name" />
+		        <br/>
+		        <button onclick="saveApprovalLine()">확인</button>
+		        <button onclick="closeApprovalLineModal()">취소</button>
+		    </div>
+		</div>
 	<div class="right-container">
 		<!-- 모달창 시작 -->
 		<div class="hs-modal-container">
@@ -32,6 +42,9 @@
 						<select>
 							<option value="" disabled selected>자주쓰는 결재라인</option>
 						</select>
+					</div>
+					<div>
+						<button onclick="addApprovalLine();">결재라인 추가하기</button>
 					</div>
 				</div>
 				<div class="hs-modal-content" style="padding: 0 2%;">
@@ -195,13 +208,13 @@
         </div>
         <div class="signature">
             <div>
-                청구인 : 김동현 (인)
+                청구인 : ${loginMember.empName }
                 <c:if test="${loginMember.oriname != null}">
                     <img id="oriname" src="${path}/resources/upload/employee_signatures/${loginMember.oriname}">
                 </c:if>
             </div>
         </div>
-        <input type="submit" value="전송">
+        <input type="submit" value="상신">
     </form>
     <script src="${path}/resources/js/chs/canvas.js"></script>
     <script src="${path}/resources/js/chs/afterPayment.js"></script>

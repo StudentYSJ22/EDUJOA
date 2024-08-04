@@ -200,13 +200,13 @@
         </div>
         <div class="signature">
             <div>
-                청구인 : 김동현 (인)
+                청구인 : ${loginMember.empName }
                 <c:if test="${loginMember.oriname != null}">
                     <img id="oriname" src="${path}/resources/upload/employee_signatures/${loginMember.oriname}">
                 </c:if>
             </div>
         </div>
-        <input type="submit" value="전송">
+        <input type="submit" value="상신">
     </form>
     <script src="${path}/resources/js/chs/canvas.js"></script>
 		</div>
