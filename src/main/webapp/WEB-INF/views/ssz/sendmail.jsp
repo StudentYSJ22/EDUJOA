@@ -266,6 +266,7 @@ body {
 <script>
 	const empName="${loginMember.empName}";
 	const empTitle="${loginMember.empTitle}";
+	var contextPath = "${path}";
 </script>
 
 <div class="container-xxl flex-grow-1 container-p-y">

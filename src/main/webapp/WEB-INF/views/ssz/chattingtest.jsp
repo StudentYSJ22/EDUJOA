@@ -28,7 +28,7 @@ body {
 }
 
 .sidebar {
-	width: 300px;
+	width: 400px;
 	background-color: #fff;
 	box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 	display: flex;
@@ -256,6 +256,10 @@ body {
 	flex:1;
 	overflow-y: auto; 
 }
+#chatList{
+	flex:1;
+	overflow-y: auto; 
+}
 .sidebar .contacts{
 	height: 100%;
 }
@@ -324,7 +328,7 @@ body {
 		</div>
 		<!--왼쪽끝-->
 		<!-- 채팅부분 -->
-		<div class="main">
+		<div class="main" style="box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">
 			<div class="header search">
 				<img id="receiver-profile" src="" alt="" style="display: none;">
 				<div class="details">

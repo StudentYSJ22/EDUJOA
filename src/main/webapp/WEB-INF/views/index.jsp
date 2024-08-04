@@ -60,7 +60,7 @@
 
 
 <!-- <body>안내용만. 모든 내용은 밑에있는 div안에만 설정해야함. -->
-<div class="main">
+<div class="main" style="margin-top:50px;">
 	<div class="first-container">
 		<div class="first">
 			<div class="mini-container">
@@ -329,9 +329,9 @@
             <div class="content-wrapper">
                 <div class="header-row">
                     <span>문서종류</span>
-                    <span>제목</span>
-                    <span>상태</span>
-                    <span>기안일</span>
+                    <span style="margin-right:155px;">제목</span>
+                    <span style="margin-right:25px;">상태</span>
+                    <span style="margin-right:85px;">기안일</span>
                 </div>
                 <div class="scrollable-content">
                     <c:forEach var="a" items="${approval}">
@@ -362,16 +362,18 @@
             <div class="content-wrapper">
                 <div class="header-row">
                     <span>제목</span>
-                    <span>송신인</span>
-                    <span>수신일</span>
+                    <span style="margin-left:180px;">송신인</span>
+                    <span style="margin-right:130px;">수신일</span>
                 </div>
                 <div class="scrollable-content">
                     <c:forEach var="m" items="${mails}">
+                    	<a href="${path }/mailbox/maildetail?emailId=${m.rcvMailId}" style="color: black;">
                         <div class="item-row">
                             <span class="title">${m.rcvMailTitle}</span>
                             <span class="sender">${m.rcvMailSender}</span>
                             <span class="date">${m.rcvMailDate}</span>
                         </div>
+                        </a>
                     </c:forEach>
                 </div>
             </div>

@@ -25,7 +25,7 @@ $(document).ready(function() {
 		console.log("Selected Email IDs:", selectedEmails); // 디버깅용 로그
 		$.ajax({
 			type: "POST",
-			url: `${path}`+"/mailbox/restore",
+			url: `${contextPath}`+"/mailbox/restore",
 			contentType: "application/json",
 			data: JSON.stringify(selectedEmails),
 			dataType: "json",

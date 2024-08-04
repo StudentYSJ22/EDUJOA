@@ -264,6 +264,7 @@ body {
 
 <script src="${path }/resources/js/mailsend.js"></script>
 <script>
+var contextPath = "${path}";
 function removeBrackets(value) {
 	return value.replace(/[\[\]]/g, '');
 }

@@ -134,6 +134,7 @@
     var emailSenderRaw = document.getElementById("emailSender").textContent;
     var emailContent=document.getElementById("emailContent").textContent;
     var emailSender = emailSenderRaw.replace("발신인: ", "").trim();
+    var contextPath = "${path}";
 </script>
 
 <div class="container-xxl flex-grow-1 container-p-y"></div>

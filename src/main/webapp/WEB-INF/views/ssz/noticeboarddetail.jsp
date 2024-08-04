@@ -22,10 +22,10 @@ body {
 	background-color: white;
 	border-radius: 8px;
 	padding: 20px;
-	max-width: 1400px;
 	margin: 0 auto;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	margin-top: 30px;
+	height: 800px;
 }
 
 .post-header {
@@ -54,7 +54,7 @@ body {
 }
 
 .post-footer {
-	margin-top: 20px;
+	margin-top: 420px;
 	text-align: right;
 }
 
@@ -100,7 +100,7 @@ body {
 </style>
 </head>
 <body>
-	<div class="post-container" style="width: 1900px;">
+	<div class="post-container" style="width: 1500px;">
 		<div class="post-header">
 			<h1 class="post-title">${board.boardTitle }</h1>
 			<div class="post-info">
