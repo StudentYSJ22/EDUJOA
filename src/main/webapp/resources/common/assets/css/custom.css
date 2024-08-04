@@ -14,3 +14,56 @@
     border-radius: 10px; 
 }
  */
+ 
+ .menu-link {
+  font-size: 20px !important; 
+  color: #fff; 
+  display: flex;
+  align-items: center;
+  padding: 10px 20px; 
+  
+  
+}
+
+/* 아이콘과 텍스트 사이의 간격 조정 */
+.menu-link i {
+  margin-right: 10px; 
+}
+
+.sidebar-logout .menu-link {
+  font-size: 20px; /* 로그아웃 버튼의 글씨 크기도 동일하게 설정 */
+  color: #fff; 
+}
+ 
+ 
+ 
+ /* 아이콘이랑 메뉴 간격 */
+ .app-brand {
+  margin-bottom: 35px; 
+}
+
+
+ 
+ 
+ 
+ /*로그아웃 밑으로~ */
+ 
+.sidebar-logout {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 30px;
+  margin-left: 5px;
+}
+
+.sidebar-logout .menu-link {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+.sidebar-logout .menu-link i {
+  margin-right: 10px;
+}

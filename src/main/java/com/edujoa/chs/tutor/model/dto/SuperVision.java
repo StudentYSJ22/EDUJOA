@@ -15,4 +15,5 @@ public class SuperVision {
 	private String empId;
 	private String ttId;
 	private Employee employee;
+	private Tutor tutor;
 }

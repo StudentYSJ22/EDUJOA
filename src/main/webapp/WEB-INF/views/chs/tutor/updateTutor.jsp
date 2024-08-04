@@ -1,3 +1,6 @@
+<%@page import="com.edujoa.chs.tutor.model.dto.SuperVision"%>
+<%@page import="com.edujoa.with.employee.model.dto.Employee"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
@@ -46,16 +49,9 @@
 	            <div class="form-group">
 	                <label for="empId">담당 매니저</label>
 	                <select id="empId" name="empId">
-	                	<c:forEach var="e" items="${employees }">
-	                		<c:forEach var="v" items="${vision }">
-		                		<c:if test="${v.ttId == tutor.ttId && v.empId == e.empId}">
-			                		<option value="${e.empId }" selected>${e.empName }</option>
-		                		</c:if>
-		                		<c:if test="${v.ttId != tutor.ttId || v.empId != e.empId}">
-			                		<option value="${e.empId }">${e.empName }</option>
-		                		</c:if>
-	                		</c:forEach>
-	                	</c:forEach>
+                		<c:forEach var="e" items="${employees }">
+		                	<option value="${e.empId }">${e.empName }</option>
+                		</c:forEach>
 	                </select>
 	            </div>
 	            <div class="btn-container">
@@ -72,9 +68,6 @@
     		alert($('.msg').text());
     	}
     }
-        function resetForm() {
-            document.getElementById('personnel-card-form').reset();
-        }
     </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

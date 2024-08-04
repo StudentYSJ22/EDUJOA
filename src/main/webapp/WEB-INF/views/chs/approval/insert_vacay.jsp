@@ -206,7 +206,7 @@
                 </c:if>
             </div>
         </div>
-        <input type="submit" value="전송">
+        <input type="submit" value="상신">
     </form>
     <script src="${path}/resources/js/chs/canvas.js"></script>
 		</div>

@@ -123,13 +123,23 @@
               <div data-i18n="Layouts">정보수정</div>
             </a>
           </li>
-          <li class="menu-item">
+      <%--     <li class="menu-item">
             <a href="${path }/logout.do" class="menu-link">
               <i class="menu-icon tf-icons bx bx-log-out"></i>
               <div data-i18n="Layouts">로그아웃</div>
             </a>
-          </li>
-        </ul>
+          </li>--%>
+        </ul> 
+        
+        <!--수정이용  -->
+         <div class="sidebar-logout">
+          <a href="${path }/logout.do" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-log-out"></i>
+            <div data-i18n="Layouts">로그아웃</div>
+          </a>
+        </div>
+        
+        
       </aside>
 
       <!-- / Menu -->
