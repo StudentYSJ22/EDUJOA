@@ -200,7 +200,7 @@
         </div>
         <div class="signature">
             <div>
-                청구인 : 김동현 (인)
+                청구인 : ${loginMember.empName }
                 <c:if test="${loginMember.oriname != null}">
                     <img id="oriname" src="${path}/resources/upload/employee_signatures/${loginMember.oriname}">
                 </c:if>
