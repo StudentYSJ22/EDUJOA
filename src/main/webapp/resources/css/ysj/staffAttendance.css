@@ -1,3 +1,4 @@
+/*staffAttendance.css*/
 @charset "UTF-8";
 
 /* 부트스트랩 테이블 행 호버 색상 변경 */
@@ -80,10 +81,12 @@
 }
 
 .container h2 {
-    font-size: 20px;
+    font-size: 36px; /* 글씨 크기 조정 */
+    font-weight: bold; /* 글씨 두껍게 */
     margin-top: 20px;
     margin-left: 2px;
-    text-align: left;
+    margin-bottom:40px;
+    text-align: center; /* 글씨 가운데 정렬 */
 }
 
 .row {
@@ -140,4 +143,30 @@
 
 .table-rounded tbody tr:last-child td:last-child {
     border-bottom-right-radius: 10px;
+}
+
+/* 검색 입력란 가운데 정렬 */
+#searchForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#searchForm .form-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+#searchForm .form-group {
+    margin-bottom: 0;
+}
+
+#searchForm .btn {
+    height: calc(1.5em + 0.75rem + 2px); /* 입력란과 동일한 높이로 설정 */
+}
+
+.mt-5 {
+    margin-top: 3rem !important;
 }
