@@ -8,19 +8,19 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ysj/staffAttendance.css">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
 
-<div class="container mt-5">
-    <h2>직원 근태 현황</h2>
-    <form id="searchForm">
-        <div class="form-row">
-            <div class="form-group col-md-3">
+<div class="container mt-5 staff-attendance-container">
+    <h2 class="text-center display-4 font-weight-bold">직원 근태 현황</h2>
+    <form id="searchForm" class="text-center">
+        <div class="form-row justify-content-center align-items-end">
+            <div class="form-group col-md-2">
                 <label for="empId">사원 ID</label>
                 <input type="text" class="form-control" id="empId" placeholder="사원 ID">
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label for="empName">사원 이름</label>
                 <input type="text" class="form-control" id="empName" placeholder="사원 이름">
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label for="status">상태</label>
                 <select class="form-control custom-select" id="status">
                     <option value="">전체</option>
@@ -29,19 +29,21 @@
                     <option value="결근">결근</option>
                 </select>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label for="startDate">시작 날짜</label>
                 <input type="date" class="form-control" id="startDate">
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label for="endDate">종료 날짜</label>
                 <input type="date" class="form-control" id="endDate">
             </div>
+            <div class="form-group col-md-1 d-flex align-items-end">
+                <button type="button" class="btn btn-success form-control" onclick="searchStaffAttendance()">검색</button>
+            </div>
         </div>
-        <button type="button" class="btn btn-primary" onclick="searchStaffAttendance()">검색</button>
     </form>
     
-    <div class="d-flex justify-content-end mt-3">
+    <div class="d-flex justify-content-end mt-5">
         <label for="sortOrder" class="mr-2">정렬:</label>
         <select id="sortOrder" class="form-control w-auto custom-select" onchange="sortStaffAttendance()">
             <option value="">기본</option>
