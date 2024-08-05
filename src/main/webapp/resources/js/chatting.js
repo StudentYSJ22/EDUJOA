@@ -1,8 +1,16 @@
 function getKSTDate(date = new Date()) {
-    const kstOffset = 9 * 60; // KST는 UTC+9
-    const utc = date.getTime() + (date.getTimezoneOffset() * 60000); // 현재 로컬 시간을 UTC로 변환
-    return new Date(utc + (3600000 * 9)); // UTC에 9시간을 더해 KST로 변환
+    if (typeof date === 'string') {
+        date = new Date(date);
+    }
+    
+    if (!(date instanceof Date) || isNaN(date)) {
+        date = new Date();
+    }
+
+    
+    return date;
 }
+
 // WebSocket 서버 설정
 let server;
 let isConnected = false;
@@ -19,13 +27,13 @@ function getKoreanTitle(empTitle) {
 }
 
 function connectWebSocket() {
-	server = new WebSocket("ws://14.36.141.71:10079/GDJ79_EDUJOA_final/chattest");
-	//server = new WebSocket("ws://localhost:9090/chattest");
+	//server = new WebSocket("ws://14.36.141.71:10079/GDJ79_EDUJOA_final/chattest");
+	server = new WebSocket("ws://localhost:9090/chattest");
 
 	server.onopen = () => {
 		console.log("서버 연결됨");
 		isConnected = true;
-		const msg = new Message("open", "", loginId, "", "", getKSTDate().toISOString());
+		const msg = new Message("open", "", loginId, "", "", new Date());
 		console.log(msg);
 		server.send(msg.convert());
 	};
@@ -320,7 +328,7 @@ function displayChatHistory(content, empId) {
     if (content && content.length > 0) {
         let lastDate = null;
         content.forEach(function(cont) {
-            const messageDate = getKSTDate(new Date(cont.chatTime));
+            const messageDate = new Date(cont.chatTime);
 
             if (!lastDate || !isSameDay(lastDate, messageDate)) {
                 const dateString = formatDate(messageDate);
@@ -336,7 +344,7 @@ function displayChatHistory(content, empId) {
 
     $chattingcontent.scrollTop($chattingcontent[0].scrollHeight);
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 // 메시지 HTML을 생성하는 함수
 function createMessageHtml(message) {
     if (!message || !message.content) {
@@ -347,8 +355,8 @@ function createMessageHtml(message) {
     const sender = message.sender || message.empId;
     const messageClass = sender === loginId ? 'sent' : 'received';
     const content = message.content;
-    const messageDate = getKSTDate(new Date(message.chatTime));
-    const formattedTime = formatDateTime(new Date(message.chatTime));
+    const messageDate = new Date(message.chatTime); // KST로 변환된 시간
+    const formattedTime = formatDateTime(messageDate);
     const msg = `
         <div class="message ${messageClass}">
             <div class="message-container">
@@ -363,44 +371,45 @@ function createMessageHtml(message) {
 }
 
 // 타임스탬프를 KST로 변환하여 포맷팅하는 함수
-function formatDateTime(timestamp) {
-    const kstDate = getKSTDate(new Date(timestamp));
-    return kstDate.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+function formatDateTime(date) {
+    return date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
 }
 
 // 날짜를 포맷팅하는 함수
 function formatDate(date) {
-    const kstDate = getKSTDate(date);
     const days = ['일', '월', '화', '수', '목', '금', '토'];
-    return `${kstDate.getFullYear()}년 ${kstDate.getMonth() + 1}월 ${kstDate.getDate()}일 ${days[kstDate.getDay()]}요일`;
+    return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 ${days[date.getDay()]}요일`;
 }
 
 // 두 날짜가 같은 날인지 확인하는 함수
 function isSameDay(date1, date2) {
-    const d1 = getKSTDate(new Date(date1));
-    const d2 = getKSTDate(new Date(date2));
-    return d1.getFullYear() === d2.getFullYear() &&
-           d1.getMonth() === d2.getMonth() &&
-           d1.getDate() === d2.getDate();
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
 }
 
 // 수신 메시지를 처리하는 함수
 function handleIncomingMessage(message) {
-	console.log("Handling incoming message:", message);
-	const currentRoomId = $roomId.text();
-	if (message.chatType === "send") {
-		if (message.roomId === currentRoomId) {
-			appendMessageWithDateCheck(message);
-		} else {
-			addNewMessageBadge(message.roomId);
-		}
+    console.log("Handling incoming message:", message);
+    const currentRoomId = $roomId.text();
 
-		// 새로운 채팅방 생성 확인 및 추가
-		if (!isChatRoomExist(message.roomId)) {
-			addChatRoomToList(message.roomId, message.sender, message.senderName, message.senderTitle, message.senderProfile);
-			getMyChatRooms(); // 채팅방 목록 갱신
-		}
-	}
+    if (message.chatType === "send") {
+        // 수신한 메시지의 타임스탬프를 KST로 변환
+        const messageDate = new Date(message.chatTime); // UTC 시간
+        message.chatTime = messageDate; 
+        
+        if (message.roomId === currentRoomId) {
+            appendMessageWithDateCheck(message);
+        } else {
+            addNewMessageBadge(message.roomId);
+        }
+
+        // 새로운 채팅방 생성 확인 및 추가
+        if (!isChatRoomExist(message.roomId)) {
+            addChatRoomToList(message.roomId, message.sender, message.senderName, message.senderTitle, message.senderProfile);
+            getMyChatRooms(); // 채팅방 목록 갱신
+        }
+    }
 }
 
 // 메시지를 추가하는 함수 (날짜 구분선 추가 여부 체크)
@@ -410,7 +419,7 @@ function appendMessageWithDateCheck(message) {
         return;
     }
 
-    const newMessageDate = getKSTDate(new Date(message.chatTime));
+    const newMessageDate = new Date(message.chatTime);
 
     if (shouldAddDateDivider(newMessageDate)) {
         const dateString = formatDate(newMessageDate);
@@ -456,7 +465,7 @@ const sendMessage = () => {
     const inputData = $("#msg").val().trim();
     const receiverId = $("#receiver-id").text();
     const selectedRoomId = $roomId.text();
-    const chatTime = new Date().toISOString();
+    const chatTime = getKSTDate().toISOString(); // KST 시간으로 변환하여 ISO 문자열로 변환
 
     if (inputData.length > 0 && selectedRoomId) {
         const msgObj = {
@@ -465,7 +474,7 @@ const sendMessage = () => {
             sender: loginId,
             receiverId: receiverId,
             content: inputData,
-            chatTime: chatTime,
+            chatTime: chatTime, // KST 시간 문자열
         };
         try {
             server.send(JSON.stringify(msgObj));
@@ -479,7 +488,7 @@ const sendMessage = () => {
     } else {
         console.error("메시지를 보낼 수 없습니다. 입력 데이터나 채팅방 ID가 없습니다.");
     }
-}
+};
 
 class Message {
 	constructor(chatType = "", roomId = "", sender = "", receiverId = "", chatContent = "", chatTime = "") {

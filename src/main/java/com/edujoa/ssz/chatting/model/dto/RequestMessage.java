@@ -1,6 +1,8 @@
 package com.edujoa.ssz.chatting.model.dto;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,5 +19,6 @@ public class RequestMessage {
 	private String sender;
 	private String receiverId;
 	private String content;
-	private LocalDateTime chatTime;
+	//@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss",timezone = "Asia/Seoul")
+	private Timestamp chatTime;
 }

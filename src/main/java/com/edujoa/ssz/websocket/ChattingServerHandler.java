@@ -2,11 +2,9 @@ package com.edujoa.ssz.websocket;
 
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +13,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.edujoa.ssz.chatting.model.dto.ChatRecord;
 import com.edujoa.ssz.chatting.model.dto.RequestMessage;
 import com.edujoa.ssz.chatting.model.service.ChattingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -153,7 +150,7 @@ public class ChattingServerHandler extends TextWebSocketHandler {
 		String sender = rm.getSender();// 발신자ID//로그인한넘
 		String receiverId = rm.getReceiverId();// 수신자ID
 		String chatContent = rm.getContent();// 메세지내용
-		LocalDateTime chatTime = rm.getChatTime();// 메세지보낸 시간
+		Timestamp chatTime = rm.getChatTime();// 메세지보낸 시간
 		chatDB.put("roomId", roomId);
 		chatDB.put("sender", sender);
 		chatDB.put("receiver", receiverId);
