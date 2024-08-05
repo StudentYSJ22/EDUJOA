@@ -20,11 +20,13 @@ import lombok.RequiredArgsConstructor;
 public class MainAttendanceServiceImpl implements MainAttendanceService {
 	private final MainAttendanceDao dao;
 	private final SqlSession session;
+	
 
 	//출근
 	@Override
 	public int goToWork(Attendance attendance) {
 		return dao.insertAttendance(session, attendance);
+		
 	}
 
 	

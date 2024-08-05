@@ -1,9 +1,6 @@
 package com.edujoa.ysj.attendance.controller;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -86,28 +83,6 @@ public class AttendanceController {
     }
 
     // 기간별 검색
-//    @GetMapping("/searchByDate")
-//    @ResponseBody
-//    public List<Attendance> searchByDate(@RequestParam String startDate, @RequestParam String endDate) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        String empId = auth.getName();
-//
-//        LocalDateTime start = LocalDate.parse(startDate).atStartOfDay();
-//        LocalDateTime end = LocalDate.parse(endDate).atTime(LocalTime.MAX);
-//
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        String formattedStart = start.format(formatter);
-//        String formattedEnd = end.format(formatter);
-//
-//        System.out.println("기간별 출퇴근 기록 검색 시작. 직원 ID: " + empId + ", 시작일: " + start + ", 종료일: " + end);
-//
-//        List<Attendance> records = attendanceService.searchByDate(empId, formattedStart, formattedEnd);
-//        System.out.println("기간별 출퇴근 기록 검색 완료. 결과: " + records);
-//
-//        return records;
-//    }
-    
- // 기간별 검색
     @GetMapping("/searchByDate")
     @ResponseBody
     public ResponseEntity<List<Attendance>> searchByDate(@RequestParam String startDate, @RequestParam String endDate) {
@@ -120,8 +95,4 @@ public class AttendanceController {
         System.out.println("기간별 출퇴근 기록 검색 완료. 결과: " + records);
         return ResponseEntity.ok(records); // JSON 형식의 응답 반환
     }
-
-
-
-
 }
