@@ -15,7 +15,7 @@
 	<resultMap id="mychatrecordsMap" type="mychatrecords">
 		<result column="room_id" property="roomId"/>
 		<result column="emp_id" property="empId"/>
-		<result column="content" property="content"/>
+		<result column="content" property="chatContent"/>
 		<result column="chat_time" property="chatTime"/>
 	</resultMap>
 
@@ -39,7 +39,7 @@
 	<resultMap id="chatrecordMap" type="chatrecord">
 		<result column="room_id" property="roomId" />
 		<result column="emp_id" property="empId" />
-		<result column="content" property="content" />
+		<result column="content" property="chatContent" />
 		<result column="chat_time" property="chatTime" />
 		<collection property="employee" resultMap="employeeMap" />
 	</resultMap>

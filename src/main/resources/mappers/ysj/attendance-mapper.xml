@@ -22,7 +22,7 @@
         <result column="a_atn_out" property="atnOut"/>
         <result column="a_atn_status" property="atnStatus"/>
     </resultMap>
- <!-- 직원 ID로 출퇴근 기록 조회 -->
+<!-- 직원 ID로 출퇴근 기록 조회 -->
     <select id="getRecordsByEmpIdWithPagingAndStatus" resultMap="attendanceMap">
         SELECT
         <include refid="attendanceSql"/>
@@ -34,7 +34,7 @@
         ORDER BY a.ATN_DATE DESC, a.ATN_IN DESC
     </select>
 
-    <!-- 직원 ID로 출퇴근 기록 총 개수 조회 -->
+    <!-- 직원 ID로 출퇴근 기록 개수 조회 -->
     <select id="getRecordsCountByEmpIdAndStatus" resultType="int">
         SELECT COUNT(*)
         FROM attendance a
@@ -44,51 +44,30 @@
         </if>
     </select>
 
-    <!-- 출퇴근 요약 정보 조회 -->
-    <select id="getAttendanceSummary" resultType="java.util.Map">
-        SELECT 
-            COUNT(CASE WHEN ATN_STATUS = '출근' THEN 1 END) as ONTIME,
-            COUNT(CASE WHEN ATN_STATUS = '지각' THEN 1 END) as LATE,
-            COUNT(CASE WHEN ATN_STATUS = '결근' THEN 1 END) as ABSENT,
-            COUNT(CASE WHEN ATN_STATUS = '미처리' THEN 1 END) as UNPROCESSED
-        FROM attendance
-        WHERE EMP_ID = #{empId}
-    </select>
-
-    <!-- 특정 날짜의 출퇴근 기록 조회(자동결근 처리를 위하여)  -->
-  <!--   <select id="getAttendanceByEmpIdAndDate" resultMap="attendanceMap">
+    <!-- 모든 출퇴근 기록 조회 -->
+    <select id="getAllAttendanceRecords" parameterType="string" resultMap="attendanceMap">
         SELECT
         <include refid="attendanceSql"/>
         FROM attendance a
-        WHERE a.EMP_ID = #{empId} AND a.ATN_DATE = #{date}
+        WHERE a.EMP_ID = #{empId}
     </select>
- -->
- 
- 
- <!-- 특정 날짜의 출퇴근 기록 조회 -->
-   <select id="getAttendanceByEmpIdAndDate" resultMap="attendanceMap">
-    SELECT
-    <include refid="attendanceSql"/>
-    FROM attendance a
-    WHERE a.EMP_ID = #{empId, jdbcType=VARCHAR}
-    AND a.ATN_DATE = #{date, jdbcType=DATE}
-</select>
 
- 
- 
- 
- 
- 
+    <!-- 특정 날짜의 출퇴근 기록 조회 (자동 결근 처리를 위해) -->
+    <select id="getAttendanceByEmpIdAndDate" resultMap="attendanceMap">
+        SELECT
+        <include refid="attendanceSql"/>
+        FROM attendance a
+        WHERE a.EMP_ID = #{empId, jdbcType=VARCHAR}
+        AND a.ATN_DATE = #{date, jdbcType=DATE}
+    </select>
+
     <!-- 출퇴근 기록 저장 -->
+    <insert id="saveAttendance" parameterType="attendance">
+        INSERT INTO attendance (ATN_ID, EMP_ID, ATN_DATE, ATN_IN, ATN_OUT, ATN_STATUS)
+        VALUES (#{atnId, jdbcType=VARCHAR}, #{empId}, #{atnDate}, #{atnIn, jdbcType=TIMESTAMP}, #{atnOut, jdbcType=TIMESTAMP}, #{atnStatus, jdbcType=VARCHAR})
+    </insert>
 
-	<insert id="saveAttendance" parameterType="attendance">
-    INSERT INTO attendance (ATN_ID, EMP_ID, ATN_DATE, ATN_IN, ATN_OUT, ATN_STATUS)
-    VALUES (#{atnId,jdbcType=VARCHAR}, #{empId}, #{atnDate}, #{atnIn,jdbcType=TIMESTAMP}, #{atnOut,jdbcType=TIMESTAMP}, #{atnStatus,jdbcType=VARCHAR})
-</insert>
-	
-
-
-  <!-- 기간별 검색 -->
+    <!-- 기간별 검색 -->
     <select id="searchByDate" parameterType="map" resultMap="attendanceMap">
         SELECT
         <include refid="attendanceSql"/>
@@ -96,5 +75,12 @@
         WHERE a.EMP_ID = #{empId}
         AND a.ATN_DATE BETWEEN #{startDate} AND #{endDate}
     </select>
- 
+    <!-- 출퇴근 기록 상태 업데이트 -->
+<update id="updateAttendanceStatus" parameterType="attendance">
+    UPDATE ATTENDANCE
+    SET ATN_STATUS = #{atnStatus}
+    WHERE ATN_ID = #{atnId}
+</update>
+    
+    
 </mapper>

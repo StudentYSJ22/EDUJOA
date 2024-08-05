@@ -10,9 +10,10 @@
 		<result column="atn_in" property="atnIn"/>
 		<result column="atn_out" property="atnOut"/>
 		<result column="atn_status" property="atnStatus"/>
+		<result column="atn_date" property="atnDate"/>
 	</resultMap>
 	<insert id="insertAttendance" parameterType="attendance">
-	 	INSERT INTO ATTENDANCE(ATN_ID, EMP_ID, ATN_IN) VALUES ('', #{empId}, #{atnIn})
+	 	INSERT INTO ATTENDANCE(ATN_ID, EMP_ID, ATN_IN, ATN_DATE) VALUES ('', #{empId}, #{atnIn}, sysdate)
 	</insert>
 
 	

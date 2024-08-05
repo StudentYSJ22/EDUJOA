@@ -18,7 +18,7 @@ public class RequestMessage {
 	private String roomId;
 	private String sender;
 	private String receiverId;
-	private String content;
+	private String chatContent;
 	//@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss",timezone = "Asia/Seoul")
 	private Timestamp chatTime;
 }

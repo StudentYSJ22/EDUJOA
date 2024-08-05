@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class ChatRecord {
 	private String roomId;
 	private String empId;
-	private String content;
+	private String chatContent;
 	private LocalDateTime chatTime;
 	private List<Employee> employee;
 }

@@ -1,43 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="schedule">
 
     <!-- 공통으로 사용되는 SQL 부분 -->
     <sql id="scheduleSql">
-        sch_id, emp_id, sch_title, sch_content, sch_start, sch_end, sch_type, sch_color, calendar_type
+        sch_id, emp_id, sch_title, sch_content, 
+        sch_start, sch_end, sch_type, sch_color, 
+        calendar_type, repeat_type, repeat_end_date
     </sql>
-	
-	<!-- 직원에 대한 sql -->
-	<sql id="employeeSql">
-		e.emp_id as e_emp_id,
-		e.emp_name as e_emp_name,
-		e.emp_title as e_emp_title
-	</sql>
-	<!-- 직원에 대한 resultMap -->
-	<resultMap id="employeeMap" type="employee">
-		<id column="e_emp_id" property="empId"/>
-		<result column="e_emp_name" property="empName"/>
-		<result column="e_emp_title" property="empTitle"/>
-	</resultMap>
-	
+
+    <!-- 직원에 대한 sql -->
+    <sql id="employeeSql">
+        e.emp_id as e_emp_id,
+        e.emp_name as e_emp_name,
+        e.emp_title as e_emp_title
+    </sql>
+
+    <!-- 직원에 대한 resultMap -->
+    <resultMap id="employeeMap" type="employee">
+        <id column="e_emp_id" property="empId"/>
+        <result column="e_emp_name" property="empName"/>
+        <result column="e_emp_title" property="empTitle"/>
+    </resultMap>
+
     <!-- Schedule resultMap -->
     <resultMap id="scheduleMap" type="schedule">
         <id column="sch_id" property="schId"/>
         <result column="emp_id" property="empId"/>
         <result column="sch_title" property="schTitle"/>
         <result column="sch_content" property="schContent"/>
-        <result column="sch_start" property="schStart"/>
-        <result column="sch_end" property="schEnd"/>
+        <result column="sch_start" property="schStart" jdbcType="TIMESTAMP"/>
+        <result column="sch_end" property="schEnd" jdbcType="TIMESTAMP"/>
         <result column="sch_type" property="schType"/>
         <result column="sch_color" property="schColor"/>
         <result column="calendar_type" property="calendarType"/>
+        <result column="repeat_type" property="repeatType"/>
+        <result column="repeat_end_date" property="repeatEndDate" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!-- ScheduleSharer resultMap -->
     <resultMap id="scheduleSharerMap" type="scheduleSharer">
         <id column="sch_id" property="schId"/>
         <result column="emp_id" property="empId"/>
-        <!-- 추가 -->
         <collection property="employee" resultMap="employeeMap" />
     </resultMap>
 
@@ -60,50 +63,39 @@
     </select>
 
     <!-- 일정 등록 -->
-    <!-- <insert id="insertSchedule" parameterType="schedule">
+    <insert id="insertSchedule" parameterType="schedule">
         INSERT INTO SCHEDULE (
             emp_id, sch_title, sch_content, sch_start,
-            sch_end, sch_type, sch_color, calendar_type
+            sch_end, sch_type, sch_color, calendar_type, repeat_type, repeat_end_date
         ) VALUES (
             #{empId}, #{schTitle}, #{schContent},
             #{schStart, jdbcType=TIMESTAMP}, #{schEnd, jdbcType=TIMESTAMP},
-            #{schType}, #{schColor}, #{calendarType}
+            #{schType}, #{schColor}, #{calendarType}, #{repeatType}, #{repeatEndDate, jdbcType=TIMESTAMP}
         )
         <selectKey keyProperty="schId" resultType="String" order="AFTER">
             SELECT SCH_ID FROM SCHEDULE WHERE SCH_ID = (SELECT MAX(SCH_ID) FROM SCHEDULE)
         </selectKey>
-    </insert> -->
-	<!-- 일정 등록 -->
-<insert id="insertSchedule" parameterType="schedule">
-    INSERT INTO SCHEDULE (
-        emp_id, sch_title, sch_content, sch_start,
-        sch_end, sch_type, sch_color, calendar_type
-    ) VALUES (
-        #{empId}, #{schTitle}, #{schContent},
-        #{schStart, jdbcType=TIMESTAMP}, #{schEnd, jdbcType=TIMESTAMP},
-        #{schType}, #{schColor}, #{calendarType}
-    )
-    <selectKey keyProperty="schId" resultType="String" order="AFTER">
-        SELECT SCH_ID FROM SCHEDULE WHERE SCH_ID = (SELECT MAX(SCH_ID) FROM SCHEDULE)
-    </selectKey>
-</insert>
+    </insert>
 
-<!-- 일정 수정 -->
-<update id="updateSchedule" parameterType="schedule">
-    UPDATE SCHEDULE
-    <set>
-        emp_id = #{empId},
-        sch_title = #{schTitle},
-        sch_content = #{schContent},
-        sch_start = #{schStart, jdbcType=TIMESTAMP},
-        sch_end = #{schEnd, jdbcType=TIMESTAMP},
-        sch_type = #{schType},
-        calendar_type = #{calendarType},
-        sch_color = #{schColor}
-    </set>
-    WHERE sch_id = #{schId}
-</update>
-	
+    <!-- 일정 수정 -->
+    <update id="updateSchedule" parameterType="schedule">
+        UPDATE SCHEDULE
+        <set>
+            emp_id = #{empId},
+            sch_title = #{schTitle},
+            sch_content = #{schContent},
+            sch_start = #{schStart, jdbcType=TIMESTAMP},
+            sch_end = #{schEnd, jdbcType=TIMESTAMP},
+            sch_type = #{schType},
+            calendar_type = #{calendarType},
+            sch_color = #{schColor},
+            <if test="repeatType != null">
+	            repeat_type = #{repeatType},
+	            repeat_end_date = #{repeatEndDate, jdbcType=TIMESTAMP}            
+            </if>
+        </set>
+        WHERE sch_id = #{schId}
+    </update>
 
     <!-- 일정 상세 이벤트 조회 -->
     <select id="selectScheduleById" resultMap="scheduleMap" parameterType="string">
@@ -111,7 +103,6 @@
         FROM SCHEDULE
         WHERE sch_id = #{eventId}
     </select>
-
 
     <!-- 일정 삭제 -->
     <delete id="deleteScheduleSharersByScheduleId" parameterType="string">
@@ -160,5 +151,9 @@
         ORDER BY EMP_NAME
     </select>
 
-</mapper>
+    <!-- 반복일정 삭제  -->
+    <delete id="deleteRepeatingSchedules" parameterType="string">
+        DELETE FROM SCHEDULE WHERE sch_id = #{schId}
+    </delete>
 
+</mapper>

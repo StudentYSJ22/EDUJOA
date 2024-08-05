@@ -27,8 +27,8 @@ function getKoreanTitle(empTitle) {
 }
 
 function connectWebSocket() {
-	//server = new WebSocket("ws://14.36.141.71:10079/GDJ79_EDUJOA_final/chattest");
-	server = new WebSocket("ws://localhost:9090/chattest");
+	server = new WebSocket("ws://14.36.141.71:10079/GDJ79_EDUJOA_final/chattest");
+	//server = new WebSocket("ws://localhost:9090/chattest");
 
 	server.onopen = () => {
 		console.log("서버 연결됨");
@@ -169,7 +169,7 @@ function createChatRoom(targetId, empName, empTitle, empProfile) {
 
 					//대화하기 버튼 눌렀을 때 return받은 채팅방 번호가 채팅방목록에 있다면,
 				} else {
-					displayChatHistory(response.content, targetId);
+					displayChatHistory(response.chatContent, targetId);
 				}
 
 				selectChatRoom(roomId, targetId);
@@ -322,12 +322,12 @@ function getMyChatRecords(roomId, empId) {
 }
 
 // 채팅 기록을 표시하는 함수
-function displayChatHistory(content, empId) {
+function displayChatHistory(chatContent, empId) {
     $chattingcontent.empty();
 
-    if (content && content.length > 0) {
+    if (chatContent && chatContent.length > 0) {
         let lastDate = null;
-        content.forEach(function(cont) {
+        chatContent.forEach(function(cont) {
             const messageDate = new Date(cont.chatTime);
 
             if (!lastDate || !isSameDay(lastDate, messageDate)) {
@@ -347,20 +347,20 @@ function displayChatHistory(content, empId) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // 메시지 HTML을 생성하는 함수
 function createMessageHtml(message) {
-    if (!message || !message.content) {
+    if (!message || !message.chatContent) {
         console.error("Invalid message object:", message);
         return;
     }
 
     const sender = message.sender || message.empId;
     const messageClass = sender === loginId ? 'sent' : 'received';
-    const content = message.content;
+    const chatContent = message.chatContent;
     const messageDate = new Date(message.chatTime); // KST로 변환된 시간
     const formattedTime = formatDateTime(messageDate);
     const msg = `
         <div class="message ${messageClass}">
             <div class="message-container">
-                <div class="message-content content">${escapeHTML(content)}</div>
+                <div class="message-content content">${escapeHTML(message.chatContent)}</div>
                 <div class="message-time">${formattedTime}</div>
             </div>
         </div>
@@ -473,7 +473,7 @@ const sendMessage = () => {
             roomId: selectedRoomId,
             sender: loginId,
             receiverId: receiverId,
-            content: inputData,
+            chatContent: inputData,
             chatTime: chatTime, // KST 시간 문자열
         };
         try {

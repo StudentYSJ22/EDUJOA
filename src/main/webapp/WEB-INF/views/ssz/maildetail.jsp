@@ -120,7 +120,7 @@
             </p>
         </div>
         <div class="email-body"id="emailContent">
-            ${email.rcvMailContent}
+            <pre>${email.rcvMailContent}</pre>
         </div>
         
     </main>

@@ -149,7 +149,7 @@ public class ChattingServerHandler extends TextWebSocketHandler {
 		String roomId = rm.getRoomId();
 		String sender = rm.getSender();// 발신자ID//로그인한넘
 		String receiverId = rm.getReceiverId();// 수신자ID
-		String chatContent = rm.getContent();// 메세지내용
+		String chatContent = rm.getChatContent();// 메세지내용
 		Timestamp chatTime = rm.getChatTime();// 메세지보낸 시간
 		chatDB.put("roomId", roomId);
 		chatDB.put("sender", sender);
