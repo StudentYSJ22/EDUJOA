@@ -53,6 +53,10 @@
         <div class="icon blue">&#128188;</div>
         <div class="text">미처리<br><span id="unprocessedCount">0건</span></div>
       </div>
+      <div class="summary-item" onclick="filterAttendance('조퇴')">
+        <div class="icon red">&#128188;</div>
+        <div class="text">조퇴<br><span id="earlyLeaveCount">0건</span></div>
+      </div>
     </div>
   </div>
 

@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.edujoa.ysj.attendance.model.dto.Attendance;
 
 public interface AttendanceService {
@@ -23,8 +25,7 @@ public interface AttendanceService {
     
     // 출퇴근 요약 정보를 조회
     Map<String, Integer> getAttendanceSummary(String empId);
-    
+
     // 기간별 검색
-//    List<Attendance> searchByDate(String empId, String startDate, String endDate);
     List<Attendance> searchByDate(String empId, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

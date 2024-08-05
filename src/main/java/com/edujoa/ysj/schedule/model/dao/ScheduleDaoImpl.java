@@ -52,14 +52,16 @@ public class ScheduleDaoImpl implements ScheduleDao {
         int result = session.insert("schedule.insertSchedule", schedule);
         String schId = schedule.getSchId(); //selectKey 가져온걸 변수  
         
+        log.debug("Inserted schedule ID: {}", schId);
+
         if (schedule.getSharers() != null) {
             for (ScheduleSharer sharer : schedule.getSharers()) {
                 sharer.setSchId(schId); //setter 가져오기  
                 insertScheduleSharer(session, sharer);
-                log.debug("{}", sharer);
+                log.debug("Inserted sharer: {}", sharer);
             }
         }
-        log.debug(schId);
+        log.debug("Final schedule ID: {}", schId);
 
         return result;
     }

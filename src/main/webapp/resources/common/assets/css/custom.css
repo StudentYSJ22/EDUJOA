@@ -42,12 +42,14 @@
   margin-bottom: 35px; 
 }
 
+/*메뉴간 간격 */
+.menu-item {
+  margin-bottom: 10px !important; 
+}
+
 
  
- 
- 
  /*로그아웃 밑으로~ */
- 
 .sidebar-logout {
   position: absolute;
   bottom: 0;
