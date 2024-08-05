@@ -90,7 +90,7 @@ $(document).ready(function() {
 			if (confirm('임시저장하시겠습니까?')) {
 				$.ajax({
 					type: 'POST',
-					url: contextPath+'/mailbox/saveDraft',
+					url: `${contextPath}`+'/mailbox/saveDraft',
 					contentType: 'application/json',
 					data: JSON.stringify({
 						mailTitle: mailTitle,
@@ -105,7 +105,7 @@ $(document).ready(function() {
 						if (response > 0) {
 							console.log('Draft saved successfully');
 							alert("임시저장이 완료되었습니다.");
-							window.location.href = `${contextPath}+'/mailbox'`;
+							window.location.href = `${contextPath}`+'/mailbox';
 						} else {
 							console.log('Draft failed to save');
 							alert("임시저장 실패.");

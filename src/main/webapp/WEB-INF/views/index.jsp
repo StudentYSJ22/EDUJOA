@@ -6,8 +6,7 @@
 <c:set var="loginMember"
 	value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <link rel="stylesheet" href="${path }/resources/css/khj/index_hj.css">
-<link rel="stylesheet"
-	href="${path} /resources/common/assets/vendor/fonts/boxicons.css" />
+<link rel="stylesheet" href="${path} /resources/common/assets/vendor/fonts/boxicons.css" />
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script src="${path }/resources/js/jquery-3.7.1.min.js"></script>
 
@@ -31,7 +30,7 @@
 <style>
 #calendar {
 	max-width: 900px;
-	/* 	margin: 0 auto; */
+/* 	margin: 0 auto; */
 	margin: 15px 15px;
 }
 
@@ -61,7 +60,7 @@
 
 
 <!-- <body>안내용만. 모든 내용은 밑에있는 div안에만 설정해야함. -->
-<div class="main" style="margin-top: 50px;">
+<div class="main" style="margin-top:50px;">
 	<div class="first-container">
 		<div class="first">
 			<div class="mini-container">
@@ -141,17 +140,13 @@
 						<div class="btn-container">
 							<div class="time-btn-container">
 								<div>
-									<button type="button"
-										class="attn-btn ${attendance!=null&&attendance.atnIn!=null?'disabled':'' }"
-										id="input"
+									<button type="button" id="input" class="attn-btn ${attendance!=null&&attendance.atnIn!=null?'disabled':'' }"
 										${attendance!=null&&attendance.atnIn!=null?"disabled":"" }>
 										<b><i class='bx bx-time'></i> 출 근</b>
 									</button>
 								</div>
 							</div>
-						</div>
 					</form>
-
 					<!-- 퇴근 폼 -->
 					<form id="outputForm" action="/submitOutputTime" method="post">
 						<input type="hidden" name="outputTime" id="outputTimeField">
@@ -160,25 +155,22 @@
 						<!-- 퇴근 폼용 empId 필드 -->
 						<div class="time-btn-container">
 							<div>
-								<button type="button"
-									class="attn-btn ${attendance!=null&&attendance.atnOut!=null?'disabled':''}"
-									id="output"
-									${attendance!=null&&attendance.atnOut!=null?"disabled":""}
-									disabled>
+								<button type="button" id="output" class="attn-btn ${attendance!=null&&attendance.atnOut!=null?'disabled':''}" 
+									${attendance!=null&&attendance.atnOut!=null?"disabled":""}>
 									<b><i class='bx bx-time'></i> 퇴 근</b>
 								</button>
 							</div>
 						</div>
-					</form>
-					<div class="time-btn-go">
-						<a
-							href="${pageContext.request.contextPath}/attendance/attendance.do?empId=${loginMember.empId}">
-							<div class="attn-go">+ 근태관리 바로가기</div>
-							</button>
-					</div>
+				</div>
+				</form>
+				<div class="time-btn-go">
+					<a href="${pageContext.request.contextPath}/attendance/attendance.do?empId=${loginMember.empId}">
+						<div class="attn-go">+ 근태관리 바로가기</div> 
+						</button>
 				</div>
 			</div>
 		</div>
+	</div>
 
 
 
@@ -187,89 +179,88 @@
 
 
 
-		<div class="second">
-			<div class="mini2-container">
-				<div class="hj">
-					<div class="mini2-first-container">
-						<div class="four-container">
-							<a href="${pageContext.request.contextPath}/mailbox">
-								<div class="circle-su";>${mailCount }</div>
-							</a> <a href="${pageContext.request.contextPath}/mailbox"><div
-									class="circle"
-									style="background-image: url(${pageContext.request.contextPath}/resources/images/mail-i.png");></div></a>
-							<div class="circle-info"></div>
-						</div>
-						<div class="four-container">
-							<a
-								href="${pageContext.request.contextPath}/approval/flagginging.do?empId=${loginMember.empId}">
-								<div class="circle-su";>${approvalCount }</div>
-							</a> <a
-								href="${pageContext.request.contextPath}/approval/flagginging.do?empId=${loginMember.empId}">
-								<div class="circle"
-									style="background-image: url(${pageContext.request.contextPath}/resources/images/aprv-i.png");></div>
-							</a>
-							<div class="circle-info"></div>
-						</div>
-						<div class="four-container">
-							<a
-								href="${pageContext.request.contextPath }/schedule/schedule.do"><div
-									class="circle-su";>N</div></a> <a
-								href="${pageContext.request.contextPath }/schedule/schedule.do">
-								<div class="circle"
-									style="background-image: url(${pageContext.request.contextPath}/resources/images/calendar-i.png");></div>
-							</a>
-							<div class="circle-info"></div>
-						</div>
-						<div class="four-container">
-							<a
-								href="${pageContext.request.contextPath }/chatting/chattestview?empId=${loginMember.empId}"><div
-									class="circle-su";>N</div></a> <a
-								href="${pageContext.request.contextPath }/chatting/chattestview?empId=${loginMember.empId}"><div
-									class="circle"
-									style="background-image: url(${pageContext.request.contextPath}/resources/images/messanger-i.png");></div></a>
-							<div class="circle-info"></div>
-						</div>
+	<div class="second">
+		<div class="mini2-container">
+			<div class="hj">
+				<div class="mini2-first-container">
+					<div class="four-container">
+						<a href="${pageContext.request.contextPath}/mailbox">
+							<div class="circle-su";>${mailCount }</div>
+						</a> <a href="${pageContext.request.contextPath}/mailbox"><div
+								class="circle"
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/mail-i.png");></div></a>
+						<div class="circle-info"></div>
+					</div>
+					<div class="four-container">
+						<a
+							href="${pageContext.request.contextPath}/approval/flagginging.do?empId=${loginMember.empId}">
+							<div class="circle-su";>${approvalCount }</div>
+						</a> <a
+							href="${pageContext.request.contextPath}/approval/flagginging.do?empId=${loginMember.empId}">
+							<div class="circle"
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/aprv-i.png");></div>
+						</a>
+						<div class="circle-info"></div>
+					</div>
+					<div class="four-container">
+						<a href="${pageContext.request.contextPath }/schedule/schedule.do"><div
+								class="circle-su";>N</div></a> <a
+							href="${pageContext.request.contextPath }/schedule/schedule.do">
+							<div class="circle"
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/calendar-i.png");></div>
+						</a>
+						<div class="circle-info"></div>
+					</div>
+					<div class="four-container">
+						<a
+							href="${pageContext.request.contextPath }/chatting/chattestview?empId=${loginMember.empId}"><div
+								class="circle-su";>N</div></a> <a
+							href="${pageContext.request.contextPath }/chatting/chattestview?empId=${loginMember.empId}"><div
+								class="circle"
+								style="background-image: url(${pageContext.request.contextPath}/resources/images/messanger-i.png");></div></a>
+						<div class="circle-info"></div>
 					</div>
 				</div>
-				<div class="mini2-second-container">
-					<div class="todo-title">
-						<%-- <b>${loginMember.empName} 님의 Monthly Schedule</b> --%>
-						<b> &nbsp; M O N T H L Y &nbsp; &nbsp; S C H E D U L E</b>
-					</div>
-					<div class="todo-info-container">
-						<!-- <div class="todo-info"> -->
+			</div>
+			<div class="mini2-second-container">
+				<div class="todo-title">
+					<%-- <b>${loginMember.empName} 님의 Monthly Schedule</b> --%>
+					<b> &nbsp; M O N T H L Y &nbsp; &nbsp;  S C H E D U L E</b>
+				</div>
+				<div class="todo-info-container">
+					<!-- <div class="todo-info"> -->
 
 
-						<!-- 선정캘린더 -->
+					<!-- 선정캘린더 -->
 
-						<!-- <div id='calendar-container'> -->
-						<div id="calendar" class="mainCalendar"></div>
-						<!-- </div> -->
+					<!-- <div id='calendar-container'> -->
+					<div id="calendar" class="mainCalendar"></div>
+					<!-- </div> -->
 
-						<!-- </div> -->
-						<!-- 	<div id="thisMonthSchedules" class="todo-info">
+					<!-- </div> -->
+				<!-- 	<div id="thisMonthSchedules" class="todo-info">
 						<h4 style="text-align: center">오늘의 일정</h4>
 					</div> -->
 
 
 
-						<div id="thisMonthSchedules" class="whiteboard">
-							<h4>D A I L Y</h4>
-							<div class="schedule-container"></div>
-						</div>
-
-
-
-
+					<div id="thisMonthSchedules" class="whiteboard">
+						<h4>D A I L Y</h4>
+						<div class="schedule-container"></div>
 					</div>
+
+
+
+
 				</div>
 			</div>
-
-
 		</div>
+
+
 	</div>
-	<!-- <div class="third"> -->
-	<%-- 	<div class="mini3-container">
+</div>
+<!-- <div class="third"> -->
+<%-- 	<div class="mini3-container">
 		<div class="mini3-first-container">
 			<div style="margin: 40px; color: rgb(1, 153, 70);">
 				<h5><b>내 전자결재 현황</b></h5>
@@ -320,80 +311,76 @@
 			</div>
 		</div>
 	</div> --%>
-
-
-
-
-
-
+	
+	
+	
+	
+	
+	
 	<div class="third">
-		<div class="mini3-container">
-			<div class="mini3-first-container modern-container">
-				<h5 class="section-title">
-					<b>내 전자결재 현황</b>
-				</h5>
-				<div class="content-wrapper">
-					<div class="header-row">
-						<span>문서종류</span> <span style="margin-right: 155px;">제목</span> <span
-							style="margin-right: 25px;">상태</span> <span
-							style="margin-right: 85px;">기안일</span>
-					</div>
-					<div class="scrollable-content">
-						<c:forEach var="a" items="${approval}">
-							<div class="item-row">
-								<span class="doc-type"> <c:choose>
-										<c:when test="${a.apvType == 0}">휴가신청서</c:when>
-										<c:when test="${a.apvType == 1}">품의서</c:when>
-										<c:when test="${a.apvType == 2}">지출결의서</c:when>
-									</c:choose>
-								</span> <span class="title">${a.apvTitle}</span> <span class="status">
-									<c:choose>
-										<c:when test="${a.apvStatus == 0}">
-											<span class="badge in-progress">진행 중</span>
-										</c:when>
-										<c:when test="${a.apvStatus == 1}">
-											<span class="badge rejected">반려</span>
-										</c:when>
-										<c:when test="${a.apvStatus == 2}">
-											<span class="badge completed">결재완료</span>
-										</c:when>
-									</c:choose>
-								</span> <span class="date">${a.apvDate}</span>
-							</div>
-						</c:forEach>
-					</div>
-				</div>
-			</div>
-			<div class="mini3-second-container modern-container">
-				<h5 class="section-title">
-					<b>받은 메일함</b>
-				</h5>
-				<div class="content-wrapper">
-					<div class="header-row">
-						<span>제목</span> <span style="margin-left: 180px;">송신인</span> <span
-							style="margin-right: 130px;">수신일</span>
-					</div>
-					<div class="scrollable-content">
-						<c:forEach var="m" items="${mails}">
-							<a href="${path }/mailbox/maildetail?emailId=${m.rcvMailId}"
-								style="color: black;">
-								<div class="item-row">
-									<span class="title">${m.rcvMailTitle}</span> <span
-										class="sender">${m.rcvMailSender}</span> <span class="date">${m.rcvMailDate}</span>
-								</div>
-							</a>
-						</c:forEach>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="mini3-container">
+        <div class="mini3-first-container modern-container">
+            <h5 class="section-title"><b>내 전자결재 현황</b></h5>
+            <div class="content-wrapper">
+                <div class="header-row">
+                    <span>문서종류</span>
+                    <span style="margin-right:155px;">제목</span>
+                    <span style="margin-right:25px;">상태</span>
+                    <span style="margin-right:85px;">기안일</span>
+                </div>
+                <div class="scrollable-content">
+                    <c:forEach var="a" items="${approval}">
+                        <div class="item-row">
+                            <span class="doc-type">
+                                <c:choose>
+                                    <c:when test="${a.apvType == 0}">휴가신청서</c:when>
+                                    <c:when test="${a.apvType == 1}">품의서</c:when>
+                                    <c:when test="${a.apvType == 2}">지출결의서</c:when>
+                                </c:choose>
+                            </span>
+                            <span class="title">${a.apvTitle}</span>
+                            <span class="status">
+                                <c:choose>
+                                    <c:when test="${a.apvStatus == 0}"><span class="badge in-progress">진행 중</span></c:when>
+                                    <c:when test="${a.apvStatus == 1}"><span class="badge rejected">반려</span></c:when>
+                                    <c:when test="${a.apvStatus == 2}"><span class="badge completed">결재완료</span></c:when>
+                                </c:choose>
+                            </span>
+                            <span class="date">${a.apvDate}</span>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+        <div class="mini3-second-container modern-container">
+            <h5 class="section-title"><b>받은 메일함</b></h5>
+            <div class="content-wrapper">
+                <div class="header-row">
+                    <span>제목</span>
+                    <span style="margin-left:180px;">송신인</span>
+                    <span style="margin-right:130px;">수신일</span>
+                </div>
+                <div class="scrollable-content">
+                    <c:forEach var="m" items="${mails}">
+                    	<a href="${path }/mailbox/maildetail?emailId=${m.rcvMailId}" style="color: black;">
+                        <div class="item-row">
+                            <span class="title">${m.rcvMailTitle}</span>
+                            <span class="sender">${m.rcvMailSender}</span>
+                            <span class="date">${m.rcvMailDate}</span>
+                        </div>
+                        </a>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-
-
-
-
+	
+	
+	
+	
 </div>
 </div>
 </div>
@@ -403,29 +390,6 @@
 	const empId = `${loginMember.empId}`;
 	const path = `${path}`;
 	console.log('loginId', empId);
-	document.addEventListener('DOMContentLoaded', function() {
-	    const inputButton = document.getElementById('input');
-	    const outputButton = document.getElementById('output');
-
-	    inputButton.addEventListener('click', function() {
-	        // 출근 시간을 설정하는 로직 (예: 현재 시간을 설정)
-	        document.getElementById('inputTimeField').value = new Date().toISOString();
-
-	        // 출근 버튼 비활성화
-	        inputButton.disabled = true;
-
-	        // 퇴근 버튼 활성화
-	        outputButton.disabled = false;
-	    });
-
-	    outputButton.addEventListener('click', function() {
-	        // 퇴근 시간을 설정하는 로직 (예: 현재 시간을 설정)
-	        document.getElementById('outputTimeField').value = new Date().toISOString();
-
-	        // 퇴근 버튼 비활성화
-	        outputButton.disabled = true;
-	    });
-	});
 </script>
 
 
