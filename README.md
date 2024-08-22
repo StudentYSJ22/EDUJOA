@@ -69,7 +69,7 @@
   <br>
   <div markdown="1">
     <ul>
-    <img src="https://i.ibb.co/5TgQQ5F/image.gif"/>
+    <img src="https://i.ibb.co/5TgQQ5F/image.gif"/> <br>
       <em> 공지사항 게시판에 게시글 작성 가능 </em>
     </ul>
   </div>
