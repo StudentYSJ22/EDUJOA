@@ -20,7 +20,7 @@
 <br>
 
 ## ⚙️ 기술 스택
-<img src="https://i.ibb.co/9hK7XfS/image.gif" style="width: 100%; height: 300px;"/>
+<img src="https://i.ibb.co/9hK7XfS/image.gif" style="height: 300px;"/>
 
 <br>
 
