@@ -41,8 +41,8 @@
   <br>
   <div markdown="1">
     <ul>
-      <img src="https://github.com/user-attachments/assets/edabadf3-6251-49d6-944b-00eb5b7f530b"/>
-      <img src="https://github.com/user-attachments/assets/6a93b317-4219-428c-95d6-0b3728e9b78d"/>
+      <img src="https://i.ibb.co/sbmCYMc/wbs.gif"/>
+      <img src="https://i.ibb.co/80XGpS6/erd.gif"/>
     </ul>
   </div>
 </details>
