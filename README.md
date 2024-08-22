@@ -9,7 +9,7 @@
 </table>
 
 ## 👨‍👨‍👧‍👧팀원 소개
-<img src="https://i.ibb.co/WK0jcb3/image.gif"/>
+<img src="https://i.ibb.co/vQfVp06/image.jpg"/>
 
 ### 📅 개발 기간 : 2024.06.25 ~ 2024.08.06
 
