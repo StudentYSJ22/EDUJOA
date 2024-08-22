@@ -20,8 +20,8 @@
 <br>
 
 ## ⚙️ 기술 스택
-<img src="https://github.com/user-attachments/assets/383fd344-4fb0-43d3-8bcb-002b0c357c82" style="width: 48%; height: 300px;"/>
-<img src="https://github.com/user-attachments/assets/916150a1-d754-4247-b437-48e2655ebda2" style="width: 48%; height: 300px;"/>
+<img src="https://i.ibb.co/9hK7XfS/image.gif" style="width: 100%; height: 300px;"/>
+
 <br>
 
 
