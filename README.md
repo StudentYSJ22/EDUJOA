@@ -1,16 +1,9 @@
-# HOT(Have the opportunity to implement)
-<img src="https://github.com/user-attachments/assets/8592ffd9-35d9-400e-98cf-7ae4281dd909" style="width: 100%;">
-<br>
-
 ## ✋ 프로젝트 소개
 
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="30%">
-     <img src="https://github.com/user-attachments/assets/4e66610c-851e-48d1-8f53-9fa0d24da4dc" style="width: 100%"/>
-    </td>
-    <td width="70%">
-      <img src="https://github.com/user-attachments/assets/17e9f339-6cc0-48a0-8bff-09ce75486f88" style="width: 100%;"/>
+    <td width="100%">
+     <img src="https://ibb.co/tDKbNDn" style="width: 100%;"/>
     </td>
   </tr>
 </table>
