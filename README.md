@@ -41,7 +41,6 @@
   <br>
   <div markdown="1">
     <ul>
-      
       <img src="https://i.ibb.co/80XGpS6/erd.gif"/>
     </ul>
   </div>
