@@ -3,7 +3,7 @@
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="100%">
-     <img src="https://ibb.co/tDKbNDn" style="width: 100%;"/>
+     <img src="https://ibb.co/tDKbNDn"/>
     </td>
   </tr>
 </table>
