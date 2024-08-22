@@ -51,137 +51,73 @@
 ## 🔧 구현 기능
 
 ### (1) 채팅 서비스
-
-<details>
-  <summary><b>File 구조</b></summary>
-  <br>
-  <div markdown="1">
-    <ul>
-      <img src="https://github.com/user-attachments/assets/6aceacfc-63cd-411b-8647-34e31701ea70"/>
-    </ul>
-  </div>
-</details>
-
 <details>
   <summary><b>기능 1. SpringBoot WebSocket을 활용한 채팅 기능</b></summary>
   <br>
   <div markdown="1">
     <ul>
-      <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2F1d0bb550-7972-42de-ab59-91f2272076c3%2FUntitled.png?table=block&id=38b10326-93c9-4e88-ad75-0c8a5f4216d9&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-      <em> 개인 채팅방의 경우 상단에 상대방의 상태 및 상태 메세지가 출력되며 그룹 채팅방의 경우 채팅방 이름, 채팅방 개설 일자가 출력됨 </em>
+      <img src="https://i.ibb.co/JpWTj0J/image.gif"/>
+      <em> 메세지를 전송했을 경우, 수신자와 발신자 모두에게 채팅방 생성 및 실시간 채팅 가능 </em>
     </ul>
   </div>
 </details>
-
-<details>
-  <summary><b>기능 2. 채팅 파일 전송 및 다운로드</b></summary>
-  <br>
-  <div markdown="1">
-    <ul>
-      <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2F4d01c477-b459-487e-bdb4-f1496c8eea94%2FUntitled.png?table=block&id=80217174-0194-4071-a51c-b8450c0362a8&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-      <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2Fce4790bb-b240-4691-bc95-e3bdbb1e3150%2FUntitled.png?table=block&id=39a795f6-8b6f-475c-9f17-b24c27ff1922&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-      <em> 채팅창에서 파일 전송 기능으로 사진의 경우 정규 표현식을 활용하여 미리보기 기능 구현, 모든 파일에 대해서는 클릭 시 다운로드 가능 </em>
-    </ul>
-  </div>
-</details>
-
-<details>
-  <summary><b>기능 3. 그룹 채팅방 생성 기능</b></summary>
-  <br>
-  <div markdown="1">
-    <ul>
-     <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2Fcc5fd719-59b3-4a44-aa76-25f888dab64c%2FUntitled.png?table=block&id=bf5e7d93-3f21-4b02-96bf-9152c004f19a&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-      <em> Bootstrap의 Modal 창을 활용하여 그룹 채팅방을 생성할 수 있는 기능 </em>
-    </ul>
-  </div>
-</details>
-
-<details>
-  <summary><b>기능 4. 상태(Online, Offline, Meeting 등), 상태 메세지(사용자 지정 임의 메세지) 변경 기능</b></summary>
-  <br>
-  <div markdown="1">
-    <ul>
-     <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2F87fcdfed-2b64-4d29-9c47-fe101e69d9a4%2FUntitled.png?table=block&id=b0916887-5331-41d1-8675-465712d4f316&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-<img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2Ff5a0be5d-586c-44d6-a9b4-9ef1a99de016%2FUntitled.png?table=block&id=88d66843-39ff-4ca6-9f06-1e62959db60e&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-<img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2F46bcca59-d211-47ef-b47c-ee9f0cc59911%2FUntitled.png?table=block&id=b6134ebe-a5ad-408b-a432-a5cbc64ad647&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-      <em> 상태 변경, 상태 메세지 변경 시 다른 사원들은 실시간으로 조회 가능(개인 채팅방 생성 시) </em>
-    </ul>
-  </div>
-</details>
-
-<details>
-  <summary><b>기능 5. 사원 조회 및 채팅방 조회 기능</b></summary>
-  <br>
-  <div markdown="1">
-    <ul>
-      <table border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td width="50%">
-            <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2Fe00c6908-b563-42f8-8806-a771ce4acd66%2FUntitled.png?table=block&id=a5bdb407-c908-4a3a-8d32-8c08d964a3f7&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2" width="100%">
-          </td>
-          <td width="50%">
-            <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2Fa1365c08-4afb-4316-bfdd-fd1faa5c7fa6%2F4e8e18b5-89c8-4570-b845-8729a23e089a.png?table=block&id=7013bb3e-44fe-49f2-a6dd-3554018c3a67&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2" width="100%">
-          </td>
-        </tr>
-      </table>
-      <em> 검색한 글자(2글자 이상)가 포함되는 사원 전체 출력 및 채팅방 조회 </em>
-    </ul>
-  </div>
-</details>
-
-<details>
-  <summary><b>기능 6. SSE(Server Sent Event)를 활용한 알림 기능</b></summary>
-  <br>
-  <div markdown="1">
-    <ul>
-    <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2Fb390cb3e-0df8-4aa6-8888-f6fca84885a3%2FUntitled.png?table=block&id=09d3cf1f-4b11-449a-83ac-9422a22494ae&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-<img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2F41adab36-d5fd-4cde-ac21-110a8fedfe9e%2FUntitled.png?table=block&id=58630fe4-056f-48eb-bce4-095ac9abcd5f&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-      <em> 읽지 않은 채팅 내용에 대하여 알림을 보내주며 해당 글을 읽었을 때 알림창 숫자(1 → 0)가 변하는 모습 </em>
-    </ul>
-  </div>
-</details>
-
 <br>
 
-### (2) 전자결재 조회 기능
+### (2) 공지사항 게시판
 <details>
-  <summary><b>File 구조</b></summary>
+  <summary><b>기능 1. 게시글 작성 기능</b></summary>
   <br>
   <div markdown="1">
     <ul>
-      <img src="https://github.com/user-attachments/assets/f0ad1bc8-1427-487c-b1fd-a6c387cc0775"/>
-    </ul>
-  </div>
-</details>
-<details>
-  <summary><b>기능 1. 전체 전자 결재 문서 조회 기능</b></summary>
-  <br>
-  <div markdown="1">
-    <ul>
-    <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2F620ba307-5b55-4fae-8757-75b2ba40ed93%2FUntitled.png?table=block&id=14091394-4263-469c-8ee9-dd74199bbde5&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-      <em> 로그인한 사원이 볼 수 있는 전체 전자 결재 문서 조회 기능 </em>
+    <img src="https://i.ibb.co/5TgQQ5F/image.gif"/>
+      <em> 공지사항 게시판에 게시글 작성 가능 </em>
     </ul>
   </div>
 </details>
 
 <details>
-  <summary><b>기능 2. 전자 결재 별 상세 보기 기능</b></summary>
+  <summary><b>기능 2. 게시글 조회 기능</b></summary>
   <br>
   <div markdown="1">
     <ul>
-    <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2F31c62faf-8d98-446a-bb55-32df105a3cc9%2FUntitled.png?table=block&id=f894288e-1bce-42a0-9702-b1f80b869809&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-      <em> 사원이 볼 수 있는 전체의 문서를 클릭 시 해당 상세보기 창으로 이동 </em>
+    <img src="https://i.ibb.co/MsZ0YMV/image.gif"/>
+    <img src="https://i.ibb.co/PMBVmdt/image.gif"/>
+      <em> 모든 사원이 볼 수 있는 게시글 리스트 조회 </em>
     </ul>
   </div>
 </details>
 
 <details>
-  <summary><b>기능 3. 그 외 내가 기안한 문서, (수신, 참조, 내가 받지는 않았으나 볼 수 있는 문서, 임시 저장한) 문서 조회</b></summary>
+  <summary><b>기능 3. 게시글 수정 기능능</b></summary>
   <br>
   <div markdown="1">
     <ul>
-    <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fa4dad6af-2889-4f24-849e-36828eac7662%2Fbcbcac08-57a8-48b3-a3a2-2724d5656c6c%2Fimage.png?table=block&id=f0b1830f-5f94-48f6-9a6c-22994bf15ad6&spaceId=a4dad6af-2889-4f24-849e-36828eac7662&width=2000&userId=17bae69d-6413-43c4-854c-4fa3895934cb&cache=v2"/>
-      <em> 추가적으로 클릭 시 기능 2의 문서 상세보기 창으로 이동하여 상세 정보를 확인할 수 있음 </em>
+    <img src="https://i.ibb.co/N7Mhsqb/image.gif"/>
+      <em> 작성자 본인만 수정 가능하도록 로직 처리 </em>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary><b>기능 3. 게시글 삭제 기능능</b></summary>
+  <br>
+  <div markdown="1">
+    <ul>
+    <img src="https://i.ibb.co/zmt91X4/image.gif"/>
+    <img src="https://i.ibb.co/VH6Jgfv/image.gif"/>
+      <em> 작성자 본인만 삭제 가능하도록 로직 처리 </em>
+    </ul>
+  </div>
+</details>
+<br>
+### (3) 웹메일 서비스
+<details>
+  <summary><b>기능 1. SpringBoot WebSocket을 활용한 채팅 기능</b></summary>
+  <br>
+  <div markdown="1">
+    <ul>
+      <img src="https://i.ibb.co/JpWTj0J/image.gif"/>
+      <em> 메세지를 전송했을 경우, 수신자와 발신자 모두에게 채팅방 생성 및 실시간 채팅 가능 </em>
     </ul>
   </div>
 </details>
