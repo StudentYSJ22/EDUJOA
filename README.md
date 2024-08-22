@@ -5,7 +5,6 @@
     <td width="100%">
      <img src="https://i.ibb.co/4ptjDpC/image.gif"/>
     </td>
-    https://i.ibb.co/4ptjDpC/image.gif
   </tr>
 </table>
 
