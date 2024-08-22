@@ -8,17 +8,13 @@
   </tr>
 </table>
 
-## 팀원 소개
+## 👨‍👨‍👧‍👧팀원 소개
 <img src="https://i.ibb.co/WK0jcb3/image.gif"/>
 
 ### 📅 개발 기간 : 2024.06.25 ~ 2024.08.06
 
 <br>
 
-
-
-## 👨‍👨‍👧‍👧 팀원 소개
-<img src="https://github.com/user-attachments/assets/1f5bb2d6-f4ef-4bd2-9f39-f70c4effd765" style="width: 100%;"/>
 
 <br>
 <br>
